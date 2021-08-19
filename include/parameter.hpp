@@ -1,0 +1,43 @@
+#ifndef _PARAMETER_H_
+#define _PARAMETER_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <cmath>
+
+#define dim 2
+
+inline double pw2(double x) { return (x*x);}
+
+extern int N;
+extern int L;
+extern int rnd;
+extern const int num_fields;
+extern int num_threads;
+extern const double initfield[];
+extern const double initderivs[];
+extern const double m;//rescale_B
+extern const double Hinitial;
+
+extern int output_step;
+extern int total_step;
+extern int max_loop;
+extern int st_output_step;
+extern int st_max_loop;
+
+extern double t0;
+extern double dt;
+extern double dx;
+
+extern int expansion;
+extern int precision;
+extern bool restart;
+
+//potential parameters
+extern const double aa;// = 2*M_PI;
+extern const double AA;// = 10;
+extern const double W0;// = -pow(10,-5);
+extern const double D ;//= 4.6824231*pow(10,-12);
+
+#endif
