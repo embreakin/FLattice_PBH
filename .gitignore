@@ -45,4 +45,6 @@ build
 
 main
 memo.txt
-Makefile.DS_Store
+Makefile
+
+.DS_Store
