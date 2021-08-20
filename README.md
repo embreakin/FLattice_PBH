@@ -24,7 +24,7 @@ Here is a simple explanation on how to use the code.
    Go to the directory and create `Makefile` in a `build` directory.
 
    ```bash
-   cd /PATH/to/the/FLattice-master
+   cd [PATH to the downloaded directory]
    mkdir build
    cd build
    cmake ..
@@ -68,7 +68,7 @@ Here is a simple explanation on how to use the code.
   
 - `calculation.cpp`
   
-  All ouput values such as field average, field variance, energy density etc. are calculated in this file.   
+  All ouput values such as field averages, field variances, energy densities etc. are calculated in this file.   
   
 - `utilities.cpp`
   
