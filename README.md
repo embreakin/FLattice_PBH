@@ -1,6 +1,6 @@
 # Lattice Simulation Code
 
-This is a modified version of [FLattice](https://github.com/Axion243/FLattice) (though it seems that FLattice itself has been updated and improved in its independent path since I have started using it for my own use) which solves and simulate the evolution and interactions of scalar fields in an expanding universe for each lattice point representing a position in space. 
+This is a modified version of [FLattice](https://github.com/Axion243/FLattice) (though it seems that FLattice itself has been updated and improved in its independent path since I have started using it for my own use) which solves and simulates the evolution and interactions of scalar fields in an expanding universe for each lattice point representing a position in space. 
 
 This code solves in particular the behavior of the scalar field in the KKLT model, but of course can be used to solve other types of models as well.
 I will be adding new features (e.g. gravitational perturbations, power spectrum computation) to the code in the near future so that it will be able to compute and analyze PBH abundance for types of models that produce strong curvature perturbations (e.g. double inflation). 
