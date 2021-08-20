@@ -1,27 +1,27 @@
 # Lattice Simulation Code
 
-This is a modified version of [FLattice](https://github.com/Axion243/FLattice) (though it seems that FLattice itself has been updated and improved to a certain extent since I have started using it for my own use) which solves and simulate the evolution and interactions of scalar fields in an expanding universe for each lattice point, which represents a position in space. 
+This is a modified version of [FLattice](https://github.com/Axion243/FLattice) (though it seems that FLattice itself has been updated and improved in its own path since I have started using it for my own use) which solves and simulate the evolution and interactions of scalar fields in an expanding universe for each lattice point, which represents a position in space. 
 
 This code solves in particular the behavior of the scalar field in the KKLT model, but of course can be used to solve other types of models as well.
 I will be adding new features (e.g. gravitational perturbations, power spectrum computation) to the code in the near future so that it will be able to compute and analyze PBH abundance for types of models that produce strong curvature perturbations (e.g. double inflation). 
 
-The most notable feature that I have added on top of the original FLattice code so far is the use of quantum vacuum fluctuations for inintial fluctuations of the scalar fields. The initial conditions are set in momentum space and then Fourier transformed to give the initial values of the fields and their derivatives at each grid point. This is a feature that is included in the well-known lattice simulation code [LatticeEasy](http://www.felderbooks.com/latticeeasy/) and more info about the feature can be found there. 
+The most notable feature that I have added on top of the original FLattice code is the use of quantum vacuum fluctuations for inintial fluctuations of the scalar fields. The initial conditions are set in momentum space and then Fourier transformed to give the initial values of the fields and their derivatives at each grid point. This is a feature that is included in the well-known lattice simulation code [LatticeEasy](http://www.felderbooks.com/latticeeasy/) and more info about the feature can be found there. 
 
-The following items are necessary to run the code ( or fix the relevant parts ).
-
+## Requirements
+The following items are required to run the code.
 - cmake
 - Intel compiler
 - fftw
 
-I assume that FFTW files are installed in  `/opt/fftw/`. If you installed FFTW in other directory, change `include_directories` and `link_directories` in the cmake file.
+fftw files are assumed to be installed in  `/opt/fftw/`. If you have installed fftw in a different directory, change `include_directories` and `link_directories` in the cmake file.
 
-## How to use
+## How to Use
 
-Here, I introduce a simple procedure to use FLattice.
+Here is a simple explanation on how to use the code.
 
-1. Create make file by `cmake`
+1. Create `Makefile` by `cmake`
 
-   Move to the download directory and create `Makefile` in a `build` directory.
+   Go to the directory and create `Makefile` in a `build` directory.
 
    ```bash
    cd /PATH/to/the/FLattice-master
@@ -30,7 +30,7 @@ Here, I introduce a simple procedure to use FLattice.
    cmake ..
    ```
 
-   `cmake` create the `Makefile` automatically.
+   `cmake` creates the `Makefile` automatically.
 
 2. Run
 
@@ -46,22 +46,30 @@ Here, I introduce a simple procedure to use FLattice.
    ./FLattice
    ```
 
-3. Check the result
+3. Results
 
-   The data such as time, field averages, field variances, etc.  are written in `status.txt`. The field values in each time step are stored as `.vtk` files in `data` directory when `dim` is 2 or 3. I recommend you to use `Paraview.app` to visualize these files.
+   Data such as time, field averages, field variances, etc. will be written in `status.txt`. The field values in each time step are stored as `.vtk` files in the `data` directory when `dim` is 2 or 3. I recommend you use `Paraview.app` to visualize these files.
 
-## Basic Concept
+## Contents
 
- `main.cpp` is designed to run only the main calculation. Classes or functions used in `main.cpp` are defined in the other five fiies in the `lib` directory.
+ `main.cpp` is designed to run only the main calculation. Classes and functions used in `main.cpp` are defined in the other five files in the `lib` directory.
 
 - `parameter.cpp`
 
-  Simulation parameters are stored in this file.
+  Parameters necessary for the simulation are stored in this file.
 
 - `field.cpp`
 
-  We arrange the field array in `field.cpp`. The class `Field` includes all functions involving the field arrangement, such as seting initial condition, potential, etc.
+  This is where the fields are initialized using quantum vacuum fluctuations. Other configurations such as the the scalar potential, effective mass, etc. are set in `field.hpp`.
 
-- `evolutioin.cpp`
+- `evolution.cpp`
 
-  All Classes to calculate the time evolutioin are included in `evolution.cpp`. I still only implement the 2nd-order or 4th-order simplectic integration scheme ( leap-frog method ), but I will add other integration scheme such as 4th-order Runge-Kutta method.
+  All classes necessary to calculate the time evolution are in `evolution.cpp`. 2nd-order and 4th-order simplectic integration scheme ( leap-frog method ) are implemented here, but only the 2nd-order should be trusted.
+  
+- `calculation.cpp`
+  
+  All ouput values such as field average, field variance, energy density etc. are calculated in this file.   
+  
+- `utilities.cpp`
+  
+  Miscellaneous functions necessary to initialize the fields are implemented here. Functions for the final output of data are also written here.  
