@@ -53,7 +53,7 @@ Here is a simple explanation on how to use the code.
 ## Contents
 
  `main.cpp` is designed to run only the main calculation. Classes and functions used in `main.cpp` are defined in the other five CPP files in the `lib` directory, and the header files for each one of them are stored in the `include` directory.
-The five CPP files are the following:
+The five CPP files are the following.
 
 - `parameter.cpp`
 
@@ -61,7 +61,7 @@ The five CPP files are the following:
 
 - `field.cpp`
 
-  This is where the fields are initialized using quantum vacuum fluctuations. Other configurations such as the the scalar potential, effective mass, etc. are set in `field.hpp`.
+  This is where the fields are initialized using quantum vacuum fluctuations. Other configurations such as the scalar potential, effective mass, etc. are set in `field.hpp`.
 
 - `evolution.cpp`
 
