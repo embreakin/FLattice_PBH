@@ -40,7 +40,7 @@ class Field
             return (POTCOEF*pow(sqrt(8*M_PI),-4)*(exp(-2*aa*TAU)/(pw2(TAU))*aa*pw2(AA)/2
             +exp(-2*aa*TAU)/(TAU)*pw2(aa)*pw2(AA)/6
             +exp(-aa*TAU)/(pw2(TAU))*aa*AA*W0/2
-            +1/(pw2(TAU))*D)
+            +1/(pow(TAU,3))*D)
                     );
         }
 		double dV  ( double** f, int i, int idx ){
@@ -53,7 +53,7 @@ class Field
             -(pow(aa,3)*pw2(AA)/(3*TAU))*exp(-2*aa*TAU)
             -(pw2(aa)*AA*W0/(2*pw2(TAU)))*exp(-aa*TAU)
             -(aa*AA*W0/(pow(TAU,3)))*exp(-aa*TAU)
-            -2*D/(pow(TAU,3)))
+            -3*D/(pow(TAU,4)))
             );
         }
     
@@ -69,7 +69,7 @@ class Field
             -(pow(aa,3)*pw2(AA)/(3*tauvalue[fld]))*exp(-2*aa*tauvalue[fld])
             -(pw2(aa)*AA*W0/(2*pw2(tauvalue[fld])))*exp(-aa*tauvalue[fld])
         -(aa*AA*W0/(pow(tauvalue[fld],3)))*exp(-aa*tauvalue[fld])
-        -2*D/(pow(tauvalue[fld],3)))  +
+        -3*D/(pow(tauvalue[fld],4)))  +
        pw2(tauvalue[fld])*(
                            exp(-2*aa*tauvalue[fld])*(
         (2*pow(aa,4)*pw2(AA)/(3*tauvalue[fld]))+
@@ -82,7 +82,7 @@ class Field
         (2*pw2(aa)*AA*W0/(pow(tauvalue[fld],3)))+
         (3*aa*AA*W0/(pow(tauvalue[fld],4))))
                            +
-        6*D/(pow(tauvalue[fld],4))
+         12*D/(pow(tauvalue[fld],5))
         )
                                                                          
         );
@@ -97,7 +97,7 @@ class Field
             return (POTCOEF*pow(sqrt(8*M_PI),-4)*(exp(-2*aa*aTAU)/(pw2(aTAU))*aa*pw2(AA)/2
                     +exp(-2*aa*aTAU)/(aTAU)*pw2(aa)*pw2(AA)/6
                     +exp(-aa*aTAU)/(pw2(aTAU))*aa*AA*W0/2
-                    +1/(pw2(aTAU))*D)
+                    +1/(pow(aTAU,3))*D)
                     ); }
     
     
@@ -112,7 +112,7 @@ class Field
                 -(pow(aa,3)*pw2(AA)/(3*aTAU))*exp(-2*aa*aTAU)
                 -(pw2(aa)*AA*W0/(2*pw2(aTAU)))*exp(-aa*aTAU)
                 -(aa*AA*W0/(pow(aTAU,3)))*exp(-aa*aTAU)
-                -2*D/(pow(aTAU,3)))
+                -3*D/(pow(aTAU,4)))
                     ); }
     
   /*  void aeffective_mass( double mass_sq[], double *field_values, double a){

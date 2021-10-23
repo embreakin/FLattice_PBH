@@ -400,11 +400,11 @@ double Field::laplacian( double* f, int j, int k, int l )
 	#if dim == 1
 	    int idx = j;
 		#ifdef SPHERICAL_SYM
-            if( idx == 0 ){ // r = 0では1/r*df/dr = 0 より別に処理
+            if( idx == 0 ){  //1/r*df/dr = 0 when r = 0
                 return (- f[jp2] + 16*f[jp1] - 30*f[idx] + 16*f[jm1] - f[jm2]) / (12*dx*dx);
-            }else if( idx == N-2 ){ //境界1つ手前は中央差分2次で計算
+            }else if( idx == N-2 ){ // Calculated  by 2nd order  central  difference  scheme  at onestep  before  the  boundary
                 return (f[jp1] - 2*f[idx] + f[jm1]) / (dx*dx) + 2*gradient(f, 0, i, idx, 0, 0) / (idx*dx);
-            }else if( idx == N-1 ){ //境界では後退差分2次で計算、時間発展はABC
+            }else if( idx == N-1 ){ //Calculated  by 2nd order  backward  difference  scheme  at the  boundary
                 return (df[jm2] - 4*df[jm1] + 3*df[idx]) / (2*dx) + df[idx] / (idx*dx);
             }else{
                 return (- f[jp2] + 16*f[jp1] - 30*f[idx] + 16*f[jm1] - f[jm2]) / (12*dx*dx) + 2*gradient(f, 0, i, idx, 0, 0) / (idx*dx);

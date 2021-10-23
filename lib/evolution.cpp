@@ -245,7 +245,7 @@ void LeapFrog::evolution_expansion( Field* field, double** f, double** df, doubl
             switch( precision )
             {
                 case 2:
-                    evol_scale_dderivs( field, f, 0.);//a(0) adot(0) addot(0)
+                  evol_scale_dderivs( field, f, 0.);//a(0) adot(0) addot(0)
                    evol_fields( f, df, 0.5 );  //a(0) adot(0) addot(0)
                      evol_scale(0.5); //a(0.5dt) adot(0) addot(0)
                     for( int i = 0; i < st_output_step; ++i ){ //st_output_step=3
