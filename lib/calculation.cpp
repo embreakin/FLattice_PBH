@@ -12,7 +12,7 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
     
     for( int i = 0; i < num_fields; ++i ){
         
-        // These variable need to be declared for OpenMP reduction directive
+        // These variables need to be declared for OpenMP reduction directive
         double _average_reduc = 0;
         double _potential_average_reduc = 0;
         double _timederiv_average_reduc = 0;
