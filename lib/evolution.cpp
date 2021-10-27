@@ -46,24 +46,24 @@ LeapFrog::LeapFrog( Field* field, double** f)
 void LeapFrog::evol_fields( double** f, double** df, double h )
 {	
     for( int i = 0; i < num_fields; ++i ){
-//                #if   dim == 1
-//                #pragma omp parallel for simd schedule(static) num_threads(num_threads)
-//                #elif dim >= 2
-//                #pragma omp parallel for schedule( static ) num_threads( num_threads )
-//                #endif
+    #if   dim == 1
+    #pragma omp parallel for simd schedule(static) num_threads(num_threads)
+    #elif dim >= 2
+    #pragma omp parallel for schedule( static ) num_threads( num_threads )
+    #endif
         for( int j = 0; j < N; ++j ){
             #if dim == 1
                 int idx = j;
                 f[i][idx] += df[i][idx] * h*dt;
             #elif dim == 2
-//            #pragma omp simd
+            #pragma omp simd
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
                     f[i][idx] += df[i][idx] * h*dt;
                 }
             #elif dim == 3
                 for( int k = 0; k < N; ++k ){
-//                    #pragma omp simd
+                    #pragma omp simd
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
                         f[i][idx] += df[i][idx] * h*dt;
@@ -77,24 +77,24 @@ void LeapFrog::evol_fields( double** f, double** df, double h )
 void LeapFrog::evol_field_derivs( double** f, double** df, Field* field, double h )
 {
     for( int i = 0; i < num_fields; ++i ){
-//        #if   dim == 1
-//        #pragma omp parallel for simd schedule(static) num_threads(num_threads)
-//        #elif dim >= 2
-//        #pragma omp parallel for schedule( static ) num_threads( num_threads )
-//        #endif
+    #if   dim == 1
+    #pragma omp parallel for simd schedule(static) num_threads(num_threads)
+    #elif dim >= 2
+    #pragma omp parallel for schedule( static ) num_threads( num_threads )
+    #endif
                 for( int j = 0; j < N; ++j ){
             #if dim == 1
                 int idx = j;
                 df[i][idx] += ( field->laplacian(f[i], j) - field->dV(f, i, idx) ) * h*dt;
             #elif dim == 2
-//                #pragma omp simd
+                #pragma omp simd
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
                     df[i][idx] += ( field->laplacian(f[i], j, k) - field->dV(f, i, idx) ) * h*dt;
                 }
             #elif dim == 3
                 for( int k = 0; k < N; ++k ){
-//                    #pragma omp simd
+                    #pragma omp simd
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
                         df[i][idx] += ( field->laplacian(f[i], j, k, l) - field->dV(f, i, idx) ) * h*dt;
@@ -108,28 +108,26 @@ void LeapFrog::evol_field_derivs( double** f, double** df, Field* field, double 
 void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* field, double h )
 {
     for( int i = 0; i < num_fields; ++i ){
-//        #if   dim == 1
-//        #pragma omp parallel for simd schedule(static) num_threads(num_threads)
-//        #elif dim >= 2
-//        #pragma omp parallel for schedule( static ) num_threads( num_threads )
-//        #endif
+        #if   dim == 1
+        #pragma omp parallel for simd schedule(static) num_threads(num_threads)
+        #elif dim >= 2
+        #pragma omp parallel for schedule( static ) num_threads( num_threads )
+        #endif
         for( int j = 0; j < N; ++j ){
             #if dim == 1
                 int idx = j;
-                df[i][idx] += ( field->laplacian(f[i], j, 0, 0) + _dda*f[i][idx]/_a - pow(_a,3)*field->adV(f, i, idx, _a) ) * h*dt;
+                df[i][idx] += ( field->laplacian(f[i], j) + _dda*f[i][idx]/_a - pow(_a,3)*field->adV(f, i, idx, _a) ) * h*dt;
             #elif dim == 2
-//                #pragma omp simd
+                #pragma omp simd
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
-                    //df[i][idx] += ( field->laplacian(f[i], j, k, 0) + _dda*f[i][idx]/_a - pow(_a,3)* (field->*(field->adV[i]))(f, _a, i, idx) ) * h*dt;
-                  
-                    df[i][idx] += ( field->laplacian(f[i], j, k, 0) + _dda*f[i][idx]/_a - pow(_a,3)*field->adV(f, i, idx, _a) ) * h*dt;
+                    df[i][idx] += ( field->laplacian(f[i], j, k) + _dda*f[i][idx]/_a - pow(_a,3)*field->adV(f, i, idx, _a) ) * h*dt;
                 }
            
             #elif dim == 3
       
                 for( int k = 0; k < N; ++k ){
-//                    #pragma omp simd
+                    #pragma omp simd
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
                         df[i][idx] += ( field->laplacian(f[i], j, k, l) + _dda*f[i][idx]/_a - pow(_a,3)*field->adV(f, i, idx, _a) ) * h*dt;
@@ -137,13 +135,7 @@ void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* fiel
                 }
             #endif
         }
-      /*  std::cout << "a = " << _a << std::endl;
-       std::cout << "field->laplacian(f[i], 0, 10, 0) = " << field->laplacian(f[i], 0, 10, 0) << std::endl;
-        std::cout << "_dda*f[i][10]/_a = " << _dda*f[i][10]/_a << std::endl;
-        std::cout << "pow(_a,3)*field->adV(f, i, 10, _a) = " << pow(_a,3)*field->adV(f, i, 10, _a) << std::endl;
-        std::cout << "field->laplacian(f[i], 0, 100, 0) = " << field->laplacian(f[i], 0, 100, 0) << std::endl;
-        std::cout << "_dda*f[i][100]/_a = " << _dda*f[i][100]/_a << std::endl;
-        std::cout << "pow(_a,3)*field->adV(f, i, 100, _a) = " << pow(_a,3)*field->adV(f, i, 100, _a) << std::endl;*/
+      
     }
 }
 

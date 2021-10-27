@@ -228,14 +228,14 @@ void initialize( double**& f, double**& df, Field* field)
 
 #endif
         
-      
 
-	
 
 #if  dim==1
     DFT_c2rD1( f[i] ); //transform from phase space to real space
     DFT_c2rD1( df[i] );
         //Add zeromode
+        
+#pragma omp parallel for simd schedule(static) num_threads(num_threads)
        for( int j = 0; j < N; ++j ){
            int idx = j;
            f[i][idx] += initial_field_values[i];
@@ -304,7 +304,10 @@ void initialize( double**& f, double**& df, Field* field)
         std::cout << "fieldsum2 = " << fieldsum2 << std::endl;
          std::cout << "dfieldsum2 = " << dfieldsum2 << std::endl;*/
         //Add zeromode
+
+#pragma omp parallel for schedule( static ) num_threads( num_threads )
         for( int j = 0; j < N; ++j ){
+             #pragma omp simd
             for( int k = 0; k < N; ++k ){
                 int idx = j*N + k;
                // std::cout << "f[0]["<< idx <<"]" << f[i][idx] << std::endl;
@@ -346,8 +349,10 @@ void initialize( double**& f, double**& df, Field* field)
     DFT_c2rD3( f[i] , fnyquist ); //transform from phase space to real space
     DFT_c2rD3( df[i], fdnyquist);
         //Add zeromode
+        #pragma omp parallel for schedule( static ) num_threads( num_threads )
          for( int j = 0; j < N; ++j ){
              for( int k = 0; k < N; ++k ){
+                  #pragma omp simd
                  for( int l = 0; l < N; ++l ){
                      int idx = (j*N + k)*N + l;
                      f[i][idx] += initial_field_values[i];
@@ -380,7 +385,7 @@ void finalize( double**& f, double**& df )
 }
 
 
-
+#pragma omp declare simd
 double Field::laplacian( double* f, int j, int k, int l )
 {	
     int jp1 = (j == N-1)?     0: j+1;
@@ -512,12 +517,17 @@ double Field::potential_energy( double** f, double a )
 {
 	double potential_energy = 0;
     
- //   #pragma omp parallel for reduction(+:potential_energy) schedule( static ) num_threads ( num_threads )
+#if   dim == 1
+#pragma omp parallel for simd reduction(+:potential_energy) schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for reduction(+:potential_energy) schedule(static) num_threads(num_threads)
+#endif
 	for( int j = 0; j < N; ++j ){
         #if dim == 1
             int idx = j;
              potential_energy += aV( f, 0, idx, a );
 	    #elif dim == 2
+        #pragma omp simd reduction(+:potential_energy)
             for( int k = 0; k < N; ++k )
 			{
 				int idx = j*N + k;
@@ -525,6 +535,7 @@ double Field::potential_energy( double** f, double a )
             }
         #elif dim == 3
             for( int k = 0; k < N; ++k ){
+        #pragma omp simd reduction(+:potential_energy)
                 for( int l = 0; l < N; ++l ){
 					int idx = ( j*N + k)*N + l;
 					potential_energy += aV( f, 0, idx, a );
@@ -540,32 +551,43 @@ double Field::potential_energy( double** f, double a )
 
 double Field::f_average( double* f, int i )
 {
-	_faverage[i] = 0;
+	//Variable needs to be declared for OpenMP reduction directive
+    double faverage = 0;
 
+#if   dim == 1
+#pragma omp parallel for simd reduction(+:faverage) schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for reduction(+:faverage) schedule(static) num_threads(num_threads)
+#endif
 	for( int j = 0; j < N; ++j ){
 		switch( dim )
 		{
 			case 1:
 				int idx = j;
-				_faverage[i] += f[idx];
+				faverage += f[idx];
 				break;
 			case 2:
+            #pragma omp simd reduction(+:faverage)
 				for( int k = 0; k < N; ++k ){
 					int idx = j*N + k;
-					_faverage[i] += f[idx];
+					faverage += f[idx];
 				}
 				break;
 			case 3:
 				for( int k = 0; k < N; ++k ){
+            #pragma omp simd reduction(+:faverage)
 					for( int l = 0; l < N; ++l ){
 						int idx = (j*N + k)*N + l;
-						_faverage[i] += f[idx];
+						faverage += f[idx];
 					}
 				}
 				break;
 		}
 	}
-    for( int j = 0; j < dim; ++j ) _faverage[i] /= N;
+    for( int j = 0; j < dim; ++j ) faverage /= N;
+    
+    //substitute the obtained variable to member variable
+    _faverage[i] = faverage;
 	
     return _faverage[i];
 }
@@ -573,98 +595,132 @@ double Field::f_average( double* f, int i )
 
 double Field::f_variance( double* f, int i )
 {
-	_fvariance[i] = 0;
+    //Variable needs to be declared for OpenMP reduction directive
+    double fvariance = 0;
+    
+#if   dim == 1
+#pragma omp parallel for simd reduction(+:fvariance) schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for reduction(+:fvariance) schedule(static) num_threads(num_threads)
+#endif
 
 	for( int j = 0; j < N; ++j ){
 		switch( dim ){
 			case 1:
 				int idx = j;
-				_fvariance[i] += pow( f[idx] - _faverage[i], 2 );
+				fvariance += pow( f[idx] - _faverage[i], 2 );
 				break;
 			case 2:
+                #pragma omp simd reduction(+:fvariance)
 				for( int k = 0; k < N; ++k ){
 					int idx = j*N + k;
-                    _fvariance[i] += pow( f[idx] - _faverage[i], 2 );
+                    fvariance += pow( f[idx] - _faverage[i], 2 );
                 
 				}
 				break;
 			case 3:
 				for( int k = 0; k < N; ++k ){
+                    #pragma omp simd reduction(+:fvariance)
 					for( int l = 0; l < N; ++l ){
 						int idx = (j*N + k)*N + l;
-						_fvariance[i] += pow( f[idx] - _faverage[i], 2 );
+						fvariance += pow( f[idx] - _faverage[i], 2 );
 					}
 				}
 				break;
 		}
 	}
-    for( int j = 0; j < dim; ++j ) _fvariance[i] /= N;
+    for( int j = 0; j < dim; ++j ) fvariance /= N;
+    
+    //substitute the obtained variable to member variable
+    _fvariance[i] = fvariance;
    
-	
     return sqrt(_fvariance[i]);
 }
 
 double Field::df_average( double* df, int i )
 {
-    _dfaverage[i] = 0;
+    //Variable needs to be declared for OpenMP reduction directive
+    double dfaverage = 0;
     
+#if   dim == 1
+#pragma omp parallel for simd reduction(+:dfaverage) schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for reduction(+:dfaverage) schedule(static) num_threads(num_threads)
+#endif
     for( int j = 0; j < N; ++j ){
         switch( dim )
         {
             case 1:
                 int idx = j;
-                _dfaverage[i] += df[idx];
+                dfaverage += df[idx];
                 break;
             case 2:
+#pragma omp simd reduction(+:dfaverage)
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
-                    _dfaverage[i] += df[idx];
+                    dfaverage += df[idx];
                 }
                 break;
             case 3:
                 for( int k = 0; k < N; ++k ){
+#pragma omp simd reduction(+:dfaverage)
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
-                        _dfaverage[i] += df[idx];
+                        dfaverage += df[idx];
                     }
                 }
                 break;
         }
     }
-    for( int j = 0; j < dim; ++j ) _dfaverage[i] /= N;
+    for( int j = 0; j < dim; ++j ) dfaverage /= N;
+    
+    //substitute the obtained variable to member variable
+    _dfaverage[i] = dfaverage;
     
     return _dfaverage[i];
 }
 
+
 double Field::df_variance( double* df, int i )
 {
-    _dfvariance[i] = 0;
+    //Variable needs to be declared for OpenMP reduction directive
+    double dfvariance = 0;
+    
+#if   dim == 1
+#pragma omp parallel for simd reduction(+:dfvariance) schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for reduction(+:dfvariance) schedule(static) num_threads(num_threads)
+#endif
     
     for( int j = 0; j < N; ++j ){
         switch( dim ){
             case 1:
                 int idx = j;
-                _dfvariance[i] += pow( df[idx] - _dfaverage[i], 2 );
+                dfvariance += pow( df[idx] - _dfaverage[i], 2 );
                 break;
             case 2:
+#pragma omp simd reduction(+:dfvariance)
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
-                    _dfvariance[i] += pow( df[idx] - _dfaverage[i], 2 );
-                   
+                    dfvariance += pow( df[idx] - _dfaverage[i], 2 );
+                    
                 }
                 break;
             case 3:
                 for( int k = 0; k < N; ++k ){
+#pragma omp simd reduction(+:dfvariance)
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
-                        _dfvariance[i] += pow( df[idx] - _dfaverage[i], 2 );
+                        dfvariance += pow( df[idx] - _dfaverage[i], 2 );
                     }
                 }
                 break;
         }
     }
-    for( int j = 0; j < dim; ++j ) _dfvariance[i] /= N;
+    for( int j = 0; j < dim; ++j ) dfvariance /= N;
+    
+    //substitute the obtained variable to member variable
+    _dfvariance[i] = dfvariance;
     
     return sqrt(_dfvariance[i]);
-    
 }

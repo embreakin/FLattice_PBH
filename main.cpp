@@ -4,6 +4,7 @@
 #include "utilities.hpp"
 
 
+
 int main( int argc, char** argv )
 {
     
@@ -11,6 +12,7 @@ int main( int argc, char** argv )
     std::chrono::milliseconds init_elapsed, elapsed;
     
     start = std::chrono::high_resolution_clock::now();
+    
     
     //Directory management
     dir_manage(exist_dirname_ed, new_dirname_ed);
@@ -170,8 +172,8 @@ int main( int argc, char** argv )
         Logout( " dt/dx     =  %2.2e < 1/sqrt(%d) =  %2.2e \n", dt/dx ,dim, 1/sqrt(dim));}
     Logout( " Number of fields   =  %d\n", num_fields );
     Logout( " Number of threads  =  %d\n\n", num_threads );
-    
     Logout("----------------------------------------------\n");
     Logout( "              PROGRAM FINISHED            \n\n" );
 	Logout( "----------------------------------------------\n\n" );
+    
 }

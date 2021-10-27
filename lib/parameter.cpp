@@ -1,20 +1,20 @@
 #include "parameter.hpp"
 
 
-std::string exist_dirname_ed = "dataKKLT2DN128SCwoparallel"; //remove this existing directory for energy vti files
-std::string new_dirname_ed = "dataKKLT2DN128SCwoparallel"; //create a new directory for energy vti files
+std::string exist_dirname_ed = "dataKKLT3DN64wparallel"; //remove this existing directory for energy vti files
+std::string new_dirname_ed = "dataKKLT3DN64wparallel"; //create a new directory for energy vti files
 
 std::string exist_dirname_f = "data"; //remove this existing directory for field vti files
 std::string new_dirname_f = "data"; //create a new directory for field vti files
 
 
-std::string filename = "statusKKLT2DN128SCwoparallel.txt"; // name of the status file
+std::string filename = "statusKKLT3DN64wparallel.txt"; // name of the status file
 
-int N = 128;
+int N = 64;
 int L = 20;
 int rnd = 1;
-const int num_fields  = 1;
-int num_threads = 12;
+int num_fields  = 1;
+int num_threads = omp_get_num_procs()/2;
 
 const double Hinitial = 5.98147171787852*pow(10,-6)/(sqrt(8*M_PI));
 const double m = sqrt(5.67402574831172*pow(10,-10))/(sqrt(8*M_PI));//rescale_B, sqrt(V''(phi))
@@ -31,7 +31,7 @@ double t0 = 0;
 double dt = 5.e-3;
 double dx = 1.* L/N;
 
-const int expansion = 1; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
+const int expansion = 3; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
 const int precision = 2;
 
 bool restart = false;  // cannot use yet

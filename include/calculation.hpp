@@ -10,13 +10,13 @@
 class Energy
 {
     protected:
-        double* _average;
-        double* _variance;
-        double _total_average;
-        double _potential_average;
-        double  _timederiv_average;
-        double _grad_average;
-        double _value_max;
+    double* _average;
+    double* _variance;
+    double _total_average;
+    double _potential_average;
+    double  _timederiv_average;
+    double _grad_average;
+    double _value_max;
     
     
     public:
@@ -60,6 +60,10 @@ class Energy
     
         void energy_calc( Field* field, LeapFrog* leapfrog, double** f, double** df );
         double gradient_energy_eachpoint( double** f ,int i, int idx );
+    
+        #pragma omp declare simd
+        double kinetic_energy_eachpoint( double** f , double** df, int i, int idx, double a = 1, double da = 0 )
+        {   return pow(df[i][idx]*a - f[i][idx]*da, 2)/(2*pow(a,2)); }
 
 };
 

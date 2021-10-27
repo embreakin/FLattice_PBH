@@ -6,8 +6,9 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <omp.h>
 
-#define dim 2
+#define dim 3
 
 extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f;
 extern std::string filename;
@@ -17,7 +18,7 @@ inline double pw2(double x) { return (x*x);}
 extern int N;
 extern int L;
 extern int rnd;
-extern const int num_fields;
+extern int num_fields;
 extern int num_threads;
 extern const double initfield[];
 extern const double initderivs[];

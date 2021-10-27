@@ -32,7 +32,7 @@ class Field
             delete [] tauvalue;
         }
     
-		double laplacian        ( double* f, int j, int k = 0, int l = 0 );
+		double laplacian        ( double* f, int j, int k = 0, int l = 0 ); //You can omit k and l if they are zero
 		double gradient_energy  ( double* f ) ;
 		double potential_energy ( double** f, double a );
         double f_average  ( double* f, int i );
@@ -40,6 +40,7 @@ class Field
         double df_average ( double* df, int i );
         double df_variance ( double* df, int i );
 
+        #pragma omp declare simd
 		double V   ( double** f, int i, int idx ) {
             
             TAU = exp((sqrt(2)/sqrt(3))*f[i][idx]*sqrt(8*M_PI))/2;
@@ -51,6 +52,8 @@ class Field
             +1/(pow(TAU,3))*D)
                     );
         }
+    
+    #pragma omp declare simd
 		double dV  ( double** f, int i, int idx ){
             
             TAU = exp((sqrt(2)/sqrt(3))*f[i][idx]*sqrt(8*M_PI))/2;
@@ -97,6 +100,7 @@ class Field
         }
     }
     
+    #pragma omp declare simd
     double aV  ( double** f, int i, int idx, double a )  {
            // std::cout << "a = " << a << std::endl;
             aTAU = exp((sqrt(2)/sqrt(3))*f[i][idx]*sqrt(8*M_PI)/a)/2;
@@ -108,7 +112,7 @@ class Field
                     +1/(pow(aTAU,3))*D)
                     ); }
     
-    
+        #pragma omp declare simd
 		double adV ( double** f, int i, int idx, double a )  {
 
             aTAU = exp((sqrt(2)/sqrt(3))*f[i][idx]*sqrt(8*M_PI)/a)/2;           
