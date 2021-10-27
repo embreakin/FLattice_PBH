@@ -7,6 +7,38 @@
 #include <fftw3.h>
 #include "parameter.hpp"
 #include "utilities.hpp"
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
+
+
+void dir_manage(const std::string exist_dir, const std::string new_dir )
+{
+    
+    //Path of the existing directory
+    const fs::path existpath("../" + exist_dir );
+    
+    //Tries to remove all files in there. If it fails, it throws an error.
+    try {
+        fs::remove_all(existpath);
+    }
+    catch (fs::filesystem_error& ex) {
+        std::cout << ex.what() << std::endl;
+        throw;
+    }
+    
+    //Path of the newly setting directory
+    const fs::path newpath("../" + new_dir );
+    
+    //Tries to create a directory. If it fails, it throws an error.
+    boost::system::error_code error;
+    const bool result = fs::create_directory(newpath, error);
+    if (!result || error) {
+        std::cout << "failed to create directory" << std::endl;
+    }
+    
+}
+
 
 double rand_uniform(void)
 {
@@ -389,7 +421,7 @@ void DFT_c2r( double** f,double* fnyquist )
 }
 */
 
-void write_VTK_f( double* f, std::string str, int loop )
+void write_VTK_f( const std::string dir_f, double* f, std::string str, int loop )
 {
    // double a = leapfrog->a();
 	unsigned int size;
@@ -399,7 +431,7 @@ void write_VTK_f( double* f, std::string str, int loop )
     
 	
 	if( dim == 1 ){
-		ss << "../data/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
+		ss << "../" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
     	fout.open( ss.str().c_str() );	
  
     	for( int j = 0; j < N; j++ ){
@@ -407,7 +439,7 @@ void write_VTK_f( double* f, std::string str, int loop )
 			fout << idx*dx << " " << f[idx] << std::endl;
 		}
     }else{
-    	ss << "../data/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
+    	ss << "../" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
     	fout.open( ss.str().c_str() );
     
   	  	fout << "<?xml version=\"1.0\"?>" << std::endl;
@@ -448,7 +480,7 @@ void write_VTK_f( double* f, std::string str, int loop )
 	fout.close();
 }
 
-void write_VTK_ed( double* f, std::string str, int loop )
+void write_VTK_ed( const std::string dir_ed, double* f, std::string str, int loop )
 {
   //  double a = leapfrog->a();
    // std::cout << "aaa = " <<  a << std::endl;
@@ -459,7 +491,7 @@ void write_VTK_ed( double* f, std::string str, int loop )
     
     
     if( dim == 1 ){
-        ss << "../data/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
+        ss << "../" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
         fout.open( ss.str().c_str() );
         
         for( int j = 0; j < N; j++ ){
@@ -467,7 +499,7 @@ void write_VTK_ed( double* f, std::string str, int loop )
             fout << idx*dx << " " << f[idx] << std::endl;
         }
     }else{
-        ss << "../data/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
+        ss << "../" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
         fout.open( ss.str().c_str() );
         
         fout << "<?xml version=\"1.0\"?>" << std::endl;
@@ -510,50 +542,58 @@ void write_VTK_ed( double* f, std::string str, int loop )
 }
 
 
-void write_status( Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double t )
+void write_status( const std::string status_file, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double t )
 {
 	double a = leapfrog->a();
 	std::ofstream ofs;
 	
 	if( t == t0 )
 	{
-		ofs.open( "../status.txt", std::ios::trunc );
+		ofs.open( "../" + status_file, std::ios::trunc );
 
 		ofs << std::setw(3) << std::right << "  t ";
 		if( expansion ) ofs << "  a ";
 		for( int i = 0; i < num_fields; ++i ) ofs << "field_ave["  << i << "] ";
 		for( int i = 0; i < num_fields; ++i ) ofs << "field_var["  << i << "] ";
+        for( int i = 0; i < num_fields; ++i ) ofs << "field_deriv_ave["  << i << "] ";
+        for( int i = 0; i < num_fields; ++i ) ofs << "field_deriv_var["  << i << "] ";
 		for( int i = 0; i < num_fields; ++i ) ofs << "energy_ave[" << i << "] ";
+        for( int i = 0; i < num_fields; ++i ) ofs << "energy_var[" << i << "] ";
         ofs << "total_energy_ave ";
          ofs << "time_deriv_ave ";
          ofs << "gradient_ave ";
         ofs << "potential_ave ";
         ofs << "hubble ";
         ofs << "adotdot ";
-        ofs << "dfaverage" << std::endl;
+        ofs << "energy_max" << std::endl;
 	}
-	else ofs.open( "../status.txt", std::ios::app );
+	else ofs.open( "../" + status_file, std::ios::app );
 	
 	ofs << std::setw(3) << std::right << t << " ";
 	if( expansion )
 	{
 		ofs << std::setw(3) << std::right << a << " ";
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/a << " ";
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(f[i], i)/(a) << " ";
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_average(f[i], i)*sqrt(8*M_PI)/a << " "; //Reduced Plank units
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_variance(f[i], i)*sqrt(8*M_PI)/a << " ";//Reduced Plank units
+        for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_average(f[i], i) << " ";//Programming variable
+        for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_variance(f[i], i) << " ";//Programming variable
 	}
 	else
 	{
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i) << " ";
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(f[i], i) << " ";
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_average(f[i], i)*sqrt(8*M_PI) << " ";//Reduced Plank units
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_variance(f[i], i)*sqrt(8*M_PI) << " ";//Reduced Plank units
+        for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_average(f[i], i) << " ";//Programming variable
+        for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_variance(f[i], i) << " ";//Programming variable
 	}
 	for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << energy->average(i) << " ";
-	ofs << energy->total_average() << " ";
-    ofs << energy->timederiv_average () << " ";
-     ofs << energy->grad_average ()  << " ";
-    ofs << energy->potential_average () << " ";
-    ofs << leapfrog->hubble() << " ";
-    ofs << leapfrog->adotdot() << " ";
-    ofs << energy->df_average() << std::endl;
+    for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << energy->variance(i) << " ";
+	ofs << std::showpos << std::scientific << std::setprecision(4) << energy->total_average() << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << energy->timederiv_average () << " ";
+     ofs << std::showpos << std::scientific << std::setprecision(4) << energy->grad_average ()  << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << energy->potential_average () << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << leapfrog->hubble() << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << leapfrog->adotdot() << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << energy->energy_max() << std::endl;
     
     
 }

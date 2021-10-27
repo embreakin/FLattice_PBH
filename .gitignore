@@ -40,11 +40,16 @@ https://github.com/simonwhitaker/gibo
 *.vti
 *.dSYM
 *.optrpt
-status.txt
+*.txt
 build
+
+#But don't ignore this
+!CMakeLists.txt
 
 main
 memo.txt
 Makefile
 
+#Others
 .DS_Store
+.ipynb_checkpoints/

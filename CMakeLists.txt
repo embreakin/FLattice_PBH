@@ -2,8 +2,13 @@ cmake_minimum_required ( VERSION 3.10 )
 
 set ( CMAKE_CXX_COMPILER icpc )
 set ( CMAKE_CXX_STANDARD 17 )
+
 # -qopenmp
-set ( CMAKE_CXX_FLAGS " -fast  -Wall" )
+# set ( CMAKE_CXX_FLAGS " -fast  -Wall" )
+
+# -parallel is for automatic parallelization
+# -qopenmp is for OpenMP parallelization
+set ( CMAKE_CXX_FLAGS "-ipo -xhost -no-prec-div -qopenmp -parallel" )  # -guide
 
 project( FLattice CXX )
 
@@ -28,8 +33,8 @@ set(boost_libs filesystem system)
 find_package(Boost ${boost_min_ver})
 
 if(Boost_FOUND)
-    find_package(Boost ${boost_min_ver} COMPONENTS ${boost_libs})
-  include_directories(${Boost_INCLUDE_DIRS})
+find_package(Boost ${boost_min_ver} COMPONENTS ${boost_libs})
+include_directories(${Boost_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 endif()
 

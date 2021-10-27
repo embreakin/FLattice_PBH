@@ -7,12 +7,10 @@
 class LeapFrog
 {
 	private:
-		 double _a,_da;
-      //   double _da = Hinitial/m;
-		double _dda;
+        double _a,_da, _dda;
         const double hubble_init = Hinitial/m;
-        // double _a = 1;
-        // double _da = hubble_init;
+        double sfexponent;
+        double sfbase;
 
 		void evol_fields                 ( double** f, double** df, double h );
         void evol_field_derivs           ( double** f, double** df, Field* field, double h );
@@ -23,7 +21,7 @@ class LeapFrog
         void evol_scale ( double h ){  _a += _da *h*dt; }
     
 	public:
-		LeapFrog ();
+    LeapFrog( Field* field, double** f);
 
         void evolution           ( Field* field, double** f, double** df );
 		void evolution_expansion ( Field* field, double** f, double** df, double t );

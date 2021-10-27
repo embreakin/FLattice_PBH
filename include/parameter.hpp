@@ -5,8 +5,12 @@
 #include <stdlib.h>
 #include <iostream>
 #include <cmath>
+#include <string>
 
 #define dim 2
+
+extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f;
+extern std::string filename;
 
 inline double pw2(double x) { return (x*x);}
 
@@ -30,8 +34,8 @@ extern double t0;
 extern double dt;
 extern double dx;
 
-extern int expansion;
-extern int precision;
+extern const int expansion;
+extern const int precision;
 extern bool restart;
 
 //potential parameters

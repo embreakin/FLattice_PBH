@@ -419,10 +419,10 @@ double Field::laplacian( double* f, int j, int k, int l )
 		int km2 = (k <    2)? k+N-2: k-2;
 
         int idx = j*N + k;
-      /*   return ( (- f[jp2*N+k] + 16*f[jp1*N+k] - 30*f[idx] + 16*f[jm1*N+k] - f[jm2*N+k])
-               + (- f[j*N+kp2] + 16*f[j*N+kp1] - 30*f[idx] + 16*f[j*N+km1] - f[j*N+km2]) ) / (12*dx*dx);*/
-     return ( (f[jp1*N+k] - 2*f[idx] + f[jm1*N+k])
-      + (f[j*N+kp1] - 2*f[idx] + f[j*N+km1]) ) / (dx*dx);
+         return ( (- f[jp2*N+k] + 16*f[jp1*N+k] - 30*f[idx] + 16*f[jm1*N+k] - f[jm2*N+k])
+               + (- f[j*N+kp2] + 16*f[j*N+kp1] - 30*f[idx] + 16*f[j*N+km1] - f[j*N+km2]) ) / (12*dx*dx);
+//     return ( (f[jp1*N+k] - 2*f[idx] + f[jm1*N+k])
+//      + (f[j*N+kp1] - 2*f[idx] + f[j*N+km1]) ) / (dx*dx);
 	#elif dim == 3
 		int kp1 = (k == N-1)?     0: k+1;
 		int kp2 = (k >= N-2)? k-N+2: k+2;
@@ -478,10 +478,10 @@ double Field::gradient_energy( double* f )
                 int kp2 = (k >= N-2)? k-N+2: k+2;
                 int km1 = (k ==   0)?   N-1: k-1;
                 int km2 = (k <    2)? k+N-2: k-2;
-                gradient_energy +=  pow( (f[jp1*N+k] - f[jm1*N+k]) / (2*dx), 2 );
-                 gradient_energy += pow( ( f[j*N+kp1]  - f[j*N+km1] ) /(2*dx), 2 );
-              /*  gradient_energy += pow( ( - f[jp2*N+k] + 8*f[jp1*N+k] - 8*f[jm1*N+k] + f[jm2*N+k] ) / (12*dx), 2 );
-                gradient_energy += pow( ( - f[j*N+kp2] + 8*f[j*N+kp1] - 8*f[j*N+km1] + f[j*N+km2] ) / (12*dx), 2 );*/
+//                gradient_energy +=  pow( (f[jp1*N+k] - f[jm1*N+k]) / (2*dx), 2 );
+//                 gradient_energy += pow( ( f[j*N+kp1]  - f[j*N+km1] ) /(2*dx), 2 );
+              gradient_energy += pow( ( - f[jp2*N+k] + 8*f[jp1*N+k] - 8*f[jm1*N+k] + f[jm2*N+k] ) / (12*dx), 2 );
+                gradient_energy += pow( ( - f[j*N+kp2] + 8*f[j*N+kp1] - 8*f[j*N+km1] + f[j*N+km2] ) / (12*dx), 2 );
             }
         #elif dim == 3
             for( int k = 0; k < N; ++k ){
@@ -538,68 +538,133 @@ double Field::potential_energy( double** f, double a )
 }
 
 
-double Field::average( double* f, int i )
+double Field::f_average( double* f, int i )
 {
-	_average[i] = 0;
+	_faverage[i] = 0;
 
 	for( int j = 0; j < N; ++j ){
 		switch( dim )
 		{
 			case 1:
 				int idx = j;
-				_average[i] += f[idx];
+				_faverage[i] += f[idx];
 				break;
 			case 2:
 				for( int k = 0; k < N; ++k ){
 					int idx = j*N + k;
-					_average[i] += f[idx];
+					_faverage[i] += f[idx];
 				}
 				break;
 			case 3:
 				for( int k = 0; k < N; ++k ){
 					for( int l = 0; l < N; ++l ){
 						int idx = (j*N + k)*N + l;
-						_average[i] += f[idx];
+						_faverage[i] += f[idx];
 					}
 				}
 				break;
 		}
 	}
-    for( int j = 0; j < dim; ++j ) _average[i] /= N;
+    for( int j = 0; j < dim; ++j ) _faverage[i] /= N;
 	
-    return _average[i]*sqrt(8*M_PI);//*sqrt(8*M_PI);
+    return _faverage[i];
 }
 
 
-double Field::variance( double* f, int i )
+double Field::f_variance( double* f, int i )
 {
-	_variance[i] = 0;
+	_fvariance[i] = 0;
 
 	for( int j = 0; j < N; ++j ){
 		switch( dim ){
 			case 1:
 				int idx = j;
-				_variance[i] += pow( f[idx] - _average[i], 2 );
+				_fvariance[i] += pow( f[idx] - _faverage[i], 2 );
 				break;
 			case 2:
 				for( int k = 0; k < N; ++k ){
 					int idx = j*N + k;
-                    _variance[i] += pow( f[idx] - _average[i], 2 );
-                  //  std::cout << idx << "_variance[i] = " << _variance[i] << std::endl;
+                    _fvariance[i] += pow( f[idx] - _faverage[i], 2 );
+                
 				}
 				break;
 			case 3:
 				for( int k = 0; k < N; ++k ){
 					for( int l = 0; l < N; ++l ){
 						int idx = (j*N + k)*N + l;
-						_variance[i] += pow( f[idx] - _average[i], 2 );
+						_fvariance[i] += pow( f[idx] - _faverage[i], 2 );
 					}
 				}
 				break;
 		}
 	}
-    for( int j = 0; j < dim; ++j ) _variance[i] /= N;
-   // std::cout << "final_variance[i] = " << _variance[i] << std::endl;
+    for( int j = 0; j < dim; ++j ) _fvariance[i] /= N;
+   
 	
-    return sqrt(_variance[i]*pw2(sqrt(8*M_PI)));//*pw2(sqrt(8*M_PI));
+    return sqrt(_fvariance[i]);
+}
+
+double Field::df_average( double* df, int i )
+{
+    _dfaverage[i] = 0;
+    
+    for( int j = 0; j < N; ++j ){
+        switch( dim )
+        {
+            case 1:
+                int idx = j;
+                _dfaverage[i] += df[idx];
+                break;
+            case 2:
+                for( int k = 0; k < N; ++k ){
+                    int idx = j*N + k;
+                    _dfaverage[i] += df[idx];
+                }
+                break;
+            case 3:
+                for( int k = 0; k < N; ++k ){
+                    for( int l = 0; l < N; ++l ){
+                        int idx = (j*N + k)*N + l;
+                        _dfaverage[i] += df[idx];
+                    }
+                }
+                break;
+        }
+    }
+    for( int j = 0; j < dim; ++j ) _dfaverage[i] /= N;
+    
+    return _dfaverage[i];
+}
+
+double Field::df_variance( double* df, int i )
+{
+    _dfvariance[i] = 0;
+    
+    for( int j = 0; j < N; ++j ){
+        switch( dim ){
+            case 1:
+                int idx = j;
+                _dfvariance[i] += pow( df[idx] - _dfaverage[i], 2 );
+                break;
+            case 2:
+                for( int k = 0; k < N; ++k ){
+                    int idx = j*N + k;
+                    _dfvariance[i] += pow( df[idx] - _dfaverage[i], 2 );
+                   
+                }
+                break;
+            case 3:
+                for( int k = 0; k < N; ++k ){
+                    for( int l = 0; l < N; ++l ){
+                        int idx = (j*N + k)*N + l;
+                        _dfvariance[i] += pow( df[idx] - _dfaverage[i], 2 );
+                    }
+                }
+                break;
+        }
+    }
+    for( int j = 0; j < dim; ++j ) _dfvariance[i] /= N;
+    
+    return sqrt(_dfvariance[i]);
+    
 }
