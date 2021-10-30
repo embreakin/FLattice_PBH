@@ -16,9 +16,9 @@ int rnd = 1;
 int num_fields  = 1;
 int num_threads = omp_get_num_procs()/2;
 
-const double Hinitial = 5.98147171787852*pow(10,-6)/(sqrt(8*M_PI));
-const double m = sqrt(5.67402574831172*pow(10,-10))/(sqrt(8*M_PI));//rescale_B, sqrt(V''(phi))
-const double initfield[] = {2.2105/(sqrt(8*M_PI))};//{sqrt(2)*1.49652/(sqrt(8*M_PI))};
+const double Hinitial = 5.98147171787852*pow(10,-6);
+const double m = sqrt(5.67402574831172*pow(10,-10));//rescale_B, sqrt(V''(phi))
+const double initfield[] = {2.2105};//{sqrt(2)*1.49652/(sqrt(8*M_PI))};
 const double initderivs[] = {(1*Hinitial*initfield[0])/m};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
 
 int output_step = 1.5e+1;

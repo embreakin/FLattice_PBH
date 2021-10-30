@@ -573,15 +573,15 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 	if( expansion )
 	{
 		ofs << std::setw(3) << std::right << a << " ";
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_average(f[i], i)*sqrt(8*M_PI)/a << " "; //Reduced Plank units
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_variance(f[i], i)*sqrt(8*M_PI)/a << " ";//Reduced Plank units
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_average(f[i], i)/a << " "; //Reduced Plank units
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_variance(f[i], i)/a << " ";//Reduced Plank units
         for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_average(f[i], i) << " ";//Programming variable
         for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_variance(f[i], i) << " ";//Programming variable
 	}
 	else
 	{
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_average(f[i], i)*sqrt(8*M_PI) << " ";//Reduced Plank units
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_variance(f[i], i)*sqrt(8*M_PI) << " ";//Reduced Plank units
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_average(f[i], i) << " ";//Reduced Plank units
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_variance(f[i], i) << " ";//Reduced Plank units
         for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_average(f[i], i) << " ";//Programming variable
         for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_variance(f[i], i) << " ";//Programming variable
 	}

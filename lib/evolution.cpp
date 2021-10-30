@@ -147,14 +147,14 @@ void LeapFrog::evol_scale_dderivs( Field* field, double** f, double h )
     sfev2 = 2.;
     sfev3 = 4.;
    if(h==0){
-        _dda = -sfev1*pw2(_da)/_a + 8.*M_PI/pow(_a,sfev2-1)*(2.*field->gradient_energy(f[0])/3. + pow(_a,sfev3)*field->potential_energy(f, _a));
+        _dda = -sfev1*pw2(_da)/_a + 1/pow(_a,sfev2-1)*(2.*field->gradient_energy(f[0])/3. + pow(_a,sfev3)*field->potential_energy(f, _a));
     }else{
     
     double C = 0;
     C += 2*field->gradient_energy(f[0])/3 + pow(_a,sfev3)*field->potential_energy( f, _a );
     
 
-    _dda = - 2./(h*dt) * ( _da + _a/(sfev1*h*dt) * ( 1 - sqrt( 1 + 2*sfev1*h*dt*_da/_a + sfev1*8*M_PI*pow(h*dt,2.)*C/pow(_a,sfev2)  ) ) );
+    _dda = - 2./(h*dt) * ( _da + _a/(sfev1*h*dt) * ( 1 - sqrt( 1 + 2*sfev1*h*dt*_da/_a + sfev1*pow(h*dt,2.)*C/pow(_a,sfev2)  ) ) );
        
         _da += .5*_dda*h*dt;
         
