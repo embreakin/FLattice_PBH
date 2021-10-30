@@ -1,17 +1,17 @@
 #include "parameter.hpp"
 
 
-std::string exist_dirname_ed = "dataKKLT3DN64wparallel"; //remove this existing directory for energy vti files
-std::string new_dirname_ed = "dataKKLT3DN64wparallel"; //create a new directory for energy vti files
+std::string exist_dirname_ed = "dataKKLT2DN128L60MDwparallel"; //remove this existing directory for energy vti files
+std::string new_dirname_ed = "dataKKLT2DN128L60MDwparallel"; //create a new directory for energy vti files
 
 std::string exist_dirname_f = "data"; //remove this existing directory for field vti files
 std::string new_dirname_f = "data"; //create a new directory for field vti files
 
 
-std::string filename = "statusKKLT3DN64wparallel.txt"; // name of the status file
+std::string filename = "statusKKLT2DN128L60MDwparallel.txt"; // name of the status file
 
-int N = 64;
-int L = 20;
+int N = 128;
+int L = 60;
 int rnd = 1;
 int num_fields  = 1;
 int num_threads = omp_get_num_procs()/2;
