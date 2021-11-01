@@ -1,7 +1,7 @@
 #include <cmath>
 
 #include "calculation.hpp"
-#include "parameter.hpp"
+#include "latticeparameters.hpp"
 
 void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double** df )
 {

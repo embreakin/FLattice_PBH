@@ -1,5 +1,5 @@
 #include <cmath>
-#include "parameter.hpp"
+#include "latticeparameters.hpp"
 #include "utilities.hpp"
 #include "evolution.hpp"
 

@@ -5,7 +5,7 @@
 #include <random>
 #include <sstream>
 #include <fftw3.h>
-#include "parameter.hpp"
+#include "latticeparameters.hpp"
 #include "utilities.hpp"
 #include <boost/filesystem.hpp>
 

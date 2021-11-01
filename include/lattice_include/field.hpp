@@ -2,7 +2,7 @@
 #define _FIELD_H_
 
 #include <cmath>
-#include "parameter.hpp"
+#include "latticeparameters.hpp"
 
 
 

@@ -1,4 +1,4 @@
-#include "parameter.hpp"
+#include "latticeparameters.hpp"
 
 std::string exist_dirname_ed = "dataKKLT3DN64L20MDwparallel"; //remove this existing directory for energy vti files
 std::string new_dirname_ed = "dataKKLT3DN64L20MDwparallel"; //create a new directory for energy vti files
