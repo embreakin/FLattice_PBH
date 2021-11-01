@@ -16,13 +16,13 @@ class Field
         double* tauvalue;
         double TAU;
         double aTAU;
-        double POTCOEF = pw2(1/m);
         int fld;
     
   
     
 	public:
-		Field (): _faverage(new double [num_fields]()), _fvariance(new double [num_fields]()),_dfaverage(new double [num_fields]()), _dfvariance(new double [num_fields]()), tauvalue(new double [num_fields]())  {}
+    
+        Field (): _faverage(new double [num_fields]()), _fvariance(new double [num_fields]()),_dfaverage(new double [num_fields]()), _dfvariance(new double [num_fields]()), tauvalue(new double [num_fields]())  {}
     
         ~Field () {
             delete [] _faverage;

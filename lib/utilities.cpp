@@ -15,7 +15,7 @@ namespace fs = boost::filesystem;
 void dir_manage(const std::string exist_dir, const std::string new_dir )
 {
     
-    //Path of the existing directory
+    //Path of the existing data directory
     const fs::path existpath("../" + exist_dir );
     
     //Tries to remove all files in there. If it fails, it throws an error.
@@ -27,7 +27,7 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
         throw;
     }
     
-    //Path of the newly setting directory
+    //Path of the newly set directory
     const fs::path newpath("../" + new_dir );
     
     //Tries to create a directory. If it fails, it throws an error.
@@ -35,6 +35,22 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     const bool result = fs::create_directory(newpath, error);
     if (!result || error) {
         std::cout << "failed to create directory" << std::endl;
+    }
+    
+}
+
+void file_manage(const std::string exist_file)
+{
+    //Path of the existing status file
+    const fs::path statuspath("../" + exist_file);
+    
+    //Tries to remove the file. If it fails, it throws an error.
+    try {
+        fs::remove(statuspath);
+    }
+    catch (fs::filesystem_error& ex) {
+        std::cout << ex.what() << std::endl;
+        throw;
     }
     
 }
@@ -116,8 +132,6 @@ void DFT_c2rD1( double* f)
     out = new double [N]();
     p = fftw_plan_dft_c2r_1d( N, in, out, FFTW_ESTIMATE );
     
-   
-//#pragma omp parallel for schedule( static ) num_threads( num_threads )
         for( int j = 0; j < N/2+1; ++j ){
             int idx = j;
             if(idx==0)
@@ -138,7 +152,6 @@ void DFT_c2rD1( double* f)
     fftw_execute(p);
     
     // Set output data
-//#pragma omp parallel for schedule( static ) num_threads( num_threads )
     for( int j = 0; j < N; ++j ){
         int idx = j;
         f[idx] = out[idx]/N;
@@ -212,9 +225,7 @@ void DFT_c2rD2( double* f,double* fnyquist )
     p = fftw_plan_dft_c2r_2d( N, N, in, out, FFTW_ESTIMATE );
     
     
-
         for( int j = 0; j < N; ++j ){
- //#pragma omp parallel for schedule( static ) num_threads( num_threads )
             for( int k = 0; k < N/2+1; ++k ){
                 int idx = (N/2+1)*j + k;
               //  int idx = j*N + k;
@@ -222,7 +233,7 @@ void DFT_c2rD2( double* f,double* fnyquist )
                     in[idx][0] =  fnyquist[2*j] ;
                     in[idx][1] =  fnyquist[2*j+1] ;
                 }else {
-                    in[idx][0] =  f[j*N + 2*k] ;
+                    in[idx][0] =  f[j*N + 2*k]; 
                     in[idx][1] =  f[j*N + 2*k+1] ;
                 }
             }
@@ -232,7 +243,6 @@ void DFT_c2rD2( double* f,double* fnyquist )
         // Set output data
 
      for( int j = 0; j < N; ++j ){
-//#pragma omp parallel for schedule( static ) num_threads( num_threads )
         for( int k = 0; k < N; ++k ){
             int idx = j*N + k;
             f[idx] = out[idx]/(N*N);
@@ -260,11 +270,9 @@ void DFT_c2rD3( double* f,double** fnyquist )
     p = fftw_plan_dft_c2r_3d( N, N, N, in, out, FFTW_ESTIMATE );
     
    
-
+//#pragma omp parallel for simd collapse(3) schedule( static ) num_threads( num_threads )
         for( int j = 0; j < N; ++j ){
-
             for( int k = 0; k < N; ++k ){
-//#pragma omp parallel for schedule( static ) num_threads( num_threads )
                 for( int l = 0; l < N/2+1; ++l ){
                     int idx = (j*N + k)*(N/2+1) + l;
                     if(l == N/2){
@@ -282,10 +290,9 @@ void DFT_c2rD3( double* f,double** fnyquist )
         
         // Set output data
 
-         for( int j = 0; j < N; ++j ){
 
+         for( int j = 0; j < N; ++j ){
         for( int k = 0; k < N; ++k ){
-//#pragma omp parallel for schedule( static ) num_threads( num_threads )
             for( int l = 0; l < N; ++l ){
                 int idx = (j*N + k)*N + l;
                 f[idx] = out[idx]/(N*N*N);

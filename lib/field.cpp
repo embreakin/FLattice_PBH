@@ -88,7 +88,7 @@ void initialize( double**& f, double**& df, Field* field)
         initial_field_values[i] = initfield[i];
         initial_field_derivs[i] = initderivs[i];
         field->effective_mass(mass_sq, initial_field_values);
-      std::cout << "mass_sq[0] = " << mass_sq[i]*pw2(m) << std::endl;
+      std::cout << "mass_sq[0] = " << mass_sq[i]*ENGRESCALE << std::endl;
         
        /* if(expansion)
         {
@@ -346,8 +346,21 @@ void initialize( double**& f, double**& df, Field* field)
     delete [] fdnyquist;
         
 #elif dim==3
+        
+        std::cout << "before fourier transform" << std::endl;
+        std::cout << "f[0][4]" << f[i][4] << std::endl;
+        std::cout << "df[0][4]" << df[i][4] << std::endl;
+        std::cout << "f[0][10]" << f[i][10] << std::endl;
+        std::cout << "df[0][10]" << df[i][10] << std::endl;
+        
     DFT_c2rD3( f[i] , fnyquist ); //transform from phase space to real space
     DFT_c2rD3( df[i], fdnyquist);
+        
+        std::cout << "after fourier transform" << std::endl;
+        std::cout << "f[0][4]" << f[i][4] << std::endl;
+        std::cout << "df[0][4]" << df[i][4] << std::endl;
+        std::cout << "f[0][10]" << f[i][10] << std::endl;
+        std::cout << "df[0][10]" << df[i][10] << std::endl;
         //Add zeromode
         #pragma omp parallel for schedule( static ) num_threads( num_threads )
          for( int j = 0; j < N; ++j ){
@@ -361,7 +374,12 @@ void initialize( double**& f, double**& df, Field* field)
              }
          }
         
-    
+        std::cout << "after adding zeromode" << std::endl;
+        std::cout << "f[0][4]" << f[i][4] << std::endl;
+        std::cout << "df[0][4]" << df[i][4] << std::endl;
+        std::cout << "f[0][10]" << f[i][10] << std::endl;
+        std::cout << "df[0][10]" << df[i][10] << std::endl;
+        
     delete [] fnyquist[0];
     delete [] fdnyquist[0];
     delete [] fnyquist;
@@ -731,7 +749,7 @@ double Field::V   ( double** f, int i, int idx ) {
     TAU = exp((sqrt(2)/sqrt(3))*f[i][idx])/2;
     
     
-    return (POTCOEF*(exp(-2*aa*TAU)/(pw2(TAU))*aa*pw2(AA)/2
+    return (1/(ENGRESCALE)*(exp(-2*aa*TAU)/(pw2(TAU))*aa*pw2(AA)/2
             +exp(-2*aa*TAU)/(TAU)*pw2(aa)*pw2(AA)/6
             +exp(-aa*TAU)/(pw2(TAU))*aa*AA*W0/2
             +1/(pow(TAU,3))*D)
@@ -744,7 +762,7 @@ double Field::dV  ( double** f, int i, int idx ){
     TAU = exp((sqrt(2)/sqrt(3))*f[i][idx])/2;
     
     
-    return (POTCOEF*(sqrt(2)/sqrt(3))*TAU*(-(7*pw2(aa)*pw2(AA)/(6*pw2(TAU)))*exp(-2*aa*TAU)
+    return (1/(ENGRESCALE)*(sqrt(2)/sqrt(3))*TAU*(-(7*pw2(aa)*pw2(AA)/(6*pw2(TAU)))*exp(-2*aa*TAU)
             -(aa*pw2(AA)/(pow(TAU,3)))*exp(-2*aa*TAU)
             -(pow(aa,3)*pw2(AA)/(3*TAU))*exp(-2*aa*TAU)
             -(pw2(aa)*AA*W0/(2*pw2(TAU)))*exp(-aa*TAU)
@@ -759,7 +777,7 @@ double Field::aV  ( double** f, int i, int idx, double a )  {
     aTAU = exp((sqrt(2)/sqrt(3))*f[i][idx]/a)/2;
     
     
-    return (POTCOEF*(exp(-2*aa*aTAU)/(pw2(aTAU))*aa*pw2(AA)/2
+    return ((1/ENGRESCALE)*(exp(-2*aa*aTAU)/(pw2(aTAU))*aa*pw2(AA)/2
           +exp(-2*aa*aTAU)/(aTAU)*pw2(aa)*pw2(AA)/6
           +exp(-aa*aTAU)/(pw2(aTAU))*aa*AA*W0/2
           +1/(pow(aTAU,3))*D)
@@ -770,7 +788,7 @@ double Field::adV ( double** f, int i, int idx, double a )  {
     
     aTAU = exp((sqrt(2)/sqrt(3))*f[i][idx]/a)/2;
     
-    return (POTCOEF*(sqrt(2)/sqrt(3))*aTAU*(-(7*pw2(aa)*pw2(AA)/(6*pw2(aTAU)))*exp(-2*aa*aTAU)
+    return ((1/ENGRESCALE)*(sqrt(2)/sqrt(3))*aTAU*(-(7*pw2(aa)*pw2(AA)/(6*pw2(aTAU)))*exp(-2*aa*aTAU)
              -(aa*pw2(AA)/(pow(aTAU,3)))*exp(-2*aa*aTAU)
              -(pow(aa,3)*pw2(AA)/(3*aTAU))*exp(-2*aa*aTAU)
              -(pw2(aa)*AA*W0/(2*pw2(aTAU)))*exp(-aa*aTAU)
@@ -785,7 +803,7 @@ void Field::effective_mass( double *mass_sq, double *field_values){
         tauvalue[fld] = exp((sqrt(2)/sqrt(3))*field_values[fld])/2;
         std::cout << "tauvalue[0] = " << tauvalue[fld] << std::endl;
         
-        mass_sq[fld]=POTCOEF*pw2(sqrt(2)/sqrt(3))*(
+        mass_sq[fld]=(1/ENGRESCALE)*pw2(sqrt(2)/sqrt(3))*(
         (tauvalue[fld])*(-(7*pw2(aa)*pw2(AA)/(6*pw2(tauvalue[fld])))*exp(-2*aa*tauvalue[fld])
                          -(aa*pw2(AA)/(pow(tauvalue[fld],3)))*exp(-2*aa*tauvalue[fld])
                          -(pow(aa,3)*pw2(AA)/(3*tauvalue[fld]))*exp(-2*aa*tauvalue[fld])

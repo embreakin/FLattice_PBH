@@ -9,6 +9,8 @@
 
 void dir_manage(const std::string exist_dir, const std::string new_dir);
 
+void file_manage(const std::string exist_file);
+
 void set_mode(double p2, double m2, double *field, double *deriv, int real);
 
 void DFT_c2rD1( double* f);

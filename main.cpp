@@ -7,16 +7,19 @@
 
 int main( int argc, char** argv )
 {
-    
+    //Start Counting Time
     std::chrono::high_resolution_clock::time_point start, loop_start, current;
     std::chrono::milliseconds init_elapsed, elapsed;
     
     start = std::chrono::high_resolution_clock::now();
     
     
-    //Directory management
+    //Initial Data Directory Management
     dir_manage(exist_dirname_ed, new_dirname_ed);
     dir_manage(exist_dirname_f, new_dirname_f);
+    
+    //Initial Status File Management
+    file_manage(exist_filename_status);
     
 	Logout( "\n----------------------------------------------\n" );
 	Logout( "            SIMULATION PARAMETERS            \n\n" );
@@ -40,20 +43,20 @@ int main( int argc, char** argv )
     Logout("----------------------------------------------\n");
     Logout("            STARTING INITIALIZATION                \n\n");
     
-    //declare fields and their derivatives
+    //Declare fields and their derivatives
     double **f, **df;
     
-    //instantiate field
+    //Instantiate fields
     Field field;
     
-    //initialize fields
+    //Initialize fields and their derivatives
     initialize( f, df, &field);
     
-    //instantiate leapfrog and initialize
+    //Instantiate leapfrog and initialize
     LeapFrog leapfrog(&field, f);
 
     
-    //instantiate energy and initialize
+    //Instantiate energy and initialize
     Energy energy;
     
     // 1: self-consistent, 2: radiation dominant, 3: matter dominant -> No Output of vti files for the field
@@ -63,14 +66,14 @@ int main( int argc, char** argv )
        write_VTK_f(new_dirname_f, f[0], "field", -1 );
     }
     
-    // Calculate all necessary data regarding energy density
+    // Calculate all necessary initial data regarding energy density
 	energy.energy_calc( &field, &leapfrog, f, df );
     
     // Output vti files for the energy density of the field
     write_VTK_ed( new_dirname_ed, energy.value[0], "energy", -1  );
     
     // Write data to status.txt
-	write_status( filename, &field, &leapfrog, &energy, f, t0 );
+	write_status( new_filename_status, &field, &leapfrog, &energy, f, t0 );
     
     //Calculate Initialization Time
     current = std::chrono::high_resolution_clock::now();
@@ -110,7 +113,7 @@ int main( int argc, char** argv )
             //  std::cout << "t1 = " << t << std::endl;
             
             // Add data to status.txt
-            write_status( filename, &field, &leapfrog, &energy, f, t+st_output_step*dt );
+            write_status( new_filename_status, &field, &leapfrog, &energy, f, t+st_output_step*dt );
             //  std::cout << "t2 = " << t << std::endl;
             
             // Evolve time
@@ -156,6 +159,8 @@ int main( int argc, char** argv )
     hourresidue = fmod(elapsed.count()*1.e-3, 3600);
     Logout( " Total Time: %d h %d m %2.3f s \n", int(elapsed.count()*1.e-3)/3600,int(hourresidue)/60, fmod(hourresidue, 60.0));
     
+    
+    //Release all memory of fields and their derivatives
 	finalize( f, df );
     
     Logout( "\n----------------------------------------------\n" );

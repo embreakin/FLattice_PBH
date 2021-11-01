@@ -1,23 +1,24 @@
 #include "parameter.hpp"
 
-
-std::string exist_dirname_ed = "dataKKLT2DN128L60MDwparallel"; //remove this existing directory for energy vti files
-std::string new_dirname_ed = "dataKKLT2DN128L60MDwparallel"; //create a new directory for energy vti files
+std::string exist_dirname_ed = "dataKKLT3DN64L20MDwparallel"; //remove this existing directory for energy vti files
+std::string new_dirname_ed = "dataKKLT3DN64L20MDwparallel"; //create a new directory for energy vti files
 
 std::string exist_dirname_f = "data"; //remove this existing directory for field vti files
 std::string new_dirname_f = "data"; //create a new directory for field vti files
 
 
-std::string filename = "statusKKLT2DN128L60MDwparallel.txt"; // name of the status file
+std::string exist_filename_status = "statusKKLT3DN64L20MDwparallel.txt"; // remove this existing status file
+std::string new_filename_status = "statusKKLT3DN64L20MDwparallel.txt";// create this new status file
 
-int N = 128;
-int L = 60;
+int N = 64;
+int L = 20;
 int rnd = 1;
 int num_fields  = 1;
 int num_threads = omp_get_num_procs()/2;
 
 const double Hinitial = 5.98147171787852*pow(10,-6);
 const double m = sqrt(5.67402574831172*pow(10,-10));//rescale_B, sqrt(V''(phi))
+const double ENGRESCALE = pw2(m); // Used to rescale the energies from reduced Planck units to program variables and vice versa 
 const double initfield[] = {2.2105};//{sqrt(2)*1.49652/(sqrt(8*M_PI))};
 const double initderivs[] = {(1*Hinitial*initfield[0])/m};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
 
