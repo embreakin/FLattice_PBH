@@ -1,25 +1,12 @@
 #ifndef _EQUATIONS_H_
 #define _EQUATIONS_H_
 
-#include <stdint.h>
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <math.h>
+
 #include "nr.h"
-//#include "nrutil.h"
-//#include "nrtypes.h"
 #include "parameters.hpp"
 
-using namespace std;
-
 //-------------------
-
-extern DP k,FIXPSI,CNT;
-extern DP Gamma1,Gamma2,Gamma3;
 //Pow: Pow(x,i)
-
-
 DP Pow(DP x,int i);
 
 //Term inside the first parentheses of the first term in (24) of Takayama's published paper
@@ -45,7 +32,6 @@ DP g2(DP x);
 
 //Derivative of g2 with respect to x
 DP g3(DP x);
-
 
 DP Vbare(DP x,DP y,DP z);
 
@@ -192,7 +178,5 @@ void newinf(const DP x,Vec_I_DP &y, Vec_O_DP &dydx);
 //evolution equations for zero-mode and perturbaton with fixed sigma and psi
 void fixfix(const DP x,Vec_I_DP &y, Vec_O_DP &dydx);
 
-//subroutine for output data
-void output(Vec_I_DP &xx, Mat_I_DP &yp,int kount, string str);
 
 #endif

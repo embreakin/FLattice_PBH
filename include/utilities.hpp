@@ -3,13 +3,28 @@
 
 #include <string>
 #include "calculation.hpp"
+#include "nr.h"
 
 #define Logout(...) 	do { printf(__VA_ARGS__); fflush(stdout); } while(0)
 
+//--------------------------------
+// Directory & File Management
+//--------------------------------
 
 void dir_manage(const std::string exist_dir, const std::string new_dir);
 
 void file_manage(const std::string exist_file);
+
+//--------------------------------
+// Double Inflation Subroutines
+//--------------------------------
+
+void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum);
+
+void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k);
+//--------------------------------
+// Lattice Simulation Subroutines
+//--------------------------------
 
 void set_mode(double p2, double m2, double *field, double *deriv, int real);
 

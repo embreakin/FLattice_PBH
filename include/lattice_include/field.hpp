@@ -43,7 +43,7 @@ class Field
         double dV  ( double** f, int i, int idx );
         double aV  ( double** f, int i, int idx, double a );
         double adV ( double** f, int i, int idx, double a );
-        void effective_mass( double mass_sq[], double *field_values);
+        void effective_mass( double* mass_sq, double* field_values);
     
 };
 

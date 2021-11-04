@@ -1,4 +1,6 @@
-#include "equations.hpp"
+#include <sstream>
+#include "nr.h"
+#include "parameters.hpp"
 
 DP Pow(DP x,int i){
    DP val;
@@ -14,7 +16,7 @@ DP Pow(DP x,int i){
 //Term inside the first parentheses of the first term in (24) of Takayama's published paper
 DP f(DP x){
         DP val;
-        val = (Pow(x,2*m)/(Pow(2,2*m)*Pow(M,2*(m-1)))) - mu*mu;
+        val = (Pow(x,2*m_par)/(Pow(2,2*m_par)*Pow(M,2*(m_par-1)))) - mu*mu;
 		if (x==FIXPSI) val=0;
         return val;
 }
@@ -22,49 +24,49 @@ DP f(DP x){
 //Psi part of the second term in (24)
 DP f1(DP x){
         DP val;
-        val = m*Pow(x,2*m-1)/(Pow(2,2*m-1)*Pow(M,2*(m-1)));
+        val = m_par*Pow(x,2*m_par-1)/(Pow(2,2*m_par-1)*Pow(M,2*(m_par-1)));
         return val;
 }
 
 //Derivative of f1 with respect to x
 DP f2(DP x){
         DP val;
-        val = m*(2*m-1)*Pow(x,2*m-2)/(Pow(2,2*m-1)*Pow(M,2*(m-1)));
+        val = m_par*(2*m_par-1)*Pow(x,2*m_par-2)/(Pow(2,2*m_par-1)*Pow(M,2*(m_par-1)));
         return val;
 }
 
 //Derivative of f2 with respect to x
 DP f3(DP x){
         DP val;
-        val = m*(2*m-1)*(2*m-2)*Pow(x,2*m-3)/(Pow(2,2*m-1)*Pow(M,2*(m-1)));
+        val = m_par*(2*m_par-1)*(2*m_par-2)*Pow(x,2*m_par-3)/(Pow(2,2*m_par-1)*Pow(M,2*(m_par-1)));
         return val;
 }
 
 
 DP g0(DP x){
         DP val;
-        val = Cv*Cv*x - g*Pow(x,n+1)/((n+1)*Pow(sqrt(2.0),n));
+        val = Cv*Cv*x - g_par*Pow(x,n_par+1)/((n_par+1)*Pow(sqrt(2.0),n_par));
         return val;
 }
 
 //First term in (25) of Takayama's thesis
 DP g1(DP x){
         DP val;
-        val = Cv*Cv - g*Pow(x,n)/Pow(sqrt(2.0),n);
+        val = Cv*Cv - g_par*Pow(x,n_par)/Pow(sqrt(2.0),n_par);
         return val;
 }
 
 //Derivative of g1 with respect to x
 DP g2(DP x){
         DP val;
-        val = (-1)*n*g*Pow(x,n-1)/Pow(sqrt(2.0),n);
+        val = (-1)*n_par*g_par*Pow(x,n_par-1)/Pow(sqrt(2.0),n_par);
         return val;
 }
 
 //Derivative of g2 with respect to x
 DP g3(DP x){
         DP val;
-        val = (-1)*n*(n-1)*g*Pow(x,n-2)/Pow(sqrt(2.0),n);
+        val = (-1)*n_par*(n_par-1)*g_par*Pow(x,n_par-2)/Pow(sqrt(2.0),n_par);
         return val;
 }
 
@@ -225,7 +227,7 @@ DP dif_rad (DP vx, DP vy,DP vz,DP rr,DP HH){
 DP dif_DELv11 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
 	DP val_DELv11;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_DELv11 = (-1)*(3 + Gamma1/H)*vdx - vala*vala*dx/H - V_11(x,y,z)*dx/H - V_12(x,y,z)*dy/H -V_13(x,y,z)*dz/H + (2*V_1(x,y,z) + vx*Gamma1)*Pot/H - 4*vx*vPot/H;
 	return val_DELv11;
 }
@@ -234,7 +236,7 @@ DP dif_DELv11 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 DP dif_DELv12 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
 	DP val_DELv12;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_DELv12 = (-1)*(3 + Gamma1/H)*vdx - vala*vala*dx/H - V_11(x,y,z)*dx/H - V_12(x,y,z)*dy/H -V_13(x,y,z)*dz/H + (2*V_1(x,y,z) + vx*Gamma1)*Pot/H - 4*vx*vPot/H;
 	return val_DELv12;
 }
@@ -243,7 +245,7 @@ DP dif_DELv12 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 DP dif_DELv13 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
 	DP val_DELv13;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_DELv13 = (-1)*(3 + Gamma1/H)*vdx - vala*vala*dx/H - V_11(x,y,z)*dx/H - V_12(x,y,z)*dy/H -V_13(x,y,z)*dz/H + (2*V_1(x,y,z) + vx*Gamma1)*Pot/H - 4*vx*vPot/H;
 	return val_DELv13;
 }
@@ -252,7 +254,7 @@ DP dif_DELv13 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 DP dif_DELv21 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
 	DP val_DELv21;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_DELv21 = (-1)*(3 + Gamma2/H)*vdx - vala*vala*dy/H - V_12(x,y,z)*dx/H - V_22(x,y,z)*dy/H - V_23(x,y,z)*dz/H + (2*V_2(x,y,z) + vx*Gamma2)*Pot/H - 4*vx*vPot/H;
 	return val_DELv21;
 }
@@ -261,7 +263,7 @@ DP dif_DELv21 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 DP dif_DELv22 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
 	DP val_DELv22;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_DELv22 = (-1)*(3 + Gamma2/H)*vdx - vala*vala*dy/H - V_12(x,y,z)*dx/H - V_22(x,y,z)*dy/H - V_23(x,y,z)*dz/H + (2*V_2(x,y,z) + vx*Gamma2)*Pot/H - 4*vx*vPot/H;
 	return val_DELv22;
 }
@@ -270,7 +272,7 @@ DP dif_DELv22 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 DP dif_DELv23 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
 	DP val_DELv23;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_DELv23 = (-1)*(3 + Gamma2/H)*vdx - vala*vala*dy/H - V_12(x,y,z)*dx/H - V_22(x,y,z)*dy/H - V_23(x,y,z)*dz/H + (2*V_2(x,y,z) + vx*Gamma2)*Pot/H - 4*vx*vPot/H;
 	return val_DELv23;
 }
@@ -279,7 +281,7 @@ DP dif_DELv23 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 DP dif_DELv31 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
 	DP val_DELv31;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_DELv31 = (-1)*(3 + Gamma3/H)*vdx - vala*vala*dz/H - V_13(x,y,z)*dx/H - V_23(x,y,z)*dy/H - V_33(x,y,z)*dz/H + (2*V_3(x,y,z) + vx*Gamma3)*Pot/H - 4*vx*vPot/H;
 	return val_DELv31;
 }
@@ -288,7 +290,7 @@ DP dif_DELv31 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 DP dif_DELv32 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
 	DP val_DELv32;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_DELv32 = (-1)*(3 + Gamma3/H)*vdx - vala*vala*dz/H - V_13(x,y,z)*dx/H - V_23(x,y,z)*dy/H - V_33(x,y,z)*dz/H + (2*V_3(x,y,z) + vx*Gamma3)*Pot/H - 4*vx*vPot/H;
 	return val_DELv32;
 }
@@ -297,7 +299,7 @@ DP dif_DELv32 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 DP dif_DELv33 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
 	DP val_DELv33;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_DELv33 = (-1)*(3 + Gamma3/H)*vdx - vala*vala*dz/H - V_13(x,y,z)*dx/H - V_23(x,y,z)*dy/H - V_33(x,y,z)*dz/H + (2*V_3(x,y,z) + vx*Gamma3)*Pot/H - 4*vx*vPot/H;
 	return val_DELv33;
 }
@@ -306,7 +308,7 @@ DP dif_DELv33 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 DP dif_vPot (DP x,DP y,DP z,DP vx,DP vy,DP vz,DP dx,DP dy,DP dz,DP vdx,DP vdy,DP vdz,DP Pot,DP vPot,DP la,DP H){
 	DP val_vPot;
 	DP vala;
-	vala=k/exp(la);
+	vala=k_comoving/exp(la);
 	val_vPot = (-5)*vPot - (vala*vala/3 + 4*V(x,y,z)/3)*Pot/H + (2*V_1(x,y,z)*dx + 2*V_2(x,y,z)*dy + 2*V_3(x,y,z)*dz - vx*vdx - vy*vdy - vz*vdz)/(3*H);
 	return val_vPot;
 }
@@ -318,7 +320,7 @@ void fieldperturbation(Vec_I_DP &y, Vec_O_DP &fields){
                 for(i=0;i<3;i++){
                         fields[j]=fields[j]+y[7+j*3+i]*y[7+j*3+i] + y[31+j*3+i]*y[31+j*3+i];
                 };
-		fields[j]=fields[j]/(2*Pi*Pi);		
+		fields[j]=fields[j]/(2*M_PI*M_PI);		
         };
 }
 
@@ -397,7 +399,7 @@ void density(Vec_I_DP &y, Vec_O_DP &dens){
 void numberdens(DP x, Vec_I_DP &y, Vec_O_DP &numdens){
         int i,j;
 		DP vala;
-		vala = k/exp(x);
+		vala = k_comoving/exp(x);
 		vala = vala*vala;
         for(i=0;i<3;i++) numdens[i]=0;
         for(i=0;i<3;i++){
@@ -669,77 +671,4 @@ void fixfix(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
 	for (ii=0;ii<3;ii++) dydx[ii+52] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],y[49+ii],y[52+ii],x,H);
 }
 
-//subroutine for output data
-void output(Vec_I_DP &xx, Mat_I_DP &yp,int kount, string str){
-	//output results
-	const int N1=55,N2=7;
-	char* strr;
-	Vec_DP zeta(6);
-	Vec_DP tr(N1);
-	std::ofstream output;
-	output.open(str.c_str(),ios::app);
-	DP H,T,xp,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi;
-	int i,j;
-	for (j=0;j<kount;j++) {
-		for (i=0;i<N1;i++) tr[i]=yp[i][j];
-			la=xx[j];
-			rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
-			rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
-			H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
-			w=log10(H);
-			a=exp(la);
-			for (i=0;i<3;i++) zeta[i]=2*rho*(tr[i+25] + tr[i+28]/H)/(rhop) + (1 + 2*k*k*rho/(9*a*a*H*H*rhop))*3*tr[i+25];
-			for (i=0;i<3;i++) zeta[i+3]=2*rho*(tr[i+49] + tr[i+52]/H)/(rhop) + (1 + 2*k*k*rho/(9*a*a*H*H*rhop))*3*tr[i+49];
-        
-			Pzeta=0;
-			for (i=0;i<6;i++) Pzeta = Pzeta + zeta[i]*zeta[i];
-            Pzeta_raw = Pzeta;
-			Pzeta = Pzeta/(2*Pi*Pi*9);
-			Pzeta = log10(Pzeta) + 3*log10(k);
-        
-			PPot = 0;
-			for (i=0;i<3;i++) PPot = PPot + tr[i+25]*tr[i+25];
-			for (i=0;i<3;i++) PPot = PPot + tr[i+49]*tr[i+49];
-			PPot = PPot/(2*Pi*Pi);
-			PPot = log10(PPot) + 3*log10(k);
-        
-            P_sigma = 0;
-            for (i=0;i<3;i++) P_sigma = P_sigma + tr[i+7]*tr[i+7];
-            for (i=0;i<3;i++) P_sigma = P_sigma + tr[i+31]*tr[i+31];
-            P_sigma = P_sigma/(2*Pi*Pi);
-            P_sigma = log10(P_sigma) + 3*log10(k);
-        
-            P_psi = 0;
-            for (i=0;i<3;i++) P_psi = P_psi + tr[i+10]*tr[i+10];
-            for (i=0;i<3;i++) P_psi = P_psi + tr[i+34]*tr[i+34];
-            P_psi = P_psi/(2*Pi*Pi);
-            P_psi = log10(P_psi) + 3*log10(k);
-        
-            P_phi = 0;
-            for (i=0;i<3;i++) P_phi = P_phi + tr[i+13]*tr[i+13];
-            for (i=0;i<3;i++) P_phi = P_phi + tr[i+37]*tr[i+37];
-            P_phi = P_phi/(2*Pi*Pi);
-            P_phi = log10(P_phi) + 3*log10(k);
-        
-        
-			output << setw(6) << la << " "						//log(a)
-					<< setw(10) << w << " "						//log(H)
-					<< setw(10) << Pzeta << " "					//log(Zeta)
-					<< setw(10) << PPot << " "					//log(Gravitational Potential)
-					<< setw(10) << log10(rhop/rho) << " "		//log(p/rho)
-					<< setw(10) << log10(H/a) << " "			//log(H/a)
-					<< setw(10) << log10(k/(a*H)) << " "		//log(k/(a*H))
-                    << setw(10) << P_sigma << " "               //log(P_sigma)
-                    << setw(10) << P_psi << " "                 //log(P_psi)
-                    << setw(10) << P_phi << " "                 //log(P_phi)
-        << setw(10) << zeta[0]*zeta[0]/Pzeta_raw << " "                 //
-        << setw(10) << zeta[1]*zeta[1]/Pzeta_raw << " "                 //
-        << setw(10) << zeta[2]*zeta[2]/Pzeta_raw << " "                 //
-        << setw(10) << zeta[3]*zeta[3]/Pzeta_raw << " "                 //
-        << setw(10) << zeta[4]*zeta[4]/Pzeta_raw << " "                 //
-        << setw(10) << zeta[5]*zeta[5]/Pzeta_raw << " "                 //
-					<< "\n";
-	};
-	output.close();
-}
 

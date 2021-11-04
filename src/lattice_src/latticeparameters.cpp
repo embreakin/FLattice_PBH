@@ -35,8 +35,6 @@ double dx = 1.* L/N;
 const int expansion = 3; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
 const int precision = 2;
 
-bool restart = false;  // cannot use yet
-
 //potential parameters
 const double aa = 2*M_PI;
 const double AA = 10;

@@ -1,5 +1,5 @@
-#ifndef _PARAMETER_H_
-#define _PARAMETER_H_
+#ifndef _LATTICEPARAMETERS_H_
+#define _LATTICEPARAMETERS_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,7 +37,7 @@ extern double dx;
 
 extern const int expansion;
 extern const int precision;
-extern bool restart;
+
 
 //potential parameters
 extern const double aa;// = 2*M_PI;

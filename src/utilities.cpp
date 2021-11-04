@@ -1,4 +1,4 @@
-#include <cmath>
+#include <math.h>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
@@ -8,9 +8,15 @@
 #include "latticeparameters.hpp"
 #include "utilities.hpp"
 #include <boost/filesystem.hpp>
+#include "nr.h"
+#include "equations.hpp"
+
+
+//--------------------------------
+// Directory & File Management
+//--------------------------------
 
 namespace fs = boost::filesystem;
-
 
 void dir_manage(const std::string exist_dir, const std::string new_dir )
 {
@@ -55,6 +61,149 @@ void file_manage(const std::string exist_file)
     
 }
 
+//--------------------------------
+// Double Inflation Subroutines
+//--------------------------------
+
+//subroutine for k-analyze output
+void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum ){
+    //output results
+    static int output_timecount = 0;
+    static int knum_static = knum;
+    if(knum_static == knum){
+        ++output_timecount;
+    }else{
+        knum_static = knum;
+        output_timecount = 0;
+    };
+    
+    
+    std::stringstream ss;
+    std::ofstream k_output;
+    
+    ss << "../" << dir << "/" << file << "." << std::setw(4) << std::setfill('0') << knum <<".txt";
+    
+    if( output_timecount == 1 )
+    {
+        k_output.open(ss.str().c_str(),std::ios::out);
+    }else{
+        k_output.open(ss.str().c_str(),std::ios::app);
+    }
+    
+    DP H,xp,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi;
+    const int N1=55;//,N2=7;
+//    char* strr;
+    Vec_DP zeta(6);
+    Vec_DP tr(N1);
+    int i,j;
+    for (j=0;j<timecount;j++) {
+        for (i=0;i<N1;i++) tr[i]=yp[i][j];
+        la=xx[j];
+        rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+        rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
+        H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+        w=log10(H);
+        a=exp(la);
+        for (i=0;i<3;i++) zeta[i]=2*rho*(tr[i+25] + tr[i+28]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+25];
+        for (i=0;i<3;i++) zeta[i+3]=2*rho*(tr[i+49] + tr[i+52]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+49];
+        
+        Pzeta=0;
+        for (i=0;i<6;i++) Pzeta = Pzeta + zeta[i]*zeta[i];
+        Pzeta_raw = Pzeta;
+        Pzeta = Pzeta/(2*M_PI*M_PI*9);
+        Pzeta = log10(Pzeta) + 3*log10(k_comoving);
+        
+        PPot = 0;
+        for (i=0;i<3;i++) PPot = PPot + tr[i+25]*tr[i+25];
+        for (i=0;i<3;i++) PPot = PPot + tr[i+49]*tr[i+49];
+        PPot = PPot/(2*M_PI*M_PI);
+        PPot = log10(PPot) + 3*log10(k_comoving);
+        
+        P_sigma = 0;
+        for (i=0;i<3;i++) P_sigma = P_sigma + tr[i+7]*tr[i+7];
+        for (i=0;i<3;i++) P_sigma = P_sigma + tr[i+31]*tr[i+31];
+        P_sigma = P_sigma/(2*M_PI*M_PI);
+        P_sigma = log10(P_sigma) + 3*log10(k_comoving);
+        
+        P_psi = 0;
+        for (i=0;i<3;i++) P_psi = P_psi + tr[i+10]*tr[i+10];
+        for (i=0;i<3;i++) P_psi = P_psi + tr[i+34]*tr[i+34];
+        P_psi = P_psi/(2*M_PI*M_PI);
+        P_psi = log10(P_psi) + 3*log10(k_comoving);
+        
+        P_phi = 0;
+        for (i=0;i<3;i++) P_phi = P_phi + tr[i+13]*tr[i+13];
+        for (i=0;i<3;i++) P_phi = P_phi + tr[i+37]*tr[i+37];
+        P_phi = P_phi/(2*M_PI*M_PI);
+        P_phi = log10(P_phi) + 3*log10(k_comoving);
+        
+        
+        k_output << std::setw(6) << la << " "               //log(a)
+        << std::setw(10) << w << " "                        //log(H)
+        << std::setw(10) << Pzeta << " "                    //log(Zeta)
+        << std::setw(10) << PPot << " "                    //log(Gravitational Potential)
+        << std::setw(10) << log10(rhop/rho) << " "        //log(p/rho)
+        << std::setw(10) << log10(H/a) << " "            //log(H/a)
+        << std::setw(10) << log10(k_comoving/(a*H)) << " "        //log(k/(a*H))
+        << std::setw(10) << P_sigma << " "               //log(P_sigma)
+        << std::setw(10) << P_psi << " "                 //log(P_psi)
+        << std::setw(10) << P_phi << " "                 //log(P_phi)
+        << std::setw(10) << zeta[0]*zeta[0]/Pzeta_raw << " "                 //
+        << std::setw(10) << zeta[1]*zeta[1]/Pzeta_raw << " "                 //
+        << std::setw(10) << zeta[2]*zeta[2]/Pzeta_raw << " "                 //
+        << std::setw(10) << zeta[3]*zeta[3]/Pzeta_raw << " "                 //
+        << std::setw(10) << zeta[4]*zeta[4]/Pzeta_raw << " "                 //
+        << std::setw(10) << zeta[5]*zeta[5]/Pzeta_raw << " "                 //
+        << "\n";
+    };
+
+}
+
+//subroutine for spectrum output
+void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k ){
+    static int output_timecount = 0; ++output_timecount;
+    std::stringstream ss;
+    std::ofstream sp_output;
+    ss << "../" << file;
+    
+    if( output_timecount == 1 )
+    {
+        sp_output.open(ss.str().c_str(),std::ios::out);
+    }else{
+        sp_output.open(ss.str().c_str(),std::ios::app);
+    }
+    
+    DP H,a,la,rho,rhop,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi,PSTR;
+    const int N1=55;
+    Vec_DP zeta(6);
+    Vec_DP tr(N1);
+    int i;
+    
+    la=xx[timecount-1];
+    a=exp(la);
+    for (i=0;i<N1;i++) tr[i] = yp[i][timecount-1];
+    rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+    rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
+    H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+    
+    for (i=0;i<3;i++) zeta[i]=2*rho*(tr[i+25] + tr[i+28]/H)/(rhop) + (1 + 2*k*k*rho/(9*a*a*H*H*rhop))*3*tr[i+25];
+    for (i=0;i<3;i++) zeta[i+3]=2*rho*(tr[i+49] + tr[i+52]/H)/(rhop) + (1 + 2*k*k*rho/(9*a*a*H*H*rhop))*3*tr[i+49];
+    Pzeta=0;
+    for (i=0;i<6;i++) Pzeta = Pzeta + zeta[i]*zeta[i];
+    Pzeta = Pzeta/(2*M_PI*M_PI*9);
+    Pzeta = log10(Pzeta) + 3*log10(k_comoving);
+    PPot = 0;
+    for (i=0;i<3;i++) PPot = PPot + tr[i+25]*tr[i+25];
+    for (i=0;i<3;i++) PPot = PPot + tr[i+49]*tr[i+49];
+    PSTR = PPot;
+    PPot = PPot/(2*M_PI*M_PI);
+    PPot = log10(PPot) + 3*log10(k_comoving);
+    //output log(Gravitational Potential) and log(Zeta), along with k and knum.
+    sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " " << std::setw(5) << knum << " " << std::setw(10) << exp(log(10.0)*(knum/100.0 - 4.0)) << " " << std::setw(10) << PPot << " " << std::setw(10) << Pzeta <<  " " << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << "\n" << std::flush;
+}
+//--------------------------------
+// Lattice Simulation Subroutines
+//--------------------------------
 
 double rand_uniform(void)
 {
@@ -604,5 +753,6 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
     
     
 }
+
 
 

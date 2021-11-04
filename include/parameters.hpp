@@ -1,13 +1,27 @@
-#include <stdint.h> 
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <math.h>
-#include "nr.h"
-//#include "nrutil.h"
-//#include "nrtypes.h"
+#ifndef _PARAMETERS_H_
+#define _PARAMETERS_H_
 
-using namespace std;
+#include <string>
+//#include <math.h>
+#include "nr.h"
+#include "equations.hpp"
+
+extern std::string exist_dirname_k, new_dirname_k, filename_k, exist_filename_sp, new_filename_sp;
+extern DP k_comoving, CNT;
+extern DP Gamma1,Gamma2,Gamma3;
+extern DP dxsav;
+extern int kmax,timecount;
+extern Vec_DP *xp_p;
+extern Mat_DP *yp_p;
+extern Mat_DP *delp_p;
+extern const int timecount_max;
+
+extern bool kanalyze_switch;
+extern bool spectrum_switch;
+
+extern DP kfromMpc;
+extern DP ktoMpc;
+extern int kinterval;
 
 //#define CAPTION "ver.06-04-05-02:00"
 //#define Ck 2.626E-61            //k[MPl] for k=10000Mpc^{-1} // I think he means k[MPl] for k=10^-4 Mpc^{-1}
@@ -65,11 +79,9 @@ using namespace std;
 //#define msigma sqrt(8*pow(mu,3)/M)      //effective mass of sigma
 
 
-//Takayama Master Thesis
+//Takayama's Master Thesis
 #define CAPTION "ver.06-04-05-02:00"
-#define Ck 2.626E-61            //k[MPl] for k=10000Mpc^{-1} // I think he means k[MPl] for k=10^-4 Mpc^{-1}
-#define Pi 3.14159265358979        //pi
-#define r2 1.41421356237310        //sqrt(2)
+#define Ck 2.626E-61            //k[MPl] for k=10^-4 Mpc^{-1}
 #define GNOMAL 0                //decay rate 1
 #define GLARGE 1.0E-11            //decay rate 2 (if decay rate changes during the calculation)
 #define GLARGE2 1.0E-11            //decay rate 3 (if decay rate changes during the calculation)
@@ -77,10 +89,9 @@ using namespace std;
 #define mu 2.7E-3                //Potential paramater mu
 #define Cv 6.4E-4                //Potential parameter Cv mu/4.
 #define M 1.6                    //Potential paramater M
-#define m 2                        //Potential paramater m
-#define n 10                        //Potential paramater n
-#define g 1                //Potential parameter g
-#define FIXPHI -0.325        //minimum value of Phi (set by hand according to zero-mode calculation) -0.472871 -0.475 -0.459
+#define m_par 2                        //Potential paramater m
+#define n_par 10                        //Potential paramater n
+#define g_par 1                //Potential parameter g
 #define SH -71.                //ln(a) at the end of calculation
 #define THRUNP -102                //ln(a) at which sigma and psi are fixed to the minimum
 #define THRLAST -75                //ln(a) at the beginning of oscillation of phi.-61.5
@@ -88,9 +99,13 @@ using namespace std;
 #define dla 1.0E-5                //stepsize for fixed step RQ-method
 #define itvl 1000                //interval for output in fixed RQ-method
 #define Ini -135.6           //initial ln(a)  I1=0.3,Ini=-131.8
-#define I1 0.8                //initial value of sigma
-
+#define Init_sigma 0.8                //initial value of sigma
+//10^-4[Mpc] corresponds to 0, 10^4[Mpc] to 800 in knum units
 #define msigma sqrt(8*pow(mu,3)/M)     //effective mass of sigma
+#define FIXPHI -0.325    //minimum value of Phi (set by hand according to zero-mode calculation) -0.472871 -0.475 -0.459
+#define FIXPSI  2*sqrt(mu*M)  //PSI at the minimum
+
+
 
 // FIG2
 //#define CAPTION "ver.06-04-05-02:00"
@@ -173,3 +188,5 @@ using namespace std;
 //#define I1 0.38               //initial value of sigma
 //
 //#define msigma sqrt(8*pow(mu,3)/M)     //effective mass of sigma
+
+#endif
