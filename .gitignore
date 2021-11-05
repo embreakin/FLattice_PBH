@@ -42,10 +42,6 @@ https://github.com/simonwhitaker/gibo
 *.optrpt
 *.txt
 build
-
-#But don't ignore this
-!CMakeLists.txt
-
 main
 memo.txt
 Makefile
@@ -53,3 +49,6 @@ Makefile
 #Others
 .DS_Store
 .ipynb_checkpoints/
+
+#But don't ignore this
+!CMakeLists.txt

@@ -16,7 +16,7 @@ DP Pow(DP x,int i){
 //Term inside the first parentheses of the first term in (24) of Takayama's published paper
 DP f(DP x){
         DP val;
-        val = (Pow(x,2*m_par)/(Pow(2,2*m_par)*Pow(M,2*(m_par-1)))) - mu*mu;
+        val = (Pow(x,2*m_par)/(Pow(2,2*m_par)*Pow(M_par,2*(m_par-1)))) - mu_par*mu_par;
 		if (x==FIXPSI) val=0;
         return val;
 }
@@ -24,35 +24,35 @@ DP f(DP x){
 //Psi part of the second term in (24)
 DP f1(DP x){
         DP val;
-        val = m_par*Pow(x,2*m_par-1)/(Pow(2,2*m_par-1)*Pow(M,2*(m_par-1)));
+        val = m_par*Pow(x,2*m_par-1)/(Pow(2,2*m_par-1)*Pow(M_par,2*(m_par-1)));
         return val;
 }
 
 //Derivative of f1 with respect to x
 DP f2(DP x){
         DP val;
-        val = m_par*(2*m_par-1)*Pow(x,2*m_par-2)/(Pow(2,2*m_par-1)*Pow(M,2*(m_par-1)));
+        val = m_par*(2*m_par-1)*Pow(x,2*m_par-2)/(Pow(2,2*m_par-1)*Pow(M_par,2*(m_par-1)));
         return val;
 }
 
 //Derivative of f2 with respect to x
 DP f3(DP x){
         DP val;
-        val = m_par*(2*m_par-1)*(2*m_par-2)*Pow(x,2*m_par-3)/(Pow(2,2*m_par-1)*Pow(M,2*(m_par-1)));
+        val = m_par*(2*m_par-1)*(2*m_par-2)*Pow(x,2*m_par-3)/(Pow(2,2*m_par-1)*Pow(M_par,2*(m_par-1)));
         return val;
 }
 
 
 DP g0(DP x){
         DP val;
-        val = Cv*Cv*x - g_par*Pow(x,n_par+1)/((n_par+1)*Pow(sqrt(2.0),n_par));
+        val = Cv_par*Cv_par*x - g_par*Pow(x,n_par+1)/((n_par+1)*Pow(sqrt(2.0),n_par));
         return val;
 }
 
 //First term in (25) of Takayama's thesis
 DP g1(DP x){
         DP val;
-        val = Cv*Cv - g_par*Pow(x,n_par)/Pow(sqrt(2.0),n_par);
+        val = Cv_par*Cv_par - g_par*Pow(x,n_par)/Pow(sqrt(2.0),n_par);
         return val;
 }
 
@@ -74,16 +74,16 @@ DP g3(DP x){
 DP Vbare(DP x,DP y,DP z){
         DP val;
         val = f(y)*f(y)*(1 + x*x*x*x/8 + y*y/2 + z*z/2)  // x -> sigma, y -> psi, z-> phi
-             + g1(z)*g1(z) - CN*Cv*Cv*Cv*Cv*z*z/2
-			 + x*x*f1(y)*f1(y) + f(y)*x*x*y*f1(y) - Cv*Cv*x*z*f(y);
+             + g1(z)*g1(z) - CN_par*Cv_par*Cv_par*Cv_par*Cv_par*z*z/2
+			 + x*x*f1(y)*f1(y) + f(y)*x*x*y*f1(y) - Cv_par*Cv_par*x*z*f(y);
         return val;
 }
 
 DP V(DP x,DP y,DP z){
         DP val;
         val = f(y)*f(y)*(1 + x*x*x*x/8 + y*y/2 + z*z/2)
-             + g1(z)*g1(z) - CN*Cv*Cv*Cv*Cv*z*z/2
-			 + x*x*f1(y)*f1(y) + f(y)*x*x*y*f1(y) - Cv*Cv*x*z*f(y)
+             + g1(z)*g1(z) - CN_par*Cv_par*Cv_par*Cv_par*Cv_par*z*z/2
+			 + x*x*f1(y)*f1(y) + f(y)*x*x*y*f1(y) - Cv_par*Cv_par*x*z*f(y)
              + CNT;
         return val;
 }
@@ -91,7 +91,7 @@ DP V(DP x,DP y,DP z){
 //1st potential derivative with respect to sigma
 DP V_1(DP x,DP y,DP z){
         DP val;
-        val = x*x*x*f(y)*f(y)/2 + 2*x*f1(y)*f1(y) + 2*x*y*f(y)*f1(y) - Cv*Cv*z*f(y);
+        val = x*x*x*f(y)*f(y)/2 + 2*x*f1(y)*f1(y) + 2*x*y*f(y)*f1(y) - Cv_par*Cv_par*z*f(y);
         return val;
 }
 
@@ -99,7 +99,7 @@ DP V_1(DP x,DP y,DP z){
 DP V_2(DP x,DP y,DP z){
         DP val;
         val = 2*f(y)*f1(y)*(1 + x*x*x*x/8 + y*y/2 + z*z/2)
-		      + y*f(y)*f(y) + 2*x*x*f1(y)*f2(y) + x*x*f(y)*f1(y) + x*x*y*f(y)*f2(y) + x*x*y*f1(y)*f1(y) - Cv*Cv*x*z*f1(y);
+		      + y*f(y)*f(y) + 2*x*x*f1(y)*f2(y) + x*x*f(y)*f1(y) + x*x*y*f(y)*f2(y) + x*x*y*f1(y)*f1(y) - Cv_par*Cv_par*x*z*f1(y);
 		//if (y==0.13145341380001) val = 0;	  
 		return val;
 }
@@ -107,7 +107,7 @@ DP V_2(DP x,DP y,DP z){
 //1st potential derivative with respect to phi
 DP V_3(DP x,DP y,DP z){
         DP val;
-        val = z*f(y)*f(y) + 2*g1(z)*g2(z) - CN*Cv*Cv*Cv*Cv*z - Cv*Cv*x*f(y);     
+        val = z*f(y)*f(y) + 2*g1(z)*g2(z) - CN_par*Cv_par*Cv_par*Cv_par*Cv_par*z - Cv_par*Cv_par*x*f(y);
         return val;
 }
 
@@ -122,14 +122,14 @@ DP V_11(DP x,DP y,DP z){
 DP V_12(DP x,DP y,DP z){
         DP val;
         val = x*x*x*f(y)*f1(y) + 4*x*f1(y)*f2(y) + 2*x*f(y)*f1(y)
-			 + 2*x*y*f(y)*f2(y) + 2*x*y*f1(y)*f1(y) - Cv*Cv*z*f1(y);
+			 + 2*x*y*f(y)*f2(y) + 2*x*y*f1(y)*f1(y) - Cv_par*Cv_par*z*f1(y);
 		return val;
 }
 
 //2nd potential derivative with respect to sigma-phi
 DP V_13(DP x,DP y,DP z){
         DP val;
-        val = (-1)*Cv*Cv*f(y);
+        val = (-1)*Cv_par*Cv_par*f(y);
 		return val;
 }
 
@@ -138,21 +138,21 @@ DP V_22(DP x,DP y,DP z){
         DP val;
         val = (2*f1(y)*f1(y) + 2*f(y)*f2(y))*(1 + x*x*x*x/8 + y*y/2 + z*z/2)
 			+ 4*y*f(y)*f1(y) + f(y)*f(y) + 2*x*x*f2(y)*f2(y) + 2*x*x*f1(y)*f3(y) + 2*x*x*f1(y)*f1(y)
-	                + 3*x*x*y*f1(y)*f2(y) + 2*x*x*f(y)*f2(y) + x*x*y*f(y)*f3(y) - Cv*Cv*x*z*f2(y);
+	                + 3*x*x*y*f1(y)*f2(y) + 2*x*x*f(y)*f2(y) + x*x*y*f(y)*f3(y) - Cv_par*Cv_par*x*z*f2(y);
 		return val;
 }
 
 //2nd potential derivative with respect to psi-phi
 DP V_23(DP x,DP y,DP z){
         DP val;
-        val = 2*z*f(y)*f1(y) - Cv*Cv*x*f1(y);
+        val = 2*z*f(y)*f1(y) - Cv_par*Cv_par*x*f1(y);
 		return val;
 }
 
 //2nd potential derivative with respect to phi-phi
 DP V_33(DP x,DP y,DP z){
         DP val;
-        val = f(y)*f(y) + 2*g2(z)*g2(z) + 2*g1(z)*g3(z) - CN*Cv*Cv*Cv*Cv;
+        val = f(y)*f(y) + 2*g2(z)*g2(z) + 2*g1(z)*g3(z) - CN_par*Cv_par*Cv_par*Cv_par*Cv_par;
 		return val;
 }
 

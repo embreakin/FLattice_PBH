@@ -85,10 +85,10 @@ extern int kinterval;
 #define GNOMAL 0                //decay rate 1
 #define GLARGE 1.0E-11            //decay rate 2 (if decay rate changes during the calculation)
 #define GLARGE2 1.0E-11            //decay rate 3 (if decay rate changes during the calculation)
-#define CN 0.1                    //Potential paramater CN
-#define mu 2.7E-3                //Potential paramater mu
-#define Cv 6.4E-4                //Potential parameter Cv mu/4.
-#define M 1.6                    //Potential paramater M
+#define CN_par 0.1                    //Potential paramater CN
+#define mu_par 2.7E-3                //Potential paramater mu
+#define Cv_par 6.4E-4                //Potential parameter Cv mu/4.
+#define M_par 1.6                    //Potential paramater M
 #define m_par 2                        //Potential paramater m
 #define n_par 10                        //Potential paramater n
 #define g_par 1                //Potential parameter g
@@ -101,9 +101,9 @@ extern int kinterval;
 #define Ini -135.6           //initial ln(a)  I1=0.3,Ini=-131.8
 #define Init_sigma 0.8                //initial value of sigma
 //10^-4[Mpc] corresponds to 0, 10^4[Mpc] to 800 in knum units
-#define msigma sqrt(8*pow(mu,3)/M)     //effective mass of sigma
+#define msigma sqrt(8*pow(mu_par,3)/M_par)     //effective mass of sigma
 #define FIXPHI -0.325    //minimum value of Phi (set by hand according to zero-mode calculation) -0.472871 -0.475 -0.459
-#define FIXPSI  2*sqrt(mu*M)  //PSI at the minimum
+#define FIXPSI  2*sqrt(mu_par*M_par)  //PSI at the minimum
 
 
 

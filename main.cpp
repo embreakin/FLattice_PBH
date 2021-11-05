@@ -79,8 +79,8 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     p=itvl;
     //set initial conditions
     unp[0] = Init_sigma;
-    unp[1] = exp(log(Pow(4,m_par)/(2*m_par*(2*m_par-1)))/(2*(m_par-1)))*M*exp(log(mu/unp[0])/(m_par-1));
-    unp[2] = -Cv*Cv*unp[0]/(mu*mu);
+    unp[1] = exp(log(Pow(4,m_par)/(2*m_par*(2*m_par-1)))/(2*(m_par-1)))*M_par*exp(log(mu_par/unp[0])/(m_par-1));
+    unp[2] = -Cv_par*Cv_par*unp[0]/(mu_par*mu_par);
     unp[3] = 0;
     unp[4] = 0;
     unp[5] = 0;
