@@ -1,7 +1,7 @@
 #include <cmath>
-#include "latticeparameters.hpp"
+#include "parameters.hpp"
 #include "utilities.hpp"
-#include "evolution.hpp"
+#include "lattice_evol.hpp"
 
 LeapFrog::LeapFrog( Field* field, double** f)
 {

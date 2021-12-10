@@ -1,6 +1,7 @@
 #include <sstream>
 #include "nr.h"
 #include "parameters.hpp"
+#include "calculation.hpp" // k_comoving
 
 DP Pow(DP x,int i){
    DP val;
@@ -224,7 +225,7 @@ DP dif_rad (DP vx, DP vy,DP vz,DP rr,DP HH){
 }
 
 //perturbed vdelpsi_11 evolution: dif_DELv11(phi1,phi2,phi3,v1,psi11,psi21,psi31,DELv11,la,H,Phil,vPhil)
-DP dif_DELv11 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
+DP dif_DELv11 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving){
 	DP val_DELv11;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -233,7 +234,7 @@ DP dif_DELv11 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 }
 
 //perturbed vdelpsi_12 evolution: dif_DELv12(phi1,phi2,phi3,v1,psi12,psi22,psi32,DELv12,la,H,Phil,vPhil)
-DP dif_DELv12 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
+DP dif_DELv12 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving){
 	DP val_DELv12;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -242,7 +243,7 @@ DP dif_DELv12 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 }
 
 //perturbed vdelpsi_13 evolution: dif_DELv13(phi1,phi2,phi3,v1,psi13,psi23,psi33,DELv13,la,H,Phil,vPhil)
-DP dif_DELv13 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
+DP dif_DELv13 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving){
 	DP val_DELv13;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -251,7 +252,7 @@ DP dif_DELv13 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 }
 
 //perturbed vdelpsi_21 evolution: dif_DELv21(phi1,phi2,phi3,v2,psi11,psi21,psi31,DELv21,la,H,Phil,vPhil)
-DP dif_DELv21 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
+DP dif_DELv21 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving){
 	DP val_DELv21;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -260,7 +261,7 @@ DP dif_DELv21 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 }
 
 //perturbed vdelpsi_22 evolution: dif_DELv22(phi1,phi2,phi3,v2,psi12,psi22,psi32,DELv22,la,H,Phil,vPhil)
-DP dif_DELv22 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
+DP dif_DELv22 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving){
 	DP val_DELv22;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -269,7 +270,7 @@ DP dif_DELv22 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 }
 
 //perturbed vdelpsi_23 evolution: dif_DELv23(phi1,phi2,phi3,v2,psi12,psi22,psi32,DELv23,la,H,Phil,vPhil)
-DP dif_DELv23 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
+DP dif_DELv23 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving){
 	DP val_DELv23;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -278,7 +279,7 @@ DP dif_DELv23 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 }
 
 //perturbed vdelpsi_31 evolution: dif_DELv31(phi1,phi2,phi3,v2,psi11,psi21,psi31,DELv31,la,H,Phil,vPhil)
-DP dif_DELv31 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
+DP dif_DELv31 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving){
 	DP val_DELv31;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -287,7 +288,7 @@ DP dif_DELv31 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 }
 
 //perturbed vdelpsi_32 evolution: dif_DELv32(phi1,phi2,phi3,v2,psi12,psi22,psi32,DELv32,la,H,Phil,vPhil)
-DP dif_DELv32 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
+DP dif_DELv32 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving){
 	DP val_DELv32;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -296,7 +297,7 @@ DP dif_DELv32 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 }
 
 //perturbed vdelpsi_33 evolution: dif_DELv33(phi1,phi2,phi3,v2,psi13,psi23,psi33,DELv33,la,H,Phil,vPhil)
-DP dif_DELv33 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot){
+DP dif_DELv33 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving){
 	DP val_DELv33;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -305,7 +306,7 @@ DP dif_DELv33 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 }
 
 //perturbed vPot evolution: dif_vPot(phi1,phi2,phi3,vphi1,vphi2,vphi3,psi1l,psi2l,psi3l,vpsi1l,vpsi2l,vpsi3l,Phil,vPhil,la,H)
-DP dif_vPot (DP x,DP y,DP z,DP vx,DP vy,DP vz,DP dx,DP dy,DP dz,DP vdx,DP vdy,DP vdz,DP Pot,DP vPot,DP la,DP H){
+DP dif_vPot (DP x,DP y,DP z,DP vx,DP vy,DP vz,DP dx,DP dy,DP dz,DP vdx,DP vdy,DP vdz,DP Pot,DP vPot,DP la,DP H,DP k_comoving){
 	DP val_vPot;
 	DP vala;
 	vala=k_comoving/exp(la);
@@ -396,7 +397,7 @@ void density(Vec_I_DP &y, Vec_O_DP &dens){
         };
 }
 
-void numberdens(DP x, Vec_I_DP &y, Vec_O_DP &numdens){
+void numberdens(DP x, Vec_I_DP &y, Vec_O_DP &numdens,const DP k_comoving){
         int i,j;
 		DP vala;
 		vala = k_comoving/exp(x);
@@ -419,7 +420,7 @@ void numberdens(DP x, Vec_I_DP &y, Vec_O_DP &numdens){
 //    j=3-5  : log(a) derivatives of inflaton sigma', psi', phi'
 //    j=6    : energy density of radiation
 //evolution equations for zero-mode
-void unpert(const DP x, Vec_I_DP &y, Vec_O_DP &dydx)
+void unpert(const DP x, Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
     int ii;
@@ -434,7 +435,7 @@ void unpert(const DP x, Vec_I_DP &y, Vec_O_DP &dydx)
 }
 
 //evoluition equations for zero mode with fixed psi
-void unpertfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx)
+void unpertfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
     int ii;
@@ -449,7 +450,7 @@ void unpertfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx)
 }
 
 //evolution equations for zero mode with fixed sigma and psi
-void unpertfixfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx)
+void unpertfixfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
     int ii;
@@ -465,7 +466,7 @@ void unpertfixfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx)
 
 
 //evolution equations for zero-mode and perturbation
-void full(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
+void full(const DP x,Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
     int ii;
@@ -478,33 +479,33 @@ void full(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
     dydx[5] = dif_vphi3(y[0],y[1],y[2],y[5],H);
     dydx[6] = dif_rad(y[3],y[4],y[5],y[6],H);
     for (ii=0;ii<9;ii++) dydx[ii+7] = y[ii+16]/H;
-    dydx[16] = dif_DELv11(y[0],y[1],y[2],y[3],y[7],y[10],y[13],y[16],x,H,y[25],y[28]);
-    dydx[17] = dif_DELv12(y[0],y[1],y[2],y[3],y[8],y[11],y[14],y[17],x,H,y[26],y[29]);
-    dydx[18] = dif_DELv13(y[0],y[1],y[2],y[3],y[9],y[12],y[15],y[18],x,H,y[27],y[30]);
-    dydx[19] = dif_DELv21(y[0],y[1],y[2],y[4],y[7],y[10],y[13],y[19],x,H,y[25],y[28]);
-    dydx[20] = dif_DELv22(y[0],y[1],y[2],y[4],y[8],y[11],y[14],y[20],x,H,y[26],y[29]);
-    dydx[21] = dif_DELv23(y[0],y[1],y[2],y[4],y[9],y[12],y[15],y[21],x,H,y[27],y[30]);
-    dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],y[7],y[10],y[13],y[22],x,H,y[25],y[28]);
-    dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],y[8],y[11],y[14],y[23],x,H,y[26],y[29]);
-    dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],y[9],y[12],y[15],y[24],x,H,y[27],y[30]);
+    dydx[16] = dif_DELv11(y[0],y[1],y[2],y[3],y[7],y[10],y[13],y[16],x,H,y[25],y[28],k_comoving);
+    dydx[17] = dif_DELv12(y[0],y[1],y[2],y[3],y[8],y[11],y[14],y[17],x,H,y[26],y[29],k_comoving);
+    dydx[18] = dif_DELv13(y[0],y[1],y[2],y[3],y[9],y[12],y[15],y[18],x,H,y[27],y[30],k_comoving);
+    dydx[19] = dif_DELv21(y[0],y[1],y[2],y[4],y[7],y[10],y[13],y[19],x,H,y[25],y[28],k_comoving);
+    dydx[20] = dif_DELv22(y[0],y[1],y[2],y[4],y[8],y[11],y[14],y[20],x,H,y[26],y[29],k_comoving);
+    dydx[21] = dif_DELv23(y[0],y[1],y[2],y[4],y[9],y[12],y[15],y[21],x,H,y[27],y[30],k_comoving);
+    dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],y[7],y[10],y[13],y[22],x,H,y[25],y[28],k_comoving);
+    dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],y[8],y[11],y[14],y[23],x,H,y[26],y[29],k_comoving);
+    dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],y[9],y[12],y[15],y[24],x,H,y[27],y[30],k_comoving);
     for (ii=0;ii<3;ii++) dydx[ii+25] = y[ii+28]/H;
-    for (ii=0;ii<3;ii++) dydx[ii+28] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],y[25+ii],y[28+ii],x,H);
+    for (ii=0;ii<3;ii++) dydx[ii+28] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],y[25+ii],y[28+ii],x,H,k_comoving);
     for (ii=0;ii<9;ii++) dydx[ii+31] = y[ii+40]/H;
-    dydx[40] = dif_DELv11(y[0],y[1],y[2],y[3],y[31],y[34],y[37],y[40],x,H,y[49],y[52]);
-    dydx[41] = dif_DELv12(y[0],y[1],y[2],y[3],y[32],y[35],y[38],y[41],x,H,y[50],y[53]);
-    dydx[42] = dif_DELv13(y[0],y[1],y[2],y[3],y[33],y[36],y[39],y[42],x,H,y[51],y[54]);
-    dydx[43] = dif_DELv21(y[0],y[1],y[2],y[4],y[31],y[34],y[37],y[43],x,H,y[49],y[52]);
-    dydx[44] = dif_DELv22(y[0],y[1],y[2],y[4],y[32],y[35],y[38],y[44],x,H,y[50],y[53]);
-    dydx[45] = dif_DELv23(y[0],y[1],y[2],y[4],y[33],y[36],y[39],y[45],x,H,y[51],y[54]);
-    dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],y[31],y[34],y[37],y[46],x,H,y[49],y[52]);
-    dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],y[32],y[35],y[38],y[47],x,H,y[50],y[53]);
-    dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],y[33],y[36],y[39],y[48],x,H,y[51],y[54]);
+    dydx[40] = dif_DELv11(y[0],y[1],y[2],y[3],y[31],y[34],y[37],y[40],x,H,y[49],y[52],k_comoving);
+    dydx[41] = dif_DELv12(y[0],y[1],y[2],y[3],y[32],y[35],y[38],y[41],x,H,y[50],y[53],k_comoving);
+    dydx[42] = dif_DELv13(y[0],y[1],y[2],y[3],y[33],y[36],y[39],y[42],x,H,y[51],y[54],k_comoving);
+    dydx[43] = dif_DELv21(y[0],y[1],y[2],y[4],y[31],y[34],y[37],y[43],x,H,y[49],y[52],k_comoving);
+    dydx[44] = dif_DELv22(y[0],y[1],y[2],y[4],y[32],y[35],y[38],y[44],x,H,y[50],y[53],k_comoving);
+    dydx[45] = dif_DELv23(y[0],y[1],y[2],y[4],y[33],y[36],y[39],y[45],x,H,y[51],y[54],k_comoving);
+    dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],y[31],y[34],y[37],y[46],x,H,y[49],y[52],k_comoving);
+    dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],y[32],y[35],y[38],y[47],x,H,y[50],y[53],k_comoving);
+    dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],y[33],y[36],y[39],y[48],x,H,y[51],y[54],k_comoving);
     for (ii=0;ii<3;ii++) dydx[ii+49] = y[ii+52]/H;
-    for (ii=0;ii<3;ii++) dydx[ii+52] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],y[49+ii],y[52+ii],x,H);
+    for (ii=0;ii<3;ii++) dydx[ii+52] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],y[49+ii],y[52+ii],x,H,k_comoving);
 }
 
 //evolution equations for zero-mode with fixed sigma and psi perturbations
-void sigma_psi_nopert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
+void sigma_psi_nopert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
     int ii;
@@ -519,23 +520,23 @@ void sigma_psi_nopert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
     for (ii=0;ii<6;ii++) dydx[ii+7] = 0;
     for (ii=0;ii<3;ii++) dydx[ii+13] = y[ii+22]/H;
     for (ii=0;ii<6;ii++) dydx[ii+16] = 0;
-    dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],0,0,y[13],y[22],x,H,y[25],y[28]);
-    dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],0,0,y[14],y[23],x,H,y[26],y[29]);
-    dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],0,0,y[15],y[24],x,H,y[27],y[30]);
+    dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],0,0,y[13],y[22],x,H,y[25],y[28],k_comoving);
+    dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],0,0,y[14],y[23],x,H,y[26],y[29],k_comoving);
+    dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],0,0,y[15],y[24],x,H,y[27],y[30],k_comoving);
     for (ii=0;ii<3;ii++) dydx[ii+25] = y[ii+28]/H;
-    for (ii=0;ii<3;ii++) dydx[ii+28] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],0,0,y[13+ii],0, 0,y[22+ii],y[25+ii],y[28+ii],x,H);//dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],y[25+ii],y[28+ii],x,H);
+    for (ii=0;ii<3;ii++) dydx[ii+28] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],0,0,y[13+ii],0, 0,y[22+ii],y[25+ii],y[28+ii],x,H,k_comoving);//dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],y[25+ii],y[28+ii],x,H);
     for (ii=0;ii<6;ii++) dydx[ii+31] = 0;
     for (ii=0;ii<3;ii++) dydx[ii+37] = y[ii+46]/H;
     for (ii=0;ii<6;ii++) dydx[ii+40] = 0;
-    dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],0,0,y[37],y[46],x,H,y[49],y[52]);
-    dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],0,0,y[38],y[47],x,H,y[50],y[53]);
-    dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],0,0,y[39],y[48],x,H,y[51],y[54]);
+    dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],0,0,y[37],y[46],x,H,y[49],y[52],k_comoving);
+    dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],0,0,y[38],y[47],x,H,y[50],y[53],k_comoving);
+    dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],0,0,y[39],y[48],x,H,y[51],y[54],k_comoving);
     for (ii=0;ii<3;ii++) dydx[ii+49] = y[ii+52]/H;
-    for (ii=0;ii<3;ii++) dydx[ii+52] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],0,0,y[37+ii],0,0,y[46+ii],y[49+ii],y[52+ii],x,H);//dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],y[49+ii],y[52+ii],x,H);
+    for (ii=0;ii<3;ii++) dydx[ii+52] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],0,0,y[37+ii],0,0,y[46+ii],y[49+ii],y[52+ii],x,H,k_comoving);//dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],y[49+ii],y[52+ii],x,H);
 }
 
 //evolution equations for zero-mode and perturbation without gravitational potential perturbation
-void nogravpert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
+void nogravpert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
     int ii;
@@ -548,29 +549,29 @@ void nogravpert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
     dydx[5] = dif_vphi3(y[0],y[1],y[2],y[5],H);
     dydx[6] = dif_rad(y[3],y[4],y[5],y[6],H);
     for (ii=0;ii<9;ii++) dydx[ii+7] = y[ii+16]/H;
-    dydx[16] = dif_DELv11(y[0],y[1],y[2],y[3],y[7],y[10],y[13],y[16],x,H,0,0);
-    dydx[17] = dif_DELv12(y[0],y[1],y[2],y[3],y[8],y[11],y[14],y[17],x,H,0,0);
-    dydx[18] = dif_DELv13(y[0],y[1],y[2],y[3],y[9],y[12],y[15],y[18],x,H,0,0);
-    dydx[19] = dif_DELv21(y[0],y[1],y[2],y[4],y[7],y[10],y[13],y[19],x,H,0,0);
-    dydx[20] = dif_DELv22(y[0],y[1],y[2],y[4],y[8],y[11],y[14],y[20],x,H,0,0);
-    dydx[21] = dif_DELv23(y[0],y[1],y[2],y[4],y[9],y[12],y[15],y[21],x,H,0,0);
-    dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],y[7],y[10],y[13],y[22],x,H,0,0);
-    dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],y[8],y[11],y[14],y[23],x,H,0,0);
-    dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],y[9],y[12],y[15],y[24],x,H,0,0);
+    dydx[16] = dif_DELv11(y[0],y[1],y[2],y[3],y[7],y[10],y[13],y[16],x,H,0,0,k_comoving);
+    dydx[17] = dif_DELv12(y[0],y[1],y[2],y[3],y[8],y[11],y[14],y[17],x,H,0,0,k_comoving);
+    dydx[18] = dif_DELv13(y[0],y[1],y[2],y[3],y[9],y[12],y[15],y[18],x,H,0,0,k_comoving);
+    dydx[19] = dif_DELv21(y[0],y[1],y[2],y[4],y[7],y[10],y[13],y[19],x,H,0,0,k_comoving);
+    dydx[20] = dif_DELv22(y[0],y[1],y[2],y[4],y[8],y[11],y[14],y[20],x,H,0,0,k_comoving);
+    dydx[21] = dif_DELv23(y[0],y[1],y[2],y[4],y[9],y[12],y[15],y[21],x,H,0,0,k_comoving);
+    dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],y[7],y[10],y[13],y[22],x,H,0,0,k_comoving);
+    dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],y[8],y[11],y[14],y[23],x,H,0,0,k_comoving);
+    dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],y[9],y[12],y[15],y[24],x,H,0,0,k_comoving);
     for (ii=0;ii<3;ii++) dydx[ii+25] = 0;
-    for (ii=0;ii<3;ii++) dydx[ii+28] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],0,0,x,H);
+    for (ii=0;ii<3;ii++) dydx[ii+28] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],0,0,x,H,k_comoving);
     for (ii=0;ii<9;ii++) dydx[ii+31] = y[ii+40]/H;
-    dydx[40] = dif_DELv11(y[0],y[1],y[2],y[3],y[31],y[34],y[37],y[40],x,H,0,0);
-    dydx[41] = dif_DELv12(y[0],y[1],y[2],y[3],y[32],y[35],y[38],y[41],x,H,0,0);
-    dydx[42] = dif_DELv13(y[0],y[1],y[2],y[3],y[33],y[36],y[39],y[42],x,H,0,0);
-    dydx[43] = dif_DELv21(y[0],y[1],y[2],y[4],y[31],y[34],y[37],y[43],x,H,0,0);
-    dydx[44] = dif_DELv22(y[0],y[1],y[2],y[4],y[32],y[35],y[38],y[44],x,H,0,0);
-    dydx[45] = dif_DELv23(y[0],y[1],y[2],y[4],y[33],y[36],y[39],y[45],x,H,0,0);
-    dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],y[31],y[34],y[37],y[46],x,H,0,0);
-    dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],y[32],y[35],y[38],y[47],x,H,0,0);
-    dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],y[33],y[36],y[39],y[48],x,H,0,0);
+    dydx[40] = dif_DELv11(y[0],y[1],y[2],y[3],y[31],y[34],y[37],y[40],x,H,0,0,k_comoving);
+    dydx[41] = dif_DELv12(y[0],y[1],y[2],y[3],y[32],y[35],y[38],y[41],x,H,0,0,k_comoving);
+    dydx[42] = dif_DELv13(y[0],y[1],y[2],y[3],y[33],y[36],y[39],y[42],x,H,0,0,k_comoving);
+    dydx[43] = dif_DELv21(y[0],y[1],y[2],y[4],y[31],y[34],y[37],y[43],x,H,0,0,k_comoving);
+    dydx[44] = dif_DELv22(y[0],y[1],y[2],y[4],y[32],y[35],y[38],y[44],x,H,0,0,k_comoving);
+    dydx[45] = dif_DELv23(y[0],y[1],y[2],y[4],y[33],y[36],y[39],y[45],x,H,0,0,k_comoving);
+    dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],y[31],y[34],y[37],y[46],x,H,0,0,k_comoving);
+    dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],y[32],y[35],y[38],y[47],x,H,0,0,k_comoving);
+    dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],y[33],y[36],y[39],y[48],x,H,0,0,k_comoving);
     for (ii=0;ii<3;ii++) dydx[ii+49] = 0;
-    for (ii=0;ii<3;ii++) dydx[ii+52] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],0,0,x,H);
+    for (ii=0;ii<3;ii++) dydx[ii+52] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],0,0,x,H,k_comoving);
 }
 
 //xp[i] stores integration variable (log(a)) for each steps[i].
@@ -587,7 +588,7 @@ void nogravpert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
 //tr[j]: buffer for delp_p[i][j]
 
 //evolution equations for zero-mode and perturbation with fixed perturbations
-void unpfull(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
+void unpfull(const DP x,Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
 	int ii;
@@ -603,7 +604,7 @@ void unpfull(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
 }
 
 //evolution equations for zero-mode and perturbaton with fixed sigma and psi and their perturbaions
-void newinf(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
+void newinf(const DP x,Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
 	int ii;
@@ -618,22 +619,22 @@ void newinf(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
 	for (ii=0;ii<6;ii++) dydx[ii+7] = 0;
 	for (ii=0;ii<3;ii++) dydx[ii+13] = y[ii+22]/H;
 	for (ii=0;ii<6;ii++) dydx[ii+16] = 0;
-	dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],y[7],y[10],y[13],y[22],x,H,y[25],y[28]);
-	dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],y[8],y[11],y[14],y[23],x,H,y[26],y[29]);
-	dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],y[9],y[12],y[15],y[24],x,H,y[27],y[30]);
+	dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],y[7],y[10],y[13],y[22],x,H,y[25],y[28],k_comoving);
+	dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],y[8],y[11],y[14],y[23],x,H,y[26],y[29],k_comoving);
+	dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],y[9],y[12],y[15],y[24],x,H,y[27],y[30],k_comoving);
 	for (ii=0;ii<3;ii++) dydx[ii+25] = y[ii+28]/H;
-    for (ii=0;ii<3;ii++) dydx[ii+28] =  dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],y[25+ii],y[28+ii],x,H);
+    for (ii=0;ii<3;ii++) dydx[ii+28] =  dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],y[25+ii],y[28+ii],x,H,k_comoving);
 	for (ii=0;ii<6;ii++) dydx[ii+31] = 0;
 	for (ii=0;ii<3;ii++) dydx[ii+37] = y[ii+46]/H;
 	for (ii=0;ii<6;ii++) dydx[ii+40] = 0;
-	dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],y[31],y[34],y[37],y[46],x,H,y[49],y[52]);
-	dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],y[32],y[35],y[38],y[47],x,H,y[50],y[53]);
-	dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],y[33],y[36],y[39],y[48],x,H,y[51],y[54]);
+	dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],y[31],y[34],y[37],y[46],x,H,y[49],y[52],k_comoving);
+	dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],y[32],y[35],y[38],y[47],x,H,y[50],y[53],k_comoving);
+	dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],y[33],y[36],y[39],y[48],x,H,y[51],y[54],k_comoving);
 	for (ii=0;ii<3;ii++) dydx[ii+49] = y[ii+52]/H;
-    for (ii=0;ii<3;ii++) dydx[ii+52] =  dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],y[49+ii],y[52+ii],x,H);
+    for (ii=0;ii<3;ii++) dydx[ii+52] =  dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],y[49+ii],y[52+ii],x,H,k_comoving);
 }
 //evolution equations for zero-mode and perturbaton with fixed sigma and psi
-void fixfix(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
+void fixfix(const DP x,Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving)
 {
     DP H;
 	int ii;
@@ -646,29 +647,29 @@ void fixfix(const DP x,Vec_I_DP &y, Vec_O_DP &dydx)
 	dydx[5] = dif_vphi3(y[0],y[1],y[2],y[5],H);
 	dydx[6] = dif_rad(y[3],y[4],y[5],y[6],H);
 	for (ii=0;ii<9;ii++) dydx[ii+7] = y[ii+16]/H;
-	dydx[16] = dif_DELv11(y[0],y[1],y[2],y[3],y[7],y[10],y[13],y[16],x,H,y[25],y[28]);
-	dydx[17] = dif_DELv12(y[0],y[1],y[2],y[3],y[8],y[11],y[14],y[17],x,H,y[26],y[29]);
-	dydx[18] = dif_DELv13(y[0],y[1],y[2],y[3],y[9],y[12],y[15],y[18],x,H,y[27],y[30]);
-	dydx[19] = dif_DELv21(y[0],y[1],y[2],y[4],y[7],y[10],y[13],y[19],x,H,y[25],y[28]);
-	dydx[20] = dif_DELv22(y[0],y[1],y[2],y[4],y[8],y[11],y[14],y[20],x,H,y[26],y[29]);
-	dydx[21] = dif_DELv23(y[0],y[1],y[2],y[4],y[9],y[12],y[15],y[21],x,H,y[27],y[30]);
-	dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],y[7],y[10],y[13],y[22],x,H,y[25],y[28]);
-	dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],y[8],y[11],y[14],y[23],x,H,y[26],y[29]);
-	dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],y[9],y[12],y[15],y[24],x,H,y[27],y[30]);
+	dydx[16] = dif_DELv11(y[0],y[1],y[2],y[3],y[7],y[10],y[13],y[16],x,H,y[25],y[28],k_comoving);
+	dydx[17] = dif_DELv12(y[0],y[1],y[2],y[3],y[8],y[11],y[14],y[17],x,H,y[26],y[29],k_comoving);
+	dydx[18] = dif_DELv13(y[0],y[1],y[2],y[3],y[9],y[12],y[15],y[18],x,H,y[27],y[30],k_comoving);
+	dydx[19] = dif_DELv21(y[0],y[1],y[2],y[4],y[7],y[10],y[13],y[19],x,H,y[25],y[28],k_comoving);
+	dydx[20] = dif_DELv22(y[0],y[1],y[2],y[4],y[8],y[11],y[14],y[20],x,H,y[26],y[29],k_comoving);
+	dydx[21] = dif_DELv23(y[0],y[1],y[2],y[4],y[9],y[12],y[15],y[21],x,H,y[27],y[30],k_comoving);
+	dydx[22] = dif_DELv31(y[0],y[1],y[2],y[5],y[7],y[10],y[13],y[22],x,H,y[25],y[28],k_comoving);
+	dydx[23] = dif_DELv32(y[0],y[1],y[2],y[5],y[8],y[11],y[14],y[23],x,H,y[26],y[29],k_comoving);
+	dydx[24] = dif_DELv33(y[0],y[1],y[2],y[5],y[9],y[12],y[15],y[24],x,H,y[27],y[30],k_comoving);
 	for (ii=0;ii<3;ii++) dydx[ii+25] = y[ii+28]/H;
-	for (ii=0;ii<3;ii++) dydx[ii+28] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],y[25+ii],y[28+ii],x,H);
+	for (ii=0;ii<3;ii++) dydx[ii+28] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[7+ii],y[10+ii],y[13+ii],y[16+ii],y[19+ii],y[22+ii],y[25+ii],y[28+ii],x,H,k_comoving);
 	for (ii=0;ii<9;ii++) dydx[ii+31] = y[ii+40]/H;
-	dydx[40] = dif_DELv11(y[0],y[1],y[2],y[3],y[31],y[34],y[37],y[40],x,H,y[49],y[52]);
-	dydx[41] = dif_DELv12(y[0],y[1],y[2],y[3],y[32],y[35],y[38],y[41],x,H,y[50],y[53]);
-	dydx[42] = dif_DELv13(y[0],y[1],y[2],y[3],y[33],y[36],y[39],y[42],x,H,y[51],y[54]);
-	dydx[43] = dif_DELv21(y[0],y[1],y[2],y[4],y[31],y[34],y[37],y[43],x,H,y[49],y[52]);
-	dydx[44] = dif_DELv22(y[0],y[1],y[2],y[4],y[32],y[35],y[38],y[44],x,H,y[50],y[53]);
-	dydx[45] = dif_DELv23(y[0],y[1],y[2],y[4],y[33],y[36],y[39],y[45],x,H,y[51],y[54]);
-	dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],y[31],y[34],y[37],y[46],x,H,y[49],y[52]);
-	dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],y[32],y[35],y[38],y[47],x,H,y[50],y[53]);
-	dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],y[33],y[36],y[39],y[48],x,H,y[51],y[54]);
+	dydx[40] = dif_DELv11(y[0],y[1],y[2],y[3],y[31],y[34],y[37],y[40],x,H,y[49],y[52],k_comoving);
+	dydx[41] = dif_DELv12(y[0],y[1],y[2],y[3],y[32],y[35],y[38],y[41],x,H,y[50],y[53],k_comoving);
+	dydx[42] = dif_DELv13(y[0],y[1],y[2],y[3],y[33],y[36],y[39],y[42],x,H,y[51],y[54],k_comoving);
+	dydx[43] = dif_DELv21(y[0],y[1],y[2],y[4],y[31],y[34],y[37],y[43],x,H,y[49],y[52],k_comoving);
+	dydx[44] = dif_DELv22(y[0],y[1],y[2],y[4],y[32],y[35],y[38],y[44],x,H,y[50],y[53],k_comoving);
+	dydx[45] = dif_DELv23(y[0],y[1],y[2],y[4],y[33],y[36],y[39],y[45],x,H,y[51],y[54],k_comoving);
+	dydx[46] = dif_DELv31(y[0],y[1],y[2],y[5],y[31],y[34],y[37],y[46],x,H,y[49],y[52],k_comoving);
+	dydx[47] = dif_DELv32(y[0],y[1],y[2],y[5],y[32],y[35],y[38],y[47],x,H,y[50],y[53],k_comoving);
+	dydx[48] = dif_DELv33(y[0],y[1],y[2],y[5],y[33],y[36],y[39],y[48],x,H,y[51],y[54],k_comoving);
 	for (ii=0;ii<3;ii++) dydx[ii+49] = y[ii+52]/H;
-	for (ii=0;ii<3;ii++) dydx[ii+52] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],y[49+ii],y[52+ii],x,H);
+	for (ii=0;ii<3;ii++) dydx[ii+52] = dif_vPot(y[0],y[1],y[2],y[3],y[4],y[5],y[31+ii],y[34+ii],y[37+ii],y[40+ii],y[43+ii],y[46+ii],y[49+ii],y[52+ii],x,H,k_comoving);
 }
 
 

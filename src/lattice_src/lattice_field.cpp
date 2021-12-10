@@ -1,10 +1,11 @@
 #include <cmath>
 #include <random>
-#include "field.hpp"
+#include "lattice_field.hpp"
 #include "utilities.hpp"
+#include "equations.hpp"
 
 
-void initialize( double**& f, double**& df, Field* field)
+void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 {   
 	f = new double* [num_fields];
 	df = new double* [num_fields];
@@ -43,11 +44,60 @@ void initialize( double**& f, double**& df, Field* field)
 			exit(1);
 	}
  
-    double p2;
-    double dp2=pw2(2*M_PI/L);
+  double p2;
+  double dp2=pw2(2*M_PI/L);
   double* mass_sq = new double [num_fields];
   double* initial_field_values = new double [num_fields];
   double* initial_field_derivs = new double [num_fields];
+  double radiation_var;
+
+    
+    //Fields zeromode
+    for (int i=0; i<num_fields; i++){
+
+        int j = num_fields + i;
+
+        initial_field_values[i] = 0.;
+        initial_field_derivs[i] = 0.;
+//
+    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+//
+    //    Logout(" lattice_var[%d][%d] = %2.5e \n", lattice_loop, i, lattice_var[lattice_loop][i]);
+//
+        initial_field_values[i] += lattice_var[lattice_loop][i];
+
+
+        initial_field_derivs[i] += lattice_var[lattice_loop][j];
+        
+        }
+
+        initial_field_values[i] /= (N/2);
+        initial_field_derivs[i] /= (N/2);
+        
+        Logout(" initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
+        Logout(" initial_field_derivs[%d] = %2.5e \n",j,initial_field_derivs[i]);
+        
+
+        }
+    
+    //Effective masses
+    mass_sq[0] = V_11(initial_field_values[0], initial_field_values[1], initial_field_values[2]);
+    mass_sq[1] = V_22(initial_field_values[0], initial_field_values[1], initial_field_values[2]);
+    mass_sq[2] = V_33(initial_field_values[0], initial_field_values[1], initial_field_values[2]);
+    
+    //Radiation zeromode
+     for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
+     {
+    
+     radiation_var += lattice_var[lattice_loop][6];
+         
+     }
+    
+    radiation_var /= (N/2);
+    
+    Logout("radiation_var = %2.5e \n", radiation_var);
+    
+    
     
     
     #if  dim==1
@@ -84,25 +134,20 @@ void initialize( double**& f, double**& df, Field* field)
     
     
     for( int i = 0; i < num_fields; ++i ){
-        
-        initial_field_values[i] = initfield[i];
-        initial_field_derivs[i] = initderivs[i];
-        field->effective_mass(mass_sq, initial_field_values);
-      std::cout << "mass_sq[0] = " << mass_sq[i]*ENGRESCALE << std::endl;
-        
-       /* if(expansion)
-        {
-            aeffective_mass( mass_sq, initial_field_values,a);
-        }else{
-            effective_mass( mass_sq, initial_field_values);
-        }*/
-        
-  #if  dim==1
+
+//        initial_field_values[i] = initfield[i];
+//        initial_field_derivs[i] = initderivs[i];
       
+//        field->effective_mass(mass_sq, initial_field_values);
+      std::cout << "mass_sq[0] = " << mass_sq[i] << std::endl;
+
+
+  #if  dim==1
+
         //k=N/2
         p2 = dp2*pw2(N/2);
         set_mode(p2, mass_sq[i], &f[i][1], &df[i][1], 1);
-        
+
         //Loop over gridpoints.
         for(int k = 1; k < N/2; k++ ){
             pz = k;
@@ -113,22 +158,22 @@ void initialize( double**& f, double**& df, Field* field)
         f[i][0] = 0.;
         df[i][0] = 0.;
 #elif dim==2
-      
+
         for(int j = 0; j < N; j++ ){
             py = (j <= N/2 ? j : j-N);
-            
+
             for(int k = 1; k < N/2; k++ ){
                 pz = k;
                 p2=dp2*(pw2(py)+pw2(pz));
                 set_mode(p2, mass_sq[i], &f[i][j*N+2*k], &df[i][j*N+2*k], 0);
-        
+
             }
-        
+
             if(j > N/2)
-                
+
             {
                 jconj = N-j;
-                
+
                 //k=0
                 p2 = dp2*pw2(py);
                 set_mode(p2, mass_sq[i], &f[i][j*N], &df[i][j*N], 0);
@@ -143,25 +188,25 @@ void initialize( double**& f, double**& df, Field* field)
                 fnyquist[2*jconj+1] = -fnyquist[2*j+1];
                 fdnyquist[2*jconj] = fdnyquist[2*j];
                 fdnyquist[2*jconj+1] = -fdnyquist[2*j+1];
-                
+
             }
             else if(j == 0 || j == N/2){
-                
+
                 p2 = dp2*pw2(py); //k = 0
                 if(p2 > 0.)
                    set_mode(p2, mass_sq[i], &f[i][j*N], &df[i][j*N], 1);
-                
+
                 p2 = dp2*(pw2(py)+pw2(N/2));  //k = N/2
                 set_mode(p2, mass_sq[i], &fnyquist[2*j], &fdnyquist[2*j], 1);
-                
+
             }
         }     //k = 0, j = 0
         f[i][0] = 0.;
         f[i][1] = 0.;
         df[i][0] = 0.;
         df[i][1] = 0.;
-       
-       
+
+
       /*
         for( int j = 0; j < N; ++j ){
             //#pragma omp parallel for schedule( static ) num_threads( num_threads )
@@ -169,30 +214,30 @@ void initialize( double**& f, double**& df, Field* field)
                 int idx = j*N + k;
                 std::cout << "f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
                 std::cout << "df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-               
+
             }
         }
         for( int j = 0; j < 2*N; ++j ){
         std::cout << " fnyquist[" << j << "] = " << fnyquist[j] << std::endl;
         std::cout << " fdnyquist[" << j << "] = " << fdnyquist[j] << std::endl;
         }*/
-   
+
 #elif dim==3
         for(int j; j < N; j++){
             px = (j <= N/2 ? j : j-N);
             jconj = (j==0 ? 0 : N-j);
-            
+
             for(int k = 0; k < N; k++)
             {
                  py = (k <= N/2 ? k : k-N);
-                
+
                 //0<l<N/2
                 for(int l = 1; l < N/2; l++){
                     pz = l;
                     p2 = dp2*(pw2(px)+pw2(py)+pw2(pz));
                     set_mode(p2,mass_sq[i], &f[i][(j*N + k)*N + 2*l], &df[i][(j*N + k)*N + 2*l], 0);
                 }
-                
+
                 if(k > N/2 || (j > N/2 && (k == 0 || k == N/2))){
                     kconj = (k == 0 ? 0 : N-k);
                     //l=0
@@ -215,7 +260,7 @@ void initialize( double**& f, double**& df, Field* field)
                     p2 = dp2*(pw2(px)+pw2(py)); //l=0
                     if(p2 > 0.)
                       set_mode(p2,mass_sq[i], &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], 1);
-                    
+
                     p2=dp2*(pw2(px)+pw2(py)+pw2(N/2)); //l=N/2
                      set_mode(p2, mass_sq[i], &fnyquist[j][2*k], &fdnyquist[j][2*k], 1);
                 }
@@ -227,24 +272,24 @@ void initialize( double**& f, double**& df, Field* field)
         df[i][1] = 0.;
 
 #endif
-        
+
 
 
 #if  dim==1
     DFT_c2rD1( f[i] ); //transform from phase space to real space
     DFT_c2rD1( df[i] );
         //Add zeromode
-        
+
 #pragma omp parallel for simd schedule(static) num_threads(num_threads)
        for( int j = 0; j < N; ++j ){
            int idx = j;
            f[i][idx] += initial_field_values[i];
            df[i][idx] += initial_field_derivs[i];
        }
-        
+
 #elif dim==2
-      
-        
+
+
          std::cout << "before fourier transform" << std::endl;
         std::cout << "f[0][4]" << f[i][4] << std::endl;
         std::cout << "df[0][4]" << df[i][4] << std::endl;
@@ -260,17 +305,17 @@ void initialize( double**& f, double**& df, Field* field)
                 dfieldsum += df[i][idx];
                 // std::cout << "f[0]["<< idx <<"]" << f[i][idx] << std::endl;
                 // std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
-                
+
             }
         }
         for( int j = 0; j < dim; ++j ) fieldsum /= N;
         for( int j = 0; j < dim; ++j ) dfieldsum /= N;
         std::cout << "fieldsum = " << fieldsum << std::endl;
         std::cout << "dfieldsum = " << dfieldsum << std::endl;*/
-        
+
     DFT_c2rD2( f[i] , fnyquist ); //transform from phase space to real space
    DFT_c2rD2( df[i], fdnyquist);
-        
+
          std::cout << "after fourier transform" << std::endl;
         std::cout << "f[0][4]" << f[i][4] << std::endl;
         std::cout << "df[0][4]" << df[i][4] << std::endl;
@@ -283,7 +328,7 @@ void initialize( double**& f, double**& df, Field* field)
                 int idx = j*N + k;
                 std::cout << "f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
                 std::cout << "df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-                
+
             }
         }*/
     /* double   fieldsum2, dfieldsum2;
@@ -296,7 +341,7 @@ void initialize( double**& f, double**& df, Field* field)
                dfieldsum2 += df[i][idx];
                 // std::cout << "f[0]["<< idx <<"]" << f[i][idx] << std::endl;
                 // std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
-                
+
             }
         }
          for( int j = 0; j < dim; ++j ) fieldsum2 /= N;
@@ -316,17 +361,17 @@ void initialize( double**& f, double**& df, Field* field)
                 df[i][idx] += initial_field_derivs[i];
                // std::cout << "f[0]["<< idx <<"]" << f[i][idx] << std::endl;
                // std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
-               
+
         }
     }
       /*
         std::random_device rnd;
         std::mt19937 mt( rnd() );
         std::uniform_real_distribution<> rand( 0, 1 );
-        
-        
-        
-        
+
+
+
+
         //  #pragma omp parallel for schedule( static ) num_threads ( num_threads )
         for( int j = 0; j < N; ++j ){
             for( int k = 0; k < N; ++k ){
@@ -336,7 +381,7 @@ void initialize( double**& f, double**& df, Field* field)
                // df[i][idx] = 0;//pow(10,-2)*rand(mt);
             }
         }*/
-        
+
          std::cout << "after adding zeromode" << std::endl;
         std::cout << "f[0][4]" << f[i][4] << std::endl;
         std::cout << "df[0][4]" << df[i][4] << std::endl;
@@ -344,18 +389,18 @@ void initialize( double**& f, double**& df, Field* field)
         std::cout << "df[0][10]" << df[i][10] << std::endl;
     delete [] fnyquist;
     delete [] fdnyquist;
-        
+
 #elif dim==3
-        
+
         std::cout << "before fourier transform" << std::endl;
         std::cout << "f[0][4]" << f[i][4] << std::endl;
         std::cout << "df[0][4]" << df[i][4] << std::endl;
         std::cout << "f[0][10]" << f[i][10] << std::endl;
         std::cout << "df[0][10]" << df[i][10] << std::endl;
-        
+
     DFT_c2rD3( f[i] , fnyquist ); //transform from phase space to real space
     DFT_c2rD3( df[i], fdnyquist);
-        
+
         std::cout << "after fourier transform" << std::endl;
         std::cout << "f[0][4]" << f[i][4] << std::endl;
         std::cout << "df[0][4]" << df[i][4] << std::endl;
@@ -373,25 +418,25 @@ void initialize( double**& f, double**& df, Field* field)
                  }
              }
          }
-        
+
         std::cout << "after adding zeromode" << std::endl;
         std::cout << "f[0][4]" << f[i][4] << std::endl;
         std::cout << "df[0][4]" << df[i][4] << std::endl;
         std::cout << "f[0][10]" << f[i][10] << std::endl;
         std::cout << "df[0][10]" << df[i][10] << std::endl;
-        
+
     delete [] fnyquist[0];
     delete [] fdnyquist[0];
     delete [] fnyquist;
     delete [] fdnyquist;
 #endif
-      
+
         delete[] mass_sq;
         delete[] initial_field_values;
         delete[] initial_field_derivs;
-        
+
     }
-    
+
 }
 
 void finalize( double**& f, double**& df )

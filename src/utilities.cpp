@@ -5,10 +5,9 @@
 #include <random>
 #include <sstream>
 #include <fftw3.h>
-#include "latticeparameters.hpp"
+#include "parameters.hpp"
 #include "utilities.hpp"
 #include <boost/filesystem.hpp>
-#include "nr.h"
 #include "equations.hpp"
 
 
@@ -65,8 +64,60 @@ void file_manage(const std::string exist_file)
 // Double Inflation Subroutines
 //--------------------------------
 
+//subroutine for zeromode output
+void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount){
+    static int output_timecount = 0; ++output_timecount;
+    std::stringstream ss;
+    std::ofstream zeromode_output;
+    ss << "../" << file;
+    
+    if( output_timecount == 1 )
+    {
+        zeromode_output.open(ss.str().c_str(),std::ios::out);
+    }else{
+        zeromode_output.open(ss.str().c_str(),std::ios::app);
+    }
+    
+    DP H,la,rho,rhop,w,a;
+    const int N2=7;
+    Vec_DP tr(N2);
+    int i,j;
+    
+    for (j=0;j<timecount;j++) {
+    for (i=0;i<N2;i++) tr[i]=yp[i][j];
+    la=xx[j];
+    rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+    rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
+    H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+    w=log10(H);
+    a=exp(la);
+    //output data
+    zeromode_output << std::setw(6) << (la-Ini)*msigma/H << " " //t
+    << std::setw(10) << la << " " //log(a)
+    << std::setw(10) << tr[0] << " "  //buffer for yp_p[i][0] sigma
+    << std::setw(20) << std::setprecision(20) << tr[1] << " " //buffer for yp_p[i][1] psi
+    << std::setw(10) << tr[2] << " " //buffer for yp_p[i][1] phi
+    << std::setw(10) << w << " "     //log10(H)
+    << std::setw(10) << rho << " "
+    << std::setw(10) << V_11(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << V_12(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << V_13(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << V_22(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << V_23(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << V_33(tr[0],tr[1],tr[2]) << " ";
+        for(int loop = 0; loop < knum_zero.size(); loop++ ){
+            if(loop ==  knum_zero.size()-1){
+    zeromode_output << std::setw(10) << log10(UC::knum_to_kMPl(knum_zero[loop])/(a*H)) << "\n";
+            }else{
+                zeromode_output << std::setw(10) << log10(UC::knum_to_kMPl(knum_zero[loop])/(a*H)) << " ";
+            };
+        };
+        
+    };
+}
+
 //subroutine for k-analyze output
-void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum ){
+void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving ){
     //output results
     static int output_timecount = 0;
     static int knum_static = knum;
@@ -74,14 +125,17 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         ++output_timecount;
     }else{
         knum_static = knum;
-        output_timecount = 0;
+        output_timecount = 1;
     };
     
+//    std::cout << knum_static << "\n";
+//    std::cout << knum << "\n";
+//    std::cout << output_timecount << "\n";
     
     std::stringstream ss;
     std::ofstream k_output;
     
-    ss << "../" << dir << "/" << file << "." << std::setw(4) << std::setfill('0') << knum <<".txt";
+    ss << "../" << dir << "/" << file << "_" << std::setw(4) << std::setfill('0') << knum <<".txt";
     
     if( output_timecount == 1 )
     {
@@ -90,7 +144,7 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         k_output.open(ss.str().c_str(),std::ios::app);
     }
     
-    DP H,xp,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi;
+    DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi;
     const int N1=55;//,N2=7;
 //    char* strr;
     Vec_DP zeta(6);
@@ -99,6 +153,7 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
     for (j=0;j<timecount;j++) {
         for (i=0;i<N1;i++) tr[i]=yp[i][j];
         la=xx[j];
+//        if(j==0){std::cout << la << "\n"; };
         rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
         rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
         H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
@@ -137,7 +192,7 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         P_phi = P_phi/(2*M_PI*M_PI);
         P_phi = log10(P_phi) + 3*log10(k_comoving);
         
-        
+//        if(j==0){std::cout << la << "\n"; };
         k_output << std::setw(6) << la << " "               //log(a)
         << std::setw(10) << w << " "                        //log(H)
         << std::setw(10) << Pzeta << " "                    //log(Zeta)
@@ -159,8 +214,8 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
 
 }
 
-//subroutine for spectrum output
-void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k ){
+//subroutine for spectrum output before oscillation period
+void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving){
     static int output_timecount = 0; ++output_timecount;
     std::stringstream ss;
     std::ofstream sp_output;
@@ -186,8 +241,8 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
     H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
     
-    for (i=0;i<3;i++) zeta[i]=2*rho*(tr[i+25] + tr[i+28]/H)/(rhop) + (1 + 2*k*k*rho/(9*a*a*H*H*rhop))*3*tr[i+25];
-    for (i=0;i<3;i++) zeta[i+3]=2*rho*(tr[i+49] + tr[i+52]/H)/(rhop) + (1 + 2*k*k*rho/(9*a*a*H*H*rhop))*3*tr[i+49];
+    for (i=0;i<3;i++) zeta[i]=2*rho*(tr[i+25] + tr[i+28]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+25];
+    for (i=0;i<3;i++) zeta[i+3]=2*rho*(tr[i+49] + tr[i+52]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+49];
     Pzeta=0;
     for (i=0;i<6;i++) Pzeta = Pzeta + zeta[i]*zeta[i];
     Pzeta = Pzeta/(2*M_PI*M_PI*9);
@@ -199,7 +254,50 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     PPot = PPot/(2*M_PI*M_PI);
     PPot = log10(PPot) + 3*log10(k_comoving);
     //output log(Gravitational Potential) and log(Zeta), along with k and knum.
-    sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " " << std::setw(5) << knum << " " << std::setw(10) << exp(log(10.0)*(knum/100.0 - 4.0)) << " " << std::setw(10) << PPot << " " << std::setw(10) << Pzeta <<  " " << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << "\n" << std::flush;
+    sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " " << std::setw(5) << knum << " " << std::setw(10) << UC::knum_to_kMpc(knum) << " " << std::setw(10) << PPot << " " << std::setw(10) << Pzeta <<  " " << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << "\n" << std::flush;
+}
+
+//subroutine for spectrum output
+void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving){
+    static int output_timecount = 0; ++output_timecount;
+    std::stringstream ss;
+    std::ofstream sp_output;
+    ss << "../" << file;
+    
+    if( output_timecount == 1 )
+    {
+        sp_output.open(ss.str().c_str(),std::ios::out);
+    }else{
+        sp_output.open(ss.str().c_str(),std::ios::app);
+    }
+    
+    DP H,a,la,rho,rhop,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi,PSTR;
+    const int N1=55;
+    Vec_DP zeta(6);
+    Vec_DP tr(N1);
+    int i;
+    
+    la=xx[timecount-1];
+    a=exp(la);
+    for (i=0;i<N1;i++) tr[i] = yp[i][timecount-1];
+    rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+    rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
+    H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+    
+    for (i=0;i<3;i++) zeta[i]=2*rho*(tr[i+25] + tr[i+28]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+25];
+    for (i=0;i<3;i++) zeta[i+3]=2*rho*(tr[i+49] + tr[i+52]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+49];
+    Pzeta=0;
+    for (i=0;i<6;i++) Pzeta = Pzeta + zeta[i]*zeta[i];
+    Pzeta = Pzeta/(2*M_PI*M_PI*9);
+    Pzeta = log10(Pzeta) + 3*log10(k_comoving);
+    PPot = 0;
+    for (i=0;i<3;i++) PPot = PPot + tr[i+25]*tr[i+25];
+    for (i=0;i<3;i++) PPot = PPot + tr[i+49]*tr[i+49];
+    PSTR = PPot;
+    PPot = PPot/(2*M_PI*M_PI);
+    PPot = log10(PPot) + 3*log10(k_comoving);
+    //output log(Gravitational Potential) and log(Zeta), along with k and knum.
+    sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " " << std::setw(5) << knum << " " << std::setw(10) << UC::knum_to_kMpc(knum) << " " << std::setw(10) << PPot << " " << std::setw(10) << Pzeta <<  " " << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << "\n" << std::flush;
 }
 //--------------------------------
 // Lattice Simulation Subroutines
@@ -219,11 +317,11 @@ void set_mode(double p2, double m2, double *field, double *deriv, int real)
     double phase,phase2, amplitude, rms_amplitude, omega;
     double re_f_left, im_f_left, re_f_right, im_f_right;
 #if  dim==1
-    static double norm = m*pow(L/(dx*dx),.5)/sqrt(4*M_PI);
+    static double norm = rescale_B*pow(L/(dx*dx),.5)/sqrt(4*M_PI);
 #elif  dim==2
-    static double norm =  m*pow(L/(dx*dx),1)/(sqrt(2*M_PI));
+    static double norm =  rescale_B*pow(L/(dx*dx),1)/(sqrt(2*M_PI));
 #elif  dim==3
-    static double norm =  m*pow(L/(dx*dx),1.5)/sqrt(2);
+    static double norm =  rescale_B*pow(L/(dx*dx),1.5)/sqrt(2);
 #endif
     static int tachyonic = 0; //Avoid printing the same error repeatedly
     
@@ -268,6 +366,7 @@ void set_mode(double p2, double m2, double *field, double *deriv, int real)
     }
     return;
    }
+
 
 void DFT_c2rD1( double* f)
 {

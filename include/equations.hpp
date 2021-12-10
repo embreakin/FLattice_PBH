@@ -96,34 +96,34 @@ DP Fri (DP x, DP y,DP z,DP vx, DP vy,DP vz, DP rr);
 DP dif_rad (DP vx, DP vy,DP vz,DP rr,DP HH);
 
 //perturbed vdelpsi_11 evolution: dif_DELv11(phi1,phi2,phi3,v1,psi11,psi21,psi31,DELv11,la,H,Phil,vPhil)
-DP dif_DELv11 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot);
+DP dif_DELv11 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving);
 
 //perturbed vdelpsi_12 evolution: dif_DELv12(phi1,phi2,phi3,v1,psi12,psi22,psi32,DELv12,la,H,Phil,vPhil)
-DP dif_DELv12 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot);
+DP dif_DELv12 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving);
 
 //perturbed vdelpsi_13 evolution: dif_DELv13(phi1,phi2,phi3,v1,psi13,psi23,psi33,DELv13,la,H,Phil,vPhil)
-DP dif_DELv13 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot);
+DP dif_DELv13 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving);
 
 //perturbed vdelpsi_21 evolution: dif_DELv21(phi1,phi2,phi3,v2,psi11,psi21,psi31,DELv21,la,H,Phil,vPhil)
-DP dif_DELv21 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot);
+DP dif_DELv21 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving);
 
 //perturbed vdelpsi_22 evolution: dif_DELv22(phi1,phi2,phi3,v2,psi12,psi22,psi32,DELv22,la,H,Phil,vPhil)
-DP dif_DELv22 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot);
+DP dif_DELv22 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving);
 
 //perturbed vdelpsi_23 evolution: dif_DELv23(phi1,phi2,phi3,v2,psi12,psi22,psi32,DELv23,la,H,Phil,vPhil)
-DP dif_DELv23 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot);
+DP dif_DELv23 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving);
 
 //perturbed vdelpsi_31 evolution: dif_DELv31(phi1,phi2,phi3,v2,psi11,psi21,psi31,DELv31,la,H,Phil,vPhil)
-DP dif_DELv31 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot);
+DP dif_DELv31 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving);
 
 //perturbed vdelpsi_32 evolution: dif_DELv32(phi1,phi2,phi3,v2,psi12,psi22,psi32,DELv32,la,H,Phil,vPhil)
-DP dif_DELv32 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot);
+DP dif_DELv32 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving);
 
 //perturbed vdelpsi_33 evolution: dif_DELv33(phi1,phi2,phi3,v2,psi13,psi23,psi33,DELv33,la,H,Phil,vPhil)
-DP dif_DELv33 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot);
+DP dif_DELv33 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,DP vPot,DP k_comoving);
 
 //perturbed vPot evolution: dif_vPot(phi1,phi2,phi3,vphi1,vphi2,vphi3,psi1l,psi2l,psi3l,vpsi1l,vpsi2l,vpsi3l,Phil,vPhil,la,H)
-DP dif_vPot (DP x,DP y,DP z,DP vx,DP vy,DP vz,DP dx,DP dy,DP dz,DP vdx,DP vdy,DP vdz,DP Pot,DP vPot,DP la,DP H);
+DP dif_vPot (DP x,DP y,DP z,DP vx,DP vy,DP vz,DP dx,DP dy,DP dz,DP vdx,DP vdy,DP vdz,DP Pot,DP vPot,DP la,DP H,DP k_comoving);
 
 void fieldperturbation(Vec_I_DP &y, Vec_O_DP &fields);
 
@@ -133,28 +133,28 @@ void isocurvatureness(Vec_I_DP &y, Vec_O_DP &iso);
 
 void density(Vec_I_DP &y, Vec_O_DP &dens);
 
-void numberdens(DP x, Vec_I_DP &y, Vec_O_DP &numdens);
+void numberdens(const DP x, Vec_I_DP &y, Vec_O_DP &numdens, const DP k_comoving);
 
 //    j=0-2  : zero modes of inflaton sigma, psi, and phi
 //    j=3-5  : log(a) derivatives of inflaton sigma', psi', phi'
 //    j=6    : energy density of radiation
 //evolution equations for zero-mode
-void unpert(const DP x, Vec_I_DP &y, Vec_O_DP &dydx);
+void unpert(const DP x, Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving);
 
 //evoluition equations for zero mode with fixed psi
-void unpertfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx);
+void unpertfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving);
 
 //evolution equations for zero mode with fixed sigma and psi
-void unpertfixfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx);
+void unpertfixfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving);
 
 //evolution equations for zero-mode and perturbation
-void full(const DP x,Vec_I_DP &y, Vec_O_DP &dydx);
+void full(const DP x,Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving);
 
 //evolution equations for zero-mode with fixed sigma and psi perturbations
-void sigma_psi_nopert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx);
+void sigma_psi_nopert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving);
 
 //evolution equations for zero-mode and perturbation without gravitational potential perturbation
-void nogravpert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx);
+void nogravpert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving);
 
 //xp[i] stores integration variable (log(a)) for each steps[i].
 //delp_p[i][j] stores variables for each steps[i]. [j] specifies variables as follows:
@@ -170,13 +170,13 @@ void nogravpert(const DP x,Vec_I_DP &y, Vec_O_DP &dydx);
 //tr[j]: buffer for delp_p[i][j]
 
 //evolution equations for zero-mode and perturbation with fixed perturbations
-void unpfull(const DP x,Vec_I_DP &y, Vec_O_DP &dydx);
+void unpfull(const DP x,Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving);
 
 //evolution equations for zero-mode and perturbaton with fixed sigma and psi and their perturbaions
-void newinf(const DP x,Vec_I_DP &y, Vec_O_DP &dydx);
+void newinf(const DP x,Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving);
 
 //evolution equations for zero-mode and perturbaton with fixed sigma and psi
-void fixfix(const DP x,Vec_I_DP &y, Vec_O_DP &dydx);
+void fixfix(const DP x,Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving);
 
 
 #endif

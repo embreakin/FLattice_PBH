@@ -1,14 +1,14 @@
-#ifndef _EVOULUTION_H_
-#define _EVOULUTION_H_
+#ifndef _LATTICEEVOL_H_
+#define _LATTICEEVOL_H_
 
-#include "field.hpp"
+#include "lattice_field.hpp"
 
 
 class LeapFrog
 {
 	private:
         double _a,_da, _dda;
-        const double hubble_init = Hinitial/m;
+        const double hubble_init = Hinitial/rescale_B;
         double sfexponent;
         double sfbase;
 
@@ -28,8 +28,8 @@ class LeapFrog
 
 		double a()  { return _a; }
 		double da() { return _da; }
-    double hubble() { return _da*m*pow(_a,-2);}
-    double adotdot() {return pw2(m)*pow(_a,-2)*(_dda-pw2(_da)/_a);}
+    double hubble() { return _da*rescale_B*pow(_a,-2);}
+    double adotdot() {return pw2(rescale_B)*pow(_a,-2)*(_dda-pw2(_da)/_a);}
 };
 
 

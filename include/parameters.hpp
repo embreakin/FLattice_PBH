@@ -1,27 +1,50 @@
 #ifndef _PARAMETERS_H_
 #define _PARAMETERS_H_
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <cmath>
 #include <string>
+#include <vector>
+#include <omp.h>
 //#include <math.h>
 #include "nr.h"
 #include "equations.hpp"
+#include "uc.hpp"
 
-extern std::string exist_dirname_k, new_dirname_k, filename_k, exist_filename_sp, new_filename_sp;
-extern DP k_comoving, CNT;
+//=================
+//Non-lattice Range
+//=================
+
+extern std::string exist_filename_zero, new_filename_zero, exist_dirname_k, new_dirname_k, filename_k, exist_filename_sp, new_filename_sp, new_filename_spbfosc, exist_filename_spbfosc;
+
+extern bool zeromode_switch;
+extern bool perturbation_switch;
+
+//Array elements
+extern const int N_zero, N_pert;
+
+extern DP CNT;
 extern DP Gamma1,Gamma2,Gamma3;
-extern DP dxsav;
-extern int kmax,timecount;
-extern Vec_DP *xp_p;
-extern Mat_DP *yp_p;
-extern Mat_DP *delp_p;
-extern const int timecount_max;
+
+extern std::vector<int> knum_zero;
 
 extern bool kanalyze_switch;
 extern bool spectrum_switch;
+extern bool spectrum_bfosc_switch;
 
-extern DP kfromMpc;
-extern DP ktoMpc;
-extern int kinterval;
+extern DP kfrom_Mpc;
+extern DP kto_Mpc;
+extern int kinterval_knum;
+
+//extern DP CN_par;                    //Potential paramater CN
+//extern DP mu_par;                //Potential paramater mu
+//extern DP Cv_par;                //Potential parameter Cv mu/4.
+//extern DP M_par;                    //Potential paramater M
+//extern DP m_par;                        //Potential paramater m
+//extern DP n_par;                        //Potential paramater n
+//extern DP g_par;                //Potential parameter g
 
 //#define CAPTION "ver.06-04-05-02:00"
 //#define Ck 2.626E-61            //k[MPl] for k=10000Mpc^{-1} // I think he means k[MPl] for k=10^-4 Mpc^{-1}
@@ -80,24 +103,22 @@ extern int kinterval;
 
 
 //Takayama's Master Thesis
-#define CAPTION "ver.06-04-05-02:00"
-#define Ck 2.626E-61            //k[MPl] for k=10^-4 Mpc^{-1}
 #define GNOMAL 0                //decay rate 1
 #define GLARGE 1.0E-11            //decay rate 2 (if decay rate changes during the calculation)
 #define GLARGE2 1.0E-11            //decay rate 3 (if decay rate changes during the calculation)
 #define CN_par 0.1                    //Potential paramater CN
-#define mu_par 2.7E-3                //Potential paramater mu
 #define Cv_par 6.4E-4                //Potential parameter Cv mu/4.
+#define mu_par 2.7E-3                //Potential paramater mu
 #define M_par 1.6                    //Potential paramater M
-#define m_par 2                        //Potential paramater m
-#define n_par 10                        //Potential paramater n
-#define g_par 1                //Potential parameter g
+#define m_par 2.                        //Potential paramater m
+#define n_par 10.                        //Potential paramater n
+#define g_par 1.                //Potential parameter g
 #define SH -71.                //ln(a) at the end of calculation
-#define THRUNP -102                //ln(a) at which sigma and psi are fixed to the minimum
+#define THRUNP -105                //ln(a) at which sigma and psi are fixed to the minimum
 #define THRLAST -75                //ln(a) at the beginning of oscillation of phi.-61.5
 #define OSCSTART -117.75        //ln(a) at the beginning of oscillation/
-#define dla 1.0E-5                //stepsize for fixed step RQ-method
-#define itvl 1000                //interval for output in fixed RQ-method
+#define dla 1.0E-1                //stepsize for fixed step RK-method
+#define itvl 1000                //interval for output in fixed RK-method
 #define Ini -135.6           //initial ln(a)  I1=0.3,Ini=-131.8
 #define Init_sigma 0.8                //initial value of sigma
 //10^-4[Mpc] corresponds to 0, 10^4[Mpc] to 800 in knum units
@@ -109,7 +130,7 @@ extern int kinterval;
 
 // FIG2
 //#define CAPTION "ver.06-04-05-02:00"
-//#define Ck 2.626E-61            //k[MPl] for k=10000Mpc^{-1} // I think he means k[MPl] for k=10^-4 Mpc^{-1}
+//#define Ck 2.626E-61            //k[MPl] for k=10000Mpc^{-1} // I think he means Ck[MPl] for 10^-4 Mpc^{-1}
 //#define Pi 3.14159265358979        //pi
 //#define r2 1.41421356237310        //sqrt(2)
 //#define GNOMAL 0                //decay rate 1
@@ -188,5 +209,65 @@ extern int kinterval;
 //#define I1 0.38               //initial value of sigma
 //
 //#define msigma sqrt(8*pow(mu,3)/M)     //effective mass of sigma
+
+
+//=================
+//Lattice Range
+//=================
+
+
+#define dim 2
+
+extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f, exist_filename_status, new_filename_status;
+
+inline double pw2(double x) { return (x*x);}
+
+extern int N;
+
+extern bool latticerange_switch;
+
+extern double kfrom_Mpc_lattice;//[Mpc] Calculate from this k for lattice range
+extern double kto_Mpc_lattice;//[Mpc] Calculate to this k for lattice range
+
+extern double kfrom_MPl_lattice; //convert to MPl units
+extern double kto_MPl_lattice; //convert to MPl units
+
+extern double rescale_A;
+extern double rescale_B;
+extern double L;
+
+extern double k_lattice_grid_min_pr;
+extern double k_lattice_grid_min_MPl;
+
+extern double k_lattice_grid_max_pr;
+extern double k_lattice_grid_max_MPl;
+
+extern int rnd;
+extern int num_fields;
+extern int num_threads;
+extern const double initfield[];
+extern const double initderivs[];
+extern const double ENGRESCALE;
+extern const double Hinitial;
+
+extern int output_step;
+extern int total_step;
+extern int max_loop;
+extern int st_output_step;
+extern int st_max_loop;
+
+extern double t0;
+extern double dt;
+extern double dx;
+
+extern const int expansion;
+extern const int precision;
+
+
+//potential parameters
+extern const double aa;// = 2*M_PI;
+extern const double AA;// = 10;
+extern const double W0;// = -pow(10,-5);
+extern const double D ;//= 4.6824231*pow(10,-12);
 
 #endif

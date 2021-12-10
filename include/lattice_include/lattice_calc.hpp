@@ -1,10 +1,10 @@
-#ifndef _CALCULATION_H_
-#define _CALCULATION_H_
+#ifndef _LATTICECALC_H_
+#define _LATTICECALC_H_
 
 //#include <valarray>
 
-#include "field.hpp"
-#include "evolution.hpp"
+#include "lattice_field.hpp"
+#include "lattice_evol.hpp"
 
 
 class Energy

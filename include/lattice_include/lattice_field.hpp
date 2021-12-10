@@ -1,8 +1,8 @@
-#ifndef _FIELD_H_
-#define _FIELD_H_
+#ifndef _LATTICEFIELD_H_
+#define _LATTICEFIELD_H_
 
 #include <cmath>
-#include "latticeparameters.hpp"
+#include "parameters.hpp"
 
 
 
@@ -32,6 +32,7 @@ class Field
             delete [] tauvalue;
         }
     
+    void zeromode_initialize();
 		double laplacian        ( double* f, int j, int k = 0, int l = 0 ); //You can omit k and l if they are zero
 		double gradient_energy  ( double* f ) ;
 		double potential_energy ( double** f, double a );
@@ -47,7 +48,7 @@ class Field
     
 };
 
-void initialize( double**& f, double**& df, Field* field);
+void initialize( double**& f, double**& df, Field* field, double**& lattice_var);
 void finalize( double**& f, double**& df );
 
 

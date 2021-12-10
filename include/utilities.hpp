@@ -2,8 +2,9 @@
 #define _UTILITIES_H_
 
 #include <string>
-#include "calculation.hpp"
+#include "lattice_calc.hpp"
 #include "nr.h"
+#include "uc.hpp"
 
 #define Logout(...) 	do { printf(__VA_ARGS__); fflush(stdout); } while(0)
 
@@ -18,10 +19,14 @@ void file_manage(const std::string exist_file);
 //--------------------------------
 // Double Inflation Subroutines
 //--------------------------------
+void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount);
 
-void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum);
+void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving);
 
-void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k);
+void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving);
+
+void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving);
+
 //--------------------------------
 // Lattice Simulation Subroutines
 //--------------------------------

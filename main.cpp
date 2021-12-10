@@ -8,17 +8,11 @@
 #include "equations.hpp"
 #include "utilities.hpp"
 #include "parameters.hpp"
+#include "calculation.hpp"
 
 //-------------------
 // Declare variables
 
-
-
-
-
-Vec_DP *xp_p;
-Mat_DP *yp_p;
-Mat_DP *delp_p;
 
 
 //xp[i] stores integration variable (log(a)) for each steps[i].
@@ -40,184 +34,132 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     std::chrono::system_clock::time_point  time_start, time_end;
     time_start = std::chrono::system_clock::now(); // Start measuring elapsed time
     
-    //Initial Data Directory Management
+    //Output Data File/Directory Management
     dir_manage(exist_dirname_k, new_dirname_k);
     file_manage(exist_filename_sp);
-   
-    const int N1=55, N2=7;
-    int timecount, mid,i,j,nbad,nok,p,kil,kfrom,kto,knum;
-    DP a,xmid,H,rhop,theta,la, dxsav;
-    DP epsSHI=1.0e-9,epsosc=1.0e-10,epsnew=1.0e-10,epslast=1.0e-10, eps=1.0E-6;
-    //eps parameters set the allowed error in adapive step size RQ-method.
-    DP h1=1.0E-4,h2=1.0E-6,hmin=0.0,xbegin=Ini,xend=SH,xint=-110;
-    //h parameters set the initial trial step size in adaptive step size RQ-method.
-    Vec_DP ystart(N2),delstart(N1);
-    Vec_DP tr(N1);
-    DP w,rho,rho1,rho2,rho3;
+    file_manage(exist_filename_zero);
     
-    Vec_DP zeta(6),dens(4),unp(N2),yout(N2),dydx(N2);
-    Vec_DP adia(3),iso(3),fields(3),numdens(3),term(6);
-    xp_p=new Vec_DP(timecount_max);
-    delp_p=new Mat_DP(N1,timecount_max);
-    Vec_DP &xp=*xp_p;
-    Mat_DP &delp=*delp_p;
-    kfrom = (int)( 100*(log(kfromMpc)/log(10.0)+4) ); // convert to original knum units
-    kto = (int)( 100*(log(ktoMpc)/log(10.0)+4) ); // convert to original knum units
-    int calcpercentage = 0;
     
-    Logout( "kfrom =  %d, kto = %d, kinterval = %d \n", kfrom, kto, kinterval);
-    Logout( "Calculation 0%% Complete\n");
+    //------------------------
+    //calculation of zeromode
+    //------------------------
+    if(zeromode_switch){
+    Logout("=====================================================\n\n");
+     
+    Logout( "Calculating Zeromode...\n\n");
+    
+    
+    //Instantiate zeromode
+    Zeromode Zero;
+    
+    //Calculate zeromode
+    Zero.zeromode_calc();
+    
 
-    //Start for loop of k
-    for (knum=kfrom;knum<=kto;knum=knum+kinterval){
-        
-    calcpercentage =  round( ( (knum - kfrom)/kinterval + 1 )*100 / ( (kto - kfrom)/kinterval + 1 ) );
-    
-//    k_comoving=Ck*exp(0.023025851*knum);            //knum -> k
-        k_comoving=Ck*pow(10,knum/100);
-    a=exp(xbegin);
-    p=itvl;
-    //set initial conditions
-    unp[0] = Init_sigma;
-    unp[1] = exp(log(Pow(4,m_par)/(2*m_par*(2*m_par-1)))/(2*(m_par-1)))*M_par*exp(log(mu_par/unp[0])/(m_par-1));
-    unp[2] = -Cv_par*Cv_par*unp[0]/(mu_par*mu_par);
-    unp[3] = 0;
-    unp[4] = 0;
-    unp[5] = 0;
-    unp[6] = 0;
-    //set decay rates
-    Gamma1=GLARGE;
-    Gamma2=GLARGE;
-    Gamma3=GNOMAL;
-    
-    H=Fri(unp[0],unp[1],unp[2],unp[3],unp[4],unp[5],unp[6]);
-    unpert(la,unp,dydx);
-    //First, solve the evolution of zero mode, until the specified mode crosses the horizon.
-    //Calculation for first order perturbation begins slightly before the horizon crossing.
-    //Runge-Qutta method with constant step size is used.
-    for (la=xbegin;k_comoving/(a*H)>500;la=la) {    //Here, zero-mode is solved until k=a*H*5000.
-        if (p==itvl){
-            rho=rho_tot(unp[0],unp[1],unp[2],unp[3],unp[4],unp[5],unp[6]);
-            w=log10(H);
-            p=0;
-        };
-        p++;
-        H=Fri(unp[0],unp[1],unp[2],unp[3],unp[4],unp[5],unp[6]);
-        unpert(la,unp,dydx);
-        NR::rk4(unp,dydx,la,dla,yout,unpert);
-        for (j=0;j<N2;j++){
-            unp[j]=yout[j];
-        };
-        la=la+dla;
-        a=exp(la);
-    };
-    //Hereafter, evolution of perturbation is solved.
-    //Setting initial conditions for perturbation
-    xmid=la;
-    for (i=0;i<N2;i++) tr[i]=unp[i];
-    
-    a=exp(xmid);
-    H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
-    rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
-    theta=M_PI/4;
-    dxsav=(xend-xmid)/5000.0;
-    for (i=N2;i<N1;i++) tr[i]=0;
-    for (i=0;i<3;i++) tr[(i*4)+7]=cos(theta)/(sqrt(2*k_comoving)*a);
-    for (i=0;i<3;i++) tr[(i*4)+31]=sin(theta)/(sqrt(2*k_comoving)*a);
-    for (i=0;i<3;i++) tr[(i*4)+16]=(-1)*H*tr[(i*4)+7] + k_comoving*tr[(i*4)+31]/a;
-    for (i=0;i<3;i++) tr[(i*4)+40]=(-1)*H*tr[(i*4)+31] - k_comoving*tr[(i*4)+7]/a;
-    for (i=0;i<3;i++) tr[i+25]=0.5*a*a*(tr[3]*tr[i+16] + tr[4]*tr[i+19] + tr[5]*tr[i+22] + 3*H*(tr[3]*tr[i+7] + tr[4]*tr[i+10] + tr[5]*tr[i+13]) + V_1(tr[0],tr[1],tr[2])*tr[i+7] + V_2(tr[0],tr[1],tr[2])*tr[i+10] + V_3(tr[0],tr[1],tr[2])*tr[i+13])/(k_comoving*k_comoving);
-    for (i=0;i<3;i++) tr[i+49]=0.5*a*a*(tr[3]*tr[i+40] + tr[4]*tr[i+43] + tr[5]*tr[i+46] + 3*H*(tr[3]*tr[i+31] + tr[4]*tr[i+34] + tr[5]*tr[i+37]) + V_1(tr[0],tr[1],tr[2])*tr[i+31] + V_2(tr[0],tr[1],tr[2])*tr[i+34] + V_3(tr[0],tr[1],tr[2])*tr[i+37])/(k_comoving*k_comoving);
-    for (i=0;i<3;i++) tr[i+25]=tr[i+25]/(1 - (a*a*(tr[3]*tr[3] + tr[4]*tr[4] + tr[5]*tr[5])/(2*k_comoving*k_comoving)));
-    for (i=0;i<3;i++) tr[i+49]=tr[i+49]/(1 - (a*a*(tr[3]*tr[3] + tr[4]*tr[4] + tr[5]*tr[5])/(2*k_comoving*k_comoving)));
-    for (i=0;i<3;i++) tr[i+28]=(-1)*H*tr[i+25] - 0.5*(tr[3]*tr[i+7] + tr[4]*tr[i+10] + tr[5]*tr[i+13]);
-    for (i=0;i<3;i++) tr[i+52]=(-1)*H*tr[i+49] - 0.5*(tr[3]*tr[i+31] + tr[4]*tr[i+34] + tr[5]*tr[i+37]);
-    for (i=0;i<N1;i++) delstart[i]=tr[i];
-    //Full evolution equations including first order perturbation of three inflaton fields are solved until oscillatory phase begins.
-    //If horizon entering is later, this step is skipped.
-    if(xmid < OSCSTART){
-       NR::odeintpert(delstart,xmid,OSCSTART,epsSHI,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs);
-        if(kanalyze_switch){
-        kanalyze_output(new_dirname_k, filename_k, xp, delp, timecount, knum);
-        }
-        xmid=xp[timecount-1];
-        a=exp(xmid);
-        for (i=0;i<N1;i++) delstart[i]=delp[i][timecount-1];
-    };
-    Gamma1 = GLARGE2;
-    Gamma2 = GLARGE2;
-    //changing decay rates (if neccesary)
-    //Full evolution equations including first order perturbation of three inflaton fields are solved until the contribution
-    //from two inflatons sigma and psi become negligible at ln(a)=THRUNP.
-    //THRUNP is set by hand, estimeted from the result of zero-mode evolution.
-    //If horizon entering is later, this step is skipped.
-    if(xmid < THRUNP){
-        NR::odeintpert(delstart,xmid,THRUNP,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs);
-        if(kanalyze_switch){
-        kanalyze_output(new_dirname_k, filename_k, xp, delp, timecount, knum);
-        }
-        xmid=xp[timecount-1];
-        a=exp(xmid);
-        for (i=0;i<N1;i++) delstart[i]=delp[i][timecount-1];
-    };
-    //Fixing sigma = psi = 0, in order to avoid solving oscillation of these two firlds which are negligible.
-    delstart[0]=0;
-    delstart[3]=0;
-    delstart[1]=FIXPSI;
-    delstart[4]=0;
-    for (i=0;i<6;i++) delstart[7+i]=0;
-    for (i=0;i<6;i++) delstart[16+i]=0;
-    for (i=0;i<6;i++) delstart[31+i]=0;
-    for (i=0;i<6;i++) delstart[40+i]=0;
-    //Evolution equations for phi and its perturbations are solved, with zero-modes of sigma and psi are gixed to minimum
-    //until phi begins oscillation at ln)a)=THRLAST.
-    //THRLAST is set by hand according to the result for zero-mode.
-    NR::odeintpert(delstart,xmid,THRLAST,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs);
-        if(kanalyze_switch){
-    kanalyze_output(new_dirname_k, filename_k, xp, delp, timecount, knum);
-        }
-    xmid=xp[timecount-1];
-    a=exp(xmid);
-    for (i=0;i<N1;i++) delstart[i]=delp[i][timecount-1];
-    delstart[0]=0;
-    delstart[3]=0;
-    delstart[1]=FIXPSI;
-    delstart[4]=0;
-    for (i=0;i<6;i++) delstart[7+i]=0;
-    for (i=0;i<6;i++) delstart[16+i]=0;
-    for (i=0;i<6;i++) delstart[31+i]=0;
-    for (i=0;i<6;i++) delstart[40+i]=0;
-    //Evolution equations for phi and all perturbations are solved, with zero-modes of sigma and psi are fixed to minimum.
-    //until the amplitude of oscillation of phi becomed sufficiently small at ln(a)=xend.
-    //xend is set by hand according to the result for zero-mode.
-    //(if perturbations of of sigma and psi are not solved, superhorizon parturbations begin to decrease)
-    NR::odeintpert(delstart,xmid,xend,epslast,h2,hmin,nok,nbad,timecount,dxsav,fixfix,NR::rkqs);
-        if(kanalyze_switch){
-    kanalyze_output(new_dirname_k, filename_k, xp, delp, timecount, knum);
-        }
+    Logout( "Zeromode Calculation Complete\n\n");
    
-        
-        //     cout << "Final Result delstart[2] = " << tr[2] << " delp[2][" << timecount-1 << "] = " << delp[2][timecount-1] << endl;
-        //   for (i=0;i<N1;i++) cout << "Final Result tr[" << i << "]" << tr[i] << endl;
-        if(spectrum_switch){
-        spectrum_output(new_filename_sp, xp, delp, timecount, knum, k_comoving);
-        }
-        
-        Logout( "Calculation %d%% Complete\n",calcpercentage);
-    }; //End for loop of k
+    }
+    
+    
+     if(perturbation_switch){
+         
+         
+    Logout("=====================================================\n\n");
+    Logout( "Calculating Zeromode with Perturbation...\n\n");
+    Logout("=====================================================\n\n");
+
+    //Instantiate perturbabtion
+     //Instantiate zeromode
+     Zeromode Zero2;
+     Perturbation Perturb;
+    
+    int kfrom_knum = UC::kMpc_to_knum(kfrom_Mpc);  // convert to original knum units
+    int kto_knum = UC::kMpc_to_knum(kto_Mpc); // convert to original knum units
+    
+    //Calculate with perturbation
+  if(latticerange_switch){ // When there is lattice range
+
+         Logout("Start knum lower range\n\n");
+         Logout("-----------------------------------------------------\n\n");
+
+          int kfrom_knum_lattice = UC::kMpc_to_knum(kfrom_Mpc_lattice); // convert to knum units
+
+          Logout("Range: kfrom_knum = %d, kfrom_knum_lattice = %d, kinterval_knum = %d \n\n",kfrom_knum, kfrom_knum_lattice,kinterval_knum);
+    //
+          Perturb.nonlatticerange_calc(kfrom_knum, kfrom_knum_lattice, Zero2);
+    //
+          Logout("=====================================================\n\n");
+          Logout( "Start Lattice Range\n\n");
+           Logout("-----------------------------------------------------\n\n");
+
+          double **latticep;
+      
+          //Initialize latticep
+          Perturb.lattice_initialize(latticep);
+    //
+          Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e, k_lattice_grid_min_MPl =  %2.5e \n\n",kfrom_MPl_lattice, kto_MPl_lattice, k_lattice_grid_min_MPl);
+          Logout("kfrom_pr_lattice =  %2.5e, kto_pr_lattice =  %2.5e, k_lattice_grid_min_pr =  %2.5e \n\n",kfrom_MPl_lattice/rescale_B, kto_MPl_lattice/rescale_B, k_lattice_grid_min_pr);
+          Logout("rescale_B = %2.5e, L_pr = %2.5e, N = %d \n\n",rescale_B, L, N);
+          Logout("Range of k_pr in lattice: %2.5e <= |k_pr| <= %2.5e \n\n", k_lattice_grid_min_pr, k_lattice_grid_max_pr);
+      
+          Logout("=====================================================\n\n");
+          Logout( "Start loop calculation up to OSCSTART\n\n");
+          Logout("-----------------------------------------------------\n\n");
+      
+      
+          Perturb.latticerange_firsthalf_calc(latticep, Zero2);
+
+          Logout("-----------------------------------------------------\n\n");
+          Logout("Start Lattice Simulation\n\n");
+          Logout("-----------------------------------------------------\n\n");
+      
+          lattice(latticep);
+      
+          Logout("-----------------------------------------------------\n\n");
+          Logout("Start loop calculation from THRUNP\n\n");
+          Logout("-----------------------------------------------------\n\n");
+
+          Perturb.latticerange_secondhalf_calc(latticep);
+
+          Logout("=====================================================\n\n");
+          Logout("Start knum upper range\n\n");
+          Logout("-----------------------------------------------------\n\n");
+
+          int kto_knum_lattice = UC::kMpc_to_knum(kto_Mpc_lattice); // convert to knum units
+          int kres_knum = (kto_knum_lattice - kfrom_knum) % kinterval_knum;
+          int kstart_knum = kto_knum_lattice + ( kinterval_knum - kres_knum );
+
+          Logout("Range: kstart_knum = %d, kto_knum = %d, kinterval_knum = %d \n\n",kstart_knum, kto_knum, kinterval_knum);
+
+          Perturb.nonlatticerange_calc(kstart_knum, kto_knum, Zero2);
+
+          Perturb.lattice_finalize(latticep);
+
+
+
+        }else{ // When there is no lattice range
+          Logout("Range: kfrom_knum = %d, kto_knum = %d, kinterval_knum = %d \n\n",kfrom_knum, kto_knum,kinterval_knum);
+          Perturb.nonlatticerange_calc(kfrom_knum, kto_knum, Zero2);
+
+       }
+         
+     }
     
     time_end = std::chrono::system_clock::now();       // End measuring elapsed time
-
     int time_hours = std::chrono::duration_cast<std::chrono::hours>(time_end - time_start).count(); // Casting time
     int time_minutes = std::chrono::duration_cast<std::chrono::minutes>(time_end - time_start).count() - time_hours*60; // Casting time
     int time_seconds = std::chrono::duration_cast<std::chrono::seconds>(time_end - time_start).count() - time_hours*60*60 - time_minutes*60; // Casting time
     int time_days = time_hours / 24;
     time_hours = time_hours % 24;
-    
-    Logout( "Computation Time: %d d %d h %d m %d s\n",time_days,time_hours,time_minutes,time_seconds);
+     Logout("=====================================================\n\n");
+     Logout( "Total Computation Time: %d d %d h %d m %d s\n\n",time_days,time_hours,time_minutes,time_seconds);
+     Logout("=====================================================\n");
 
-    delete delp_p;
-    delete yp_p;
-    delete xp_p;
+//
+//
+//
+//    delete latticep_p;
+//    delete delp_p;
+//    delete xp2_p;
     return 0;
 }
