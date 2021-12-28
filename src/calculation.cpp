@@ -138,7 +138,10 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 la2=la2+dla;
                 a=exp(la2);
             };
+<<<<<<< HEAD
          std::cout << "a = " << a << "\n";
+=======
+>>>>>>> origin/master
 //            std::cout << "la2 = " << la2 << "\n";
             //Hereafter, evolution of perturbation is solved.
             //Setting initial conditions for perturbation
@@ -322,7 +325,11 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
                 
             };
          //    Logout("1:unp2[0] = %2.5e \n", unp2[0] );
+<<<<<<< HEAD
               //  std::cout << "a = " << a << "\n";
+=======
+            //     std::cout << "la2 = " << la2 << "\n";
+>>>>>>> origin/master
             //Hereafter, evolution of perturbation is solved.
             //Setting initial conditions for perturbation
             xmid=la2;

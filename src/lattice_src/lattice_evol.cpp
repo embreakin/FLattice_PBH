@@ -85,19 +85,31 @@ void LeapFrog::evol_field_derivs( double** f, double** df, Field* field, double 
                 for( int j = 0; j < N; ++j ){
             #if dim == 1
                 int idx = j;
+<<<<<<< HEAD
                 df[i][idx] += ( field->laplacian(f[i], j) - field->dV_lattice(f, i, idx) ) * h*dt;
+=======
+                df[i][idx] += ( field->laplacian(f[i], j) - field->dV(f, i, idx) ) * h*dt;
+>>>>>>> origin/master
             #elif dim == 2
                 #pragma omp simd
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
+<<<<<<< HEAD
                     df[i][idx] += ( field->laplacian(f[i], j, k) - field->dV_lattice(f, i, idx) ) * h*dt;
+=======
+                    df[i][idx] += ( field->laplacian(f[i], j, k) - field->dV(f, i, idx) ) * h*dt;
+>>>>>>> origin/master
                 }
             #elif dim == 3
                 for( int k = 0; k < N; ++k ){
                     #pragma omp simd
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
+<<<<<<< HEAD
                         df[i][idx] += ( field->laplacian(f[i], j, k, l) - field->dV_lattice(f, i, idx) ) * h*dt;
+=======
+                        df[i][idx] += ( field->laplacian(f[i], j, k, l) - field->dV(f, i, idx) ) * h*dt;
+>>>>>>> origin/master
                     }
                 }
             #endif
@@ -116,12 +128,20 @@ void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* fiel
         for( int j = 0; j < N; ++j ){
             #if dim == 1
                 int idx = j;
+<<<<<<< HEAD
                 df[i][idx] += ( field->laplacian(f[i], j) + _dda*f[i][idx]/_a - pow(_a,3)*field->dV_lattice(f, i, idx, _a) ) * h*dt;
+=======
+                df[i][idx] += ( field->laplacian(f[i], j) + _dda*f[i][idx]/_a - pow(_a,3)*field->adV(f, i, idx, _a) ) * h*dt;
+>>>>>>> origin/master
             #elif dim == 2
                 #pragma omp simd
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
+<<<<<<< HEAD
                     df[i][idx] += ( field->laplacian(f[i], j, k) + _dda*f[i][idx]/_a - pow(_a,3)*field->dV_lattice(f, i, idx, _a) ) * h*dt;
+=======
+                    df[i][idx] += ( field->laplacian(f[i], j, k) + _dda*f[i][idx]/_a - pow(_a,3)*field->adV(f, i, idx, _a) ) * h*dt;
+>>>>>>> origin/master
                 }
            
             #elif dim == 3
@@ -130,7 +150,11 @@ void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* fiel
                     #pragma omp simd
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
+<<<<<<< HEAD
                         df[i][idx] += ( field->laplacian(f[i], j, k, l) + _dda*f[i][idx]/_a - pow(_a,3)*field->dV_lattice(f, i, idx, _a) ) * h*dt;
+=======
+                        df[i][idx] += ( field->laplacian(f[i], j, k, l) + _dda*f[i][idx]/_a - pow(_a,3)*field->adV(f, i, idx, _a) ) * h*dt;
+>>>>>>> origin/master
                     }
                 }
             #endif
