@@ -80,14 +80,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 
         }
     
-<<<<<<< HEAD
-=======
-    //Effective masses
-    mass_sq[0] = V_11(initial_field_values[0], initial_field_values[1], initial_field_values[2]);
-    mass_sq[1] = V_22(initial_field_values[0], initial_field_values[1], initial_field_values[2]);
-    mass_sq[2] = V_33(initial_field_values[0], initial_field_values[1], initial_field_values[2]);
-    
->>>>>>> origin/master
+
     //Radiation zeromode
      for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
      {
@@ -100,12 +93,9 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
     
     Logout("radiation_var = %2.5e \n", radiation_var);
     
-<<<<<<< HEAD
     //Effective masses
      field->effective_mass( mass_sq, initial_field_values);
-=======
-    
->>>>>>> origin/master
+
     
     
     #if  dim==1
@@ -143,13 +133,6 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
     
     for( int i = 0; i < num_fields; ++i ){
 
-<<<<<<< HEAD
-=======
-//        initial_field_values[i] = initfield[i];
-//        initial_field_derivs[i] = initderivs[i];
-      
-//        field->effective_mass(mass_sq, initial_field_values);
->>>>>>> origin/master
       std::cout << "mass_sq[0] = " << mass_sq[i] << std::endl;
 
 
@@ -599,32 +582,20 @@ double Field::potential_energy( double** f, double a )
 	for( int j = 0; j < N; ++j ){
         #if dim == 1
             int idx = j;
-<<<<<<< HEAD
              potential_energy += V_lattice( f, idx, a );
-=======
-             potential_energy += aV( f, 0, idx, a );
->>>>>>> origin/master
 	    #elif dim == 2
         #pragma omp simd reduction(+:potential_energy)
             for( int k = 0; k < N; ++k )
 			{
 				int idx = j*N + k;
-<<<<<<< HEAD
                 potential_energy += V_lattice( f, idx, a );
-=======
-                potential_energy += aV( f, 0, idx, a);
->>>>>>> origin/master
             }
         #elif dim == 3
             for( int k = 0; k < N; ++k ){
         #pragma omp simd reduction(+:potential_energy)
                 for( int l = 0; l < N; ++l ){
 					int idx = ( j*N + k)*N + l;
-<<<<<<< HEAD
 					potential_energy += V_lattice( f, idx, a );
-=======
-					potential_energy += aV( f, 0, idx, a );
->>>>>>> origin/master
 				}
             }
         #endif
@@ -812,7 +783,6 @@ double Field::df_variance( double* df, int i )
 }
 
 #pragma omp declare simd
-<<<<<<< HEAD
 double Field::V_lattice   ( double** f, int idx, double a )  {
     // std::cout << "a = " << a << std::endl;
     for(fld=0;fld<num_fields;fld++)
@@ -840,65 +810,10 @@ double Field::dV_lattice ( double** f, int i, int idx, double a )  {
     
 }
 
-=======
-double Field::V   ( double** f, int i, int idx ) {
-    
-    TAU = exp((sqrt(2)/sqrt(3))*f[i][idx])/2;
-    
-    
-    return (1/(ENGRESCALE)*(exp(-2*aa*TAU)/(pw2(TAU))*aa*pw2(AA)/2
-            +exp(-2*aa*TAU)/(TAU)*pw2(aa)*pw2(AA)/6
-            +exp(-aa*TAU)/(pw2(TAU))*aa*AA*W0/2
-            +1/(pow(TAU,3))*D)
-            );
-}
-
-#pragma omp declare simd
-double Field::dV  ( double** f, int i, int idx ){
-    
-    TAU = exp((sqrt(2)/sqrt(3))*f[i][idx])/2;
-    
-    
-    return (1/(ENGRESCALE)*(sqrt(2)/sqrt(3))*TAU*(-(7*pw2(aa)*pw2(AA)/(6*pw2(TAU)))*exp(-2*aa*TAU)
-            -(aa*pw2(AA)/(pow(TAU,3)))*exp(-2*aa*TAU)
-            -(pow(aa,3)*pw2(AA)/(3*TAU))*exp(-2*aa*TAU)
-            -(pw2(aa)*AA*W0/(2*pw2(TAU)))*exp(-aa*TAU)
-            -(aa*AA*W0/(pow(TAU,3)))*exp(-aa*TAU)
-            -3*D/(pow(TAU,4)))
-            );
-}
-
-#pragma omp declare simd
-double Field::aV  ( double** f, int i, int idx, double a )  {
-    // std::cout << "a = " << a << std::endl;
-    aTAU = exp((sqrt(2)/sqrt(3))*f[i][idx]/a)/2;
-    
-    
-    return ((1/ENGRESCALE)*(exp(-2*aa*aTAU)/(pw2(aTAU))*aa*pw2(AA)/2
-          +exp(-2*aa*aTAU)/(aTAU)*pw2(aa)*pw2(AA)/6
-          +exp(-aa*aTAU)/(pw2(aTAU))*aa*AA*W0/2
-          +1/(pow(aTAU,3))*D)
-            ); }
-
-#pragma omp declare simd
-double Field::adV ( double** f, int i, int idx, double a )  {
-    
-    aTAU = exp((sqrt(2)/sqrt(3))*f[i][idx]/a)/2;
-    
-    return ((1/ENGRESCALE)*(sqrt(2)/sqrt(3))*aTAU*(-(7*pw2(aa)*pw2(AA)/(6*pw2(aTAU)))*exp(-2*aa*aTAU)
-             -(aa*pw2(AA)/(pow(aTAU,3)))*exp(-2*aa*aTAU)
-             -(pow(aa,3)*pw2(AA)/(3*aTAU))*exp(-2*aa*aTAU)
-             -(pw2(aa)*AA*W0/(2*pw2(aTAU)))*exp(-aa*aTAU)
-             -(aa*AA*W0/(pow(aTAU,3)))*exp(-aa*aTAU)
-             -3*D/(pow(aTAU,4)))
-            ); }
-
->>>>>>> origin/master
 
 void Field::effective_mass( double *mass_sq, double *field_values){
     for(fld=0;fld<num_fields;fld++)
     {
-<<<<<<< HEAD
         //f_MPl[fld] = rescale_A*field_values[fld]/a;
         f_MPl[fld] = rescale_A*field_values[fld];
     }
@@ -909,34 +824,3 @@ void Field::effective_mass( double *mass_sq, double *field_values){
     
 }
 
-
-=======
-        tauvalue[fld] = exp((sqrt(2)/sqrt(3))*field_values[fld])/2;
-        std::cout << "tauvalue[0] = " << tauvalue[fld] << std::endl;
-        
-        mass_sq[fld]=(1/ENGRESCALE)*pw2(sqrt(2)/sqrt(3))*(
-        (tauvalue[fld])*(-(7*pw2(aa)*pw2(AA)/(6*pw2(tauvalue[fld])))*exp(-2*aa*tauvalue[fld])
-                         -(aa*pw2(AA)/(pow(tauvalue[fld],3)))*exp(-2*aa*tauvalue[fld])
-                         -(pow(aa,3)*pw2(AA)/(3*tauvalue[fld]))*exp(-2*aa*tauvalue[fld])
-                         -(pw2(aa)*AA*W0/(2*pw2(tauvalue[fld])))*exp(-aa*tauvalue[fld])
-                         -(aa*AA*W0/(pow(tauvalue[fld],3)))*exp(-aa*tauvalue[fld])
-                         -3*D/(pow(tauvalue[fld],4)))  +
-        pw2(tauvalue[fld])*(
-                            exp(-2*aa*tauvalue[fld])*(
-                                                      (2*pow(aa,4)*pw2(AA)/(3*tauvalue[fld]))+
-                                                      (8*pow(aa,3)*pw2(AA)/(3*pw2(tauvalue[fld])))+
-                                                      (13*pw2(aa)*pw2(AA)/(3*pow(tauvalue[fld],3)))+
-                                                      (3*aa*pw2(AA)/(pow(tauvalue[fld],4))))
-                            +
-                            exp(-aa*tauvalue[fld])*(
-                                                    (pow(aa,3)*AA*W0/(2*pw2(tauvalue[fld])))+
-                                                    (2*pw2(aa)*AA*W0/(pow(tauvalue[fld],3)))+
-                                                    (3*aa*AA*W0/(pow(tauvalue[fld],4))))
-                            +
-                            12*D/(pow(tauvalue[fld],5))
-                            )
-        
-        );
-    }
-}
->>>>>>> origin/master

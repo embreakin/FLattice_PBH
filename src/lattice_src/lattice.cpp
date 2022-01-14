@@ -48,11 +48,7 @@ void lattice(double**& lattice_var)
     //    j=6    : energy density of radiation
     //    j=7-15 : mode functions of field perturbation: delta_{sigma,sigma}, delta_{sigma,psi}, delta{sigma,phi}, delta_{psi,sigma}, etc...
     //    j=16-24: log(a) derivatives of mode functions
-<<<<<<< HEAD
     //    j=25-27: mode functions of gravitational potential perturbation: delta Phi_{sigma}, delta Phi_{psi}, delta Phi_{phi}
-=======
-    //    j=25-27: mode functions of gravitational potential perturbation: delta Phi_{sigma}, delta Phi_{psi}, delta Phi_{psi}
->>>>>>> origin/master
     //    j=28-30: log(a) derivatives of gravitational potential perturbation
     //    j=31-54: complex conjugate of [7]-[30]
     for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){

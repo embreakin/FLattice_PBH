@@ -61,6 +61,11 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     }
     
     
+    
+    
+    //---------------------------------------
+    //calculation of zeromode w/ perturbation
+    //---------------------------------------
      if(perturbation_switch){
          
          

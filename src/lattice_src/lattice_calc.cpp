@@ -32,15 +32,10 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
             
             #if   dim == 1
                         int idx = j;
-<<<<<<< HEAD
                         value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx, a, da)/pow(a,4) + field->V_lattice(f, idx ,a) + gradient_energy_eachpoint(f, i, idx)/ pow(a,4);
                         _average_reduc += value[i][idx];
                         _potential_average_reduc += field->V_lattice(f, idx ,a) ;
-=======
-                        value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx, a, da)/pow(a,4) + field->aV(f, i, idx ,a)+gradient_energy_eachpoint(f, i, idx)/ pow(a,4);
-                        _average_reduc += value[i][idx];
-                        _potential_average_reduc += field->aV(f, i, idx ,a);
->>>>>>> origin/master
+
                         _timederiv_average_reduc += kinetic_energy_eachpoint(f, df, i, idx, a, da)/pow(a,4);
                         _grad_average_reduc += gradient_energy_eachpoint(f, i, idx)/ pow(a,4);
             #elif   dim == 2
@@ -48,17 +43,11 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
                         for( int k = 0; k < N; ++k ){
                             int idx = j*N + k;
                             
-<<<<<<< HEAD
                             value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx, a, da)/pow(a,4) + field->V_lattice(f, idx ,a) +gradient_energy_eachpoint(f, i, idx)/ pow(a,4);
                             
                             _average_reduc += value[i][idx];
                             _potential_average_reduc += field->V_lattice(f, idx ,a) ;
-=======
-                            value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx, a, da)/pow(a,4) + field->aV(f, i, idx ,a)+gradient_energy_eachpoint(f, i, idx)/ pow(a,4);
-                            
-                            _average_reduc += value[i][idx];
-                            _potential_average_reduc += field->aV(f, i, idx ,a);
->>>>>>> origin/master
+
                             _timederiv_average_reduc +=  kinetic_energy_eachpoint(f, df, i, idx, a, da)/pow(a,4);
                             _grad_average_reduc += gradient_energy_eachpoint(f, i, idx)/ pow(a,4);
                             
@@ -68,15 +57,10 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
               #pragma omp simd reduction(+:_average_reduc,_potential_average_reduc,_timederiv_average_reduc,_grad_average_reduc)
                             for( int l = 0; l < N; ++l ){
                                 int idx = (j*N + k)*N + l;
-<<<<<<< HEAD
+
                                 value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx, a, da)/pow(a,4) + field->V_lattice(f, idx ,a) +gradient_energy_eachpoint(f, i, idx)/pow(a,4);
                                 _average_reduc += value[i][idx];
                                 _potential_average_reduc += field->V_lattice(f, idx ,a) ;
-=======
-                                value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx, a, da)/pow(a,4) + field->aV(f, i, idx ,a)+gradient_energy_eachpoint(f, i, idx)/pow(a,4);
-                                _average_reduc += value[i][idx];
-                                _potential_average_reduc += field->aV(f, i, idx ,a);
->>>>>>> origin/master
                                 _timederiv_average_reduc += kinetic_energy_eachpoint(f, df, i, idx, a, da)/pow(a,4);
                                 _grad_average_reduc += gradient_energy_eachpoint(f, i, idx)/ pow(a,4);
                                 
@@ -97,15 +81,10 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
                 for( int j = 0; j < N; ++j ){
                     #if   dim == 1
                     int idx = j;
-<<<<<<< HEAD
+
                         value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx) + field->V_lattice(f, idx) +gradient_energy_eachpoint(f, i, idx);
                         _average_reduc += value[i][idx];
                         _potential_average_reduc += field->V_lattice(f, idx);
-=======
-                        value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx) + field->V(f, i ,idx)+gradient_energy_eachpoint(f, i, idx);
-                        _average_reduc += value[i][idx];
-                        _potential_average_reduc += field->V(f, i ,idx);
->>>>>>> origin/master
                         _timederiv_average_reduc +=  kinetic_energy_eachpoint(f, df, i, idx);
                         _grad_average_reduc += gradient_energy_eachpoint(f, i, idx);
 
@@ -113,15 +92,11 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
                     #pragma omp simd reduction(+:_average_reduc,_potential_average_reduc,_timederiv_average_reduc,_grad_average_reduc)
                         for( int k = 0; k < N; ++k ){
                             int idx = j*N + k;
-<<<<<<< HEAD
+
                             value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx) + field->V_lattice(f, idx)+gradient_energy_eachpoint(f, i, idx);
                             _average_reduc += value[i][idx];
                             _potential_average_reduc += field->V_lattice(f, idx);
-=======
-                            value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx) + field->V(f, i ,idx)+gradient_energy_eachpoint(f, i, idx);
-                            _average_reduc += value[i][idx];
-                            _potential_average_reduc += field->V(f, i ,idx);
->>>>>>> origin/master
+
                             _timederiv_average_reduc +=  kinetic_energy_eachpoint(f, df, i, idx);
                             _grad_average_reduc += gradient_energy_eachpoint(f, i, idx);
                         }
@@ -131,15 +106,10 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
                     #pragma omp simd reduction(+:_average_reduc,_potential_average_reduc,_timederiv_average_reduc,_grad_average_reduc)
                             for( int l = 0; l < N; ++l ){
                                 int idx = (j*N + k)*N + l;
-<<<<<<< HEAD
+
                                 value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx) + field->V_lattice(f, idx)+gradient_energy_eachpoint(f, i, idx);
                                 _average_reduc += value[i][idx];
                                 _potential_average_reduc += field->V_lattice(f, idx);
-=======
-                                value[i][idx] = kinetic_energy_eachpoint(f, df, i, idx) + field->V(f, i ,idx)+gradient_energy_eachpoint(f, i, idx);
-                                _average_reduc += value[i][idx];
-                                _potential_average_reduc += field->V(f, i ,idx);
->>>>>>> origin/master
                                 _timederiv_average_reduc +=  kinetic_energy_eachpoint(f, df, i, idx);
                                 _grad_average_reduc += gradient_energy_eachpoint(f, i, idx);
                             }

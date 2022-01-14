@@ -79,20 +79,11 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     }
     
     DP H,la,rho,rhop,w,a;
-<<<<<<< HEAD
     Vec_DP tr(N_zero);
     int i,j;
     
     for (j=0;j<timecount;j++) {
     for (i=0;i<N_zero;i++) tr[i]=yp[i][j];
-=======
-    const int N2=7;
-    Vec_DP tr(N2);
-    int i,j;
-    
-    for (j=0;j<timecount;j++) {
-    for (i=0;i<N2;i++) tr[i]=yp[i][j];
->>>>>>> origin/master
     la=xx[j];
     rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
     rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
@@ -153,22 +144,12 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
     }
     
     DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi;
-<<<<<<< HEAD
-   
+
     Vec_DP zeta(6);
     Vec_DP tr(N_pert);
     int i,j;
     for (j=0;j<timecount;j++) {
         for (i=0;i<N_pert;i++) tr[i]=yp[i][j];
-=======
-    const int N1=55;//,N2=7;
-//    char* strr;
-    Vec_DP zeta(6);
-    Vec_DP tr(N1);
-    int i,j;
-    for (j=0;j<timecount;j++) {
-        for (i=0;i<N1;i++) tr[i]=yp[i][j];
->>>>>>> origin/master
         la=xx[j];
 //        if(j==0){std::cout << la << "\n"; };
         rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
@@ -246,24 +227,16 @@ void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, i
     }
     
     DP H,a,la,rho,rhop,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi,PSTR;
-<<<<<<< HEAD
-    
+
     Vec_DP zeta(6);
     Vec_DP tr(N_pert);
-=======
-    const int N1=55;
-    Vec_DP zeta(6);
-    Vec_DP tr(N1);
->>>>>>> origin/master
+
     int i;
     
     la=xx[timecount-1];
     a=exp(la);
-<<<<<<< HEAD
+
     for (i=0;i<N_pert;i++) tr[i] = yp[i][timecount-1];
-=======
-    for (i=0;i<N1;i++) tr[i] = yp[i][timecount-1];
->>>>>>> origin/master
     rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
     rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
     H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
@@ -299,24 +272,16 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     }
     
     DP H,a,la,rho,rhop,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi,PSTR;
-<<<<<<< HEAD
     
     Vec_DP zeta(6);
     Vec_DP tr(N_pert);
-=======
-    const int N1=55;
-    Vec_DP zeta(6);
-    Vec_DP tr(N1);
->>>>>>> origin/master
     int i;
     
     la=xx[timecount-1];
     a=exp(la);
-<<<<<<< HEAD
+    
     for (i=0;i<N_pert;i++) tr[i] = yp[i][timecount-1];
-=======
-    for (i=0;i<N1;i++) tr[i] = yp[i][timecount-1];
->>>>>>> origin/master
+
     rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
     rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
     H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
@@ -351,28 +316,15 @@ double rand_uniform(void)
 
 void set_mode(double p2, double m2, double *field, double *deriv, int real)
 {
-<<<<<<< HEAD
-    double phase,phase2, amplitude, rms_amplitude;
+
+    double phase, amplitude, rms_amplitude, omega;
     double re_f_left, im_f_left, re_f_right, im_f_right;
 #if  dim==1
-    static double norm = rescale_A*pow(rescale_B,1.5)*pow(L/(dx*dx),.5)/sqrt(2*M_PI);
+    static double norm = rescale_A*rescale_B*pow(L/(dx*dx),.5)/sqrt(4*M_PI);
 #elif  dim==2
-    static double norm =  rescale_A*pow(rescale_B,1.5)*pow(L/(dx*dx),1)/(sqrt(M_PI));
+    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1)/(sqrt(2*M_PI));
 #elif  dim==3
-    static double norm =  rescale_A*pow(rescale_B,1.5)*pow(L/(dx*dx),1.5);
-#endif
-    
-    rms_amplitude=norm*pow(p2,.75-(double)dim/4.);
-    
-=======
-    double phase,phase2, amplitude, rms_amplitude, omega;
-    double re_f_left, im_f_left, re_f_right, im_f_right;
-#if  dim==1
-    static double norm = rescale_B*pow(L/(dx*dx),.5)/sqrt(4*M_PI);
-#elif  dim==2
-    static double norm =  rescale_B*pow(L/(dx*dx),1)/(sqrt(2*M_PI));
-#elif  dim==3
-    static double norm =  rescale_B*pow(L/(dx*dx),1.5)/sqrt(2);
+    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.5)/sqrt(2);
 #endif
     static int tachyonic = 0; //Avoid printing the same error repeatedly
     
@@ -381,7 +333,7 @@ void set_mode(double p2, double m2, double *field, double *deriv, int real)
     else
     {
         if(tachyonic==0)
-            std::cout <<"Warning: Tachyonic mode(s) may be initialized inaccurately"<< std::endl;
+            std::cout << "Warning: Tachyonic mode(s) may be initialized inaccurately" << std::endl;
         omega=sqrt(p2);
         tachyonic=1;
     }
@@ -390,7 +342,6 @@ void set_mode(double p2, double m2, double *field, double *deriv, int real)
         rms_amplitude=norm/sqrt(omega)*pow(p2,.75-(double)dim/4.);
     else
         rms_amplitude=0.;
->>>>>>> origin/master
         
         //Amplitude = RMS amplitude x Rayleigh distributed random number
         // The same amplitude is used for left and right moving waves to generate standing waves. The extra 1/sqrt(2) normalizes the initial occupation number correctly.
@@ -402,20 +353,17 @@ void set_mode(double p2, double m2, double *field, double *deriv, int real)
         re_f_left = amplitude * cos( phase );
         im_f_left = amplitude * sin( phase );
         //Right moving component
-    phase2 = 2*M_PI*rand_uniform();
+    phase = 2*M_PI*rand_uniform();
   //  std::cout << "phase2 " << phase/(2*M_PI) << std::endl;
-        re_f_right = amplitude * cos( phase2 );
-        im_f_right = amplitude * sin( phase2 );
+        re_f_right = amplitude * cos( phase );
+        im_f_right = amplitude * sin( phase );
     
     field[0] = re_f_left + re_f_right;
     field[1] = im_f_left + im_f_right;
-<<<<<<< HEAD
-    deriv[0] = 0;//omega*(im_f_left - im_f_right);
-    deriv[1] = 0;//-omega*(re_f_left - re_f_right);
-=======
+
     deriv[0] = omega*(im_f_left - im_f_right);
     deriv[1] = -omega*(re_f_left - re_f_right);
->>>>>>> origin/master
+
     if(real==1)
     {
         field[1]=0;
