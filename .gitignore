@@ -1,0 +1,54 @@
+gibo 2.1.0 by Simon Whitaker <sw@netcetera.org>
+https://github.com/simonwhitaker/gibo
+### https://raw.github.com/github/gitignore/18654b47c86bef38add5cd091ec2dac7d6e6e37b/C++.gitignore
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+
+# Ignore unnecessary project files and directories
+*.vti
+*.dSYM
+*.optrpt
+*.txt
+build
+main
+memo.txt
+Makefile
+
+#Others
+.DS_Store
+.ipynb_checkpoints/
+
+#But don't ignore this
+!CMakeLists.txt
