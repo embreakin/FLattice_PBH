@@ -47,15 +47,15 @@ bool perturbation_switch = true;
 
 //Outputs
 bool kanalyze_switch = true;// true:Calculate k-analyze, false:Don't calculate k-analyze
-bool spectrum_switch = false;// true:Calculate final spectrum, false:Don't calculate final spectrum
-bool spectrum_bfosc_switch = false; // true:Calculate spectrum before oscillation starts, false:Don't calculate
+bool spectrum_switch = true;// true:Calculate final spectrum, false:Don't calculate final spectrum
+bool spectrum_bfosc_switch = true; // true:Calculate spectrum before oscillation starts, false:Don't calculate
 
 //Array elements
 const int  N_pert=55;
 
 DP kfrom_Mpc = 0.01;//[Mpc^-1] Calculate from this k
 DP kto_Mpc = 1000;//[Mpc^-1] Calculate to this k
-int kinterval_knum = 100;// [knum units] Calculate with this interval of knum
+int kinterval_knum = 1;// [knum units] Calculate with this interval of knum
 
 
 

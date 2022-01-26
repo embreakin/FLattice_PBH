@@ -254,7 +254,15 @@ void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, i
     PPot = PPot/(2*M_PI*M_PI);
     PPot = log10(PPot) + 3*log10(k_comoving);
     //output log(Gravitational Potential) and log(Zeta), along with k and knum.
-    sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " " << std::setw(5) << knum << " " << std::setw(10) << UC::knum_to_kMpc(knum) << " " << std::setw(10) << PPot << " " << std::setw(10) << Pzeta <<  " " << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << "\n" << std::flush;
+    sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " " << std::setw(5) << knum << " " << std::setw(10) << UC::knum_to_kMpc(knum) << " " << std::setw(10) << PPot << " " << std::setw(10) << Pzeta <<  " " << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << " ";
+    for (i=7;i<N_pert;i++)
+    {
+        if(i == N_pert -1){
+            sp_output << std::setw(10) << tr[i] << "\n";
+            }else{
+        sp_output<< std::setw(10) << tr[i] << " " ;
+            }        
+    }
 }
 
 //subroutine for spectrum output
@@ -314,39 +322,23 @@ double rand_uniform(void)
     return (rand(mt));
 }
 
-void set_mode(double p2, double m2, double *field, double *deriv, int real)
+void set_mode(double p2, double omega, double *field, double *deriv, int real)
 {
 
-    double phase, amplitude, rms_amplitude, omega;
+    double phase, amplitude, rms_amplitude;
     double re_f_left, im_f_left, re_f_right, im_f_right;
 #if  dim==1
-    static double norm = rescale_A*rescale_B*pow(L/(dx*dx),.5)/sqrt(4*M_PI);
+    static double norm = rescale_A*rescale_B*pow(L/(dx*dx),.5)/(OSCSTART*sqrt(4*M_PI));
 #elif  dim==2
-    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1)/(sqrt(2*M_PI));
+    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1)/(OSCSTART*sqrt(2*M_PI));
 #elif  dim==3
-    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.5)/sqrt(2);
+    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.5)/(OSCSTART*sqrt(2));
 #endif
-    static int tachyonic = 0; //Avoid printing the same error repeatedly
-    
-    if(p2+m2>0)
-        omega=sqrt(p2+m2);
-    else
-    {
-        if(tachyonic==0)
-            std::cout << "Warning: Tachyonic mode(s) may be initialized inaccurately" << std::endl;
-        omega=sqrt(p2);
-        tachyonic=1;
-    }
-    
-    if(omega>0.)
-        rms_amplitude=norm/sqrt(omega)*pow(p2,.75-(double)dim/4.);
-    else
-        rms_amplitude=0.;
-        
+
         //Amplitude = RMS amplitude x Rayleigh distributed random number
         // The same amplitude is used for left and right moving waves to generate standing waves. The extra 1/sqrt(2) normalizes the initial occupation number correctly.
         
-    amplitude = rms_amplitude/sqrt(2.)*sqrt(log(1./rand_uniform()));
+    amplitude = norm/sqrt(2*omega)*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.);
     phase = 2*M_PI*rand_uniform();
   // std::cout << "phase1 " << phase/(2*M_PI) << std::endl;
         //Left moving component

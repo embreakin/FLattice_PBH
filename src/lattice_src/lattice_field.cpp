@@ -50,6 +50,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
   double* initial_field_values = new double [num_fields];
   double* initial_field_derivs = new double [num_fields];
   double radiation_var;
+  double hubble_lattice_init;
 
     
     //Fields zeromode
@@ -93,10 +94,14 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
     
     Logout("radiation_var = %2.5e \n", radiation_var);
     
+    
+    
     //Effective masses
      field->effective_mass( mass_sq, initial_field_values);
 
-    
+   
+    double F_k,dF_k;
+    double omega;
     
     #if  dim==1
       double pz;
@@ -137,16 +142,41 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 
 
   #if  dim==1
-
+        
         //k=N/2
         p2 = dp2*pw2(N/2);
-        set_mode(p2, mass_sq[i], &f[i][1], &df[i][1], 1);
+        hubble_lattice_init = Fri(lattice_var[N/2-1][0],lattice_var[N/2-1][1],lattice_var[N/2-1][2],lattice_var[N/2-1][3],lattice_var[N/2-1][4],lattice_var[N/2-1][5],lattice_var[N/2-1][6]);
+        F_k =  sqrt(
+                    pow(lattice_var[N/2-1][7],2) + pow(lattice_var[N/2-1][31],2)
+                    +pow(lattice_var[N/2-1][8],2) + pow(lattice_var[N/2-1][32],2)
+                    +pow(lattice_var[N/2-1][9],2) + pow(lattice_var[N/2-1][33],2)
+                    );
+        dF_k = hubble_lattice_init*sqrt(
+                                        pow(lattice_var[N/2-1][16],2) + pow(lattice_var[N/2-1][40],2)
+                                        +pow(lattice_var[N/2-1][17],2) + pow(lattice_var[N/2-1][41],2)
+                                        +pow(lattice_var[N/2-1][18],2) + pow(lattice_var[N/2-1][42],2)
+                                        );
+        omega = dF_k/(F_k*rescale_B);
+        set_mode(p2, omega, &f[i][1], &df[i][1], 1);
 
         //Loop over gridpoints.
         for(int k = 1; k < N/2; k++ ){
             pz = k;
             p2 = dp2*pw2(pz);
-             set_mode(p2, mass_sq[i], &f[i][2*k], &df[i][2*k], 0);
+            //Hubble
+            hubble_lattice_init = Fri(lattice_var[k-1][0],lattice_var[k-1][1],lattice_var[k-1][2],lattice_var[k-1][3],lattice_var[k-1][4],lattice_var[k-1][5],lattice_var[k-1][6]);
+            F_k =  sqrt(
+                        pow(lattice_var[k-1][7],2) + pow(lattice_var[k-1][31],2)
+                        +pow(lattice_var[k-1][8],2) + pow(lattice_var[k-1][32],2)
+                        +pow(lattice_var[k-1][9],2) + pow(lattice_var[k-1][33],2)
+                        );
+            dF_k = hubble_lattice_init*sqrt(
+                                            pow(lattice_var[k-1][16],2) + pow(lattice_var[k-1][40],2)
+                                            +pow(lattice_var[k-1][17],2) + pow(lattice_var[k-1][41],2)
+                                            +pow(lattice_var[k-1][18],2) + pow(lattice_var[k-1][42],2)
+                                            );
+             omega = dF_k/(F_k*rescale_B);
+             set_mode(p2, omega, &f[i][2*k], &df[i][2*k], 0);
         }
         //k=0
         f[i][0] = 0.;

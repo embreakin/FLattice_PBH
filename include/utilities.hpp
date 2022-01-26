@@ -31,7 +31,7 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
 // Lattice Simulation Subroutines
 //--------------------------------
 
-void set_mode(double p2, double m2, double *field, double *deriv, int real);
+void set_mode(double p2, double omega, double *field, double *deriv, int real);
 
 void DFT_c2rD1( double* f);
 
