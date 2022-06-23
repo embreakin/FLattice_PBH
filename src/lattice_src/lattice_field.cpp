@@ -5,6 +5,52 @@
 #include "equations.hpp"
 
 
+double omega_calc_int(int k_int , double**& lattice_var)
+{
+    double F_k,dF_k;
+    double omega;
+    
+    //Hubble
+    hubble_lattice_init = Fri(lattice_var[k_int-1][0],lattice_var[k_int-1][1],lattice_var[k_int-1][2],lattice_var[k_int-1][3],lattice_var[k_int-1][4],lattice_var[k_int-1][5],lattice_var[k_int-1][6]);
+    //Fourier mode of sigma field before discretization
+    F_k =  sqrt(
+                pow(lattice_var[k_int-1][7],2) + pow(lattice_var[k_int-1][31],2)
+                +pow(lattice_var[k_int-1][8],2) + pow(lattice_var[k_int-1][32],2)
+                +pow(lattice_var[k_int-1][9],2) + pow(lattice_var[k_int-1][33],2)
+                );
+    //Fourier mode of the derivative of sigma field before discretization
+    dF_k = hubble_lattice_init*sqrt(
+                                    pow(lattice_var[k_int-1][16],2) + pow(lattice_var[k_int-1][40],2)
+                                    +pow(lattice_var[k_int-1][17],2) + pow(lattice_var[k_int-1][41],2)
+                                    +pow(lattice_var[k_int-1][18],2) + pow(lattice_var[k_int-1][42],2)
+                                    );
+    //Omega
+    omega = dF_k/(F_k*rescale_B);
+    
+    return omega;
+}
+
+double omega_calc_int_nonint(double distance, double**& lattice_var)
+{
+    int l;
+    double omega, omega2;
+
+    l = round(distance);
+    if (l < N/2){
+        
+        omega = omega_calc_int(l, lattice_var);
+        omega2 = omega_calc_int(l+1, lattice_var);
+        omega = (distance - l)*(omega2 - omega)+ omega;
+        
+    }else{
+        omega = omega_calc_int(N/2-1, lattice_var);
+        omega2 = omega_calc_int(N/2, lattice_var);
+        omega = (distance - (N/2-1))*(omega2 - omega)+ omega;
+    }
+    
+    return omega;
+}
+
 void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 {   
 	f = new double* [num_fields];
@@ -100,15 +146,14 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
      field->effective_mass( mass_sq, initial_field_values);
 
    
-    double F_k,dF_k;
     double omega;
+    double distance;
     
     #if  dim==1
       double pz;
     #elif dim==2
     int jconj;
     double py,pz;
-  
     
     double* fnyquist = new double [2*N];
     double* fdnyquist = new double [2*N];
@@ -145,42 +190,28 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
         
         //k=N/2
         p2 = dp2*pw2(N/2);
-        hubble_lattice_init = Fri(lattice_var[N/2-1][0],lattice_var[N/2-1][1],lattice_var[N/2-1][2],lattice_var[N/2-1][3],lattice_var[N/2-1][4],lattice_var[N/2-1][5],lattice_var[N/2-1][6]);
-        F_k =  sqrt(
-                    pow(lattice_var[N/2-1][7],2) + pow(lattice_var[N/2-1][31],2)
-                    +pow(lattice_var[N/2-1][8],2) + pow(lattice_var[N/2-1][32],2)
-                    +pow(lattice_var[N/2-1][9],2) + pow(lattice_var[N/2-1][33],2)
-                    );
-        dF_k = hubble_lattice_init*sqrt(
-                                        pow(lattice_var[N/2-1][16],2) + pow(lattice_var[N/2-1][40],2)
-                                        +pow(lattice_var[N/2-1][17],2) + pow(lattice_var[N/2-1][41],2)
-                                        +pow(lattice_var[N/2-1][18],2) + pow(lattice_var[N/2-1][42],2)
-                                        );
-        omega = dF_k/(F_k*rescale_B);
+        
+        //Omega
+        omega = omega_calc_int( N/2 , lattice_var);
+
+        //Set mode for lattice simulation
         set_mode(p2, omega, &f[i][1], &df[i][1], 1);
 
         //Loop over gridpoints.
         for(int k = 1; k < N/2; k++ ){
             pz = k;
             p2 = dp2*pw2(pz);
-            //Hubble
-            hubble_lattice_init = Fri(lattice_var[k-1][0],lattice_var[k-1][1],lattice_var[k-1][2],lattice_var[k-1][3],lattice_var[k-1][4],lattice_var[k-1][5],lattice_var[k-1][6]);
-            F_k =  sqrt(
-                        pow(lattice_var[k-1][7],2) + pow(lattice_var[k-1][31],2)
-                        +pow(lattice_var[k-1][8],2) + pow(lattice_var[k-1][32],2)
-                        +pow(lattice_var[k-1][9],2) + pow(lattice_var[k-1][33],2)
-                        );
-            dF_k = hubble_lattice_init*sqrt(
-                                            pow(lattice_var[k-1][16],2) + pow(lattice_var[k-1][40],2)
-                                            +pow(lattice_var[k-1][17],2) + pow(lattice_var[k-1][41],2)
-                                            +pow(lattice_var[k-1][18],2) + pow(lattice_var[k-1][42],2)
-                                            );
-             omega = dF_k/(F_k*rescale_B);
+            //Omega
+            omega = omega_calc_int( k , lattice_var);
+
+            //Set mode for lattice simulation
              set_mode(p2, omega, &f[i][2*k], &df[i][2*k], 0);
         }
+        
         //k=0
         f[i][0] = 0.;
         df[i][0] = 0.;
+        
 #elif dim==2
 
         for(int j = 0; j < N; j++ ){
@@ -189,7 +220,10 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
             for(int k = 1; k < N/2; k++ ){
                 pz = k;
                 p2=dp2*(pw2(py)+pw2(pz));
-                set_mode(p2, mass_sq[i], &f[i][j*N+2*k], &df[i][j*N+2*k], 0);
+                distance = sqrt(pw2(py)+pw2(pz));
+               omega = omega_calc_int_nonint(distance, lattice_var);
+                //Set mode for lattice simulation
+                set_mode(p2, omega, &f[i][j*N+2*k], &df[i][j*N+2*k], 0);
 
             }
 
@@ -200,37 +234,50 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 
                 //k=0
                 p2 = dp2*pw2(py);
-                set_mode(p2, mass_sq[i], &f[i][j*N], &df[i][j*N], 0);
+                omega = omega_calc_int( jconj , lattice_var);
+                set_mode(p2, omega, &f[i][j*N], &df[i][j*N], 0);
                 f[i][jconj*N] = f[i][j*N];
                 f[i][jconj*N+1] = -f[i][j*N+1];
                 df[i][jconj*N] = df[i][j*N];
                 df[i][jconj*N+1] = -df[i][j*N+1];
                 //k=N/2
+                distance = sqrt(pw2(py)+pw2(N/2));
+                omega = omega_calc_int_nonint(distance, lattice_var);
                 p2 = dp2*(pw2(py)+pw2(N/2));
-                set_mode(p2, mass_sq[i], &fnyquist[2*j], &fdnyquist[2*j], 0);
+                set_mode(p2, omega, &fnyquist[2*j], &fdnyquist[2*j], 0);
                 fnyquist[2*jconj] = fnyquist[2*j];
                 fnyquist[2*jconj+1] = -fnyquist[2*j+1];
                 fdnyquist[2*jconj] = fdnyquist[2*j];
                 fdnyquist[2*jconj+1] = -fdnyquist[2*j+1];
 
             }
+            // The 4 "corners" of the lattice are set to real values
             else if(j == 0 || j == N/2){
+                if(j == 0 && k == 0){
+                    // Set zeromode of field and derivative to zero (it gets added in position space)
+                    f[i][0] = 0.;
+                    f[i][1] = 0.;
+                    df[i][0] = 0.;
+                    df[i][1] = 0.;
+                }
+                else if(j== N/2 && k== 0){
+                    p2 = dp2*(pw2(N/2));
+                    omega = omega_calc_int( N/2 , lattice_var);
+                    
+                    set_mode(p2, omega, &f[i][j*N], &df[i][j*N], 1);
 
-                p2 = dp2*pw2(py); //k = 0
-                if(p2 > 0.)
-                   set_mode(p2, mass_sq[i], &f[i][j*N], &df[i][j*N], 1);
+                }
+                else{ //k=N/2
+                    p2 = dp2*(pw2(py)+pw2(N/2));
+                    
+                    distance = sqrt(pw2(py)+pw2(N/2));
+                    omega = omega_calc_int_nonint(distance, lattice_var);
+                    set_mode(p2, omega, &fnyquist[2*j], &fdnyquist[2*j], 1);
 
-                p2 = dp2*(pw2(py)+pw2(N/2));  //k = N/2
-                set_mode(p2, mass_sq[i], &fnyquist[2*j], &fdnyquist[2*j], 1);
-
+                }
             }
-        }     //k = 0, j = 0
-        f[i][0] = 0.;
-        f[i][1] = 0.;
-        df[i][0] = 0.;
-        df[i][1] = 0.;
-
-
+        }
+        
       /*
         for( int j = 0; j < N; ++j ){
             //#pragma omp parallel for schedule( static ) num_threads( num_threads )
@@ -848,7 +895,7 @@ void Field::effective_mass( double *mass_sq, double *field_values){
         f_MPl[fld] = rescale_A*field_values[fld];
     }
     
-    mass_sq[0]= V_11(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
+    mass_sq[0]= exp(OSCSTART)V_11(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
      mass_sq[1]= V_22(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
      mass_sq[2]= V_33(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
     

@@ -254,7 +254,12 @@ void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, i
     PPot = PPot/(2*M_PI*M_PI);
     PPot = log10(PPot) + 3*log10(k_comoving);
     //output log(Gravitational Potential) and log(Zeta), along with k and knum.
-    sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " " << std::setw(5) << knum << " " << std::setw(10) << UC::knum_to_kMpc(knum) << " " << std::setw(10) << PPot << " " << std::setw(10) << Pzeta <<  " " << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << " ";
+    sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " "
+    << std::setw(5) << knum << " "
+    << std::setw(10) << UC::knum_to_kMpc(knum) << " "
+    << std::setw(10) << PPot << " "
+    << std::setw(10) << Pzeta <<  " "
+    << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << " ";
     for (i=7;i<N_pert;i++)
     {
         if(i == N_pert -1){
@@ -328,11 +333,11 @@ void set_mode(double p2, double omega, double *field, double *deriv, int real)
     double phase, amplitude, rms_amplitude;
     double re_f_left, im_f_left, re_f_right, im_f_right;
 #if  dim==1
-    static double norm = rescale_A*rescale_B*pow(L/(dx*dx),.5)/(OSCSTART*sqrt(4*M_PI));
+    static double norm = rescale_A*rescale_B*pow(L/(dx*dx),.5)/(exp(OSCSTART)*sqrt(4*M_PI));
 #elif  dim==2
-    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1)/(OSCSTART*sqrt(2*M_PI));
+    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1)/(exp(OSCSTART)*sqrt(2*M_PI));
 #elif  dim==3
-    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.5)/(OSCSTART*sqrt(2));
+    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.5)/(exp(OSCSTART)*sqrt(2));
 #endif
 
         //Amplitude = RMS amplitude x Rayleigh distributed random number
