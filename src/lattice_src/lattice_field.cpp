@@ -5,47 +5,79 @@
 #include "equations.hpp"
 
 
-double omega_calc_int(int k_int , double**& lattice_var)
+
+double omega_calc_int(int k_int , double**& lattice_var, int num_field)
 {
-    double F_k,dF_k;
-    double omega;
+    double hubble_lattice_init, F_k, dF_k, omega;
     
     //Hubble
     hubble_lattice_init = Fri(lattice_var[k_int-1][0],lattice_var[k_int-1][1],lattice_var[k_int-1][2],lattice_var[k_int-1][3],lattice_var[k_int-1][4],lattice_var[k_int-1][5],lattice_var[k_int-1][6]);
-    //Fourier mode of sigma field before discretization
-    F_k =  sqrt(
-                pow(lattice_var[k_int-1][7],2) + pow(lattice_var[k_int-1][31],2)
-                +pow(lattice_var[k_int-1][8],2) + pow(lattice_var[k_int-1][32],2)
-                +pow(lattice_var[k_int-1][9],2) + pow(lattice_var[k_int-1][33],2)
-                );
-    //Fourier mode of the derivative of sigma field before discretization
-    dF_k = hubble_lattice_init*sqrt(
-                                    pow(lattice_var[k_int-1][16],2) + pow(lattice_var[k_int-1][40],2)
-                                    +pow(lattice_var[k_int-1][17],2) + pow(lattice_var[k_int-1][41],2)
-                                    +pow(lattice_var[k_int-1][18],2) + pow(lattice_var[k_int-1][42],2)
-                                    );
-    //Omega
-    omega = dF_k/(F_k*rescale_B);
+    
+    switch( num_field )
+    {
+        case 0: //sigma field
+        case 1: //psi field
+        case 2:  //phi field
+            //Fourier mode before discretization
+            F_k =  sqrt(
+                        pow(lattice_var[k_int-1][7+3*num_field],2) + pow(lattice_var[k_int-1][31+3*num_field],2)
+                        +pow(lattice_var[k_int-1][8+3*num_field],2) + pow(lattice_var[k_int-1][32+3*num_field],2)
+                        +pow(lattice_var[k_int-1][9+3*num_field],2) + pow(lattice_var[k_int-1][33+3*num_field],2)
+                        );
+            //Fourier mode of the derivative before discretization
+            dF_k = hubble_lattice_init*sqrt(
+                                            pow(lattice_var[k_int-1][16+3*num_field],2) + pow(lattice_var[k_int-1][40+3*num_field],2)
+                                            +pow(lattice_var[k_int-1][17+3*num_field],2) + pow(lattice_var[k_int-1][41+3*num_field],2)
+                                            +pow(lattice_var[k_int-1][18+3*num_field],2) + pow(lattice_var[k_int-1][42+3*num_field],2)
+                                            );
+            //Omega
+            omega = dF_k/(F_k*rescale_B);
+//            std::cout << "dF_k = " << dF_k << std::endl;
+//            std::cout << "F_k = " << F_k << std::endl;
+//            std::cout << "rescale_B = " << rescale_B << std::endl;
+//            std::cout << "omega = " << omega << std::endl;
+            break;
+        case 3: //gravitational potential
+            //Fourier mode before discretization
+            F_k =  sqrt(
+                        pow(lattice_var[k_int-1][25],2) + pow(lattice_var[k_int-1][49],2)
+                        +pow(lattice_var[k_int-1][26],2) + pow(lattice_var[k_int-1][50],2)
+                        +pow(lattice_var[k_int-1][27],2) + pow(lattice_var[k_int-1][51],2)
+                        );
+            //Fourier mode of the derivative before discretization
+            dF_k = hubble_lattice_init*sqrt(
+                                            pow(lattice_var[k_int-1][28],2) + pow(lattice_var[k_int-1][52],2)
+                                            +pow(lattice_var[k_int-1][29],2) + pow(lattice_var[k_int-1][53],2)
+                                            +pow(lattice_var[k_int-1][30],2) + pow(lattice_var[k_int-1][54],2)
+                                            );
+            //Omega
+            omega = dF_k/(F_k*rescale_B);
+            break;
+        default:
+            Logout( "Parameter 'num_field' must be 0 ~ 3. \n" );
+            exit(1);
+            
+    }
     
     return omega;
 }
 
-double omega_calc_int_nonint(double distance, double**& lattice_var)
+double omega_calc_nonint(double distance, double**& lattice_var, int num_field)
 {
     int l;
     double omega, omega2;
 
-    l = round(distance);
+    l = floor(distance);
     if (l < N/2){
         
-        omega = omega_calc_int(l, lattice_var);
-        omega2 = omega_calc_int(l+1, lattice_var);
-        omega = (distance - l)*(omega2 - omega)+ omega;
+        omega = omega_calc_int(l, lattice_var, num_field);
+        omega2 = omega_calc_int(l+1, lattice_var, num_field);
+        omega += (distance - l)*(omega2 - omega);
         
     }else{
-        omega = omega_calc_int(N/2-1, lattice_var);
-        omega2 = omega_calc_int(N/2, lattice_var);
-        omega = (distance - (N/2-1))*(omega2 - omega)+ omega;
+        omega = omega_calc_int(N/2-1, lattice_var, num_field);
+        omega2 = omega_calc_int(N/2, lattice_var, num_field);
+        omega += (distance - (N/2-1))*(omega2 - omega);
     }
     
     return omega;
@@ -98,15 +130,25 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
   double radiation_var;
   double hubble_lattice_init;
 
-    
+    //lattice_var[knum_lattice][j] [j] specifies variables as follows:
+    //    j=0-2  : zero modes of inflaton sigma, psi, and phi
+    //    j=3-5  : log(a) derivatives of inflaton sigma', psi', phi'
+    //    j=6    : energy density of radiation
+    //    j=7-15 : mode functions of field perturbation: delta_{sigma,sigma}, delta_{sigma,psi}, delta{sigma,phi}, delta_{psi,sigma}, etc...
+    //    j=16-24: log(a) derivatives of mode functions
+    //    j=25-27: mode functions of gravitational potential perturbation: delta Phi_{sigma}, delta Phi_{psi}, delta Phi_{phi}
+    //    j=28-30: log(a) derivatives of gravitational potential perturbation
+    //    j=31-54: complex conjugate of [7]-[30]
+ 
     //Fields zeromode
-    for (int i=0; i<num_fields; i++){
+    for (int i=0; i< num_fields; i++){
 
-        int j = num_fields + i;
+        int j = (num_fields -1) + i;
 
         initial_field_values[i] = 0.;
         initial_field_derivs[i] = 0.;
 //
+        if(i < num_fields - 1){ // Zeromode doesn't need to be calculated for gravitational potential
     for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
 //
     //    Logout(" lattice_var[%d][%d] = %2.5e \n", lattice_loop, i, lattice_var[lattice_loop][i]);
@@ -115,35 +157,37 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 
 
         initial_field_derivs[i] += lattice_var[lattice_loop][j];
-        
+
         }
 
         initial_field_values[i] /= (N/2);
         initial_field_derivs[i] /= (N/2);
-        
-        Logout(" initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
-        Logout(" initial_field_derivs[%d] = %2.5e \n",j,initial_field_derivs[i]);
-        
 
         }
-    
+        
+        Logout(" initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
+        Logout(" initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
+
+
+        }
+
 
     //Radiation zeromode
      for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
      {
-    
+
      radiation_var += lattice_var[lattice_loop][6];
-         
+
      }
-    
+
     radiation_var /= (N/2);
-    
+
     Logout("radiation_var = %2.5e \n", radiation_var);
-    
+
     
     
     //Effective masses
-     field->effective_mass( mass_sq, initial_field_values);
+    // field->effective_mass( mass_sq, initial_field_values);
 
    
     double omega;
@@ -183,7 +227,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
     
     for( int i = 0; i < num_fields; ++i ){
 
-      std::cout << "mass_sq[0] = " << mass_sq[i] << std::endl;
+     // std::cout << "mass_sq[ " << i <<  "] = " << mass_sq[i] << std::endl;
 
 
   #if  dim==1
@@ -192,7 +236,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
         p2 = dp2*pw2(N/2);
         
         //Omega
-        omega = omega_calc_int( N/2 , lattice_var);
+        omega = omega_calc_int( N/2 , lattice_var, i);
 
         //Set mode for lattice simulation
         set_mode(p2, omega, &f[i][1], &df[i][1], 1);
@@ -202,7 +246,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
             pz = k;
             p2 = dp2*pw2(pz);
             //Omega
-            omega = omega_calc_int( k , lattice_var);
+            omega = omega_calc_int( k , lattice_var, i);
 
             //Set mode for lattice simulation
              set_mode(p2, omega, &f[i][2*k], &df[i][2*k], 0);
@@ -213,7 +257,6 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
         df[i][0] = 0.;
         
 #elif dim==2
-
         for(int j = 0; j < N; j++ ){
             py = (j <= N/2 ? j : j-N);
 
@@ -221,7 +264,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                 pz = k;
                 p2=dp2*(pw2(py)+pw2(pz));
                 distance = sqrt(pw2(py)+pw2(pz));
-               omega = omega_calc_int_nonint(distance, lattice_var);
+               omega = omega_calc_nonint(distance, lattice_var, i);
                 //Set mode for lattice simulation
                 set_mode(p2, omega, &f[i][j*N+2*k], &df[i][j*N+2*k], 0);
 
@@ -234,7 +277,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 
                 //k=0
                 p2 = dp2*pw2(py);
-                omega = omega_calc_int( jconj , lattice_var);
+                omega = omega_calc_int( jconj , lattice_var, i);
                 set_mode(p2, omega, &f[i][j*N], &df[i][j*N], 0);
                 f[i][jconj*N] = f[i][j*N];
                 f[i][jconj*N+1] = -f[i][j*N+1];
@@ -242,7 +285,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                 df[i][jconj*N+1] = -df[i][j*N+1];
                 //k=N/2
                 distance = sqrt(pw2(py)+pw2(N/2));
-                omega = omega_calc_int_nonint(distance, lattice_var);
+                omega = omega_calc_nonint(distance, lattice_var, i);
                 p2 = dp2*(pw2(py)+pw2(N/2));
                 set_mode(p2, omega, &fnyquist[2*j], &fdnyquist[2*j], 0);
                 fnyquist[2*jconj] = fnyquist[2*j];
@@ -253,30 +296,25 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
             }
             // The 4 "corners" of the lattice are set to real values
             else if(j == 0 || j == N/2){
-                if(j == 0 && k == 0){
-                    // Set zeromode of field and derivative to zero (it gets added in position space)
-                    f[i][0] = 0.;
-                    f[i][1] = 0.;
-                    df[i][0] = 0.;
-                    df[i][1] = 0.;
-                }
-                else if(j== N/2 && k== 0){
-                    p2 = dp2*(pw2(N/2));
-                    omega = omega_calc_int( N/2 , lattice_var);
-                    
+                
+                p2 = dp2*pw2(py); //k = 0
+                if(p2 > 0.){
+                    omega = omega_calc_int( N/2 , lattice_var, i);
                     set_mode(p2, omega, &f[i][j*N], &df[i][j*N], 1);
-
+                
                 }
-                else{ //k=N/2
-                    p2 = dp2*(pw2(py)+pw2(N/2));
-                    
-                    distance = sqrt(pw2(py)+pw2(N/2));
-                    omega = omega_calc_int_nonint(distance, lattice_var);
-                    set_mode(p2, omega, &fnyquist[2*j], &fdnyquist[2*j], 1);
-
-                }
+                
+                p2 = dp2*(pw2(py)+pw2(N/2));  //k = N/2
+                distance = sqrt(pw2(py)+pw2(N/2));
+                omega = omega_calc_nonint(distance, lattice_var, i);
+                set_mode(p2, omega, &fnyquist[2*j], &fdnyquist[2*j], 1);
+                
             }
-        }
+        } //k = 0, j = 0
+        f[i][0] = 0.;
+        f[i][1] = 0.;
+        df[i][0] = 0.;
+        df[i][1] = 0.;
         
       /*
         for( int j = 0; j < N; ++j ){
@@ -306,21 +344,28 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                 for(int l = 1; l < N/2; l++){
                     pz = l;
                     p2 = dp2*(pw2(px)+pw2(py)+pw2(pz));
-                    set_mode(p2,mass_sq[i], &f[i][(j*N + k)*N + 2*l], &df[i][(j*N + k)*N + 2*l], 0);
+                    distance = sqrt(pw2(px)+pw2(py)+pw2(pz));
+                    omega = omega_calc_nonint(distance, lattice_var, i);
+
+                    set_mode(p2,omega, &f[i][(j*N + k)*N + 2*l], &df[i][(j*N + k)*N + 2*l], 0);
                 }
 
                 if(k > N/2 || (j > N/2 && (k == 0 || k == N/2))){
                     kconj = (k == 0 ? 0 : N-k);
                     //l=0
                      p2 = dp2*(pw2(px)+pw2(py));
-                    set_mode(p2,mass_sq[i], &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], 0);
+                    distance = sqrt(pw2(px)+pw2(py));
+                    omega = omega_calc_nonint(distance, lattice_var, i);
+                    set_mode(p2,omega, &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], 0);
                     f[i][(jconj*N + kconj)*N] = f[i][(j*N + k)*N];
                     f[i][(jconj*N + kconj)*N+1] = -f[i][(j*N + k)*N+1];
                     df[i][(jconj*N + kconj)*N] = df[i][(j*N + k)*N];
                     df[i][(jconj*N + kconj)*N+1] = -df[i][(j*N + k)*N+1];
                     //l=N/2
                     p2 = dp2*(pw2(px)+pw2(py)+pw2(N/2));
-                    set_mode(p2, mass_sq[i], &fnyquist[j][2*k], &fdnyquist[j][2*k], 0);
+                    distance = sqrt(pw2(px)+pw2(py)+pw2(N/2));
+                    omega = omega_calc_nonint(distance, lattice_var, i);
+                    set_mode(p2, omega, &fnyquist[j][2*k], &fdnyquist[j][2*k], 0);
                     fnyquist[jconj][2*kconj] = fnyquist[j][2*k];
                     fnyquist[jconj][2*kconj+1] = -fnyquist[j][2*k+1];
                     fdnyquist[jconj][2*kconj] = fdnyquist[j][2*k];
@@ -329,11 +374,16 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                 else if((j == 0 || j == N/2) && (k == 0 || k == N/2))
                 {
                     p2 = dp2*(pw2(px)+pw2(py)); //l=0
-                    if(p2 > 0.)
-                      set_mode(p2,mass_sq[i], &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], 1);
-
+                    if(p2 > 0.){
+                    distance = sqrt(pw2(px)+pw2(py));
+                    omega = omega_calc_nonint(distance, lattice_var, i);
+                    set_mode(p2, omega, &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], 1);
+                    }
+                    
                     p2=dp2*(pw2(px)+pw2(py)+pw2(N/2)); //l=N/2
-                     set_mode(p2, mass_sq[i], &fnyquist[j][2*k], &fdnyquist[j][2*k], 1);
+                    distance = sqrt(pw2(px)+pw2(py)+pw2(N/2));
+                    omega = omega_calc_nonint(distance, lattice_var, i);
+                     set_mode(p2, omega, &fnyquist[j][2*k], &fdnyquist[j][2*k], 1);
                 }
             }
         }
@@ -362,10 +412,10 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 
 
          std::cout << "before fourier transform" << std::endl;
-        std::cout << "f[0][4]" << f[i][4] << std::endl;
-        std::cout << "df[0][4]" << df[i][4] << std::endl;
-        std::cout << "f[0][10]" << f[i][10] << std::endl;
-        std::cout << "df[0][10]" << df[i][10] << std::endl;
+        std::cout << "f[0][4] = " << f[i][4] << std::endl;
+        std::cout << "df[0][4] = " << df[i][4] << std::endl;
+        std::cout << "f[0][10] = " << f[i][10] << std::endl;
+        std::cout << "df[0][10] = " << df[i][10] << std::endl;
      /*   double   fieldsum, dfieldsum;
         for( int j = 0; j < N; ++j ){
             for( int k = 0; k < N; ++k ){
@@ -388,20 +438,20 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
    DFT_c2rD2( df[i], fdnyquist);
 
          std::cout << "after fourier transform" << std::endl;
-        std::cout << "f[0][4]" << f[i][4] << std::endl;
-        std::cout << "df[0][4]" << df[i][4] << std::endl;
-        std::cout << "f[0][10]" << f[i][10] << std::endl;
-        std::cout << "df[0][10]" << df[i][10] << std::endl;
-         /*
-        for( int j = 0; j < N; ++j ){
-            //#pragma omp parallel for schedule( static ) num_threads( num_threads )
-            for( int k = 0; k < N; ++k ){
-                int idx = j*N + k;
-                std::cout << "f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
-                std::cout << "df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-
-            }
-        }*/
+        std::cout << "f[0][4] = " << f[i][4] << std::endl;
+        std::cout << "df[0][4] = " << df[i][4] << std::endl;
+        std::cout << "f[0][10] = " << f[i][10] << std::endl;
+        std::cout << "df[0][10] = " << df[i][10] << std::endl;
+        
+//        for( int j = 0; j < N; ++j ){
+////            #pragma omp parallel for schedule( static ) num_threads( num_threads )
+//            for( int k = 0; k < N; ++k ){
+//                int idx = j*N + k;
+//                std::cout << "f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+//                std::cout << "df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+//
+//            }
+//        }
     /* double   fieldsum2, dfieldsum2;
         for( int j = 0; j < N; ++j ){
             for( int k = 0; k < N; ++k ){
@@ -435,6 +485,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 
         }
     }
+
       /*
         std::random_device rnd;
         std::mt19937 mt( rnd() );
@@ -454,29 +505,28 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
         }*/
 
          std::cout << "after adding zeromode" << std::endl;
-        std::cout << "f[0][4]" << f[i][4] << std::endl;
-        std::cout << "df[0][4]" << df[i][4] << std::endl;
-        std::cout << "f[0][10]" << f[i][10] << std::endl;
-        std::cout << "df[0][10]" << df[i][10] << std::endl;
-    delete [] fnyquist;
-    delete [] fdnyquist;
-
+        std::cout << "f[0][4] = " << f[i][4] << std::endl;
+        std::cout << "df[0][4] = " << df[i][4] << std::endl;
+        std::cout << "f[0][10] = " << f[i][10] << std::endl;
+        std::cout << "df[0][10] = " << df[i][10] << std::endl;
+    
+        
 #elif dim==3
 
         std::cout << "before fourier transform" << std::endl;
-        std::cout << "f[0][4]" << f[i][4] << std::endl;
-        std::cout << "df[0][4]" << df[i][4] << std::endl;
-        std::cout << "f[0][10]" << f[i][10] << std::endl;
-        std::cout << "df[0][10]" << df[i][10] << std::endl;
+        std::cout << "f[0][4] = " << f[i][4] << std::endl;
+        std::cout << "df[0][4] = " << df[i][4] << std::endl;
+        std::cout << "f[0][10] = " << f[i][10] << std::endl;
+        std::cout << "df[0][10] = " << df[i][10] << std::endl;
 
     DFT_c2rD3( f[i] , fnyquist ); //transform from phase space to real space
     DFT_c2rD3( df[i], fdnyquist);
 
         std::cout << "after fourier transform" << std::endl;
-        std::cout << "f[0][4]" << f[i][4] << std::endl;
-        std::cout << "df[0][4]" << df[i][4] << std::endl;
-        std::cout << "f[0][10]" << f[i][10] << std::endl;
-        std::cout << "df[0][10]" << df[i][10] << std::endl;
+        std::cout << "f[0][4] = " << f[i][4] << std::endl;
+        std::cout << "df[0][4] = " << df[i][4] << std::endl;
+        std::cout << "f[0][10] = " << f[i][10] << std::endl;
+        std::cout << "df[0][10] = " << df[i][10] << std::endl;
         //Add zeromode
         #pragma omp parallel for schedule( static ) num_threads( num_threads )
          for( int j = 0; j < N; ++j ){
@@ -491,23 +541,33 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
          }
 
         std::cout << "after adding zeromode" << std::endl;
-        std::cout << "f[0][4]" << f[i][4] << std::endl;
-        std::cout << "df[0][4]" << df[i][4] << std::endl;
-        std::cout << "f[0][10]" << f[i][10] << std::endl;
-        std::cout << "df[0][10]" << df[i][10] << std::endl;
+        std::cout << "f[0][4] = " << f[i][4] << std::endl;
+        std::cout << "df[0][4] = " << df[i][4] << std::endl;
+        std::cout << "f[0][10] = " << f[i][10] << std::endl;
+        std::cout << "df[0][10] = " << df[i][10] << std::endl;
 
+    
+#endif
+
+    } // for( int i = 0; i < num_fields; ++i ){}
+
+    #if  dim==1
+    
+    #elif dim==2
+    delete [] fnyquist;
+    delete [] fdnyquist;
+    
+    #elif dim==3
     delete [] fnyquist[0];
     delete [] fdnyquist[0];
     delete [] fnyquist;
     delete [] fdnyquist;
-#endif
-
-        delete[] mass_sq;
-        delete[] initial_field_values;
-        delete[] initial_field_derivs;
-
-    }
-
+    
+    #endif
+    
+    delete[] mass_sq;
+    delete[] initial_field_values;
+    delete[] initial_field_derivs;
 }
 
 void finalize( double**& f, double**& df )
@@ -895,7 +955,7 @@ void Field::effective_mass( double *mass_sq, double *field_values){
         f_MPl[fld] = rescale_A*field_values[fld];
     }
     
-    mass_sq[0]= exp(OSCSTART)V_11(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
+     mass_sq[0]= exp(OSCSTART)*V_11(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
      mass_sq[1]= V_22(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
      mass_sq[2]= V_33(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
     

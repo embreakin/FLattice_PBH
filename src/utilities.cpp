@@ -345,7 +345,12 @@ void set_mode(double p2, double omega, double *field, double *deriv, int real)
         
     amplitude = norm/sqrt(2*omega)*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.);
     phase = 2*M_PI*rand_uniform();
-  // std::cout << "phase1 " << phase/(2*M_PI) << std::endl;
+//   std::cout << "norm = " << norm << std::endl;
+//    std::cout << "omega = " << omega << std::endl;
+//    std::cout << "norm/sqrt(2*omega) = " << norm/sqrt(2*omega) << std::endl;
+//    std::cout << "norm/sqrt(2*omega)*sqrt(log(1./rand_uniform())) = " << norm/sqrt(2*omega)*sqrt(log(1./rand_uniform())) << std::endl;
+//    std::cout << "amplitude = " << amplitude << std::endl;
+
         //Left moving component
         re_f_left = amplitude * cos( phase );
         im_f_left = amplitude * sin( phase );

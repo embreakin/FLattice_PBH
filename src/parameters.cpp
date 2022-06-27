@@ -53,9 +53,9 @@ bool spectrum_bfosc_switch = true; // true:Calculate spectrum before oscillation
 //Array elements
 const int  N_pert=55;
 
-DP kfrom_Mpc = 0.01;//[Mpc^-1] Calculate from this k
+DP kfrom_Mpc = 400;//[Mpc^-1] Calculate from this k
 DP kto_Mpc = 1000;//[Mpc^-1] Calculate to this k
-int kinterval_knum = 1;// [knum units] Calculate with this interval of knum
+int kinterval_knum = 10;// [knum units] Calculate with this interval of knum
 
 
 
@@ -80,7 +80,7 @@ std::string new_filename_status = "statusKKLT3DN64L20MDwparallel.txt";// create 
 //Variables for calculating lattice range
 //-------------------------------------------------
 
-bool latticerange_switch = false; // true:Set lattice range and calculate, false:Don't set lattice range and calculate
+bool latticerange_switch = true; // true:Set lattice range and calculate, false:Don't set lattice range and calculate
 
 double kfrom_Mpc_lattice = 600;//[Mpc] Calculate from this k for lattice range
 double kto_Mpc_lattice = 900;//[Mpc] Calculate to this k for lattice range
@@ -101,7 +101,7 @@ double k_lattice_grid_max_pr = N*M_PI/L;
 double k_lattice_grid_max_MPl = k_lattice_grid_max_pr*rescale_B;
 
 int rnd = 1;
-int num_fields  = 3;
+int num_fields  = 4; //0:sigma 1:psi 2:phi 3:gravitational field
 int num_threads = omp_get_num_procs()/2;
 
 const double Hinitial = 5.98147171787852*pow(10,-6);

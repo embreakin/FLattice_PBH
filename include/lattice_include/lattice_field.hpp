@@ -44,8 +44,8 @@ class Field
     
 };
 
-double omega_calc_int(int k_int , double**& lattice_var);
-double omega_calc_nonint(double distance, double**& lattice_var);
+double omega_calc_int(int k_int , double**& lattice_var, int num_field);
+double omega_calc_nonint(double distance, double**& lattice_var, int num_field);
 void initialize( double**& f, double**& df, Field* field, double**& lattice_var);
 void finalize( double**& f, double**& df );
 
