@@ -410,7 +410,6 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 
 #elif dim==2
 
-
          std::cout << "before fourier transform" << std::endl;
         std::cout << "f[0][4] = " << f[i][4] << std::endl;
         std::cout << "df[0][4] = " << df[i][4] << std::endl;
