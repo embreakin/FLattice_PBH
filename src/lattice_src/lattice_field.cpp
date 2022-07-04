@@ -4,14 +4,9 @@
 #include "utilities.hpp"
 #include "equations.hpp"
 
-
-
-double omega_calc_int(int k_int , double**& lattice_var, int num_field)
+double Fk_log_int_calc(int k_int , double**& lattice_var, int num_field)
 {
-    double hubble_lattice_init, F_k, dF_k, omega;
-    
-    //Hubble
-    hubble_lattice_init = Fri(lattice_var[k_int-1][0],lattice_var[k_int-1][1],lattice_var[k_int-1][2],lattice_var[k_int-1][3],lattice_var[k_int-1][4],lattice_var[k_int-1][5],lattice_var[k_int-1][6]);
+    double F_k;
     
     switch( num_field )
     {
@@ -24,18 +19,11 @@ double omega_calc_int(int k_int , double**& lattice_var, int num_field)
                         +pow(lattice_var[k_int-1][8+3*num_field],2) + pow(lattice_var[k_int-1][32+3*num_field],2)
                         +pow(lattice_var[k_int-1][9+3*num_field],2) + pow(lattice_var[k_int-1][33+3*num_field],2)
                         );
-            //Fourier mode of the derivative before discretization
-            dF_k = hubble_lattice_init*sqrt(
-                                            pow(lattice_var[k_int-1][16+3*num_field],2) + pow(lattice_var[k_int-1][40+3*num_field],2)
-                                            +pow(lattice_var[k_int-1][17+3*num_field],2) + pow(lattice_var[k_int-1][41+3*num_field],2)
-                                            +pow(lattice_var[k_int-1][18+3*num_field],2) + pow(lattice_var[k_int-1][42+3*num_field],2)
-                                            );
-            //Omega
-            omega = dF_k/(F_k*rescale_B);
-//            std::cout << "dF_k = " << dF_k << std::endl;
-//            std::cout << "F_k = " << F_k << std::endl;
-//            std::cout << "rescale_B = " << rescale_B << std::endl;
-//            std::cout << "omega = " << omega << std::endl;
+        
+            //            std::cout << "dF_k = " << dF_k << std::endl;
+            //            std::cout << "F_k = " << F_k << std::endl;
+            //            std::cout << "rescale_B = " << rescale_B << std::endl;
+            //            std::cout << "omega = " << omega << std::endl;
             break;
         case 3: //gravitational potential
             //Fourier mode before discretization
@@ -44,14 +32,6 @@ double omega_calc_int(int k_int , double**& lattice_var, int num_field)
                         +pow(lattice_var[k_int-1][26],2) + pow(lattice_var[k_int-1][50],2)
                         +pow(lattice_var[k_int-1][27],2) + pow(lattice_var[k_int-1][51],2)
                         );
-            //Fourier mode of the derivative before discretization
-            dF_k = hubble_lattice_init*sqrt(
-                                            pow(lattice_var[k_int-1][28],2) + pow(lattice_var[k_int-1][52],2)
-                                            +pow(lattice_var[k_int-1][29],2) + pow(lattice_var[k_int-1][53],2)
-                                            +pow(lattice_var[k_int-1][30],2) + pow(lattice_var[k_int-1][54],2)
-                                            );
-            //Omega
-            omega = dF_k/(F_k*rescale_B);
             break;
         default:
             Logout( "Parameter 'num_field' must be 0 ~ 3. \n" );
@@ -59,25 +39,75 @@ double omega_calc_int(int k_int , double**& lattice_var, int num_field)
             
     }
     
-    return omega;
+    return log(F_k);
 }
 
-double omega_calc_nonint(double distance, double**& lattice_var, int num_field)
+double dFk_log_int_calc(int k_int , double**& lattice_var, int num_field)
+{
+    double hubble_lattice_init, dF_k;
+    
+    //Hubble
+    hubble_lattice_init = Fri(lattice_var[k_int-1][0],lattice_var[k_int-1][1],lattice_var[k_int-1][2],lattice_var[k_int-1][3],lattice_var[k_int-1][4],lattice_var[k_int-1][5],lattice_var[k_int-1][6]);
+    
+    switch( num_field )
+    {
+        case 0: //sigma field
+        case 1: //psi field
+        case 2:  //phi field
+            //Fourier mode of the derivative before discretization
+            dF_k = hubble_lattice_init*sqrt(
+                                            pow(lattice_var[k_int-1][16+3*num_field],2) + pow(lattice_var[k_int-1][40+3*num_field],2)
+                                            +pow(lattice_var[k_int-1][17+3*num_field],2) + pow(lattice_var[k_int-1][41+3*num_field],2)
+                                            +pow(lattice_var[k_int-1][18+3*num_field],2) + pow(lattice_var[k_int-1][42+3*num_field],2)
+                                            );
+            break;
+        case 3: //gravitational potential
+            //Fourier mode of the derivative before discretization
+            dF_k = hubble_lattice_init*sqrt(
+                                            pow(lattice_var[k_int-1][28],2) + pow(lattice_var[k_int-1][52],2)
+                                            +pow(lattice_var[k_int-1][29],2) + pow(lattice_var[k_int-1][53],2)
+                                            +pow(lattice_var[k_int-1][30],2) + pow(lattice_var[k_int-1][54],2)
+                                            );
+            break;
+        default:
+            Logout( "Parameter 'num_field' must be 0 ~ 3. \n" );
+            exit(1);
+            
+    }
+    
+    return log(dF_k);
+}
+
+
+double omega_calc(double distance, double**& lattice_var, int num_field)
 {
     int l;
-    double omega, omega2;
+    double log_Fk, log_Fk2, log_dFk, log_dFk2, omega;
 
     l = floor(distance);
     if (l < N/2){
         
-        omega = omega_calc_int(l, lattice_var, num_field);
-        omega2 = omega_calc_int(l+1, lattice_var, num_field);
-        omega += (distance - l)*(omega2 - omega);
+        log_Fk = Fk_log_int_calc(l, lattice_var, num_field);
+        log_Fk2 = Fk_log_int_calc(l+1, lattice_var, num_field);
+        log_Fk += (distance - l)*(log_Fk2 - log_Fk);
+        
+        log_dFk = dFk_log_int_calc(l, lattice_var, num_field);
+        log_dFk2 = dFk_log_int_calc(l+1, lattice_var, num_field);
+        log_dFk += (distance - l)*(log_dFk2 - log_dFk);
+        
+        omega = exp(log_dFk)/(exp(log_Fk)*rescale_B);
         
     }else{
-        omega = omega_calc_int(N/2-1, lattice_var, num_field);
-        omega2 = omega_calc_int(N/2, lattice_var, num_field);
-        omega += (distance - (N/2-1))*(omega2 - omega);
+        
+        log_Fk = Fk_log_int_calc(N/2-1, lattice_var, num_field);
+        log_Fk2 = Fk_log_int_calc(N/2, lattice_var, num_field);
+        log_Fk += (distance - (N/2-1))*(log_Fk2 - log_Fk);
+        
+        log_dFk = dFk_log_int_calc(N/2-1, lattice_var, num_field);
+        log_dFk2 = dFk_log_int_calc(N/2, lattice_var, num_field);
+        log_dFk += (distance - (N/2-1))*(log_dFk2 - log_dFk);
+        
+        omega = exp(log_dFk)/(exp(log_Fk)*rescale_B);
     }
     
     return omega;
@@ -236,7 +266,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
         p2 = dp2*pw2(N/2);
         
         //Omega
-        omega = omega_calc_int( N/2 , lattice_var, i);
+        omega = omega_calc( N/2 , lattice_var, i);
 
         //Set mode for lattice simulation
         set_mode(p2, omega, &f[i][1], &df[i][1], 1);
@@ -246,7 +276,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
             pz = k;
             p2 = dp2*pw2(pz);
             //Omega
-            omega = omega_calc_int( k , lattice_var, i);
+            omega = omega_calc( k , lattice_var, i);
 
             //Set mode for lattice simulation
              set_mode(p2, omega, &f[i][2*k], &df[i][2*k], 0);
@@ -264,7 +294,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                 pz = k;
                 p2=dp2*(pw2(py)+pw2(pz));
                 distance = sqrt(pw2(py)+pw2(pz));
-               omega = omega_calc_nonint(distance, lattice_var, i);
+               omega = omega_calc(distance, lattice_var, i);
                 //Set mode for lattice simulation
                 set_mode(p2, omega, &f[i][j*N+2*k], &df[i][j*N+2*k], 0);
 
@@ -277,7 +307,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
 
                 //k=0
                 p2 = dp2*pw2(py);
-                omega = omega_calc_int( jconj , lattice_var, i);
+                omega = omega_calc( jconj , lattice_var, i);
                 set_mode(p2, omega, &f[i][j*N], &df[i][j*N], 0);
                 f[i][jconj*N] = f[i][j*N];
                 f[i][jconj*N+1] = -f[i][j*N+1];
@@ -285,7 +315,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                 df[i][jconj*N+1] = -df[i][j*N+1];
                 //k=N/2
                 distance = sqrt(pw2(py)+pw2(N/2));
-                omega = omega_calc_nonint(distance, lattice_var, i);
+                omega = omega_calc(distance, lattice_var, i);
                 p2 = dp2*(pw2(py)+pw2(N/2));
                 set_mode(p2, omega, &fnyquist[2*j], &fdnyquist[2*j], 0);
                 fnyquist[2*jconj] = fnyquist[2*j];
@@ -299,14 +329,14 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                 
                 p2 = dp2*pw2(py); //k = 0
                 if(p2 > 0.){
-                    omega = omega_calc_int( N/2 , lattice_var, i);
+                    omega = omega_calc( N/2 , lattice_var, i);
                     set_mode(p2, omega, &f[i][j*N], &df[i][j*N], 1);
                 
                 }
                 
                 p2 = dp2*(pw2(py)+pw2(N/2));  //k = N/2
                 distance = sqrt(pw2(py)+pw2(N/2));
-                omega = omega_calc_nonint(distance, lattice_var, i);
+                omega = omega_calc(distance, lattice_var, i);
                 set_mode(p2, omega, &fnyquist[2*j], &fdnyquist[2*j], 1);
                 
             }
@@ -345,7 +375,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                     pz = l;
                     p2 = dp2*(pw2(px)+pw2(py)+pw2(pz));
                     distance = sqrt(pw2(px)+pw2(py)+pw2(pz));
-                    omega = omega_calc_nonint(distance, lattice_var, i);
+                    omega = omega_calc(distance, lattice_var, i);
 
                     set_mode(p2,omega, &f[i][(j*N + k)*N + 2*l], &df[i][(j*N + k)*N + 2*l], 0);
                 }
@@ -355,7 +385,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                     //l=0
                      p2 = dp2*(pw2(px)+pw2(py));
                     distance = sqrt(pw2(px)+pw2(py));
-                    omega = omega_calc_nonint(distance, lattice_var, i);
+                    omega = omega_calc(distance, lattice_var, i);
                     set_mode(p2,omega, &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], 0);
                     f[i][(jconj*N + kconj)*N] = f[i][(j*N + k)*N];
                     f[i][(jconj*N + kconj)*N+1] = -f[i][(j*N + k)*N+1];
@@ -364,7 +394,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                     //l=N/2
                     p2 = dp2*(pw2(px)+pw2(py)+pw2(N/2));
                     distance = sqrt(pw2(px)+pw2(py)+pw2(N/2));
-                    omega = omega_calc_nonint(distance, lattice_var, i);
+                    omega = omega_calc(distance, lattice_var, i);
                     set_mode(p2, omega, &fnyquist[j][2*k], &fdnyquist[j][2*k], 0);
                     fnyquist[jconj][2*kconj] = fnyquist[j][2*k];
                     fnyquist[jconj][2*kconj+1] = -fnyquist[j][2*k+1];
@@ -376,13 +406,13 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
                     p2 = dp2*(pw2(px)+pw2(py)); //l=0
                     if(p2 > 0.){
                     distance = sqrt(pw2(px)+pw2(py));
-                    omega = omega_calc_nonint(distance, lattice_var, i);
+                    omega = omega_calc(distance, lattice_var, i);
                     set_mode(p2, omega, &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], 1);
                     }
                     
                     p2=dp2*(pw2(px)+pw2(py)+pw2(N/2)); //l=N/2
                     distance = sqrt(pw2(px)+pw2(py)+pw2(N/2));
-                    omega = omega_calc_nonint(distance, lattice_var, i);
+                    omega = omega_calc(distance, lattice_var, i);
                      set_mode(p2, omega, &fnyquist[j][2*k], &fdnyquist[j][2*k], 1);
                 }
             }
