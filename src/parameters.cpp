@@ -101,14 +101,14 @@ double k_lattice_grid_max_pr = N*M_PI/L;
 double k_lattice_grid_max_MPl = k_lattice_grid_max_pr*rescale_B;
 
 int rnd = 1;
-int num_fields  = 4; //0:sigma 1:psi 2:phi 3:gravitational field
+int num_fields  = 4; //0:sigma 1:psi 2:phi 3:metric perturbation
 int num_threads = omp_get_num_procs()/2;
 
-const double Hinitial = 5.98147171787852*pow(10,-6);
+double Hinitial_pr;
 //const double m = sqrt(5.67402574831172*pow(10,-10));//rescale_B, sqrt(V''(phi))
 const double ENGRESCALE = pw2(rescale_B); // Used to rescale the energies from reduced Planck units to program variables and vice versa
-const double initfield[] = {2.2105};//{sqrt(2)*1.49652/(sqrt(8*M_PI))};
-const double initderivs[] = {(1*Hinitial*initfield[0])/rescale_B};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
+//const double initfield[] = {2.2105};//{sqrt(2)*1.49652/(sqrt(8*M_PI))};
+//const double initderivs[] = {(1*Hinitial*initfield[0])/rescale_B};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
 
 int output_step = 1.5e+1;
 int total_step  = 1.2e+4;
@@ -117,8 +117,8 @@ int st_output_step = 1;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
 
 double t0 = 0;
-double dt = 5.e-3;
-double dx = 1.* L/N;
+double dt = 5.e-3; //dt_pr
+double dx = 1.* L/N; //dx_pr
 
 const int expansion = 3; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
 const int precision = 2;

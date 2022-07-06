@@ -113,7 +113,7 @@ double omega_calc(double distance, double**& lattice_var, int num_field)
     return omega;
 }
 
-void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
+void initialize( double**& f, double**& df, Field* field, double radiation_pr, double**& lattice_var)
 {   
 	f = new double* [num_fields];
 	df = new double* [num_fields];
@@ -158,7 +158,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
   double* initial_field_values = new double [num_fields];
   double* initial_field_derivs = new double [num_fields];
   double radiation_var;
-  double hubble_lattice_init;
+  double hubble_parameter;
 
     //lattice_var[knum_lattice][j] [j] specifies variables as follows:
     //    j=0-2  : zero modes of inflaton sigma, psi, and phi
@@ -178,7 +178,7 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
         initial_field_values[i] = 0.;
         initial_field_derivs[i] = 0.;
 //
-        if(i < num_fields - 1){ // Zeromode doesn't need to be calculated for gravitational potential
+        if(i < num_fields - 1){ // Zeromode doesn't need to be calculated for gravitational potential and we set it to zero.
     for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
 //
     //    Logout(" lattice_var[%d][%d] = %2.5e \n", lattice_loop, i, lattice_var[lattice_loop][i]);
@@ -198,9 +198,34 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
         Logout(" initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
         Logout(" initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
 
-
         }
-
+    
+    //Calculate Hubble parameter by averaging the hubble parameter for each wave number.
+    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+    hubble_parameter +=
+        Fri(lattice_var[lattice_loop][0],lattice_var[lattice_loop][1],lattice_var[lattice_loop][2],lattice_var[lattice_loop][3],lattice_var[lattice_loop][4],lattice_var[lattice_loop][5],lattice_var[lattice_loop][6]);
+    }
+    
+    hubble_parameter/= (N/2);
+    
+    Logout("final hubble_parameter = %2.5e \n",hubble_parameter);
+    
+    
+    //Rescaling initial fields and their derivatives to a lattice program variable
+    //Only necessary for the scalar fields
+    for (int i=0; i< num_fields - 1; i++){
+    initial_field_derivs[i] = (rescale_A/rescale_B)*(initial_field_derivs[i] - hubble_parameter*initial_field_values[i]);
+    
+    initial_field_values[i] *= rescale_A;
+        
+        Logout("pr initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
+        Logout("pr initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
+    }
+    
+    //Rescaling hubble parameter to a lattice program variable
+    //It doesn't change since a = a_{0}\bar{a}
+    Hinitial_pr = hubble_parameter;
+    
 
     //Radiation zeromode
      for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
@@ -213,13 +238,17 @@ void initialize( double**& f, double**& df, Field* field, double**& lattice_var)
     radiation_var /= (N/2);
 
     Logout("radiation_var = %2.5e \n", radiation_var);
-
+    
+    //Rescaling radiation to a lattice program variable
+    radiation_pr = pow((rescale_A/rescale_B),2)*radiation_var;
     
     
     //Effective masses
     // field->effective_mass( mass_sq, initial_field_values);
 
    
+    //Initializing perturbations
+    
     double omega;
     double distance;
     

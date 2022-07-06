@@ -58,15 +58,17 @@ void lattice(double**& lattice_var)
     }
     //Declare fields and their derivatives
     double **f, **df;
+    //Declare radiation
+    double radiation;
 //
     //Instantiate fields
     Field field;
 //
 //    Initialize fields and their derivatives
-    initialize( f, df, &field, lattice_var);
+    initialize( f, df, &field, radiation, lattice_var);
 //
-////    //Instantiate leapfrog and initialize
-////    LeapFrog leapfrog(&field, f);
+    //Instantiate leapfrog and initialize
+    LeapFrog leapfrog(&field, f, df, radiation);
 ////
 ////    //Instantiate energy and initialize
 ////    Energy energy;

@@ -248,7 +248,7 @@ extern int num_threads;
 extern const double initfield[];
 extern const double initderivs[];
 extern const double ENGRESCALE;
-extern const double Hinitial;
+extern double Hinitial_pr;
 
 extern int output_step;
 extern int total_step;

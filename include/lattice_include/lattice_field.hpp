@@ -47,7 +47,7 @@ class Field
 double Fk_log_int_calc(int k_int , double**& lattice_var, int num_field);
 double dFk_log_int_calc(int k_int , double**& lattice_var, int num_field);
 double omega_calc(double distance, double**& lattice_var, int num_field);
-void initialize( double**& f, double**& df, Field* field, double**& lattice_var);
+void initialize( double**& f, double**& df, Field* field, double radiation_pr, double**& lattice_var);
 void finalize( double**& f, double**& df );
 
 
