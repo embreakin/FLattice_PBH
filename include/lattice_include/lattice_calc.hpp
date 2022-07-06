@@ -53,10 +53,10 @@ class Energy
 
         double average  ( int i ) { return _average[i]; }
         double variance ( int i ) { return sqrt(_variance[i]); }
-        double total_average   () { return _total_average*ENGRESCALE; }
-        double potential_average () { return _potential_average*ENGRESCALE;}
-        double timederiv_average () { return _timederiv_average*ENGRESCALE;}
-        double grad_average () { return _grad_average*ENGRESCALE;}
+        double total_average   () { return _total_average*pw2(rescale_B); }
+        double potential_average () { return _potential_average*pw2(rescale_B);}
+        double timederiv_average () { return _timederiv_average*pw2(rescale_B);}
+        double grad_average () { return _grad_average*pw2(rescale_B);}
         double energy_max () {return _value_max;}
     
         void energy_calc( Field* field, LeapFrog* leapfrog, double** f, double** df );

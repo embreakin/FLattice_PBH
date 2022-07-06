@@ -232,14 +232,15 @@ extern double kto_Mpc_lattice;//[Mpc] Calculate to this k for lattice range
 extern double kfrom_MPl_lattice; //convert to MPl units
 extern double kto_MPl_lattice; //convert to MPl units
 
-extern double rescale_A;
-extern double rescale_B;
-extern double L;
-
-extern double k_lattice_grid_min_pr;
+//extern double sigma_initial;
+//extern double rescale_A;
+//extern double rescale_B;
+//extern double L;
+//
+//extern double k_lattice_grid_min_pr;
 extern double k_lattice_grid_min_MPl;
-
-extern double k_lattice_grid_max_pr;
+//
+//extern double k_lattice_grid_max_pr;
 extern double k_lattice_grid_max_MPl;
 
 extern int rnd;
@@ -247,7 +248,6 @@ extern int num_fields;
 extern int num_threads;
 extern const double initfield[];
 extern const double initderivs[];
-extern const double ENGRESCALE;
 extern double Hinitial_pr;
 
 extern int output_step;
@@ -258,7 +258,7 @@ extern int st_max_loop;
 
 extern double t0;
 extern double dt;
-extern double dx;
+//extern double dx;
 
 extern const int expansion;
 extern const int precision;

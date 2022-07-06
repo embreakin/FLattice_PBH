@@ -5,13 +5,50 @@
 
 LeapFrog::LeapFrog( Field* field, double** f, double ** df, double rad_pr )
 {
+    //Create evolution fields
+    f_tilde = new double* [num_fields - 1];
+    df_tilde = new double* [num_fields - 1];
     
+    switch( dim )
+    {
+        case 1:
+            f_tilde[0] = new double [(num_fields - 1)*N];
+            df_tilde[0] = new double [(num_fields - 1)*N];
+            for( int i = 0; i < num_fields - 1; ++i )
+            {
+                f_tilde[i] = f_tilde[0] + i*N;
+                df_tilde[i] = df_tilde[0] + i*N;
+            }
+            break;
+        case 2:
+            f_tilde[0] = new double [(num_fields - 1)*N*N];
+            df_tilde[0] = new double [(num_fields - 1)*N*N];
+            for( int i = 0; i < num_fields - 1; ++i )
+            {
+                f_tilde[i] = f_tilde[0] + i*N*N;
+                df_tilde[i] = df_tilde[0] + i*N*N;
+            }
+            break;
+        case 3:
+            f_tilde[0] = new double [(num_fields - 1)*N*N*N];
+            df_tilde[0] = new double [(num_fields - 1)*N*N*N];
+            for( int i = 0; i < num_fields - 1; ++i )
+            {
+                f_tilde[i] = f_tilde[0] + i*N*N*N;
+                df_tilde[i] = df_tilde[0] + i*N*N*N;
+            }
+            break;
+        default:
+            std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+            exit(1);
+    }
+    
+    // Set Decay Rates
         Gamma_pr[0]=Gamma1/rescale_B;
         Gamma_pr[1]=Gamma2/rescale_B;
         Gamma_pr[2]=Gamma3/rescale_B;
     
     //Rescale field program variables to field variables necessary for leapfrog evolution
-    //Since t_{pr} = 0, We only need to rescale df.
     //We only rescale the scalar fields.
     for( int i = 0; i < num_fields - 1; ++i ){
     #if   dim == 1
@@ -22,25 +59,27 @@ LeapFrog::LeapFrog( Field* field, double** f, double ** df, double rad_pr )
         for( int j = 0; j < N; ++j ){
             #if dim == 1
                 int idx = j;
-                df[i][idx] += f[i][idx]*Gamma_pr[i]/2;
+            f_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*f[i][idx];
+            df_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
             #elif dim == 2
             #pragma omp simd
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
-                    df[i][idx] += f[i][idx]*Gamma_pr[i]/2;
+                    f_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*f[i][idx];
+                    df_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
                 }
             #elif dim == 3
                 for( int k = 0; k < N; ++k ){
                     #pragma omp simd
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
-                        df[i][idx] += f[i][idx]*Gamma_pr[i]/2;
+                        f_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*f[i][idx];
+                        df_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
                     }
                 }
             #endif
         }
     }
-
     
     
     switch( precision )
@@ -184,10 +223,11 @@ void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* fiel
 }
 
 
-void LeapFrog::evol_scale_dderivs( Field* field, double** f, double h )
+//void LeapFrog::evol_scale_dderivs( Field* field, double** f, double rho_r, double t, double h)
+void LeapFrog::evol_scale_dderivs( Field* field, double** f, double h)
 {
     double sfev1, sfev2, sfev3;
-     sfev1 = 1.;
+    sfev1 = 1.;
     sfev2 = 2.;
     sfev3 = 4.;
     

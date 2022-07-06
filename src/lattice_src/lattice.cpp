@@ -4,7 +4,10 @@
 #include "utilities.hpp"
 #include "lattice.hpp"
 
-
+double rescale_A;
+double rescale_B;
+double L;//L_pr
+double dx; //dx_pr
 
 void lattice(double**& lattice_var)
 {
@@ -19,6 +22,37 @@ void lattice(double**& lattice_var)
     dir_manage(exist_dirname_ed, new_dirname_ed);
     dir_manage(exist_dirname_f, new_dirname_f);
     file_manage(exist_filename_status);
+    
+    
+    
+    double sigma_initial = 0;
+    
+    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+        
+        sigma_initial += lattice_var[lattice_loop][0];
+        //          Logout("latticep[%d][0] = %2.5e",lattice_loop, latticep[lattice_loop][0]);
+        
+    }
+    sigma_initial /= (N/2);
+    
+     rescale_A = 1/sigma_initial;
+     rescale_B = sqrt(V_11(0,FIXPSI,0))*sigma_initial;
+     L = N*M_PI*rescale_B/(kto_MPl_lattice);
+    
+    double k_lattice_grid_min_pr = 2*M_PI/L;
+    
+    double k_lattice_grid_max_pr = N*M_PI/L;
+    
+    dx = 1.* L/N;
+    
+    
+    Logout("sigma_initial = %2.5e \n", sigma_initial);
+    Logout("rescale_A = %2.5e \n", rescale_A);
+    Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e, k_lattice_grid_min_MPl =  %2.5e \n\n",kfrom_MPl_lattice, kto_MPl_lattice, k_lattice_grid_min_MPl);
+    Logout("kfrom_pr_lattice =  %2.5e, kto_pr_lattice =  %2.5e, k_lattice_grid_min_pr =  %2.5e \n\n",kfrom_MPl_lattice/rescale_B, kto_MPl_lattice/rescale_B, k_lattice_grid_min_pr);
+    Logout("rescale_B = %2.5e, L_pr = %2.5e, N = %d \n\n",rescale_B, L, N);
+    Logout("Range of k_pr in lattice: %2.5e <= |k_pr| <= %2.5e \n\n", k_lattice_grid_min_pr, k_lattice_grid_max_pr);
+    
 
     Logout( "\n----------------------------------------------\n" );
     Logout( "            SIMULATION PARAMETERS            \n\n" );
@@ -69,7 +103,7 @@ void lattice(double**& lattice_var)
 //
     //Instantiate leapfrog and initialize
     LeapFrog leapfrog(&field, f, df, radiation);
-////
+   
 ////    //Instantiate energy and initialize
 ////    Energy energy;
 ////

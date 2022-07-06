@@ -90,15 +90,9 @@ int N = 64; //Should be 2^n
 double kfrom_MPl_lattice = UC::kMpc_to_kMPl(kfrom_Mpc_lattice); //convert to MPl units
 double kto_MPl_lattice = UC::kMpc_to_kMPl(kto_Mpc_lattice); //convert to MPl units
 
-double rescale_A = 1;
-double rescale_B = sqrt(V_11(0,FIXPSI,0));
-double L = N*M_PI*rescale_B/(kto_MPl_lattice);
 
-double k_lattice_grid_min_pr = 2*M_PI/L;
-double k_lattice_grid_min_MPl = k_lattice_grid_min_pr*rescale_B;
-
-double k_lattice_grid_max_pr = N*M_PI/L;
-double k_lattice_grid_max_MPl = k_lattice_grid_max_pr*rescale_B;
+double k_lattice_grid_min_MPl = kto_MPl_lattice/(N/2);
+double k_lattice_grid_max_MPl = kto_MPl_lattice;
 
 int rnd = 1;
 int num_fields  = 4; //0:sigma 1:psi 2:phi 3:metric perturbation
@@ -106,7 +100,7 @@ int num_threads = omp_get_num_procs()/2;
 
 double Hinitial_pr;
 //const double m = sqrt(5.67402574831172*pow(10,-10));//rescale_B, sqrt(V''(phi))
-const double ENGRESCALE = pw2(rescale_B); // Used to rescale the energies from reduced Planck units to program variables and vice versa
+
 //const double initfield[] = {2.2105};//{sqrt(2)*1.49652/(sqrt(8*M_PI))};
 //const double initderivs[] = {(1*Hinitial*initfield[0])/rescale_B};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
 
@@ -118,7 +112,7 @@ int st_max_loop = output_step/st_output_step; // This many times data will be ad
 
 double t0 = 0;
 double dt = 5.e-3; //dt_pr
-double dx = 1.* L/N; //dx_pr
+
 
 const int expansion = 3; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
 const int precision = 2;

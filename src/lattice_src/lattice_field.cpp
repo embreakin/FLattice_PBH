@@ -152,13 +152,15 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
 			exit(1);
 	}
  
-  double p2;
-  double dp2=pw2(2*M_PI/L);
+   
+    
+  
   double* mass_sq = new double [num_fields];
   double* initial_field_values = new double [num_fields];
   double* initial_field_derivs = new double [num_fields];
   double radiation_var;
   double hubble_parameter;
+ 
 
     //lattice_var[knum_lattice][j] [j] specifies variables as follows:
     //    j=0-2  : zero modes of inflaton sigma, psi, and phi
@@ -178,8 +180,8 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
         initial_field_values[i] = 0.;
         initial_field_derivs[i] = 0.;
 //
-        if(i < num_fields - 1){ // Zeromode doesn't need to be calculated for gravitational potential and we set it to zero.
-    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+            if(i < num_fields - 1){ // Zeromode doesn't need to be calculated for gravitational potential and we set it to zero.
+                for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
 //
     //    Logout(" lattice_var[%d][%d] = %2.5e \n", lattice_loop, i, lattice_var[lattice_loop][i]);
 //
@@ -188,17 +190,19 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
 
         initial_field_derivs[i] += lattice_var[lattice_loop][j];
 
-        }
+                }
 
         initial_field_values[i] /= (N/2);
         initial_field_derivs[i] /= (N/2);
 
-        }
+            }
         
         Logout(" initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
         Logout(" initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
 
         }
+    
+    
     
     //Calculate Hubble parameter by averaging the hubble parameter for each wave number.
     for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
@@ -248,7 +252,8 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
 
    
     //Initializing perturbations
-    
+    double p2;
+    double dp2=pw2(2*M_PI/L);
     double omega;
     double distance;
     
@@ -470,10 +475,10 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
 #elif dim==2
 
          std::cout << "before fourier transform" << std::endl;
-        std::cout << "f[0][4] = " << f[i][4] << std::endl;
-        std::cout << "df[0][4] = " << df[i][4] << std::endl;
-        std::cout << "f[0][10] = " << f[i][10] << std::endl;
-        std::cout << "df[0][10] = " << df[i][10] << std::endl;
+        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
      /*   double   fieldsum, dfieldsum;
         for( int j = 0; j < N; ++j ){
             for( int k = 0; k < N; ++k ){
@@ -496,10 +501,10 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
    DFT_c2rD2( df[i], fdnyquist);
 
          std::cout << "after fourier transform" << std::endl;
-        std::cout << "f[0][4] = " << f[i][4] << std::endl;
-        std::cout << "df[0][4] = " << df[i][4] << std::endl;
-        std::cout << "f[0][10] = " << f[i][10] << std::endl;
-        std::cout << "df[0][10] = " << df[i][10] << std::endl;
+        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
         
 //        for( int j = 0; j < N; ++j ){
 ////            #pragma omp parallel for schedule( static ) num_threads( num_threads )
@@ -563,28 +568,28 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
         }*/
 
          std::cout << "after adding zeromode" << std::endl;
-        std::cout << "f[0][4] = " << f[i][4] << std::endl;
-        std::cout << "df[0][4] = " << df[i][4] << std::endl;
-        std::cout << "f[0][10] = " << f[i][10] << std::endl;
-        std::cout << "df[0][10] = " << df[i][10] << std::endl;
+        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
     
         
 #elif dim==3
 
         std::cout << "before fourier transform" << std::endl;
-        std::cout << "f[0][4] = " << f[i][4] << std::endl;
-        std::cout << "df[0][4] = " << df[i][4] << std::endl;
-        std::cout << "f[0][10] = " << f[i][10] << std::endl;
-        std::cout << "df[0][10] = " << df[i][10] << std::endl;
+        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
 
     DFT_c2rD3( f[i] , fnyquist ); //transform from phase space to real space
     DFT_c2rD3( df[i], fdnyquist);
 
         std::cout << "after fourier transform" << std::endl;
-        std::cout << "f[0][4] = " << f[i][4] << std::endl;
-        std::cout << "df[0][4] = " << df[i][4] << std::endl;
-        std::cout << "f[0][10] = " << f[i][10] << std::endl;
-        std::cout << "df[0][10] = " << df[i][10] << std::endl;
+        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
         //Add zeromode
         #pragma omp parallel for schedule( static ) num_threads( num_threads )
          for( int j = 0; j < N; ++j ){
@@ -599,10 +604,10 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
          }
 
         std::cout << "after adding zeromode" << std::endl;
-        std::cout << "f[0][4] = " << f[i][4] << std::endl;
-        std::cout << "df[0][4] = " << df[i][4] << std::endl;
-        std::cout << "f[0][10] = " << f[i][10] << std::endl;
-        std::cout << "df[0][10] = " << df[i][10] << std::endl;
+        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
 
     
 #endif
@@ -980,17 +985,17 @@ double Field::df_variance( double* df, int i )
 #pragma omp declare simd
 double Field::V_lattice   ( double** f, int idx, double a )  {
     // std::cout << "a = " << a << std::endl;
-    for(fld=0;fld<num_fields;fld++)
+    for(fld=0;fld< num_fields - 1;fld++)
     {
     f_MPl[fld] = rescale_A*f[fld][idx]/a;
     }
     
-    return pow(rescale_A/rescale_B,2)*V(f_MPl[0],f_MPl[1],f_MPl[2]); }
+    return pow(a,4)*pow(rescale_A/rescale_B,2)*V(f_MPl[0],f_MPl[1],f_MPl[2]); }
 
 #pragma omp declare simd
 double Field::dV_lattice ( double** f, int i, int idx, double a )  {
     
-    for(fld=0;fld<num_fields;fld++)
+    for(fld=0;fld< num_fields - 1;fld++)
     {
         f_MPl[fld] = rescale_A*f[fld][idx]/a;
     }

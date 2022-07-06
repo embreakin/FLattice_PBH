@@ -101,11 +101,7 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
       
           //Initialize latticep
           Perturb.lattice_initialize(latticep);
-    //
-          Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e, k_lattice_grid_min_MPl =  %2.5e \n\n",kfrom_MPl_lattice, kto_MPl_lattice, k_lattice_grid_min_MPl);
-          Logout("kfrom_pr_lattice =  %2.5e, kto_pr_lattice =  %2.5e, k_lattice_grid_min_pr =  %2.5e \n\n",kfrom_MPl_lattice/rescale_B, kto_MPl_lattice/rescale_B, k_lattice_grid_min_pr);
-          Logout("rescale_B = %2.5e, L_pr = %2.5e, N = %d \n\n",rescale_B, L, N);
-          Logout("Range of k_pr in lattice: %2.5e <= |k_pr| <= %2.5e \n\n", k_lattice_grid_min_pr, k_lattice_grid_max_pr);
+      
       
           Logout("=====================================================\n\n");
           Logout( "Start loop calculation up to OSCSTART\n\n");
@@ -117,6 +113,8 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
           Logout("-----------------------------------------------------\n\n");
           Logout("Start Lattice Simulation\n\n");
           Logout("-----------------------------------------------------\n\n");
+      
+      
       
           lattice(latticep);
       

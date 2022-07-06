@@ -2,7 +2,7 @@
 #define _LATTICEEVOL_H_
 
 #include "lattice_field.hpp"
-
+#include "lattice.hpp"
 
 class LeapFrog
 {
@@ -14,6 +14,9 @@ class LeapFrog
     
     //Decay rate for all scalar fields
         double* Gamma_pr = new double [num_fields-1];
+    
+    //Evolution variables for scalar fields
+        double **f_tilde, **df_tilde;
 
 		void evol_fields                 ( double** f, double** df, double h );
         void evol_field_derivs           ( double** f, double** df, Field* field, double h );
@@ -28,6 +31,10 @@ class LeapFrog
     
     ~LeapFrog() {
         delete [] Gamma_pr;
+        delete [] f_tilde[0];
+        delete [] df_tilde[0];
+        delete [] f_tilde;
+        delete [] df_tilde;
     }
 
         void evolution           ( Field* field, double** f, double** df );
