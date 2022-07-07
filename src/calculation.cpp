@@ -284,13 +284,37 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
     Vec_DP adia(3),iso(3),fields(3),numdens(3),term(6);
     Vec_DP zeta(6),dens(4),yout(N_zero),dydx(N_zero);
     
-    Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e ", kfrom_MPl_lattice, kto_MPl_lattice);
+    Logout("k_lattice_grid_min_MPl = %2.5e, kfrom_MPl_lattice = %2.5e, kto_MPl_lattice = %2.5e\n\n",k_lattice_grid_min_MPl, kfrom_MPl_lattice, kto_MPl_lattice);
     
-    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+    int latticerange_num;
+    int outrange_num;
+    double k_comoving_start;
+    
+    if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+    {
+        outrange_num = floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl);
+        
+        latticerange_num = (N/2) - outrange_num;
+        
+        k_comoving_start = (outrange_num+1)*k_lattice_grid_min_MPl;
+        
+        Logout("k_lattice_grid_min_MPl < kfrom_MPl_lattice\n\n");
+        Logout("outrange_num = %d, latticerange_num = %d \n\n",outrange_num, latticerange_num);
 
-           percentage =  round( ( lattice_loop + 1 )*100 / ( N/2 ) );
+    }
+    else{
+        latticerange_num = N/2;
+        k_comoving_start = k_lattice_grid_min_MPl;
+        
+        Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n");
+         
+    }
+    
+    for (int latticerange_loop = 0; latticerange_loop < latticerange_num; latticerange_loop++){
 
-           k_comoving = kfrom_MPl_lattice + k_lattice_grid_min_MPl*lattice_loop;
+           percentage =  round( ( latticerange_loop + 1 )*100 / ( latticerange_num ) );
+
+           k_comoving = k_comoving_start + k_lattice_grid_min_MPl*latticerange_loop;
 
            Logout("k_comoving =  %2.5e \n", k_comoving);
             
@@ -377,14 +401,37 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
             //from two inflatons sigma and psi become negligible at ln(a)=THRUNP.
             //THRUNP is set by hand, estimeted from the result of zero-mode evolution.
             //If horizon entering is later, this step is skipped.
-
-           for (i=0;i<N_pert;i++) latticep[lattice_loop][i] = delstart[i];
+        
+        if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+        {
+            for (i=0;i<N_pert;i++){ latticep[outrange_num+latticerange_loop][i] = delstart[i];
+            }
+    
+        }
+        else{
+            for (i=0;i<N_pert;i++) latticep[latticerange_loop][i] = delstart[i];
+             
+        }
+           
             
 //  for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",lattice_loop,i,latticep[lattice_loop][i] );
-        Logout("latticep[%d][0] = %2.5e \n",lattice_loop,latticep[lattice_loop][0] );
+//        Logout("latticep[%d][0] = %2.5e \n",lattice_loop,latticep[lattice_loop][0] );
         Logout( "Calculation %d%% Complete\n\n",percentage);
 
         }
+    
+    if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+    {
+        for(int outrange = 0; outrange < outrange_num; outrange++ ){
+            for (i=0;i<N_pert;i++){
+            latticep[outrange][i] =
+            latticep[outrange_num][i];
+            }
+        }
+    
+
+    }
+    
     
     
 }
@@ -395,16 +442,45 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
     
      Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e ", kfrom_MPl_lattice, kto_MPl_lattice);
     
-         for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+    int latticerange_num;
+    int outrange_num;
+    double k_comoving_start;
     
-             percentage =  round( ( lattice_loop + 1 )*100 / ( N/2 ) );
+    if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+    {
+        outrange_num = floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl);
+        
+        latticerange_num = (N/2) - outrange_num;
+        
+        k_comoving_start = (outrange_num+1)*k_lattice_grid_min_MPl;
+        
+        Logout("k_lattice_grid_min_MPl < kfrom_MPl_lattice\n");
+        Logout("outrange_num = %2.5e, latticerange_num = %2.5e \n",outrange_num, latticerange_num);
+
+    }
+    else{
+        latticerange_num = N/2;
+        k_comoving_start = k_lattice_grid_min_MPl;
+        
+        Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n");
+         
+    }
     
-             k_comoving = kfrom_MPl_lattice + k_lattice_grid_min_MPl*lattice_loop;
+         for (int latticerange_loop = 0; latticerange_loop < latticerange_num; latticerange_loop++){
+    
+             percentage =  round( ( latticerange_loop + 1 )*100 / ( latticerange_num ) );
+    
+             k_comoving = k_comoving_start + k_lattice_grid_min_MPl*latticerange_loop;
              
             Logout("k_comoving =  %2.5e ", k_comoving);
            // for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",lattice_loop,i,latticep[lattice_loop][i] );
-            for (i=0;i<N_pert;i++) delstart[i]  = latticep[lattice_loop][i];
-    
+             
+             if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+             {
+                 for (i=0;i<N_pert;i++) delstart[i]  =  latticep[outrange_num+latticerange_loop][i];
+             }else{
+            for (i=0;i<N_pert;i++) delstart[i]  = latticep[latticerange_loop][i];
+             }
             //Fixing sigma = psi = 0, in order to avoid solving oscillation of these two fields which are negligible.
             delstart[0]=0;
             delstart[3]=0;

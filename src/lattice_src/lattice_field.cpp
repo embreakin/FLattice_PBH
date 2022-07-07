@@ -155,7 +155,7 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
    
     
   
-  double* mass_sq = new double [num_fields];
+//  double* mass_sq = new double [num_fields];
   double* initial_field_values = new double [num_fields];
   double* initial_field_derivs = new double [num_fields];
   double radiation_var;
@@ -247,8 +247,6 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
     radiation_pr = pow((rescale_A/rescale_B),2)*radiation_var;
     
     
-    //Effective masses
-    // field->effective_mass( mass_sq, initial_field_values);
 
    
     //Initializing perturbations
@@ -628,7 +626,7 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
     
     #endif
     
-    delete[] mass_sq;
+    //delete[] mass_sq;
     delete[] initial_field_values;
     delete[] initial_field_derivs;
 }
@@ -987,7 +985,7 @@ double Field::V_lattice   ( double** f, int idx, double a )  {
     // std::cout << "a = " << a << std::endl;
     for(fld=0;fld< num_fields - 1;fld++)
     {
-    f_MPl[fld] = rescale_A*f[fld][idx]/a;
+    f_MPl[fld] = f[fld][idx]/(rescale_A*a);
     }
     
     return pow(a,4)*pow(rescale_A/rescale_B,2)*V(f_MPl[0],f_MPl[1],f_MPl[2]); }
@@ -997,13 +995,13 @@ double Field::dV_lattice ( double** f, int i, int idx, double a )  {
     
     for(fld=0;fld< num_fields - 1;fld++)
     {
-        f_MPl[fld] = rescale_A*f[fld][idx]/a;
+        f_MPl[fld] = f[fld][idx]/(rescale_A*a);
     }
     
     switch (i){
-        case 0: return rescale_A*V_1(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //sigma
-        case 1: return rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
-        case 2: return rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //phi
+        case 0: return pow(a,3)*rescale_A*V_1(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //sigma
+        case 1: return pow(a,3)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
+        case 2: return pow(a,3)*rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //phi
         default:  Logout( "Parameter 'i' in dV_lattice must be 0 ~ 2. \n" );
                 exit(1);
     }
@@ -1011,16 +1009,15 @@ double Field::dV_lattice ( double** f, int i, int idx, double a )  {
 }
 
 
-void Field::effective_mass( double *mass_sq, double *field_values){
-    for(fld=0;fld<num_fields;fld++)
-    {
-        //f_MPl[fld] = rescale_A*field_values[fld]/a;
-        f_MPl[fld] = rescale_A*field_values[fld];
+double Field::mass( int i,  double a  ){
+   
+    switch (i){
+        case 0: return pow(a*exp(OSCSTART),2)*V_11(0,FIXPSI,0)/(rescale_B*rescale_B); //sigma
+        case 1: return pow(a*exp(OSCSTART),2)*V_22(0,FIXPSI,0)/(rescale_B*rescale_B); //psi
+        case 2: return pow(a*exp(OSCSTART),2)*V_33(0,FIXPSI,0)/(rescale_B*rescale_B); //phi
+        default:  Logout( "Parameter 'i' in dV_lattice must be 0 ~ 2. \n" );
+                exit(1);
     }
-    
-     mass_sq[0]= exp(OSCSTART)*V_11(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
-     mass_sq[1]= V_22(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
-     mass_sq[2]= V_33(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B);
     
 }
 

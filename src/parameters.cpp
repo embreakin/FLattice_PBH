@@ -96,6 +96,8 @@ double k_lattice_grid_max_MPl = kto_MPl_lattice;
 
 int rnd = 1;
 int num_fields  = 4; //0:sigma 1:psi 2:phi 3:metric perturbation
+
+//number of threads
 int num_threads = omp_get_num_procs()/2;
 
 double Hinitial_pr;

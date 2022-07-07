@@ -40,7 +40,7 @@ class Field
         double df_variance ( double* df, int i );
         double V_lattice  ( double** f, int idx, double a = 1 );
         double dV_lattice ( double** f, int i, int idx, double a = 1);
-        void effective_mass( double* mass_sq, double* field_values);
+        double mass( int i,  double a );
     
 };
 
