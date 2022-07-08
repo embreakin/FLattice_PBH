@@ -58,7 +58,7 @@ void lattice(double**& lattice_var)
     Logout( "            SIMULATION PARAMETERS            \n\n" );
 
     Logout( " Dimension    =  %d\n", dim );
-    Logout( " Box Size     =  %d\n", L );
+    Logout( " Box Size     =  %2.2e\n", L );
     Logout( " Grid Number   =  %d\n", N );
     Logout( " Initial Time =  %4.1lf\n", t0 );
     Logout( " Final Time   =  %4.2e\n", t0 + total_step*dt );
@@ -105,24 +105,24 @@ void lattice(double**& lattice_var)
     LeapFrog leapfrog(&field, f, df, radiation);
    
 ////    //Instantiate energy and initialize
-////    Energy energy;
+    Energy energy;
 ////
 ////    // 1: self-consistent, 2: radiation dominant, 3: matter dominant -> No Output of vti files for the field
-////    //  0: no expansion -> Output vti files for the field
-////    if(expansion){
-////    }else{
-////       write_VTK_f(new_dirname_f, f[0], "field", -1 );
-////    }
-////
-////    // Calculate all necessary initial data regarding energy density
-////    energy.energy_calc( &field, &leapfrog, f, df );
-////
-////    // Output vti files for the energy density of the field
-////    write_VTK_ed( new_dirname_ed, energy.value[0], "energy", -1  );
-////
-////    // Write data to status.txt
-////    write_status( new_filename_status, &field, &leapfrog, &energy, f, t0 );
-////
+        //  0: no expansion -> Output vti files for the field
+//    if(expansion){
+//    }else{
+//        write_VTK_f(new_dirname_f, f[0], "field", -1 );
+//    }
+
+    // Calculate all necessary initial data regarding energy density
+    energy.energy_calc( &field, &leapfrog, f, df ,radiation);
+
+    // Output vti files for the energy density of the field
+    write_VTK_ed( new_dirname_ed, energy.value, "energy", -1  );
+
+    // Write data to status.txt
+    write_status( new_filename_status, &field, &leapfrog, &energy, f, t0 );
+
     //Calculate Initialization Time
     current = std::chrono::high_resolution_clock::now();
     init_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - start );
@@ -139,52 +139,52 @@ void lattice(double**& lattice_var)
 
     for( int loop = 0; loop < max_loop; ++loop ) // This many times vti files will be created
     {
-////        double t = t0 + loop*output_step*dt;
-////
-////        loop_start = std::chrono::high_resolution_clock::now();
-////
-////
-////        for( int st_loop = 0; st_loop < st_max_loop; ++st_loop ) // This many times data will be added to status.txt between the output of vti files
-////        {
-////        // 1: self-consistent, 2: radiation dominant, 3: matter dominant -> Compute using the function that takes expansion into account
-////        //  0: no expansion -> Compute using the function that doesn't take expansion into account
-////            if(expansion){
-////
-////            leapfrog.evolution_expansion( &field, f, df, t );
-////
-////            }else{
-////                leapfrog.evolution( &field, f, df );
-////            }
-////
-////            // Calculate all necessary data regarding energy density.
-////            energy.energy_calc( &field, &leapfrog, f, df );
-////            //  std::cout << "t1 = " << t << std::endl;
-////
-////            // Add data to status.txt
-////            write_status( new_filename_status, &field, &leapfrog, &energy, f, t+st_output_step*dt );
-////            //  std::cout << "t2 = " << t << std::endl;
-////
-////            // Evolve time
-////            t = t + st_output_step*dt;
-////            // std::cout << "t3 = " << t << std::endl;
-////        }
-////
-////
-////        // 1: self-consistent, 2: radiation dominant, 3: matter dominant -> No Output of vti files for the field
-////        //  0: no expansion -> Output vti files for the field
-////        if(expansion){
-////        }else{
-////            write_VTK_f( new_dirname_f, f[0], "field", loop );
-////        }
-////
-////        // Output vti files for the energy density of the field
-////        write_VTK_ed( new_dirname_ed, energy.value[0], "energy", loop );
-////
-////
-////        //Calculate the elapsed time between the output of vti files
-////        current = std::chrono::high_resolution_clock::now();
-////        elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - loop_start );
-////
+        double t = t0 + loop*output_step*dt;
+
+        loop_start = std::chrono::high_resolution_clock::now();
+
+
+        for( int st_loop = 0; st_loop < st_max_loop; ++st_loop ) // This many times data will be added to status.txt between the output of vti files
+        {
+        // 1: self-consistent, 2: radiation dominant, 3: matter dominant -> Compute using the function that takes expansion into account
+        //  0: no expansion -> Compute using the function that doesn't take expansion into account
+            if(expansion){
+
+            leapfrog.evolution_expansion( &field, f, df, radiation, t );
+
+            }else{
+                //leapfrog.evolution( &field, f, df );
+            }
+
+            // Calculate all necessary data regarding energy density.
+            energy.energy_calc( &field, &leapfrog, f, df , radiation );
+            //  std::cout << "t1 = " << t << std::endl;
+
+            // Add data to status.txt
+            write_status( new_filename_status, &field, &leapfrog, &energy, f, t+st_output_step*dt );
+            //  std::cout << "t2 = " << t << std::endl;
+
+            // Evolve time
+            t = t + st_output_step*dt;
+            // std::cout << "t3 = " << t << std::endl;
+        }
+
+
+        // 1: self-consistent, 2: radiation dominant, 3: matter dominant -> No Output of vti files for the field
+        //  0: no expansion -> Output vti files for the field
+//        if(expansion){
+//        }else{
+//            write_VTK_f( new_dirname_f, f[0], "field", loop );
+//        }
+
+        // Output vti files for the energy density of the field
+        write_VTK_ed( new_dirname_ed, energy.value, "energy", loop );
+
+
+        //Calculate the elapsed time between the output of vti files
+        current = std::chrono::high_resolution_clock::now();
+        elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - loop_start );
+
         if(loop)
         {
             Logout( " Loop %d/%d: %2.3f s \n", loop+1, max_loop, elapsed.count()*1.e-3 );
@@ -214,7 +214,7 @@ void lattice(double**& lattice_var)
     Logout( "            SIMULATION PARAMETERS            \n\n" );
 
     Logout( " Dimension    =  %d\n", dim );
-    Logout( " Box Size     =  %d\n", L );
+    Logout( " Box Size     =  %2.2e\n", L );
     Logout( " Grid Number   =  %d\n", N );
     Logout( " Initial Time =  %4.1lf\n", t0 );
     Logout( " Final Time   =  %4.2e\n", t0 + total_step*dt );

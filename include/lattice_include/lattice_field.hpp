@@ -32,6 +32,7 @@ class Field
     
     void zeromode_initialize();
 		double laplacian        ( double* f, int j, int k = 0, int l = 0 ); //You can omit k and l if they are zero
+        double gradient_energy_eachpoint( double** f ,int i, int idx );
 		double gradient_energy  ( double* f ) ;
 		double potential_energy ( double** f, double a );
         double f_average  ( double* f, int i );

@@ -216,7 +216,7 @@ extern int kinterval_knum;
 //=================
 
 
-#define dim 2
+#define dim 3
 
 extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f, exist_filename_status, new_filename_status;
 

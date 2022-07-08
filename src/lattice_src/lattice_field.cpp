@@ -218,13 +218,22 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
     //Rescaling initial fields and their derivatives to a lattice program variable
     //Only necessary for the scalar fields
     for (int i=0; i< num_fields - 1; i++){
-    initial_field_derivs[i] = (rescale_A/rescale_B)*(initial_field_derivs[i] - hubble_parameter*initial_field_values[i]);
+        
+        if(i==1){//psi
+            initial_field_values[i] = FIXPSI - initial_field_values[i];
+        }
+        
+        initial_field_values[i] *= rescale_A;
+        
+    initial_field_derivs[i] = (rescale_B/rescale_A)*initial_field_derivs[i] + hubble_parameter*initial_field_values[i];
     
-    initial_field_values[i] *= rescale_A;
+    
         
         Logout("pr initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
         Logout("pr initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
     }
+    
+    Logout("FIXPSI = %2.5e \n",FIXPSI);
     
     //Rescaling hubble parameter to a lattice program variable
     //It doesn't change since a = a_{0}\bar{a}
@@ -701,6 +710,62 @@ double Field::laplacian( double* f, int j, int k, int l )
 	#endif
 }
 
+#pragma omp declare simd
+double Field::gradient_energy_eachpoint( double** f ,int i, int idx )
+{
+    
+#if dim == 1
+    int j= idx;
+    int jp1 = (j == N-1)?     0: j+1;
+    int jp2 = (j >= N-2)? j-N+2: j+2;
+    
+    int jm1 = (j == 0)?   N-1: j-1;
+    int jm2 = (j <  2)? j+N-2: j-2;
+    
+    return  pow( ( - f[i][jp2]  + 8*f[i][jp1]  - 8*f[i][jm1] + f[i][jm2] ) / (12*dx), 2 )/2;
+    
+#elif dim == 2
+    int j = idx / N;
+    int jp1 = (j == N-1)?     0: j+1;
+    int jp2 = (j >= N-2)? j-N+2: j+2;
+    int jm1 = (j == 0)?   N-1: j-1;
+    int jm2 = (j <  2)? j+N-2: j-2;
+    int k = idx % N;
+    int kp1 = (k == N-1)?     0: k+1;
+    int kp2 = (k >= N-2)? k-N+2: k+2;
+    int km1 = (k ==   0)?   N-1: k-1;
+    int km2 = (k <    2)? k+N-2: k-2;
+    
+    //    return (pow( (f[i][jp1*N+k] - f[i][jm1*N+k]) / (2*dx), 2 )
+    //            + pow( (f[i][j*N+kp1] - f[i][j*N+km1]) / (2*dx), 2 ))/2;
+    return (pow( (- f[i][jp2*N+k] + 8*f[i][jp1*N+k] - 8*f[i][jm1*N+k] + f[i][jm2*N+k]) / (12*dx), 2 )
+            + pow( (- f[i][j*N+kp2] + 8*f[i][j*N+kp1] - 8*f[i][j*N+km1] + f[i][j*N+km2]) / (12*dx), 2 ))/2;
+    
+#elif dim == 3
+    int j = idx /(N*N);
+    int jp1 = (j == N-1)?     0: j+1;
+    int jp2 = (j >= N-2)? j-N+2: j+2;
+    int jm1 = (j == 0)?   N-1: j-1;
+    int jm2 = (j <  2)? j+N-2: j-2;
+    int k =(idx %(N*N))/N;
+    int kp1 = (k == N-1)?     0: k+1;
+    int kp2 = (k >= N-2)? k-N+2: k+2;
+    int km1 = (k ==   0)?   N-1: k-1;
+    int km2 = (k <    2)? k+N-2: k-2;
+    int l =(idx %(N*N))% N;
+    int lp1 = (l == N-1)?     0: l+1;
+    int lp2 = (l >= N-2)? l-N+2: l+2;
+    int lm1 = (l ==   0)?   N-1: l-1;
+    int lm2 = (l <    2)? l+N-2: l-2;
+    return  (pow( (- f[i][(jp2*N+k)*N+l] + 8*f[i][(jp1*N+k)*N+l] - 8*f[i][(jm1*N+k)*N+l] + f[i][(jm2*N+k)*N+l]) / (12*dx), 2 )
+             + pow( (- f[i][(j*N+kp2)*N+l] + 8*f[i][(j*N+kp1)*N+l] - 8*f[i][(j*N+km1)*N+l] + f[i][(j*N+km2)*N+l]) / (12*dx), 2 )
+             + pow( (- f[i][(j*N+k)*N+lp2] + 8*f[i][(j*N+k)*N+lp1] - 8*f[i][(j*N+k)*N+lm1] + f[i][(j*N+k)*N+lm2]) / (12*dx), 2 ))/2;
+    
+#endif
+    
+    
+}
+
 
 double Field::gradient_energy( double* f )
 {
@@ -772,17 +837,17 @@ double Field::potential_energy( double** f, double a )
 {
 	double potential_energy = 0;
     
-#if   dim == 1
-#pragma omp parallel for simd reduction(+:potential_energy) schedule(static) num_threads(num_threads)
-#elif dim >= 2
-#pragma omp parallel for reduction(+:potential_energy) schedule(static) num_threads(num_threads)
-#endif
+//#if   dim == 1
+//#pragma omp parallel for simd reduction(+:potential_energy) schedule(static) num_threads(num_threads)
+//#elif dim >= 2
+//#pragma omp parallel for reduction(+:potential_energy) schedule(static) num_threads(num_threads)
+//#endif
 	for( int j = 0; j < N; ++j ){
         #if dim == 1
             int idx = j;
              potential_energy += V_lattice( f, idx, a );
 	    #elif dim == 2
-        #pragma omp simd reduction(+:potential_energy)
+//        #pragma omp simd reduction(+:potential_energy)
             for( int k = 0; k < N; ++k )
 			{
 				int idx = j*N + k;
@@ -790,7 +855,7 @@ double Field::potential_energy( double** f, double a )
             }
         #elif dim == 3
             for( int k = 0; k < N; ++k ){
-        #pragma omp simd reduction(+:potential_energy)
+//        #pragma omp simd reduction(+:potential_energy)
                 for( int l = 0; l < N; ++l ){
 					int idx = ( j*N + k)*N + l;
 					potential_energy += V_lattice( f, idx, a );
@@ -985,7 +1050,11 @@ double Field::V_lattice   ( double** f, int idx, double a )  {
     // std::cout << "a = " << a << std::endl;
     for(fld=0;fld< num_fields - 1;fld++)
     {
-    f_MPl[fld] = f[fld][idx]/(rescale_A*a);
+        if(fld==1){
+            f_MPl[fld] = FIXPSI - f[fld][idx]/(rescale_A*a);
+        }else{
+            f_MPl[fld] = f[fld][idx]/(rescale_A*a);
+        }
     }
     
     return pow(a,4)*pow(rescale_A/rescale_B,2)*V(f_MPl[0],f_MPl[1],f_MPl[2]); }
@@ -995,12 +1064,17 @@ double Field::dV_lattice ( double** f, int i, int idx, double a )  {
     
     for(fld=0;fld< num_fields - 1;fld++)
     {
+        if(fld==1){
+        f_MPl[fld] = FIXPSI - f[fld][idx]/(rescale_A*a);
+        }else{
         f_MPl[fld] = f[fld][idx]/(rescale_A*a);
+        }
     }
+    
     
     switch (i){
         case 0: return pow(a,3)*rescale_A*V_1(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //sigma
-        case 1: return pow(a,3)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
+        case 1: return -pow(a,3)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
         case 2: return pow(a,3)*rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //phi
         default:  Logout( "Parameter 'i' in dV_lattice must be 0 ~ 2. \n" );
                 exit(1);

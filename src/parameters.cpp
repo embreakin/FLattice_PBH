@@ -66,15 +66,15 @@ int kinterval_knum = 10;// [knum units] Calculate with this interval of knum
 //-----------
 //File names
 //-----------
-std::string exist_dirname_ed = "dataKKLT3DN64L20MDwparallel"; //remove this existing directory for energy vti files
-std::string new_dirname_ed = "dataKKLT3DN64L20MDwparallel"; //create a new directory for energy vti files
+std::string exist_dirname_ed = "dataSHNI_energy"; //remove this existing directory for energy vti files
+std::string new_dirname_ed = "dataSHNI_energy"; //create a new directory for energy vti files
 
 std::string exist_dirname_f = "data"; //remove this existing directory for field vti files
 std::string new_dirname_f = "data"; //create a new directory for field vti files
 
 
-std::string exist_filename_status = "statusKKLT3DN64L20MDwparallel.txt"; // remove this existing status file
-std::string new_filename_status = "statusKKLT3DN64L20MDwparallel.txt";// create this new status file
+std::string exist_filename_status = "statusSHNI.txt"; // remove this existing status file
+std::string new_filename_status = "statusSHNI.txt";// create this new status file
 
 //-------------------------------------------------
 //Variables for calculating lattice range
@@ -113,10 +113,10 @@ int st_output_step = 1;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
 
 double t0 = 0;
-double dt = 5.e-3; //dt_pr
+double dt = 1.e-3; //dt_pr
 
 
-const int expansion = 3; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
+const int expansion = 1; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
 const int precision = 2;
 
 //potential parameters

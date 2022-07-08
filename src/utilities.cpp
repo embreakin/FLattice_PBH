@@ -340,16 +340,17 @@ void set_mode(double p2, double omega, double *field, double *deriv, int real)
     static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.5)/(exp(OSCSTART)*sqrt(2));
 #endif
 
+
         //Amplitude = RMS amplitude x Rayleigh distributed random number
         // The same amplitude is used for left and right moving waves to generate standing waves. The extra 1/sqrt(2) normalizes the initial occupation number correctly.
         
     amplitude = norm/sqrt(2*omega)*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.);
     phase = 2*M_PI*rand_uniform();
 //   std::cout << "norm = " << norm << std::endl;
-//    std::cout << "omega = " << omega << std::endl;
+    std::cout << "omega = " << omega << std::endl;
 //    std::cout << "norm/sqrt(2*omega) = " << norm/sqrt(2*omega) << std::endl;
 //    std::cout << "norm/sqrt(2*omega)*sqrt(log(1./rand_uniform())) = " << norm/sqrt(2*omega)*sqrt(log(1./rand_uniform())) << std::endl;
-//    std::cout << "amplitude = " << amplitude << std::endl;
+  std::cout << "amplitude = " << amplitude << std::endl;
 
         //Left moving component
         re_f_left = amplitude * cos( phase );
@@ -819,9 +820,10 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 		for( int i = 0; i < num_fields; ++i ) ofs << "field_var["  << i << "] ";
         for( int i = 0; i < num_fields; ++i ) ofs << "field_deriv_ave["  << i << "] ";
         for( int i = 0; i < num_fields; ++i ) ofs << "field_deriv_var["  << i << "] ";
-		for( int i = 0; i < num_fields; ++i ) ofs << "energy_ave[" << i << "] ";
-        for( int i = 0; i < num_fields; ++i ) ofs << "energy_var[" << i << "] ";
+//        for( int i = 0; i < num_fields; ++i ) ofs << "energy_ave[" << i << "] ";
+//        for( int i = 0; i < num_fields; ++i ) ofs << "energy_var[" << i << "] ";
         ofs << "total_energy_ave ";
+        ofs << "total_energy_var ";
          ofs << "time_deriv_ave ";
          ofs << "gradient_ave ";
         ofs << "potential_ave ";
@@ -835,8 +837,19 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 	if( expansion )
 	{
 		ofs << std::setw(3) << std::right << a << " ";
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_average(f[i], i)/a << " "; //Reduced Plank units
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_variance(f[i], i)/a << " ";//Reduced Plank units
+		for( int i = 0; i < num_fields; ++i )
+            if(i == num_fields-1){
+                ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_average(f[i], i)/(a) << " "; //Gravitational Potential Reduced Plank units
+            }else{
+                ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_average(f[i], i)/(rescale_A*a) << " "; //Scalar Fields Reduced Plank units
+            }
+		for( int i = 0; i < num_fields; ++i )
+             if(i == num_fields-1){
+            ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_variance(f[i], i)/(a) << " ";//Gravitational Potential Reduced Plank units
+             }else{
+                ofs << std::showpos << std::scientific << std::setprecision(4) << field->f_variance(f[i], i)/(rescale_A*a) << " ";//Scalar Fields Reduced Plank units
+             }
+        
         for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_average(f[i], i) << " ";//Programming variable
         for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_variance(f[i], i) << " ";//Programming variable
 	}
@@ -847,9 +860,10 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
         for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_average(f[i], i) << " ";//Programming variable
         for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->df_variance(f[i], i) << " ";//Programming variable
 	}
-	for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << energy->average(i) << " ";
-    for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << energy->variance(i) << " ";
+//    for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << energy->average(i) << " ";
+//    for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << energy->variance(i) << " ";
 	ofs << std::showpos << std::scientific << std::setprecision(4) << energy->total_average() << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << energy->total_variance() << " ";
     ofs << std::showpos << std::scientific << std::setprecision(4) << energy->timederiv_average () << " ";
      ofs << std::showpos << std::scientific << std::setprecision(4) << energy->grad_average ()  << " ";
     ofs << std::showpos << std::scientific << std::setprecision(4) << energy->potential_average () << " ";
