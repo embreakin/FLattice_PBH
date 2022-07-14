@@ -87,7 +87,7 @@ Here is a simple explanation on how to use the code.
 
    - `utilities.cpp`
 
-      This file contains miscellaneous functions that doesn't really fit into other files for both linear perturbation calculations and lattice simulations. These include functions to output power spectums, set the gaussian distributed perturbations for the lattice, Fourier transformations and output all sorts of detailed data into files.
+      This file contains miscellaneous functions that don't fit into other files for both linear perturbation calculations and lattice simulations. These include functions to output power spectums, set the gaussian distributed perturbations for the lattice, Fourier transformations and output all sorts of detailed data into files.
 
    - `lattice_src`
 
