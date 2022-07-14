@@ -83,7 +83,7 @@ Here is a simple explanation on how to use the code.
 
    - `uc.cpp`
 
-      Three different units are used for wave modes depending on the situation. They are reduced Planck mass, Mpc and the number of the mode counting from the lowest one. This file contains all the functions necessary to convert from one unit to another different unit. They are the unit conversion functions, hence the file name  `uc.cpp`.
+      Three different units are used for wave modes depending on the situation. They are reduced Planck mass, Mpc and the number of the mode counting from the lowest one. This file contains all the functions necessary to convert from one unit to another. They are the unit conversion functions, hence the file name  `uc.cpp`.
 
    - `utilities.cpp`
 
