@@ -61,7 +61,7 @@ Here is a simple explanation on how to use the code.
 
  `main.cpp` is designed to run only the main calculation, which can be devided into three phases. First we have the smooth hybrid inflation phase (1), then the oscillatory phase (2) and lastly the new inflation phase (3). (1) and (3) are both calculated by evolving the linear perturbation equations in wave number space. (2) can be calculated either by evolving the linear perturbation equations just as in (1) and (3), or by switching to real space and running lattice simulations. 
  
- - `src`
+- `src`
 
  Classes and functions used in `main.cpp` are defined in other CPP files in the `src` directory, and the header files for each one of them are stored in the `include` directory. We also have the `lattice_src` directory in the `src` directory, which contains files necessary to perform lattice simulations.
 
