@@ -65,47 +65,47 @@ Here is a simple explanation on how to use the code.
 
  Classes and functions used in `main.cpp` are defined in other CPP files in the `src` directory, and the header files for each one of them are stored in the `include` directory. We also have the `lattice_src` directory in the `src` directory, which contains files necessary to perform lattice simulations.
 
-      - `calculation.cpp`
+   - `calculation.cpp`
 
-        This file contains functions necessary to calculate linear perturbation equations in wave number space. We have the `Zeromode` class that calculates first only the zeormode of fields. This is necessary to find out the value of the potential minimum and make sure that it is set to zero. After that we use the `Perturbation` class to calculate both the zeromode and the linear perturbation for each wave number.
+     This file contains functions necessary to calculate linear perturbation equations in wave number space. We have the `Zeromode` class that calculates first only the zeormode of fields. This is necessary to find out the value of the potential minimum and make sure that it is set to zero. After that we use the `Perturbation` class to calculate both the zeromode and the linear perturbation for each wave number.
 
-      - `equations.cpp`
+   - `equations.cpp`
 
-        This file contains functions necessary to actually evolve the linear perturbation equations in wave number space, including the actual potential and its derivatives and so on. 
+     This file contains functions necessary to actually evolve the linear perturbation equations in wave number space, including the actual potential and its derivatives and so on. 
 
-      - `nr.cpp`
+   - `nr.cpp`
 
-        Functions in this file describes numerical methods used for evolving the linear perturbation equations in wave number space. They are implemented based on `Numerical Recipes`. Hence the file name `nr.cpp`.
+     Functions in this file describes numerical methods used for evolving the linear perturbation equations in wave number space. They are implemented based on `Numerical Recipes`. Hence the file name `nr.cpp`.
 
-      - `parameter.cpp`
+   - `parameter.cpp`
 
-        Parameters necessary for the linear perturbation equations are stored in this file. Parameters necessary for lattice simulations are also stored in here.
+     Parameters necessary for the linear perturbation equations are stored in this file. Parameters necessary for lattice simulations are also stored in here.
 
-      - `uc.cpp`
+   - `uc.cpp`
 
-         Three different units are used for wave modes depending on the situation. They are reduced Planck mass, Mpc and the number of the mode counting from the lowest one. This file contains all the functions necessary to convert from one unit to another different unit. They are the unit conversion functions, hence the file name  `uc.cpp`.
+      Three different units are used for wave modes depending on the situation. They are reduced Planck mass, Mpc and the number of the mode counting from the lowest one. This file contains all the functions necessary to convert from one unit to another different unit. They are the unit conversion functions, hence the file name  `uc.cpp`.
 
-      - `utilities.cpp`
+   - `utilities.cpp`
 
-         This file contains miscellaneous functions that doesn't really fit into other files for both linear perturbation calculations and lattice simulations. These include functions to output powerspectum, set the gaussian distributed perturbations for the lattice, Fourier transformations and output all sorts of detailed data into files.
+      This file contains miscellaneous functions that doesn't really fit into other files for both linear perturbation calculations and lattice simulations. These include functions to output powerspectum, set the gaussian distributed perturbations for the lattice, Fourier transformations and output all sorts of detailed data into files.
 
-      - `lattice_src`
+   - `lattice_src`
 
-         This directory stores the files necessary for running lattice simulations.
+      This directory stores the files necessary for running lattice simulations.
 
-         - `lattice.cpp`
+      - `lattice.cpp`
 
-           This file corresponds to the main function for lattice simulations, and describes the main flow of the calculation.
+        This file corresponds to the main function for lattice simulations, and describes the main flow of the calculation.
 
-         - `lattice_field.cpp`
+      - `lattice_field.cpp`
 
-           This is where the fields are initialized using quantum vacuum fluctuations, and also finalized. Functions related to fields such as scalar potentials, their derivatives, field averages and field variances are also implemented here.
+        This is where the fields are initialized using quantum vacuum fluctuations, and also finalized. Functions related to fields such as scalar potentials, their derivatives, field averages and field variances are also implemented here.
 
-         - `lattice_evol.cpp`
+      - `lattice_evol.cpp`
 
-           Functions necessary to calculate time evolution are stored here. 2nd-order and 4th-order simplectic integration scheme ( leap-frog method ) are implemented here, but only the 2nd-order should be trusted for now.
+        Functions necessary to calculate time evolution are stored here. 2nd-order and 4th-order simplectic integration scheme ( leap-frog method ) are implemented here, but only the 2nd-order should be trusted for now.
 
-         - `lattice_calc.cpp`
+      - `lattice_calc.cpp`
 
-           This file is in charge of calculating values regarding energy density. 
+        This file is in charge of calculating values regarding energy density. 
 
