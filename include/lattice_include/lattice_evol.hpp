@@ -34,6 +34,8 @@ class LeapFrog
     void evol_gravpot_derivs_expansion( double** f, double** df, double** f_tilde, double** df_tilde, Field* field, double t, double h );
     
     void fields_copy( double** f_from, double** f_to);
+    void fields_convert( double** f, double** f_tilde, double t, int convert_switch);
+    void fields_deriv_convert( double** f, double** df, double** df_tilde, double t, int convert_switch);
 
     
 	public:

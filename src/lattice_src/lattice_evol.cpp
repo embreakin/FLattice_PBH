@@ -66,36 +66,9 @@ LeapFrog::LeapFrog( Field* field, double** f, double ** df, double rad_pr )
     
     //Rescale field program variables to field variables necessary for leapfrog evolution
     //We only rescale the scalar fields.
-    for( int i = 0; i < num_fields - 1; ++i ){
-    #if   dim == 1
-    #pragma omp parallel for simd schedule(static) num_threads(num_threads)
-    #elif dim >= 2
-    #pragma omp parallel for schedule( static ) num_threads( num_threads )
-    #endif
-        for( int j = 0; j < N; ++j ){
-            #if dim == 1
-                int idx = j;
-            f_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*f[i][idx];
-            df_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
-            #elif dim == 2
-            #pragma omp simd
-                for( int k = 0; k < N; ++k ){
-                    int idx = j*N + k;
-                    f_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*f[i][idx];
-                    df_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
-                }
-            #elif dim == 3
-                for( int k = 0; k < N; ++k ){
-                    #pragma omp simd
-                    for( int l = 0; l < N; ++l ){
-                        int idx = (j*N + k)*N + l;
-                        f_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*f[i][idx];
-                        df_tilde[i][idx] = exp(Gamma_pr[i]*t0/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
-                    }
-                }
-            #endif
-        }
-    }
+    
+    fields_convert( f, f_tilde, t0, 0);
+    fields_deriv_convert( f, df, df_tilde, t0, 0);
     
     
     switch( precision )
@@ -213,7 +186,7 @@ void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* fiel
         #elif dim == 3
                         
                         for( int k = 0; k < N; ++k ){
-        #pragma omp simd
+        //#pragma omp simd
                             for( int l = 0; l < N; ++l ){
                                 int idx = (j*N + k)*N + l;
                                 df[i][idx] +=(
@@ -237,39 +210,12 @@ void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* fiel
 
 void LeapFrog::evol_scale_dderivs( Field* field, double** f, double ** f_tilde, double rho_r, double t, double h)
 {
-    
-    
     //rescale fields from evolution variables to program variables
-    for( int i = 0; i < num_fields - 1; ++i ){
-    #if   dim == 1
-    #pragma omp parallel for simd schedule(static) num_threads(num_threads)
-    #elif dim >= 2
-    #pragma omp parallel for schedule( static ) num_threads( num_threads )
-    #endif
-        for( int j = 0; j < N; ++j ){
-            #if dim == 1
-                int idx = j;
-            f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*t/2);
-            #elif dim == 2
-            #pragma omp simd
-                for( int k = 0; k < N; ++k ){
-                    int idx = j*N + k;
-                    f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*t/2);
-                }
-            #elif dim == 3
-                for( int k = 0; k < N; ++k ){
-                    #pragma omp simd
-                    for( int l = 0; l < N; ++l ){
-                        int idx = (j*N + k)*N + l;
-                        f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*t/2);
-                    }
-                }
-            #endif
-        }
-    }
+    fields_convert( f, f_tilde, t, 1);
     
    if(h==0){
-        _dda = -pw2(_da)/_a
+       
+       _dda = -pw2(_da)/_a
        +(1/(_a*rescale_A*rescale_A))*
        (
         2.*(field->gradient_energy(f[0])
@@ -279,6 +225,7 @@ void LeapFrog::evol_scale_dderivs( Field* field, double** f, double ** f_tilde, 
         + field->potential_energy(f, _a)
         + rho_r
         );
+       
     }else{
     
     double C = 0;
@@ -352,37 +299,9 @@ void LeapFrog::evol_gravpot( double** f, double** df, double h )
 
 void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** f_tilde, double** df_tilde, Field* field, double t, double h )
 {
-        //rescale fields from evolution variables to program variables
-        for( int i = 0; i < num_fields - 1; ++i ){
-    #if   dim == 1
-    #pragma omp parallel for simd schedule(static) num_threads(num_threads)
-    #elif dim >= 2
-    #pragma omp parallel for schedule( static ) num_threads( num_threads )
-    #endif
-            for( int j = 0; j < N; ++j ){
-    #if dim == 1
-                int idx = j;
-                f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*t/2);
-                df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]/2)*exp(-Gamma_pr[i]*t/2);
-    #elif dim == 2
-    #pragma omp simd
-                for( int k = 0; k < N; ++k ){
-                    int idx = j*N + k;
-                    f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*t/2);
-                    df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]/2)*exp(-Gamma_pr[i]*t/2);
-                }
-    #elif dim == 3
-                for( int k = 0; k < N; ++k ){
-    #pragma omp simd
-                    for( int l = 0; l < N; ++l ){
-                        int idx = (j*N + k)*N + l;
-                        f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*t/2);
-                        df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]/2)*exp(-Gamma_pr[i]*t/2);
-                    }
-                }
-    #endif
-            }
-        }
+    //rescale fields from evolution variables to program variables
+    fields_convert( f, f_tilde, t, 1);
+    fields_deriv_convert( f, df, df_tilde, t, 1);
     
     #if   dim == 1
     #pragma omp parallel for simd schedule(static) num_threads(num_threads)
@@ -447,7 +366,7 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
     #elif dim == 3
                 
                 for( int k = 0; k < N; ++k ){
-    #pragma omp simd
+   // #pragma omp simd
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
                         df[3][idx] += (
@@ -478,7 +397,7 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                     }
                 }
     #endif
-            }
+    
             
     
 }
@@ -519,7 +438,157 @@ void LeapFrog::fields_copy( double** f_from, double** f_to){
 
 }
 
+void LeapFrog::fields_convert( double** f, double** f_tilde, double t, int convert_switch){
 
+    switch (convert_switch) {
+
+            //convert from program variables to evolution variables
+        case 0:
+            for( int i = 0; i < num_fields - 1; ++i ){
+#if   dim == 1
+#pragma omp parallel for simd schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for schedule( static ) num_threads( num_threads )
+#endif
+                for( int j = 0; j < N; ++j ){
+#if dim == 1
+                    int idx = j;
+                    f_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*f[i][idx];
+        
+#elif dim == 2
+#pragma omp simd
+                    for( int k = 0; k < N; ++k ){
+                        int idx = j*N + k;
+                        f_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*f[i][idx];
+                       
+                    }
+#elif dim == 3
+                    for( int k = 0; k < N; ++k ){
+#pragma omp simd
+                        for( int l = 0; l < N; ++l ){
+                            int idx = (j*N + k)*N + l;
+                            f_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*f[i][idx];
+        
+                        }
+                    }
+#endif
+                }
+            }
+
+            break;
+
+        case 1:
+            //rescale fields from evolution variables to program variables
+            for( int i = 0; i < num_fields - 1; ++i ){
+#if   dim == 1
+#pragma omp parallel for simd schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for schedule( static ) num_threads( num_threads )
+#endif
+                for( int j = 0; j < N; ++j ){
+#if dim == 1
+                    int idx = j;
+                    f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*t/2);
+                
+#elif dim == 2
+#pragma omp simd
+                    for( int k = 0; k < N; ++k ){
+                        int idx = j*N + k;
+                        f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*t/2);
+                       
+                    }
+#elif dim == 3
+                    for( int k = 0; k < N; ++k ){
+#pragma omp simd
+                        for( int l = 0; l < N; ++l ){
+                            int idx = (j*N + k)*N + l;
+                            f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*t/2);
+                            
+                        }
+                    }
+#endif
+                }
+            }
+            break;
+
+        default:
+            break;
+    }
+
+}
+
+void LeapFrog::fields_deriv_convert( double** f, double** df, double** df_tilde, double t, int convert_switch){
+    
+    switch (convert_switch) {
+            
+            //convert from program variables to evolution variables
+        case 0:
+            for( int i = 0; i < num_fields - 1; ++i ){
+#if   dim == 1
+#pragma omp parallel for simd schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for schedule( static ) num_threads( num_threads )
+#endif
+                for( int j = 0; j < N; ++j ){
+#if dim == 1
+                    int idx = j;
+                    df_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
+#elif dim == 2
+#pragma omp simd
+                    for( int k = 0; k < N; ++k ){
+                        int idx = j*N + k;
+                        df_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
+                    }
+#elif dim == 3
+                    for( int k = 0; k < N; ++k ){
+#pragma omp simd
+                        for( int l = 0; l < N; ++l ){
+                            int idx = (j*N + k)*N + l;
+                            df_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
+                        }
+                    }
+#endif
+                }
+            }
+            
+            break;
+            
+        case 1:
+            //rescale fields from evolution variables to program variables
+            for( int i = 0; i < num_fields - 1; ++i ){
+#if   dim == 1
+#pragma omp parallel for simd schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for schedule( static ) num_threads( num_threads )
+#endif
+                for( int j = 0; j < N; ++j ){
+#if dim == 1
+                    int idx = j;
+                    df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]/2)*exp(-Gamma_pr[i]*t/2);
+#elif dim == 2
+#pragma omp simd
+                    for( int k = 0; k < N; ++k ){
+                        int idx = j*N + k;
+                        df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]/2)*exp(-Gamma_pr[i]*t/2);
+                    }
+#elif dim == 3
+                    for( int k = 0; k < N; ++k ){
+#pragma omp simd
+                        for( int l = 0; l < N; ++l ){
+                            int idx = (j*N + k)*N + l;
+                            df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]/2)*exp(-Gamma_pr[i]*t/2);
+                        }
+                    }
+#endif
+                }
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+}
 /////////////////////////////////////////////////////
 //////////////////PUBLIC FUNCTIONS///////////////////
 /////////////////////////////////////////////////////
@@ -580,8 +649,9 @@ void LeapFrog::evolution_expansion( Field* field, double** f, double** df, doubl
                     }
                     
                     evol_scale_dderivs( field, f, f_tilde, rad, t, 0); //scalar fields in f are also updated
-                    fields_copy( df_tilde, df); //scalar fields in df are updated
-                    //f,df are also updated
+                    
+                    //set derivative of scalar fields back to program variables before leaving the evolution_expansion function
+                    fields_deriv_convert( f, df, df_tilde, t, 1);
                     
 //                    std::cout << "after evolution expansion" << std::endl;
 //                    std::cout << "f[0][4] = " << f[0][4] << std::endl;
