@@ -57,25 +57,55 @@ Here is a simple explanation on how to use the code.
 
 ## Contents
 
- `main.cpp` is designed to run only the main calculation. Classes and functions used in `main.cpp` are defined in the other five CPP files in the `lib` directory, and the header files for each one of them are stored in the `include` directory.
-The five CPP files are the following.
+- `main.cpp`
 
-- `parameter.cpp`
+ `main.cpp` is designed to run only the main calculation, which can be devided into three phases. First we have the smooth hybrid inflation phase (1), then the oscillatory phase (2) and lastly the new inflation phase (3). (1) and (3) are both calculated by evolving the linear perturbation equations in wave number space. (2) can be calculated either by evolving the linear perturbation equations just as in (1) and (3), or by switching to real space and running lattice simulations. 
+ 
+- `src`
 
-  Parameters necessary for the simulation are stored in this file.
+ Classes and functions used in `main.cpp` are defined in other CPP files in the `src` directory, and the header files for each one of them are stored in the `include` directory. We also have the `lattice_src` directory in the `src` directory, which contains files necessary to perform lattice simulations.
 
-- `field.cpp`
+   - `calculation.cpp`
 
-  This is where the fields are initialized using quantum vacuum fluctuations. Other configurations such as the scalar potential, effective mass, etc. are set in `field.hpp`.
+     This file contains functions necessary to calculate linear perturbation equations in wave number space. We have the `Zeromode` class that calculates first only the zeormode of fields. This is necessary to find out the value of the potential minimum and make sure that it is set to zero. After that we use the `Perturbation` class to calculate both the zeromode and the linear perturbation for each wave number.
 
-- `evolution.cpp`
+   - `equations.cpp`
 
-  All classes necessary to calculate the time evolution are in `evolution.cpp`. 2nd-order and 4th-order simplectic integration scheme ( leap-frog method ) are implemented here, but only the 2nd-order should be trusted.
-  
-- `calculation.cpp`
-  
-  All ouput values such as field averages, field variances, energy densities etc. are calculated in this file.   
-  
-- `utilities.cpp`
-  
-  Miscellaneous functions necessary to initialize the fields are implemented here. Functions for the final output of data are also written here.  
+     This file contains functions necessary to actually evolve the linear perturbation equations in wave number space, including the actual potential and its derivatives and so on. 
+
+   - `nr.cpp`
+
+     Functions in this file describes numerical methods used for evolving the linear perturbation equations in wave number space. They are implemented based on `Numerical Recipes`. Hence the file name `nr.cpp`.
+
+   - `parameter.cpp`
+
+     Parameters necessary for the linear perturbation equations are stored in this file. Parameters necessary for lattice simulations are also stored in here.
+
+   - `uc.cpp`
+
+      Three different units are used for wave modes depending on the situation. They are reduced Planck mass, Mpc and the number of the mode counting from the lowest one. This file contains all the functions necessary to convert from one unit to another. They are the unit conversion functions, hence the file name  `uc.cpp`.
+
+   - `utilities.cpp`
+
+      This file contains miscellaneous functions that don't fit into other files for both linear perturbation calculations and lattice simulations. These include functions to output power spectums, set the gaussian distributed perturbations for the lattice, Fourier transformations and output all sorts of detailed data into files.
+
+   - `lattice_src`
+
+      This directory stores the files necessary for running lattice simulations.
+
+      - `lattice.cpp`
+
+        This file corresponds to the main function for lattice simulations, and describes the main flow of the calculation.
+
+      - `lattice_field.cpp`
+
+        This is where the fields are initialized using quantum vacuum fluctuations, and also finalized. Functions related to fields such as scalar potentials, their derivatives, field averages and field variances are also implemented here.
+
+      - `lattice_evol.cpp`
+
+        Functions necessary to calculate time evolution are stored here. 2nd-order and 4th-order simplectic integration scheme ( leap-frog method ) are implemented here, but only the 2nd-order should be trusted for now.
+
+      - `lattice_calc.cpp`
+
+        This file is in charge of calculating values regarding energy density. 
+
