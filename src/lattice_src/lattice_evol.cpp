@@ -548,7 +548,7 @@ void LeapFrog::evolution_expansion( Field* field, double** f, double** df, doubl
                     evol_scale(0.5);
                     evol_gravpot( f, df,  0.5 ); //gravitational potential is stored in f[3][idx], df[3][idx]
                     
-                    t =  t0 + 0.5*dt;
+                    t += 0.5*dt;
                     
                     for( int i = 0; i < st_output_step; ++i ){
                         
@@ -556,7 +556,7 @@ void LeapFrog::evolution_expansion( Field* field, double** f, double** df, doubl
                         fields_copy( df_tilde, fdf_save);//Temporarily save df_tilde data to fdf_save
                         evol_field_derivs_expansion( f_tilde, df_tilde, field,  0.5 );
                         evol_gravpot_derivs_expansion( f, df, f_tilde, df_tilde, field, t, 1);
-                        evol_field_derivs_expansion( f_tilde, fdf_save, field,  1 );//Use data in fdf_save for leapfrog
+                        evol_field_derivs_expansion( f_tilde, fdf_save, field, 1 );//Use data in fdf_save for leapfrog
                         evol_gravpot( f, df, 1 ); //gravitational potential is stored in f[3][idx], df[3][idx]
                         fields_copy( f_tilde, fdf_save);//Temporarily save f_tilde data to fdf_save
                         evol_scale_derivs(0.5);
