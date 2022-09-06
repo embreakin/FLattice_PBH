@@ -36,7 +36,7 @@ void Zeromode::zeromode_calc(){
         Logout("knum = %d, kMpc = %2.5e, kMPl = %2.5e \n\n",knum_zero[i], UC::knum_to_kMpc(knum_zero[i]), UC::knum_to_kMPl(knum_zero[i]));
     }
     
-    k_comoving = UC::knum_to_kMPl(knum_zero[0]);
+    k_comoving = UC::knum_to_kMPl(knum_zero[0]); // 200 knum
     
     Zeromode::zeromode_initial(unp, a, H, xbegin);
     

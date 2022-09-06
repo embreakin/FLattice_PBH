@@ -158,8 +158,8 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
 //  double* mass_sq = new double [num_fields];
   double* initial_field_values = new double [num_fields];
   double* initial_field_derivs = new double [num_fields];
-  double radiation_var;
-  double hubble_parameter;
+  double radiation_var = 0;
+  double hubble_parameter = 0;
  
 
     //lattice_var[knum_lattice][j] [j] specifies variables as follows:
@@ -215,7 +215,7 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
     Logout("final hubble_parameter = %2.5e \n",hubble_parameter);
     
     
-    //Rescaling initial fields and their derivatives to a lattice program variable
+    //Rescaling initial fields and their derivatives to  lattice program variables
     //Only necessary for the scalar fields
     for (int i=0; i< num_fields - 1; i++){
         
@@ -225,7 +225,7 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
         
         initial_field_values[i] *= rescale_A;
         
-    initial_field_derivs[i] = (rescale_B/rescale_A)*initial_field_derivs[i] + hubble_parameter*initial_field_values[i];
+    initial_field_derivs[i] = (rescale_A/rescale_B)*initial_field_derivs[i] + hubble_parameter*initial_field_values[i]/rescale_B;
     
     
         
@@ -236,8 +236,7 @@ void initialize( double**& f, double**& df, Field* field, double radiation_pr, d
     Logout("FIXPSI = %2.5e \n",FIXPSI);
     
     //Rescaling hubble parameter to a lattice program variable
-    //It doesn't change since a = a_{0}\bar{a}
-    Hinitial_pr = hubble_parameter;
+    Hinitial_pr = hubble_parameter/rescale_B;
     
 
     //Radiation zeromode

@@ -107,7 +107,7 @@ double Hinitial_pr;
 //const double initderivs[] = {(1*Hinitial*initfield[0])/rescale_B};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
 
 int output_step = 1.5e+1;
-int total_step  = 1.2e+4;
+int total_step  = 1.5e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 1;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files

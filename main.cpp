@@ -73,9 +73,9 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     Logout( "Calculating Zeromode with Perturbation...\n\n");
     Logout("=====================================================\n\n");
 
-    //Instantiate perturbabtion
      //Instantiate zeromode
      Zeromode Zero2;
+    //Instantiate perturbabtion
      Perturbation Perturb;
     
     int kfrom_knum = UC::kMpc_to_knum(kfrom_Mpc);  // convert to original knum units
