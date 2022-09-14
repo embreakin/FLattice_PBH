@@ -3,7 +3,7 @@
 #include "lattice_calc.hpp"
 #include "parameters.hpp"
 
-void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double** df, double rad )
+void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double** df, double& rad )
 {
     double a  = leapfrog->a ();
     double da = leapfrog->da();
@@ -22,7 +22,7 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
         
 
     #if   dim == 1
-    #pragma omp parallel for simd reduction(+:_average_reduc,_potential_average_reduc,_timederiv_average_reduc,_grad_average_reduc) schedule(static) num_threads(num_threads)
+//    #pragma omp parallel for simd reduction(+:_average_reduc,_potential_average_reduc,_timederiv_average_reduc,_grad_average_reduc) schedule(static) num_threads(num_threads)
     #elif dim >= 2
     #pragma omp parallel for reduction(+:_average_reduc,_potential_average_reduc,_timederiv_average_reduc,_grad_average_reduc) schedule(static) num_threads(num_threads)
     #endif
@@ -184,8 +184,32 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
         _potential_average = _potential_average_reduc*pow(a,-4);
         _timederiv_average = _timederiv_average_reduc*pow(a,-4);
         _grad_average = _grad_average_reduc*pow(a,-4);
+        _rad = rad*pow(a,-4);
         _variance = _variance_reduc;
         _value_max = _value_max_reduc;
+    
+//    std::cout << "_timederiv_average = " << _timederiv_average << std::endl;
+//    std::cout << "pw2(rescale_B/rescale_A) = " << pw2(rescale_B/rescale_A) << std::endl;
+//    std::cout << "timederiv_average () = " << _timederiv_average*pw2(rescale_B/rescale_A) << std::endl;
+//    std::cout << "f[0][4] = " << f[0][4] << std::endl;
+//    std::cout << "df[0][4] = " <<  df[0][4] << std::endl;
+//    std::cout << "f[0][10] = " <<  f[0][10] << std::endl;
+//    std::cout << "df[0][10] = " <<  df[0][10] << std::endl;
+//    
+//    std::cout << "f[1][4] = " << f[1][4] << std::endl;
+//    std::cout << "df[1][4] = " <<  df[1][4] << std::endl;
+//    std::cout << "f[1][10] = " <<  f[1][10] << std::endl;
+//    std::cout << "df[1][10] = " <<  df[1][10] << std::endl;
+//    
+//    std::cout << "f[2][4] = " << f[2][4] << std::endl;
+//    std::cout << "df[2][4] = " <<  df[2][4] << std::endl;
+//    std::cout << "f[2][10] = " <<  f[2][10] << std::endl;
+//    std::cout << "df[2][10] = " <<  df[2][10] << std::endl;
+//    
+//    std::cout << "a = " <<  a << std::endl;
+//    
+//    std::cout << "da = " << da << std::endl;
+    
         
     
 }

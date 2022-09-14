@@ -15,6 +15,7 @@ class Energy
     double _potential_average;
     double  _timederiv_average;
     double _grad_average;
+    double _rad;
     double _value_max;
     
     
@@ -23,7 +24,7 @@ class Energy
     double *value;
     
     
-    Energy():  _total_average(),_potential_average(),_timederiv_average(),_grad_average(),_value_max()
+    Energy():  _total_average(),_potential_average(),_timederiv_average(),_grad_average(),_rad(),_value_max()
     {
         
         switch( dim ){
@@ -49,9 +50,10 @@ class Energy
         double potential_average () { return _potential_average*pw2(rescale_B/rescale_A);}
         double timederiv_average () { return _timederiv_average*pw2(rescale_B/rescale_A);}
         double grad_average () { return _grad_average*pw2(rescale_B/rescale_A);}
+        double radiation () { return _rad*pw2(rescale_B/rescale_A);}
         double energy_max () {return _value_max;}
     
-        void energy_calc( Field* field, LeapFrog* leapfrog, double** f, double** df, double rad );
+        void energy_calc( Field* field, LeapFrog* leapfrog, double** f, double** df, double& rad );
         double gradient_energy_eachpoint( double** f ,int i, int idx );
     
         #pragma omp declare simd

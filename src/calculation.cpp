@@ -260,7 +260,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
 //Lattice Range Subroutines
 //--------------------------
 
-void Perturbation::lattice_initialize( double** &latticep )
+void Perturbation::lattice_initialize( double**& latticep )
 {
     latticep = new double* [N/2];
     latticep[0] = new double [(N/2)*N_pert];
@@ -271,7 +271,7 @@ void Perturbation::lattice_initialize( double** &latticep )
     }
 }
 
-void Perturbation::lattice_finalize( double** &latticep )
+void Perturbation::lattice_finalize( double** latticep )
 {
     delete [] latticep[0];
     delete [] latticep;
@@ -440,7 +440,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
     
     Vec_DP delstart(N_pert);
     
-     Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e ", kfrom_MPl_lattice, kto_MPl_lattice);
+     Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e, k_lattice_grid_min_MPl = %2.5e, floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl) =  %2.5e\n", kfrom_MPl_lattice, kto_MPl_lattice, k_lattice_grid_min_MPl, floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl));
     
     int latticerange_num;
     int outrange_num;
@@ -455,7 +455,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
         k_comoving_start = (outrange_num+1)*k_lattice_grid_min_MPl;
         
         Logout("k_lattice_grid_min_MPl < kfrom_MPl_lattice\n");
-        Logout("outrange_num = %2.5e, latticerange_num = %2.5e \n",outrange_num, latticerange_num);
+        Logout("outrange_num = %d, latticerange_num = %d \n",outrange_num, latticerange_num);
 
     }
     else{
@@ -495,6 +495,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             //THRLAST is set by hand according to the result for zero-mode.
             NR::odeintpert(delstart,THRUNP,THRLAST,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
             //         std::cout << "timecount = " << timecount << std::endl;
+             
             if(kanalyze_switch){
                 kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum,k_comoving);
             }
@@ -510,10 +511,11 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             for (i=0;i<6;i++) delstart[31+i]=0;
             for (i=0;i<6;i++) delstart[40+i]=0;
             //Evolution equations for phi and all perturbations are solved, with zero-modes of sigma and psi are fixed to minimum.
-            //until the amplitude of oscillation of phi becomed sufficiently small at ln(a)=xend.
+            //until the amplitude of oscillation of phi becomes sufficiently small at ln(a)=xend.
             //xend is set by hand according to the result for zero-mode.
-            //(if perturbations of of sigma and psi are not solved, superhorizon parturbations begin to decrease)
-            NR::odeintpert(delstart,xmid,xend,epslast,h2,hmin,nok,nbad,timecount,dxsav,fixfix,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
+            //(if perturbations of sigma and psi are not solved, superhorizon parturbations begin to decrease)
+           Logout("Can you see this?"); NR::odeintpert(delstart,xmid,xend,epslast,h2,hmin,nok,nbad,timecount,dxsav,fixfix,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
+             Logout("Can you see this?");
             //         std::cout << "timecount = " << timecount << std::endl;
             if(kanalyze_switch){
                 kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum, k_comoving);

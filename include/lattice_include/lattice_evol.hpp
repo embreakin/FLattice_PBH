@@ -21,14 +21,14 @@ class LeapFrog
     //Evolution variables for scalar fields
         double **f_tilde, **df_tilde, **fdf_save;
 
-		void evol_fields                 ( double** f, double** df, double h );
-        void evol_field_derivs_expansion ( double** f, double** df, Field* field, double h );
+		void evol_fields                 ( double** f_tilde, double** df_tilde, double h );
+        void evol_field_derivs_expansion ( double** f, double** f_tilde, double** df_tilde, Field* field, double t, double h );
 
-        void evol_scale_dderivs( Field* field, double** f, double ** f_tilde, double rho_r, double t, double h);
+        void evol_scale_dderivs( Field* field, double** f, double** f_tilde, double& rho_r, double t, double h);
 		void evol_scale_derivs ( double h ){ _da += _dda * h*dt; }
         void evol_scale ( double h ){  _a += _da *h*dt; }
     
-    void evol_radiation(Field* field, double** f, double** df, double rho, double t , double h);
+    void evol_radiation(Field* field, double** f_tilde, double** df_tilde, double& rho, double t , double h);
     
     void evol_gravpot( double** f, double** df, double h );
     void evol_gravpot_derivs_expansion( double** f, double** df, double** f_tilde, double** df_tilde, Field* field, double t, double h );
@@ -39,7 +39,7 @@ class LeapFrog
 
     
 	public:
-    LeapFrog( Field* field, double** f, double ** df, double rad_pr );
+    LeapFrog( Field* field, double** f, double** df, double& rad_pr );
     
     ~LeapFrog() {
         delete [] Gamma_pr;
@@ -52,12 +52,13 @@ class LeapFrog
         delete [] fdf_save;
     }
 
-		void evolution_expansion ( Field* field, double** f, double** df, double rad, double t );
+		void evolution_expansion ( Field* field, double** f, double** df, double& rad, double t );
 
 		double a()  { return _a; }
-		double da() { return _da; }
-    double hubble() { return _da*rescale_B*pow(_a,-2);}
-    double adotdot() {return pw2(exp(OSCSTART)*rescale_B)*pow(_a,-2)*(_dda-pw2(_da)/_a);}
+        double efolds() { return OSCSTART + log(_a); }
+        double da() { return _da; }
+        double hubble() { return _da*rescale_B*pow(_a,-2);}
+        double adotdot() {return exp(OSCSTART)*pw2(rescale_B)*pow(_a,-2)*(_dda-pw2(_da)/_a);}
 };
 
 

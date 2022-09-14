@@ -9,7 +9,7 @@ double rescale_B;
 double L;//L_pr
 double dx; //dx_pr
 
-void lattice(double**& lattice_var)
+void lattice(double** lattice_var)
 {
     //Start Counting Time
     std::chrono::high_resolution_clock::time_point start, loop_start, current;
@@ -93,14 +93,20 @@ void lattice(double**& lattice_var)
     //Declare fields and their derivatives
     double **f, **df;
     //Declare radiation
-    double radiation;
+    double radiation = 0;
 //
     //Instantiate fields
     Field field;
 //
+    Logout("radiation1 = %2.5e \n", radiation);
 //    Initialize fields and their derivatives
+   
     initialize( f, df, &field, radiation, lattice_var);
-//
+    
+    
+    Logout("radiation2 = %2.5e \n", radiation);
+    
+    Logout( "f[0][4] = %2.5e \n", f[0][4]);
     //Instantiate leapfrog and initialize
     LeapFrog leapfrog(&field, f, df, radiation);
    
@@ -113,15 +119,16 @@ void lattice(double**& lattice_var)
 //    }else{
 //        write_VTK_f(new_dirname_f, f[0], "field", -1 );
 //    }
-
+    Logout("radiation3 = %2.5e \n", radiation);
     // Calculate all necessary initial data regarding energy density
     energy.energy_calc( &field, &leapfrog, f, df ,radiation);
 
+    Logout("radiation4 = %2.5e \n", radiation);
     // Output vti files for the energy density of the field
     write_VTK_ed( new_dirname_ed, energy.value, "energy", -1  );
 
     // Write data to status.txt
-    write_status( new_filename_status, &field, &leapfrog, &energy, f, t0 );
+    write_status( new_filename_status, &field, &leapfrog, &energy, f, df, t0 );
 
     //Calculate Initialization Time
     current = std::chrono::high_resolution_clock::now();
@@ -161,7 +168,7 @@ void lattice(double**& lattice_var)
             //  std::cout << "t1 = " << t << std::endl;
 
             // Add data to status.txt
-            write_status( new_filename_status, &field, &leapfrog, &energy, f, t+st_output_step*dt );
+            write_status( new_filename_status, &field, &leapfrog, &energy, f, df,  t+st_output_step*dt );
             //  std::cout << "t2 = " << t << std::endl;
 
             // Evolve time
@@ -199,7 +206,7 @@ void lattice(double**& lattice_var)
 
     }
 
-
+    
     //Calculate total elapsed time
     current = std::chrono::high_resolution_clock::now();
     elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - start );
@@ -209,6 +216,15 @@ void lattice(double**& lattice_var)
 
     //Release all memory of fields and their derivatives
     finalize( f, df );
+    
+     lattice_var[0][0] = 13;
+    
+    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+        
+       
+        for (int i=0;i<N_zero;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , lattice_var[lattice_loop][i] );
+        
+    }
 
     Logout( "\n----------------------------------------------\n" );
     Logout( "            SIMULATION PARAMETERS            \n\n" );

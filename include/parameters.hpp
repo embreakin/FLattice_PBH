@@ -27,6 +27,7 @@ extern const int N_zero, N_pert;
 
 extern DP CNT;
 extern DP Gamma1,Gamma2,Gamma3;
+extern DP OSCSTART;
 
 extern std::vector<int> knum_zero;
 
@@ -116,7 +117,7 @@ extern int kinterval_knum;
 #define SH -71.                //ln(a) at the end of calculation
 #define THRUNP -105                //ln(a) at which sigma and psi are fixed to the minimum
 #define THRLAST -75                //ln(a) at the beginning of oscillation of phi.-61.5
-#define OSCSTART -117.75        //ln(a) at the beginning of oscillation/
+
 #define dla 1.0E-1                //stepsize for fixed step RK-method
 #define itvl 1000                //interval for output in fixed RK-method
 #define Ini -135.6           //initial ln(a)  I1=0.3,Ini=-131.8
@@ -216,7 +217,7 @@ extern int kinterval_knum;
 //=================
 
 
-#define dim 3
+#define dim 1
 
 extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f, exist_filename_status, new_filename_status;
 
@@ -262,12 +263,5 @@ extern double dt;
 
 extern const int expansion;
 extern const int precision;
-
-
-//potential parameters
-extern const double aa;// = 2*M_PI;
-extern const double AA;// = 10;
-extern const double W0;// = -pow(10,-5);
-extern const double D ;//= 4.6824231*pow(10,-12);
 
 #endif

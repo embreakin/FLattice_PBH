@@ -6,6 +6,6 @@ extern double rescale_B;
 extern double L;
 extern double dx;
 
-void lattice(double**& lattice_var);
+void lattice(double** lattice_var);
 
 #endif

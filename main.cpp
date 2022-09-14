@@ -18,7 +18,7 @@
 //xp[i] stores integration variable (log(a)) for each steps[i].
 //delp_p[i][j] stores variables for each steps[i]. [j] specifies variables as follows:
 //    j=0-2  : zero modes of inflaton sigma, psi, and phi
-//    j=3-5  : log(a) derivatives of inflaton sigma', psi', phi'
+//    j=3-5  : log(a) derivatives of (<-this part is probably wrong) inflaton sigma', psi', phi'
 //    j=6    : energy density of radiation
 //    j=7-15 : mode functions of field perturbation: delta_{sigma,sigma}, delta_{sigma,psi}, delta{sigma,phi}, delta_{psi,sigma}, etc...
 //    j=16-24: log(a) derivatives of mode functions
@@ -121,6 +121,12 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
           Logout("-----------------------------------------------------\n\n");
           Logout("Start loop calculation from THRUNP\n\n");
           Logout("-----------------------------------------------------\n\n");
+      
+      for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+          
+          for (int i=0;i<N_zero;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , latticep[lattice_loop][i] );
+          
+      }
 
           Perturb.latticerange_secondhalf_calc(latticep);
 

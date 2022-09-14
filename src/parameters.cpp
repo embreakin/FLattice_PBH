@@ -36,6 +36,7 @@ DP CNT = (-1)*Vbare(0,FIXPSI,FIXPHI);
 //calculate log(Gravitational Potential) and log(Zeta) for each knum specified.
 
 DP Gamma1,Gamma2,Gamma3;
+DP OSCSTART;
 
 std::vector<int> knum_zero = {200, 400, 634, 700};//knum for calculating zeromode
 
@@ -106,24 +107,18 @@ double Hinitial_pr;
 //const double initfield[] = {2.2105};//{sqrt(2)*1.49652/(sqrt(8*M_PI))};
 //const double initderivs[] = {(1*Hinitial*initfield[0])/rescale_B};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
 
-int output_step = 1.5e+1;
-int total_step  = 1.5e+3;
+int output_step = 2.0e+1;
+int total_step  = 5.0e+4;
 int max_loop    = total_step/output_step; // This many times vti files will be created
-int st_output_step = 1;
+int st_output_step = 2;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
 
 double t0 = 0;
-double dt = 1.e-3; //dt_pr
+double dt = 1.e-4; //dt_pr
 
 
 const int expansion = 1; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
 const int precision = 2;
-
-//potential parameters
-const double aa = 2*M_PI;
-const double AA = 10;
-const double W0 = -pow(10,-5);//-pow(10,-5);
-const double D = 3.169403285436*pow(10,-11);//4.6824231*pow(10,-12);
 
 /*f/M_p=f_pr/a
  dx_pr=mdx

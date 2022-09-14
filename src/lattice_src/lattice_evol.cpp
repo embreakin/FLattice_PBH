@@ -7,8 +7,9 @@
 ////////////////////CONSTRUCTER//////////////////////
 /////////////////////////////////////////////////////
 
-LeapFrog::LeapFrog( Field* field, double** f, double ** df, double rad_pr )
+LeapFrog::LeapFrog( Field* field, double** f, double** df, double& rad_pr )
 {
+    
     //Create arrays for evolution fields and to temporarily save fields
     f_tilde = new double* [num_fields - 1];
     df_tilde = new double* [num_fields - 1];
@@ -59,17 +60,32 @@ LeapFrog::LeapFrog( Field* field, double** f, double ** df, double rad_pr )
         Gamma_pr[1]=Gamma2/rescale_B;
         Gamma_pr[2]=Gamma3/rescale_B;
     
-    // Set scalar fields at the minimum of the potential
-    f_min_MPl[0]=0;
-    f_min_MPl[1]=FIXPSI;
-    f_min_MPl[2]=0;
     
+    Logout( "rad_pr = %2.5e \n", rad_pr);
+    Logout( "df[3][0] = %2.5e \n", df[3][0]);
     //Rescale field program variables to field variables necessary for leapfrog evolution
     //We only rescale the scalar fields.
+     Logout( "f[3][0] = %2.5e \n", f[3][0]);
     
     fields_convert( f, f_tilde, t0, 0);
+    
+//    for( int i = 0; i < num_fields-1; ++i ){
+//        for( int j = 0; j < N; ++j ){
+//            int idx = j;
+//            std::cout << " f_tilde[" << i << "][" << idx << "] = " << f_tilde[i][idx] << std::endl;
+//            std::cout << " df_tilde[" << i << "][" << idx << "] = " << df_tilde[i][idx] << std::endl;
+//        }
+//    }
+    
     fields_deriv_convert( f, df, df_tilde, t0, 0);
     
+//    for( int i = 0; i < num_fields-1; ++i ){
+//        for( int j = 0; j < N; ++j ){
+//            int idx = j;
+//            std::cout << " f_tilde[" << i << "][" << idx << "] = " << f_tilde[i][idx] << std::endl;
+//            std::cout << " df_tilde[" << i << "][" << idx << "] = " << df_tilde[i][idx] << std::endl;
+//        }
+//    }
     
     switch( precision )
     {
@@ -86,22 +102,23 @@ LeapFrog::LeapFrog( Field* field, double** f, double ** df, double rad_pr )
         case 0:
         case 1:  // self-consistent evolution
             _a  = 1;
-            _da = hubble_init/rescale_B;
+            _da = hubble_init;
             //In the function below, a'' is calculated by converting f_tilde to f.
            evol_scale_dderivs( field, f, f_tilde, rad_pr ,t0, 0.); // _dda( Field* field, double** f, double ** f_tilde, double rho_r, double t, double h)
+           
             break;
         case 2: // radiation dominant universe
             sfexponent = 1;
             sfbase = 1;
             _a  = 1;
-            _da = hubble_init/rescale_B;
+            _da = hubble_init;
             _dda = (sfexponent -1)/sfexponent*pw2(hubble_init)/pw2(sfbase)*_a;
             break;
         case 3: // matter dominant universe
             sfexponent = 2;
             sfbase = 1;
             _a  = 1;
-            _da = hubble_init/rescale_B;
+            _da = hubble_init;
             _dda = (sfexponent -1)/sfexponent*pw2(hubble_init)/pw2(sfbase)*_a;
            break;
         default:
@@ -115,7 +132,7 @@ LeapFrog::LeapFrog( Field* field, double** f, double ** df, double rad_pr )
 //////////////////PRIVATE FUNCTIONS//////////////////
 /////////////////////////////////////////////////////
 
-void LeapFrog::evol_fields( double** f, double** df, double h )
+void LeapFrog::evol_fields( double** f_tilde, double** df_tilde, double h )
 {	
     for( int i = 0; i < num_fields-1; ++i ){
     #if   dim == 1
@@ -126,19 +143,21 @@ void LeapFrog::evol_fields( double** f, double** df, double h )
         for( int j = 0; j < N; ++j ){
             #if dim == 1
                 int idx = j;
-                f[i][idx] += df[i][idx] * h*dt;
+        
+                f_tilde[i][idx] += df_tilde[i][idx] * h*dt;
+//            std::cout << " f_tilde[" << i << "][" << idx << "] = " << f_tilde[i][idx] << std::endl;
             #elif dim == 2
             #pragma omp simd
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
-                    f[i][idx] += df[i][idx] * h*dt;
+                    f_tilde[i][idx] += df_tilde[i][idx] * h*dt;
                 }
             #elif dim == 3
                 for( int k = 0; k < N; ++k ){
                     #pragma omp simd
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
-                        f[i][idx] += df[i][idx] * h*dt;
+                        f_tilde[i][idx] += df_tilde[i][idx] * h*dt;
                     }
                 }
             #endif
@@ -147,39 +166,81 @@ void LeapFrog::evol_fields( double** f, double** df, double h )
 }
 
 
-void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* field, double h )
+void LeapFrog::evol_field_derivs_expansion(double** f, double** f_tilde, double** df_tilde, Field* field, double t, double h )
 {
+    
     
     for( int i = 0; i < num_fields - 1; ++i ){
         
         #if   dim == 1
-        #pragma omp parallel for simd schedule(static) num_threads(num_threads)
+//        #pragma omp parallel for simd schedule(static) num_threads(num_threads)
         #elif dim >= 2
         #pragma omp parallel for schedule( static ) num_threads( num_threads )
         #endif
                     for( int j = 0; j < N; ++j ){
         #if dim == 1
                         int idx = j;
-                        df[i][idx] += (
-                                       (
-                                        field->laplacian(f[i], j) - field->mass(i,_a)
-                                        )/pw2(exp(OSCSTART))
-                                       + _dda/_a + (_da/_a)*Gamma_pr[i]
-                                       + pow(Gamma_pr[i],2)
-                                       ) *f[i][idx]* h*dt;
+//                        if(i==1 && idx==0){
+//        Logout( "term1 laplacian = %2.5e \n", field->laplacian(f_tilde[i], j));
+//       Logout( "pw2(exp(OSCSTART) = %2.5e \n", pw2(exp(OSCSTART)));
+//    Logout( " _dda = %2.5e \n", _dda);
+//    Logout( "term2 = %2.5e \n", _dda/_a);
+//    Logout( " _da = %2.5e \n", _da);
+//    Logout( " _a = %2.5e \n", _a);
+//    Logout( "term3 = %2.5e \n", (_da/_a)*Gamma_pr[i]);
+//    Logout( "term4 = %2.5e \n", pow(Gamma_pr[i],2)/4);
+//    Logout( "f_tilde[i][idx] = %2.5e \n", f_tilde[i][idx]);
+//    Logout( "- field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*t/2) = %2.5e \n", - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*t/2));
+//        Logout( " efolds = %2.5e \n",log(exp(OSCSTART)*_a));
+//        Logout( " addition = %2.5e \n", (
+//                                         (
+//                                          (
+//                                           field->laplacian(f_tilde[i], j)
+//                                           )/pw2(exp(OSCSTART))
+//                                          //- field->mass(i,_a)
+//                                          + _dda/_a + (_da/_a)*Gamma_pr[i]
+//                                          + pow(Gamma_pr[i],2)/4
+//                                          ) *f_tilde[i][idx]
+//
+//                                         - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*t/2)
+//
+//                                         )* h*dt);
+//                            exit(1);
+//                        }
+                        
+                        df_tilde[i][idx] +=
+                        (
+                         (
+                          (
+                           field->laplacian(f_tilde[i], j)
+                           )/pw2(exp(OSCSTART))
+                          //- field->mass(i,_a)
+                          + _dda/_a + (_da/_a)*Gamma_pr[i]
+                          + pow(Gamma_pr[i],2)/4
+                          ) *f_tilde[i][idx]
+                         
+                         - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*t/2)
+                         
+                         )* h*dt;
                         
         #elif dim == 2
                         //    #pragma omp simd
                         for( int k = 0; k < N; ++k ){
                             int idx = j*N + k;
-                            df[i][idx] += (
-                                        
-                                           (
-                                            field->laplacian(f[i], j, k) - field->mass(i,_a)
-                                            )/pw2(exp(OSCSTART))
-                                           + _dda/_a + (_da/_a)*Gamma_pr[i]
-                                           + pow(Gamma_pr[i],2)
-                                           ) *f[i][idx]* h*dt;
+                            df_tilde[i][idx] +=
+                            (
+                             (
+                              (
+                               field->laplacian(f_tilde[i], j, k)
+                               )/pw2(exp(OSCSTART))
+                              //- field->mass(i,_a)
+                              + _dda/_a + (_da/_a)*Gamma_pr[i]
+                              + pow(Gamma_pr[i],2)/4
+                              ) *f_tilde[i][idx]
+                             
+                             - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*t/2)
+                             
+                             )* h*dt;
                             
                         }
                         
@@ -189,14 +250,24 @@ void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* fiel
         //#pragma omp simd
                             for( int l = 0; l < N; ++l ){
                                 int idx = (j*N + k)*N + l;
-                                df[i][idx] +=(
-                                    
-                                              (
-                                               field->laplacian(f[i], j, k, l) - field->mass(i,_a)
-                                               )/pw2(exp(OSCSTART))
-                                              + _dda/_a + (_da/_a)*Gamma_pr[i]
-                                              + pow(Gamma_pr[i],2)
-                                              ) *f[i][idx]* h*dt;
+                                
+                               
+                                
+                                df_tilde[i][idx] +=
+                                (
+                                 (
+                                   (
+                                   field->laplacian(f_tilde[i], j, k, l)
+                                    )/pw2(exp(OSCSTART))
+                                               //- field->mass(i,_a)
+                                      + _dda/_a + (_da/_a)*Gamma_pr[i]
+                                      + pow(Gamma_pr[i],2)/4
+                                      ) *f_tilde[i][idx]
+                                
+                                 - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*t/2)
+                                
+                                )* h*dt;
+                        
                                 
                             }
                         }
@@ -208,11 +279,23 @@ void LeapFrog::evol_field_derivs_expansion( double** f, double** df, Field* fiel
 }
 
 
-void LeapFrog::evol_scale_dderivs( Field* field, double** f, double ** f_tilde, double rho_r, double t, double h)
+void LeapFrog::evol_scale_dderivs( Field* field, double** f, double ** f_tilde, double& rho_r, double t, double h)
 {
     //rescale fields from evolution variables to program variables
+  
     fields_convert( f, f_tilde, t, 1);
     
+//      for( int i = 0; i < num_fields - 1; ++i ){
+//    for( int j = 0; j < N; ++j ){
+//        for( int k = 0; k < N; ++k ){
+//            int idx = j*N + k;
+//            std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+//           // std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+//        }
+//    }
+//    }
+//   std::cout << "pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) = " << pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) << "f["<< jp2 << "] = " << f[jp2] << "f["<< jp1 << "] = " << f[jp1] << "f["<< jm1 << "] = " << f[jm1]<< "f["<< jm2 << "] = " << f[jm2] << std::endl;
+//
    if(h==0){
        
        _dda = -pw2(_da)/_a
@@ -236,7 +319,8 @@ void LeapFrog::evol_scale_dderivs( Field* field, double** f, double ** f_tilde, 
         + field->potential_energy( f, _a )
         +rho_r;
     
-
+//        std::cout << "field->gradient_energy(f[0]) = " << field->gradient_energy(f[0]) << ",field->gradient_energy(f[1]) = " << field->gradient_energy(f[1]) << ", field->gradient_energy(f[2]) = " << field->gradient_energy(f[2]) << std::endl;
+//         std::cout << "field->potential_energy( f, _a ) = " << field->potential_energy( f, _a ) << "rho_r = " << rho_r << std::endl;
     _dda = - 2./(h*dt) * (
                           _da +
                           _a/(h*dt) *
@@ -245,24 +329,33 @@ void LeapFrog::evol_scale_dderivs( Field* field, double** f, double ** f_tilde, 
                                 + pow(h*dt,2.)*C/pow(rescale_A*_a,2)  )
                            )
                           );
-       
+//        std::cout << "2: _da = " << _da << ", _dda = " << _dda << ", C = " << C << std::endl;
         _da += .5*_dda*h*dt;
-        
+//        std::cout << "3: _da = " << _da << ", _dda = " << _dda << ", C = " << C << std::endl;
+       
     }
+    
+    
 }
 
-void LeapFrog::evol_radiation(Field* field, double** f, double** df, double rho, double t , double h)
+void LeapFrog::evol_radiation(Field* field, double** f_tilde, double** df_tilde, double& rho, double t , double h)
 {
     double drho = 0;
-    
+   
         for( int i = 0; i < num_fields - 1; ++i ){
             
-         drho += Gamma_pr[i]*exp(-Gamma_pr[i]*t)*pow(field->df_average(df[i], i)-(Gamma_pr[i]/2 + _da/_a)*field->f_average(f[i], i),2)* h*dt;
+         drho += Gamma_pr[i]*exp(-Gamma_pr[i]*t)*pow(field->average(df_tilde[i], i)-(Gamma_pr[i]/2 + _da/_a)*field->average(f_tilde[i], i),2);
             
         }
     
+//    std::cout << "drho*h*dt = " << drho*h*dt << std::endl;
+//    std::cout << "rho = " << rho << std::endl;
+    
     rho = rho + drho*h*dt;
     
+//    std::cout << "rho = " << rho << std::endl;
+    
+//    exit(1);
 }
 
 void LeapFrog::evol_gravpot( double** f, double** df, double h )
@@ -304,7 +397,7 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
     fields_deriv_convert( f, df, df_tilde, t, 1);
     
     #if   dim == 1
-    #pragma omp parallel for simd schedule(static) num_threads(num_threads)
+//    #pragma omp parallel for simd schedule(static) num_threads(num_threads)
     #elif dim >= 2
     #pragma omp parallel for schedule( static ) num_threads( num_threads )
     #endif
@@ -395,9 +488,9 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                     }
                         
                     }
-                }
+                
     #endif
-    
+            }
             
     
 }
@@ -441,9 +534,9 @@ void LeapFrog::fields_copy( double** f_from, double** f_to){
 void LeapFrog::fields_convert( double** f, double** f_tilde, double t, int convert_switch){
 
     switch (convert_switch) {
-
             //convert from program variables to evolution variables
         case 0:
+
             for( int i = 0; i < num_fields - 1; ++i ){
 #if   dim == 1
 #pragma omp parallel for simd schedule(static) num_threads(num_threads)
@@ -454,13 +547,14 @@ void LeapFrog::fields_convert( double** f, double** f_tilde, double t, int conve
 #if dim == 1
                     int idx = j;
                     f_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*f[i][idx];
-        
+
 #elif dim == 2
 #pragma omp simd
                     for( int k = 0; k < N; ++k ){
                         int idx = j*N + k;
+                        
                         f_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*f[i][idx];
-                       
+                      
                     }
 #elif dim == 3
                     for( int k = 0; k < N; ++k ){
@@ -468,7 +562,7 @@ void LeapFrog::fields_convert( double** f, double** f_tilde, double t, int conve
                         for( int l = 0; l < N; ++l ){
                             int idx = (j*N + k)*N + l;
                             f_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*f[i][idx];
-        
+
                         }
                     }
 #endif
@@ -532,7 +626,11 @@ void LeapFrog::fields_deriv_convert( double** f, double** df, double** df_tilde,
                 for( int j = 0; j < N; ++j ){
 #if dim == 1
                     int idx = j;
+//                    std::cout << "1: df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+//                    std::cout << "1: f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
                     df_tilde[i][idx] = exp(Gamma_pr[i]*t/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]/2);
+//                    std::cout << "2: df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+//                    std::cout << "2: f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
 #elif dim == 2
 #pragma omp simd
                     for( int k = 0; k < N; ++k ){
@@ -593,7 +691,7 @@ void LeapFrog::fields_deriv_convert( double** f, double** df, double** df_tilde,
 //////////////////PUBLIC FUNCTIONS///////////////////
 /////////////////////////////////////////////////////
 
-void LeapFrog::evolution_expansion( Field* field, double** f, double** df, double rad, double t )
+void LeapFrog::evolution_expansion( Field* field, double** f, double** df, double& rad, double t )
 {
     
     switch ( expansion )
@@ -612,20 +710,29 @@ void LeapFrog::evolution_expansion( Field* field, double** f, double** df, doubl
 //                    std::cout << "df_tilde[0][4] = " <<  df_tilde[0][4] << std::endl;
 //                    std::cout << "f_tilde[0][10] = " <<  f_tilde[0][10] << std::endl;
 //                    std::cout << "df_tilde[0][10] = " <<  df_tilde[0][10] << std::endl;
+                        
                     evol_radiation(field, f_tilde, df_tilde, rad, t , 0.5);
+                    
                     evol_fields( f_tilde, df_tilde, 0.5 );
+                    
                     evol_scale(0.5);
+                   
                     evol_gravpot( f, df,  0.5 ); //gravitational potential is stored in f[3][idx], df[3][idx]
                     
                     t += 0.5*dt;
                     
                     for( int i = 0; i < st_output_step; ++i ){
-                        
+//                        std::cout << "step 1" << std::endl;
                         evol_scale_dderivs( field, f, f_tilde, rad, t, 1);
+//                        std::cout << "step 2" << std::endl;
                         fields_copy( df_tilde, fdf_save);//Temporarily save df_tilde data to fdf_save
-                        evol_field_derivs_expansion( f_tilde, df_tilde, field,  0.5 );
+//                        std::cout << "step 3" << std::endl;
+                        evol_field_derivs_expansion( f, f_tilde, df_tilde, field, t,  0.5 );
+//                         std::cout << "step 4" << std::endl;
                         evol_gravpot_derivs_expansion( f, df, f_tilde, df_tilde, field, t, 1);
-                        evol_field_derivs_expansion( f_tilde, fdf_save, field, 1 );//Use data in fdf_save for leapfrog
+//                        std::cout << "step 5" << std::endl;
+                        evol_field_derivs_expansion( f, f_tilde, fdf_save, field, t, 1 );//Use data in fdf_save for leapfrog
+//                        std::cout << "step 6" << std::endl;
                         evol_gravpot( f, df, 1 ); //gravitational potential is stored in f[3][idx], df[3][idx]
                         fields_copy( f_tilde, fdf_save);//Temporarily save f_tilde data to fdf_save
                         evol_scale_derivs(0.5);

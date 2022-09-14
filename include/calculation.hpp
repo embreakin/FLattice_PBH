@@ -97,7 +97,7 @@ class Perturbation
     void perturbation_initial(Vec_DP &tr2, DP &k_comoving, DP &a, DP &H);
     void nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zeromode);
     void lattice_initialize( double** &latticep );
-    void lattice_finalize( double** &latticep );
+    void lattice_finalize( double** latticep );
     void latticerange_firsthalf_calc( double** latticep, Zeromode &zeromode);
     void latticerange_secondhalf_calc(double** latticep);
 

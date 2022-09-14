@@ -43,7 +43,7 @@ void write_VTK_f  ( const std::string dir_f, double* f, std::string str, int loo
 
 void write_VTK_ed  (const std::string dir_ed,  double* f, std::string str, int loop);
 
-void write_status ( const std::string status_file, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double t );
+void write_status ( const std::string status_file, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double** df, double t );
 
 
 #endif
