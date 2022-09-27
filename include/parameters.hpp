@@ -24,7 +24,11 @@ extern bool perturbation_switch;
 
 //Array elements
 extern const int N_zero, N_pert;
+extern int k_target;
 
+extern DP sigma_c;
+extern DP FIXPHI;
+extern DP FIXPSI;
 extern DP CNT;
 extern DP Gamma1,Gamma2,Gamma3;
 extern DP OSCSTART;
@@ -104,9 +108,9 @@ extern int kinterval_knum;
 
 
 //Takayama's Master Thesis
-#define GNOMAL 0                //decay rate 1
-#define GLARGE 1.0E-11            //decay rate 2 (if decay rate changes during the calculation)
-#define GLARGE2 1.0E-11            //decay rate 3 (if decay rate changes during the calculation)
+#define GNOMAL 0;//1.0E-11                 //decay rate 1
+#define GLARGE 0;//1.0E-11            //decay rate 2 (if decay rate changes during the calculation)
+#define GLARGE2 0;//1.0E-11            //decay rate 3 (if decay rate changes during the calculation)
 #define CN_par 0.1                    //Potential paramater CN
 #define Cv_par 6.4E-4                //Potential parameter Cv mu/4.
 #define mu_par 2.7E-3                //Potential paramater mu
@@ -114,18 +118,21 @@ extern int kinterval_knum;
 #define m_par 2.                        //Potential paramater m
 #define n_par 10.                        //Potential paramater n
 #define g_par 1.                //Potential parameter g
-#define SH -71.                //ln(a) at the end of calculation
-#define THRUNP -105                //ln(a) at which sigma and psi are fixed to the minimum
-#define THRLAST -75                //ln(a) at the beginning of oscillation of phi.-61.5
+#define SH -70.                //ln(a) at the end of calculation
+#define THRUNP -112                //ln(a) at which sigma and psi are fixed to the minimum
+#define THRLAST -90                //ln(a) at the beginning of oscillation of phi.-61.5
 
 #define dla 1.0E-1                //stepsize for fixed step RK-method
 #define itvl 1000                //interval for output in fixed RK-method
 #define Ini -135.6           //initial ln(a)  I1=0.3,Ini=-131.8
 #define Init_sigma 0.8                //initial value of sigma
 //10^-4[Mpc] corresponds to 0, 10^4[Mpc] to 800 in knum units
+//////////////////////////////////////////
+////The following only holds when m=2//////////////
+//////////////////////////////////////////
 #define msigma sqrt(8*pow(mu_par,3)/M_par)     //effective mass of sigma
-#define FIXPHI -0.325    //minimum value of Phi (set by hand according to zero-mode calculation) -0.472871 -0.475 -0.459
-#define FIXPSI  2*sqrt(mu_par*M_par)  //PSI at the minimum
+//#define FIXPHI -2.31593e-03    //minimum value of Phi (set by hand according to zero-mode calculation) -0.472871 -0.475 -0.459
+//#define FIXPSI  2*pow(mu_par*pow(M_par,m_par-1),1/m_par)  //PSI at the minimum
 
 
 

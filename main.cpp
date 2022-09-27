@@ -48,7 +48,6 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
      
     Logout( "Calculating Zeromode...\n\n");
     
-    
     //Instantiate zeromode
     Zeromode Zero;
     

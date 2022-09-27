@@ -472,19 +472,20 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
     //Only necessary for the scalar fields
     for (int i=0; i< num_fields - 1; i++){
         
-        if(i==1){//psi
-            initial_field_values[i] = FIXPSI - initial_field_values[i];
-        }
+//        if(i==1){//psi
+//            initial_field_values[i] = FIXPSI - initial_field_values[i];
+//        }
         
         initial_field_values[i] *= rescale_A;
         
-        if(i==1){//psi
-             initial_field_derivs[i] = (rescale_A/rescale_B)*(-initial_field_derivs[i]) + hubble_parameter*initial_field_values[i]/rescale_B;
-        }else{
-            
-            initial_field_derivs[i] = (rescale_A/rescale_B)*initial_field_derivs[i] + hubble_parameter*initial_field_values[i]/rescale_B;
-        }
-    
+//        if(i==1){//psi
+//             initial_field_derivs[i] = (rescale_A/rescale_B)*(-initial_field_derivs[i]) + hubble_parameter*initial_field_values[i]/rescale_B;
+//        }else{
+//
+//            initial_field_derivs[i] = (rescale_A/rescale_B)*initial_field_derivs[i] + hubble_parameter*initial_field_values[i]/rescale_B;
+//        }
+    initial_field_derivs[i] = (rescale_A/rescale_B)*initial_field_derivs[i] + hubble_parameter*initial_field_values[i]/rescale_B;
+        
         
         Logout("pr initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
         Logout("pr initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
@@ -817,6 +818,7 @@ double Field::potential_energy( double** f, double a )
         #if dim == 1
             int idx = j;
              potential_energy += V_lattice( f, idx, a );
+       // std::cout << "V_lattice( f, idx, a ) = " << V_lattice( f, idx, a ) << std::endl;
 	    #elif dim == 2
 //        #pragma omp simd reduction(+:potential_energy)
             for( int k = 0; k < N; ++k )
@@ -933,12 +935,17 @@ double Field::V_lattice   ( double** f, int idx, double a )  {
     // std::cout << "a = " << a << std::endl;
     for(fld=0;fld< num_fields - 1;fld++)
     {
-        if(fld==1){
-            f_MPl[fld] = FIXPSI - f[fld][idx]/(rescale_A*a);
-        }else{
-            f_MPl[fld] = f[fld][idx]/(rescale_A*a);
-        }
+//        if(fld==1){
+//            f_MPl[fld] = FIXPSI - f[fld][idx]/(rescale_A*a);
+//        }else{
+//            f_MPl[fld] = f[fld][idx]/(rescale_A*a);
+//        }
+        
+        f_MPl[fld] = f[fld][idx]/(rescale_A*a);
     }
+//    std::cout << "pow(a,4) = " << pow(a,4) << std::endl;
+//    std::cout << "pow(rescale_A/rescale_B,2) = " << pow(rescale_A/rescale_B,2) << std::endl;
+//    std::cout << "V(f_MPl[0],f_MPl[1],f_MPl[2]) = " << V(f_MPl[0],f_MPl[1],f_MPl[2]) << std::endl;
     
     return pow(a,4)*pow(rescale_A/rescale_B,2)*V(f_MPl[0],f_MPl[1],f_MPl[2]); }
 
@@ -947,17 +954,20 @@ double Field::dV_lattice ( double** f, int i, int idx, double a )  {
     
     for(fld=0;fld< num_fields - 1;fld++)
     {
-        if(fld==1){
-        f_MPl[fld] = FIXPSI - f[fld][idx]/(rescale_A*a);
-        }else{
+//        if(fld==1){
+//        f_MPl[fld] = FIXPSI - f[fld][idx]/(rescale_A*a);
+//        }else{
+//        f_MPl[fld] = f[fld][idx]/(rescale_A*a);
+//        }
+        
         f_MPl[fld] = f[fld][idx]/(rescale_A*a);
-        }
     }
     
     
     switch (i){
         case 0: return pow(a,3)*rescale_A*V_1(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //sigma
-        case 1: return -pow(a,3)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
+//        case 1: return -pow(a,3)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
+        case 1: return pow(a,3)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
         case 2: return pow(a,3)*rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //phi
         default:  Logout( "Parameter 'i' in dV_lattice must be 0 ~ 2. \n" );
                 exit(1);
@@ -969,11 +979,13 @@ double Field::ddV_lattice ( double** f, int i, int idx, double a )  {
     
     for( fld=0; fld < num_fields - 1; fld++)
     {
-        if(fld==1){
-            f_MPl[fld] = FIXPSI - f[fld][idx]/(rescale_A*a);
-        }else{
-            f_MPl[fld] = f[fld][idx]/(rescale_A*a);
-        }
+//        if(fld==1){
+//            f_MPl[fld] = FIXPSI - f[fld][idx]/(rescale_A*a);
+//        }else{
+//            f_MPl[fld] = f[fld][idx]/(rescale_A*a);
+//        }
+        
+         f_MPl[fld] = f[fld][idx]/(rescale_A*a);
     }
     
     
@@ -988,7 +1000,7 @@ double Field::ddV_lattice ( double** f, int i, int idx, double a )  {
 }
 
 
-double Field::mass( int i,  double a  ){
+double Field::mass( int i,  double a ){
    
     switch (i){
         case 0: return pow(a*exp(OSCSTART)/rescale_B,2)*V_11(0,FIXPSI,0); //sigma

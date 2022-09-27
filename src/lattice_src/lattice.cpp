@@ -36,7 +36,7 @@ void lattice(double** lattice_var)
     sigma_initial /= (N/2);
     
      rescale_A = 1/sigma_initial;
-     rescale_B = sqrt(V_11(0,FIXPSI,0))*sigma_initial;
+    rescale_B = sqrt(V_11(0,FIXPSI,0))*sigma_initial;
      L = N*M_PI*rescale_B/(kto_MPl_lattice);
     
     double k_lattice_grid_min_pr = 2*M_PI/L;

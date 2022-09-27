@@ -102,11 +102,13 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
             
             if(epsilon_count == 1)
             {
-                OSCSTART = la;        //Set oscillation start to the ln(a) when epsilon=1
+                OSCSTART = la; //Set oscillation start to the ln(a) when epsilon=1
                 std::cout << "OSCSTART = " << OSCSTART << std::endl ;
-                std::cout << "sigma = " << tr[0]<< "psi = " << tr[1] << "phi = " << tr[2]  << std::endl ;
-                std::cout << "sigma_dot = " << tr[3]<< "psi_dot = " << tr[4] << "phi_dot = " << tr[5]  << std::endl ;
-                std::cout << "rho = " << tr[6] << std::endl ;
+                std::cout << "Variable values at OSCSTART (Zeromode class)" << std::endl ;
+                std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
+                std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
+                std::cout << "rho_rad = " << tr[6] << std::endl ;
+                std::cout << "dda = " << dda << std::endl ;
                 
             }
             
@@ -126,7 +128,15 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     << std::setw(10) << V(tr[0],tr[1],tr[2]) << " "
     << std::setw(10) << rho_rad << " "
     << std::setw(10) << dda << " "
-    << std::setw(10) << epsilon << " ";
+    << std::setw(10) << epsilon << " "
+    << std::setw(10) << V_11(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << V_22(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << V_33(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << H << " "
+    << std::setw(10) << V_1(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << V_2(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << V_3(tr[0],tr[1],tr[2]) << " "
+    << std::setw(10) << pressure/rho << " ";
         for(int loop = 0; loop < knum_zero.size(); loop++ ){
             if(loop ==  knum_zero.size()-1){
     zeromode_output << std::setw(10) << log10(UC::knum_to_kMPl(knum_zero[loop])/(a*H)) << "\n";
@@ -166,7 +176,7 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         k_output.open(ss.str().c_str(),std::ios::app);
     }
     
-    DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi;
+    DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi,rho_rad,Kinetic, dda, pressure, epsilon;
 
     Vec_DP zeta(6);
     Vec_DP tr(N_pert);
@@ -174,7 +184,11 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
     for (j=0;j<timecount;j++) {
         for (i=0;i<N_pert;i++) tr[i]=yp[i][j];
         la=xx[j];
-//        if(j==0){std::cout << la << "\n"; };
+//        if(j==0){std::cout <<  "la = " << la << "\n";
+//            std::cout  <<  "tr[0] = " << tr[0] << "\n";
+//            std::cout  << "tr[1] = " << tr[1] << "\n";
+//            std::cout  << "tr[2] = " << tr[2] << "\n";
+//        };
         rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
         rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
         H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
@@ -213,6 +227,29 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         P_phi = P_phi/(2*M_PI*M_PI);
         P_phi = log10(P_phi) + 3*log10(k_comoving);
         
+        rho_rad = tr[6];
+        Kinetic = rho - V(tr[0],tr[1],tr[2]) - rho_rad;
+        pressure = p_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+        dda = -a*(rho+3*pressure)/6;
+        epsilon = 1 - dda/(pw2(H)*a);
+        
+//        if (epsilon > 1){
+//            static int epsilon_count=0; ++epsilon_count;
+//            
+//            if(epsilon_count == 1)
+//            {
+//                OSCSTART = la; //Set oscillation start to the ln(a) when epsilon=1
+//                std::cout << "OSCSTART = " << OSCSTART << std::endl ;
+//                std::cout << "Variable values at OSCSTART (Perturbation class)" << std::endl ;
+//                std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
+//                std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
+//                std::cout << "rho_rad = " << tr[6] << std::endl ;
+//                std::cout << "dda = " << dda << std::endl ;
+//
+//            }
+//
+//        }
+        
 //        if(j==0){std::cout << la << "\n"; };
         k_output << std::setw(6) << la << " "               //log(a)
         << std::setw(10) << w << " "                        //log(H)
@@ -230,7 +267,20 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         << std::setw(10) << zeta[3]*zeta[3]/Pzeta_raw << " "                 //
         << std::setw(10) << zeta[4]*zeta[4]/Pzeta_raw << " "                 //
         << std::setw(10) << zeta[5]*zeta[5]/Pzeta_raw << " "                 //
+        << std::setw(10) << tr[0] << " "  //buffer for yp_p[i][0] sigma
+        << std::setw(20) << std::setprecision(20) << tr[1] << " " //buffer for yp_p[i][1] psi
+        << std::setw(10) << tr[2] << " " //buffer for yp_p[i][1] phi
+        << std::setw(10) << tr[3] << " "  //buffer for yp_p[i][0] sigma_dot
+        << std::setw(20) << std::setprecision(20) << tr[4] << " " //buffer for yp_p[i][1] psi_dot
+        << std::setw(10) << tr[5] << " " //buffer for yp_p[i][1] phi_dot
+        << std::setw(10) << rho << " "
+        << std::setw(10) << Kinetic << " "
+        << std::setw(10) << V(tr[0],tr[1],tr[2]) << " "
+        << std::setw(10) << rho_rad << " "
+        << std::setw(10) << dda << " "
+        << std::setw(10) << epsilon << " "
         << "\n";
+       
     };
 
 }
@@ -840,7 +890,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 	{
 		ofs.open( "../" + status_file, std::ios::trunc );
 
-		ofs << std::setw(3) << std::right << "  t ";
+		ofs << std::setw(3) << std::right << "  t_pr ";
         if( expansion ) {
             ofs << "  a ";
             ofs << "  efolds ";
@@ -859,7 +909,13 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
         ofs << "radiation ";
         ofs << "hubble ";
         ofs << "adotdot ";
-        ofs << "energy_max" << std::endl;
+        ofs << "energy_max ";
+        ofs << "ddV_sigma ";
+        ofs << "ddV_psi ";
+        ofs << "ddV_phi ";
+        ofs << "dV_sigma ";
+        ofs << "dV_psi ";
+        ofs << "dV_phi "<< std::endl;
 	}
 	else ofs.open( "../" + status_file, std::ios::app );
 	 
@@ -876,11 +932,13 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
                 ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/(a) << " "; //Gravitational Potential in Reduced Plank units
             }else{
                 
-                if( i == 1){
-                    ofs << std::showpos << std::scientific << std::setprecision(4) <<  FIXPSI - field->average(f[i], i)/(rescale_A*a) << " "; //Scalar Field psi in Reduced Plank units
-                }else{
-                    ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/(rescale_A*a) << " "; //Scalar Fields other than psi in Reduced Plank units
-                      }
+//                if( i == 1){
+//                    ofs << std::showpos << std::scientific << std::setprecision(4) <<  FIXPSI - field->average(f[i], i)/(rescale_A*a) << " "; //Scalar Field psi in Reduced Plank units
+//                }else{
+//                    ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/(rescale_A*a) << " "; //Scalar Fields other than psi in Reduced Plank units
+//                      }
+                
+                 ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/(rescale_A*a) << " "; //Scalar Fields other than psi in Reduced Plank units
             }
         }
    
@@ -900,16 +958,19 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
                 rescale_B*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " ";//Derivative of Gravitational Potential in Reduced Plank units
             }else{
                 
-                if( i == 1){
-                    ofs << std::showpos << std::scientific << std::setprecision(4) <<
-                    -(rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Field psi in Reduced Plank units
-//                    std::cout << "( field->average(df[i], i)  - (da/a)*field->average(f[i], i) ) = " << ( field->average(df[i], i)  - (da/a)*field->average(f[i], i) ) << std::endl;
-//                     std::cout << "-(rescale_B/rescale_A)/pow(a,2) = " << -(rescale_B/rescale_A)/pow(a,2) << std::endl;
-                   
-                }else{
-                    ofs << std::showpos << std::scientific << std::setprecision(4) <<
-                    (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Fields other than psi in Reduced Plank units
-                }
+//                if( i == 1){
+//                    ofs << std::showpos << std::scientific << std::setprecision(4) <<
+//                    -(rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Field psi in Reduced Plank units
+////                    std::cout << "( field->average(df[i], i)  - (da/a)*field->average(f[i], i) ) = " << ( field->average(df[i], i)  - (da/a)*field->average(f[i], i) ) << std::endl;
+////                     std::cout << "-(rescale_B/rescale_A)/pow(a,2) = " << -(rescale_B/rescale_A)/pow(a,2) << std::endl;
+//
+//                }else{
+//                    ofs << std::showpos << std::scientific << std::setprecision(4) <<
+//                    (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Fields other than psi in Reduced Plank units
+                
+                ofs << std::showpos << std::scientific << std::setprecision(4) <<
+                                    (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Fields other than psi in Reduced Plank units
+                //}
             }
         }
         
@@ -934,7 +995,15 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
     ofs << std::showpos << std::scientific << std::setprecision(4) << energy->radiation () << " ";
     ofs << std::showpos << std::scientific << std::setprecision(4) << leapfrog->hubble() << " ";
     ofs << std::showpos << std::scientific << std::setprecision(4) << leapfrog->adotdot() << " ";
-    ofs << std::showpos << std::scientific << std::setprecision(4) << energy->energy_max() << std::endl;
+    ofs << std::showpos << std::scientific << std::setprecision(4) << energy->energy_max() << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << field->ddV_lattice( f, 0, 0, a )*pow(rescale_B/a,2) << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << field->ddV_lattice( f, 1, 0, a )*pow(rescale_B/a,2) << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << field->ddV_lattice( f, 2, 0, a )*pow(rescale_B/a,2) << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << field->dV_lattice( f, 0, 0, a )*pow(rescale_B,2)/(pow(a,3)*rescale_A) << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << field->dV_lattice( f, 1, 0, a )*pow(rescale_B,2)/(pow(a,3)*rescale_A) << " ";
+    //-field->dV_lattice( f, 1, 0, a )*pow(rescale_B,2)/(pow(a,3)*rescale_A) << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << field->dV_lattice( f, 2, 0, a )*pow(rescale_B,2)/(pow(a,3)*rescale_A) << std::endl;
+    ofs << std::endl;
     
    
 }

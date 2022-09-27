@@ -24,7 +24,25 @@ void Zeromode::zeromode_initial(Vec_DP &unp, DP &a, DP &H, DP &xbegin){
         Gamma1=GLARGE; //sigma
         Gamma2=GLARGE; // psi
         Gamma3=GNOMAL; //phi
-   
+    
+    static int function_count = 0; ++function_count;
+    
+    if(function_count == 1){
+    //Analytically estimated value of sigma at the end of hybrid inflation
+     
+        Logout("Potential_bare for initial value of fields: %2.5e \n\n", Vbare(unp[0], unp[1], unp[2]) );
+        Logout("Potential for initial value of fields: %2.5e \n\n", V(unp[0], unp[1], unp[2]) );
+    Logout("Hybrid Inflation initial values:\n sigma = %2.5e, psi = %2.5e, phi = %2.5e, \n sigma_dot = %2.5e,  psi_dot = %2.5e, phi_dot = %2.5e, radiation = %2.5e , Hubble =  %2.5e \n\n",unp[0], unp[1], unp[2], unp[3], unp[4], unp[5], unp[6], H );
+    Logout("Field psi is set using the approx eq which uses the initial field value of sigma. sigma =  %2.5e >> %2.5e must be satisfied for it to hold. \n\n",unp[0], pow(mu_par*pow(M_par,m_par-1),1/m_par) );
+    Logout("Estimated value of fields sigma and phi at the end of hybrid inflation (OSCSTART): sigma = %2.5e, phi = %2.5e \n\n", sigma_c, -pow(Cv_par/mu_par,2)*sigma_c);
+        Logout("Estimated value of fields after oscillation period between hybrid and new inflation: sigma = %2.5e, psi = %2.5e, phi = %2.5e \n\n", 0.0, FIXPSI, -pow(Cv_par/mu_par,3)*sigma_c );
+    Logout("Estimated value of field phi after oscillation that takes place after new inflation ends: phi = %2.5e \n\n", FIXPHI );
+    Logout("Estimated value of CNT: %2.5e, Actual value of CNT: %2.5e \n\n",
+               3*pow(n_par/(n_par+1),2)*pow(Cv_par,4)*pow(FIXPHI/sqrt(2),2), CNT );
+        Logout("Potential_bare for final value of fields: %2.5e \n\n", Vbare(0, FIXPSI, FIXPHI) );
+        Logout("Potential for final value of fields: %2.5e \n\n", V(0, FIXPSI, FIXPHI) );
+    }
+    
     }
 
 //Zeromode calculation
@@ -36,7 +54,9 @@ void Zeromode::zeromode_calc(){
         Logout("knum = %d, kMpc = %2.5e, kMPl = %2.5e \n\n",knum_zero[i], UC::knum_to_kMpc(knum_zero[i]), UC::knum_to_kMPl(knum_zero[i]));
     }
     
-    k_comoving = UC::knum_to_kMPl(knum_zero[0]); // 200 knum
+    k_comoving = UC::knum_to_kMPl(k_target); // 200 knum
+    
+    Logout("target wave mode actually used for calculation: knum =  %d\n\n",k_target);
     
     Zeromode::zeromode_initial(unp, a, H, xbegin);
     
@@ -121,7 +141,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             //First, solve the evolution of zero mode, until the specified mode crosses the horizon.
             //Calculation for first order perturbation begins slightly before the horizon crossing.
             //Runge-Kutta method with constant step size is used.
-     
+//     std::cout << "la2 = " << la2 << "\n";
             for (la2=xbegin;k_comoving/(a*H)>5000;la2=la2) {    //Here, zero-mode is solved until k=a*H*5000.
                 if (p==itvl){
                     rho=rho_tot(unp2[0],unp2[1],unp2[2],unp2[3],unp2[4],unp2[5],unp2[6]);
@@ -137,9 +157,11 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 };
                 la2=la2+dla;
                 a=exp(la2);
+//                std::cout << "2 la2 = " << la2 << "\n";
             };
-         std::cout << "a = " << a << "\n";
-
+//         std::cout << "a = " << a << "\n";
+//        std::cout << "2' la2 = " << la2 << "\n";
+//            std::cout << "xmid = " << xmid << "\n";
 //            std::cout << "la2 = " << la2 << "\n";
             //Hereafter, evolution of perturbation is solved.
             //Setting initial conditions for perturbation
@@ -166,6 +188,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 }
                 xmid=xp2[timecount-1];
                 a=exp(xmid);
+//                std::cout << "2: xmid = " << xmid << "\n";
                 for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
             };
             Gamma1 = GLARGE2;
@@ -203,6 +226,8 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 a=exp(xmid);
                 for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
             };
+        
+        //std::cout << "3: xmid = " << xmid << "\n";
             //Fixing sigma = psi = 0, in order to avoid solving oscillation of these two firlds which are negligible.
             delstart[0]=0;
             delstart[3]=0;
@@ -222,6 +247,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 }
             xmid=xp2[timecount-1];
             a=exp(xmid);
+         //std::cout << "4: xmid = " << xmid << "\n";
             for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
             delstart[0]=0;
             delstart[3]=0;

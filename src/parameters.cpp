@@ -5,7 +5,6 @@
 //====================================================================
 //                      Non-lattice Range
 //====================================================================
-
 //-----------
 //File names
 //-----------
@@ -31,7 +30,13 @@ bool zeromode_switch = true;
 //Array elements
 const int N_zero=7;
 
-DP CNT = (-1)*Vbare(0,FIXPSI,FIXPHI);
+DP sigma_c = pow((m_par/(2*m_par-1))*((3*m_par-1)/(m_par-1)),(m_par-1)/(4*m_par-2))*2/pow(2*m_par*(2*m_par-1),m_par/(4*m_par-2))*pow(mu_par*pow(M_par,m_par-1),1/(2*m_par -1));
+
+DP FIXPSI = 2*pow(mu_par*pow(M_par,m_par-1),1/m_par);
+DP FIXPHI = -sqrt(2)*pow(pw2(Cv_par)/g_par,1/n_par);
+
+DP CNT = (-1)*Vbare(0.0,FIXPSI,FIXPHI);
+
 //Vbare(0,FIXPSI,FIXPHI);       //constant term in the potential (set V=0 at the minimum)
 //calculate log(Gravitational Potential) and log(Zeta) for each knum specified.
 
@@ -39,6 +44,8 @@ DP Gamma1,Gamma2,Gamma3;
 DP OSCSTART;
 
 std::vector<int> knum_zero = {200, 400, 634, 700};//knum for calculating zeromode
+
+int k_target = knum_zero[3]; //target wave mode actually used for zeromode calculation
 
 
 //-------------------------------------------------
@@ -108,13 +115,13 @@ double Hinitial_pr;
 //const double initderivs[] = {(1*Hinitial*initfield[0])/rescale_B};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
 
 int output_step = 2.0e+1;
-int total_step  = 5.0e+4;
+int total_step  = 8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
-int st_output_step = 2;
+int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
 
 double t0 = 0;
-double dt = 1.e-4; //dt_pr
+double dt = 1.e-3; //dt_pr
 
 
 const int expansion = 1; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
