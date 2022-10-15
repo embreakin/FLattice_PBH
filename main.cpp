@@ -121,11 +121,11 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
           Logout("Start loop calculation from THRUNP\n\n");
           Logout("-----------------------------------------------------\n\n");
       
-      for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
-          
-          for (int i=0;i<N_zero;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , latticep[lattice_loop][i] );
-          
-      }
+//      for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+//
+//          for (int i=0;i<N_zero;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , latticep[lattice_loop][i] );
+//
+//      }
 
           Perturb.latticerange_secondhalf_calc(latticep);
 

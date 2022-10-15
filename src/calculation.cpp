@@ -54,7 +54,7 @@ void Zeromode::zeromode_calc(){
         Logout("knum = %d, kMpc = %2.5e, kMPl = %2.5e \n\n",knum_zero[i], UC::knum_to_kMpc(knum_zero[i]), UC::knum_to_kMPl(knum_zero[i]));
     }
     
-    k_comoving = UC::knum_to_kMPl(k_target); // 200 knum
+    k_comoving = UC::knum_to_kMPl(k_target); 
     
     Logout("target wave mode actually used for calculation: knum =  %d\n\n",k_target);
     
@@ -126,7 +126,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     
     for (knum = k_begin; knum < k_loopend; knum = knum + kinterval_knum)
     {
-        percentage =  round( ( (knum - k_begin)/kinterval_knum + 1 )*100 / ( (k_loopend - k_begin)/kinterval_knum ) );
+        percentage =   ( (knum - k_begin)/kinterval_knum + 1) / ( floor((k_loopend - k_begin)/kinterval_knum) + 1 )*100;
         
         k_comoving = UC::knum_to_kMPl(knum);
         
@@ -310,7 +310,9 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
     Vec_DP adia(3),iso(3),fields(3),numdens(3),term(6);
     Vec_DP zeta(6),dens(4),yout(N_zero),dydx(N_zero);
     
-    Logout("k_lattice_grid_min_MPl = %2.5e, kfrom_MPl_lattice = %2.5e, kto_MPl_lattice = %2.5e\n\n",k_lattice_grid_min_MPl, kfrom_MPl_lattice, kto_MPl_lattice);
+    Logout("MPl Units: k_lattice_grid_min_MPl = %2.5e, kfrom_MPl_lattice = %2.5e, kto_MPl_lattice = %2.5e\n\n",k_lattice_grid_min_MPl, kfrom_MPl_lattice, kto_MPl_lattice);
+    Logout("Mpc^-1 Units: k_lattice_grid_min_MPl = %2.5e, kfrom_MPl_lattice = %2.5e, kto_MPl_lattice = %2.5e\n\n",UC::kMPl_to_kMpc(k_lattice_grid_min_MPl), UC::kMPl_to_kMpc(kfrom_MPl_lattice), UC::kMPl_to_kMpc(kto_MPl_lattice));
+    Logout("knum Units: k_lattice_grid_min_MPl = %d, kfrom_MPl_lattice = %d, kto_MPl_lattice = %d\n\n",UC::kMPl_to_knum(k_lattice_grid_min_MPl), UC::kMPl_to_knum(kfrom_MPl_lattice), UC::kMPl_to_knum(kto_MPl_lattice));
     
     int latticerange_num;
     int outrange_num;
@@ -332,9 +334,12 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
         latticerange_num = N/2;
         k_comoving_start = k_lattice_grid_min_MPl;
         
-        Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n");
+        Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n\n");
+         Logout("latticerange_num = %d \n\n", latticerange_num);
          
     }
+    
+     Logout("-----------------------------------------------------\n\n");
     
     for (int latticerange_loop = 0; latticerange_loop < latticerange_num; latticerange_loop++){
 
@@ -342,9 +347,9 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
 
            k_comoving = k_comoving_start + k_lattice_grid_min_MPl*latticerange_loop;
 
-           Logout("k_comoving =  %2.5e \n", k_comoving);
-            
-            p=itvl;
+        Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: ", latticerange_loop+1, latticerange_num, UC::kMPl_to_knum(k_comoving), UC::kMPl_to_kMpc(k_comoving), k_comoving);
+        
+           p=itvl;
             
             zeromode.zeromode_initial(unp2, a, H, xbegin);
             

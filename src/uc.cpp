@@ -36,7 +36,7 @@ DP UC::kMpc_to_kMPl(DP &k){
 
 DP UC::kMPl_to_kMpc(DP &k){
     
-    return pow(10, log10(k/Ck) -4);
+    return pow(10, log10(k/Ck) - 4);
     
 }
 

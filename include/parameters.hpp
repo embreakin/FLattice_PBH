@@ -108,9 +108,9 @@ extern int kinterval_knum;
 
 
 //Takayama's Master Thesis
-#define GNOMAL 0;//1.0E-11                 //decay rate 1
-#define GLARGE 0;//1.0E-11            //decay rate 2 (if decay rate changes during the calculation)
-#define GLARGE2 0;//1.0E-11            //decay rate 3 (if decay rate changes during the calculation)
+#define GNOMAL 1.0E-11;//                 //decay rate 1
+#define GLARGE 1.0E-11;//1.0E-11            //decay rate 2 (if decay rate changes during the calculation)
+#define GLARGE2 1.0E-11;//1.0E-11            //decay rate 3 (if decay rate changes during the calculation)
 #define CN_par 0.1                    //Potential paramater CN
 #define Cv_par 6.4E-4                //Potential parameter Cv mu/4.
 #define mu_par 2.7E-3                //Potential paramater mu
@@ -224,7 +224,7 @@ extern int kinterval_knum;
 //=================
 
 
-#define dim 1
+#define dim 3
 
 extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f, exist_filename_status, new_filename_status;
 
@@ -233,6 +233,8 @@ inline double pw2(double x) { return (x*x);}
 extern int N;
 
 extern bool latticerange_switch;
+extern bool initialize_perturb_switch;
+extern int fluc_calc_switch;
 
 extern double kfrom_Mpc_lattice;//[Mpc] Calculate from this k for lattice range
 extern double kto_Mpc_lattice;//[Mpc] Calculate to this k for lattice range

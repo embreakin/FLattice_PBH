@@ -62,7 +62,7 @@ bool spectrum_bfosc_switch = true; // true:Calculate spectrum before oscillation
 const int  N_pert=55;
 
 DP kfrom_Mpc = 400;//[Mpc^-1] Calculate from this k
-DP kto_Mpc = 1000;//[Mpc^-1] Calculate to this k
+DP kto_Mpc = 496*300;//[Mpc^-1] Calculate to this k
 int kinterval_knum = 10;// [knum units] Calculate with this interval of knum
 
 
@@ -89,11 +89,14 @@ std::string new_filename_status = "statusSHNI.txt";// create this new status fil
 //-------------------------------------------------
 
 bool latticerange_switch = true; // true:Set lattice range and calculate, false:Don't set lattice range and calculate
+bool initialize_perturb_switch = true; // true:Initialize fluctuation, false:Don't initialize fluctuation (only calculate zeromode for lattice)
 
-double kfrom_Mpc_lattice = 600;//[Mpc] Calculate from this k for lattice range
-double kto_Mpc_lattice = 900;//[Mpc] Calculate to this k for lattice range
+int fluc_calc_switch  = 1;//Choose type of fluctuation initialization for scalar fields (for gravitational fluctuation, it is set to 1 regardless) 0:LatticeEasy case (when amplitudes of fluctuations are not predetermined) 1:when we use the amplitudes of predetermined fluctuations
 
-int N = 64; //Should be 2^n
+double kfrom_Mpc_lattice = 3.34;//[Mpc^-1] Calculate from this k for lattice range
+double kto_Mpc_lattice = 900;//[Mpc^-1] Calculate to this k for lattice range
+
+int N = 64;//512; //Should be 2^n
 
 double kfrom_MPl_lattice = UC::kMpc_to_kMPl(kfrom_Mpc_lattice); //convert to MPl units
 double kto_MPl_lattice = UC::kMpc_to_kMPl(kto_Mpc_lattice); //convert to MPl units
@@ -115,13 +118,13 @@ double Hinitial_pr;
 //const double initderivs[] = {(1*Hinitial*initfield[0])/rescale_B};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
 
 int output_step = 2.0e+1;
-int total_step  = 8.75e+3;
+int total_step  = 8.2e+4;//1.75e+4;//8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
 
 double t0 = 0;
-double dt = 1.e-3; //dt_pr
+double dt = 1.e-4;//5.0e-4;//1.e-3; //dt_pr
 
 
 const int expansion = 1; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant

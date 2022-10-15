@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include "utilities.hpp"
 #include "lattice.hpp"
+#include "lattice_initialize.hpp"
 
 double rescale_A;
 double rescale_B;
@@ -58,12 +59,12 @@ void lattice(double** lattice_var)
     Logout( "            SIMULATION PARAMETERS            \n\n" );
 
     Logout( " Dimension    =  %d\n", dim );
-    Logout( " Box Size     =  %2.2e\n", L );
+    Logout( " Box Size   =  %2.2e\n", L );
     Logout( " Grid Number   =  %d\n", N );
     Logout( " Initial Time =  %4.1lf\n", t0 );
     Logout( " Final Time   =  %4.2e\n", t0 + total_step*dt );
-    Logout( " dt     =  %2.2e\n", dt );
-    Logout( " dx     =  %2.2e\n", dx );
+    Logout( " dt_pr     =  %2.2e\n", dt );
+    Logout( " dx_pr     =  %2.2e\n", dx );
     if(dt/dx <  1/sqrt(dim)){
     Logout( " dt/dx     =  %2.2e < 1/sqrt(%d) =  %2.2e \n", dt/dx ,dim, 1/sqrt(dim));}
     Logout( " Number of fields   =  %d\n", num_fields );
@@ -78,20 +79,21 @@ void lattice(double** lattice_var)
 
     //lattice_var[knum_lattice][j] [j] specifies variables as follows:
     //    j=0-2  : zero modes of inflaton sigma, psi, and phi
-    //    j=3-5  : log(a) derivatives of inflaton sigma', psi', phi'
+    //    j=3-5  : t derivatives of inflaton sigma', psi', phi'
     //    j=6    : energy density of radiation
     //    j=7-15 : mode functions of field perturbation: delta_{sigma,sigma}, delta_{sigma,psi}, delta{sigma,phi}, delta_{psi,sigma}, etc...
-    //    j=16-24: log(a) derivatives of mode functions
+    //    j=16-24: t derivatives of mode functions
     //    j=25-27: mode functions of gravitational potential perturbation: delta Phi_{sigma}, delta Phi_{psi}, delta Phi_{phi}
-    //    j=28-30: log(a) derivatives of gravitational potential perturbation
+    //    j=28-30: t derivatives of gravitational potential perturbation
     //    j=31-54: complex conjugate of [7]-[30]
-    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
-
-     for (int i=0;i<N_zero;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , lattice_var[lattice_loop][i] );
-
-    }
+//    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+//
+//     for (int i=0;i<N_zero;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , lattice_var[lattice_loop][i] );
+//
+//    }
     //Declare fields and their derivatives
-    double **f, **df;
+    double **f;
+    double **df;
     //Declare radiation
     double radiation = 0;
 //
@@ -157,7 +159,7 @@ void lattice(double** lattice_var)
         //  0: no expansion -> Compute using the function that doesn't take expansion into account
             if(expansion){
 
-            leapfrog.evolution_expansion( &field, f, df, radiation, t );
+            leapfrog.evolution_expansion( &field, f, df, radiation );
 
             }else{
                 //leapfrog.evolution( &field, f, df );
@@ -217,25 +219,25 @@ void lattice(double** lattice_var)
     //Release all memory of fields and their derivatives
     finalize( f, df );
     
-     lattice_var[0][0] = 13;
+
     
-    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
-        
-       
-        for (int i=0;i<N_zero;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , lattice_var[lattice_loop][i] );
-        
-    }
+//    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+//
+//
+//        for (int i=0;i<N_zero;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , lattice_var[lattice_loop][i] );
+//
+//    }
 
     Logout( "\n----------------------------------------------\n" );
     Logout( "            SIMULATION PARAMETERS            \n\n" );
-
+    
     Logout( " Dimension    =  %d\n", dim );
-    Logout( " Box Size     =  %2.2e\n", L );
+    Logout( " Box Size  =  %2.2e\n", L );
     Logout( " Grid Number   =  %d\n", N );
     Logout( " Initial Time =  %4.1lf\n", t0 );
     Logout( " Final Time   =  %4.2e\n", t0 + total_step*dt );
-    Logout( " dt     =  %2.2e\n", dt );
-    Logout( " dx     =  %2.2e\n", dx );
+    Logout( " dt_pr     =  %2.2e\n", dt );
+    Logout( " dx_pr     =  %2.2e\n", dx );
     if(dt/dx <  1/sqrt(dim)){
         Logout( " dt/dx     =  %2.2e < 1/sqrt(%d) =  %2.2e \n", dt/dx ,dim, 1/sqrt(dim));}
     Logout( " Number of fields   =  %d\n", num_fields );

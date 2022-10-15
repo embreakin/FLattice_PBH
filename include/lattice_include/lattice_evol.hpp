@@ -11,42 +11,55 @@ class LeapFrog
         double sfexponent;
         double sfbase;
         double hubble_init = Hinitial_pr;
+        double _sfint = 0;
+        double _a_save1 = 1;
     
     //Decay rate for all scalar fields  (program variables)
         double* Gamma_pr = new double [num_fields-1];
     
-    //Scalar fields at the minimum of the potential (program variables)
-     double* f_min_MPl = new double [num_fields-1];
     
     //Evolution variables for scalar fields
         double **f_tilde, **df_tilde, **fdf_save;
 
-		void evol_fields ( double**& f_tilde, double**& df_tilde, double h );
-        void evol_fields_usefdfsave ( double**& f_tilde, double**& df_tilde, double**& fdf_save, double h );
+        void evol_sfint(double h)
+        {
+            //Integration by using trapezoidal rule
+            _sfint += ( _a + _a_save1 )*h*dt/2;
+        }
     
-        void evol_field_derivs_expansion ( double**& f, double**& f_tilde, double**& df_tilde, Field* field, double t, double h );
-        void evol_field_derivs_expansion_usefdfsave(double**& f, double**& f_tilde, double**& df_tilde, double**& fdf_save, Field* field, double t, double h );
+        void evol_fields( double** f_tilde_from, double** f_tilde_to, double** df_tilde, double h );
     
-        void evol_scale_dderivs( Field* field, double**& f, double**& f_tilde, double& rho_r, double t, double h);
+        void evol_field_derivs_expansion(double** df_tilde_from, double** df_tilde_to, double** f, double** f_tilde, Field* field,  double h );
+        
+    
+        void evol_scale_dderivs( Field* field, double** f, double** f_tilde, double& rho_r,  double h);
 		void evol_scale_derivs ( double h ){ _da += _dda * h*dt; }
-        void evol_scale ( double h ){  _a += _da *h*dt; }
+        void evol_scale ( double h ){
+            
+            _a_save1 = _a;
+            _a += _da *h*dt;
+            
+//            std::cout << "_a = " << _a <<std::endl;
+//            std::cout << "_da = " << _da <<std::endl;
+//            std::cout << "_dda = " << _dda <<std::endl;
+            
+        }
     
-    void evol_radiation(Field* field, double** f_tilde, double** df_tilde, double& rho, double t , double h);
+        void evol_radiation(Field* field, double** f_tilde, double** df_tilde, double& rho,  double h);
     
-    void evol_gravpot( double** f, double** df, double h );
-    void evol_gravpot_derivs_expansion( double** f, double** df, double** f_tilde, double** df_tilde, Field* field, double t, double h );
+        void evol_gravpot( double** f, double** df, double h );
+        void evol_gravpot_derivs_expansion( double** f, double** df, double** f_tilde, double** df_tilde, Field* field, double h );
     
-    void fields_copy( double**& f_from, double**& f_to);
-    void fields_convert( double**& f, double**& f_tilde, double t, int convert_switch);
-    void fields_deriv_convert( double**& f, double**& df, double**& f_tilde, double**& df_tilde, double t, int convert_switch);
+        void fields_copy( double** f_from, double** f_to);
+        void fields_convert( double** f, double** f_tilde, int convert_switch);
+        void fields_deriv_convert( double** f, double** df, double** f_tilde, double** df_tilde, int convert_switch);
 
     
 	public:
-    LeapFrog( Field* field, double**& f, double**& df, double& rad_pr );
+    LeapFrog( Field* field, double** f, double** df, double& rad_pr );
     
     ~LeapFrog() {
         delete [] Gamma_pr;
-        delete [] f_min_MPl;
         delete [] f_tilde[0];
         delete [] df_tilde[0];
         delete [] fdf_save[0];
@@ -55,7 +68,7 @@ class LeapFrog
         delete [] fdf_save;
     }
 
-		void evolution_expansion ( Field* field, double**& f, double**& df, double& rad, double t );
+		void evolution_expansion ( Field* field, double** f, double** df, double& rad );
 
 		double a()  { return _a; }
         double efolds() { return OSCSTART + log(_a); }

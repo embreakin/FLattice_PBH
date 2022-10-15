@@ -2,7 +2,6 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
-#include <random>
 #include <sstream>
 #include <fftw3.h>
 #include "parameters.hpp"
@@ -81,6 +80,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     DP H,la,rho,rhop,w,a,rho_rad,Kinetic, dda, pressure, epsilon;
     Vec_DP tr(N_zero);
     int i,j;
+    double k_comoving = UC::knum_to_kMPl(k_target); //knum 200
     
     
     for (j=0;j<timecount;j++) {
@@ -96,19 +96,25 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     pressure = p_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
     dda = -a*(rho+3*pressure)/6;
     epsilon = 1 - dda/(pw2(H)*a);
-    
+    double k_horizoncrossing = a*H;
+    double k_horizoncrossing2 = 0.7*a*H;
+        
         if (epsilon > 1){
             static int epsilon_count=0; ++epsilon_count;
             
             if(epsilon_count == 1)
             {
                 OSCSTART = la; //Set oscillation start to the ln(a) when epsilon=1
+                Logout("-----------------------------------------------------\n\n");
                 std::cout << "OSCSTART = " << OSCSTART << std::endl ;
                 std::cout << "Variable values at OSCSTART (Zeromode class)" << std::endl ;
                 std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
                 std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
                 std::cout << "rho_rad = " << tr[6] << std::endl ;
                 std::cout << "dda = " << dda << std::endl ;
+                std::cout << "Horizon crosing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
+                 std::cout << "k = 0.7aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
+                Logout("-----------------------------------------------------\n\n");
                 
             }
             
@@ -136,10 +142,11 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     << std::setw(10) << V_1(tr[0],tr[1],tr[2]) << " "
     << std::setw(10) << V_2(tr[0],tr[1],tr[2]) << " "
     << std::setw(10) << V_3(tr[0],tr[1],tr[2]) << " "
-    << std::setw(10) << pressure/rho << " ";
+    << std::setw(10) << pressure/rho << " "
+    << std::setw(10) << k_comoving/a << " ";
         for(int loop = 0; loop < knum_zero.size(); loop++ ){
             if(loop ==  knum_zero.size()-1){
-    zeromode_output << std::setw(10) << log10(UC::knum_to_kMPl(knum_zero[loop])/(a*H)) << "\n";
+    zeromode_output << std::setw(10) << log10(UC::knum_to_kMPl(knum_zero[loop])/(a*H)) << "\n\n";
             }else{
                 zeromode_output << std::setw(10) << log10(UC::knum_to_kMPl(knum_zero[loop])/(a*H)) << " ";
             };
@@ -176,7 +183,7 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         k_output.open(ss.str().c_str(),std::ios::app);
     }
     
-    DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi,rho_rad,Kinetic, dda, pressure, epsilon;
+    DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, Kinetic, dda, pressure, epsilon;
 
     Vec_DP zeta(6);
     Vec_DP tr(N_pert);
@@ -212,18 +219,21 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         P_sigma = 0;
         for (i=0;i<3;i++) P_sigma = P_sigma + tr[i+7]*tr[i+7];
         for (i=0;i<3;i++) P_sigma = P_sigma + tr[i+31]*tr[i+31];
+        P_sigma_raw = P_sigma;
         P_sigma = P_sigma/(2*M_PI*M_PI);
         P_sigma = log10(P_sigma) + 3*log10(k_comoving);
         
         P_psi = 0;
         for (i=0;i<3;i++) P_psi = P_psi + tr[i+10]*tr[i+10];
         for (i=0;i<3;i++) P_psi = P_psi + tr[i+34]*tr[i+34];
+        P_psi_raw = P_psi;
         P_psi = P_psi/(2*M_PI*M_PI);
         P_psi = log10(P_psi) + 3*log10(k_comoving);
         
         P_phi = 0;
         for (i=0;i<3;i++) P_phi = P_phi + tr[i+13]*tr[i+13];
         for (i=0;i<3;i++) P_phi = P_phi + tr[i+37]*tr[i+37];
+        P_phi_raw = P_phi;
         P_phi = P_phi/(2*M_PI*M_PI);
         P_phi = log10(P_phi) + 3*log10(k_comoving);
         
@@ -261,6 +271,9 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         << std::setw(10) << P_sigma << " "               //log(P_sigma)
         << std::setw(10) << P_psi << " "                 //log(P_psi)
         << std::setw(10) << P_phi << " "                 //log(P_phi)
+        << std::setw(10) << log10(sqrt(P_sigma_raw)) << " "               //log10(dsigma)
+        << std::setw(10) << log10(sqrt(P_psi_raw)) << " "                 //log10(dpsi)
+        << std::setw(10) << log10(sqrt(P_phi_raw)) << " "                 //log10(dphi)
         << std::setw(10) << zeta[0]*zeta[0]/Pzeta_raw << " "                 //
         << std::setw(10) << zeta[1]*zeta[1]/Pzeta_raw << " "                 //
         << std::setw(10) << zeta[2]*zeta[2]/Pzeta_raw << " "                 //
@@ -279,7 +292,7 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         << std::setw(10) << rho_rad << " "
         << std::setw(10) << dda << " "
         << std::setw(10) << epsilon << " "
-        << "\n";
+        << "\n\n";
        
     };
 
@@ -390,63 +403,6 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
 //--------------------------------
 // Lattice Simulation Subroutines
 //--------------------------------
-
-double rand_uniform(void)
-{
-    std::random_device rnd;
-    std::mt19937 mt( rnd() );
-    std::uniform_real_distribution<> rand( 0, 1 );
- //   std::cout << rand(mt) << "\n";
-    return (rand(mt));
-}
-
-void set_mode(double p2, double omega, double *field, double *deriv, int real)
-{
-
-    double phase, amplitude, rms_amplitude;
-    double re_f_left, im_f_left, re_f_right, im_f_right;
-#if  dim==1
-    static double norm = rescale_A*rescale_B*pow(L/(dx*dx),.5)/(exp(OSCSTART)*sqrt(4*M_PI));
-#elif  dim==2
-    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1)/(exp(OSCSTART)*sqrt(2*M_PI));
-#elif  dim==3
-    static double norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.5)/(exp(OSCSTART)*sqrt(2));
-#endif
-
-
-        //Amplitude = RMS amplitude x Rayleigh distributed random number
-        // The same amplitude is used for left and right moving waves to generate standing waves. The extra 1/sqrt(2) normalizes the initial occupation number correctly.
-        
-    amplitude = norm/sqrt(2*omega)*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.);
-    phase = 2*M_PI*rand_uniform();
-//   std::cout << "norm = " << norm << std::endl;
-    std::cout << "omega = " << omega << std::endl;
-//    std::cout << "norm/sqrt(2*omega) = " << norm/sqrt(2*omega) << std::endl;
-//    std::cout << "norm/sqrt(2*omega)*sqrt(log(1./rand_uniform())) = " << norm/sqrt(2*omega)*sqrt(log(1./rand_uniform())) << std::endl;
-  std::cout << "amplitude = " << amplitude << std::endl;
-
-        //Left moving component
-        re_f_left = amplitude * cos( phase );
-        im_f_left = amplitude * sin( phase );
-        //Right moving component
-    phase = 2*M_PI*rand_uniform();
-  //  std::cout << "phase2 " << phase/(2*M_PI) << std::endl;
-        re_f_right = amplitude * cos( phase );
-        im_f_right = amplitude * sin( phase );
-    
-    field[0] = re_f_left + re_f_right;
-    field[1] = im_f_left + im_f_right;
-
-    deriv[0] = omega*(im_f_left - im_f_right);
-    deriv[1] = -omega*(re_f_left - re_f_right);
-
-    if(real==1)
-    {
-        field[1]=0;
-        deriv[1]=0;
-    }
-    return;
-   }
 
 
 void DFT_c2rD1( double* f)
