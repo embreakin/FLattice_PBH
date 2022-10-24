@@ -407,4 +407,319 @@ void Field::effective_mass(double mass_sq[], double *field_values){
 
 }
 
+double Field::power_spectrum( double** f, int i, int m)
+{
+     
+    
+    
+    if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+    {
+        m_start = outrange_num + 1;
+    }else
+    {
+        m_start = 1;
+    }
+    
+    #if  dim==1
+    
+    
+        if(m == m_start){
+            
+            //subtract zero mode
+            for( int j = 0; j < N; ++j ){
+                int idx_fluc = j;
+               f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                
+//                std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
+//                std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
+//                std::cout << "_average[" << i << "]" << _average[i] << std::endl;
+                
+            }
+            
+            //transform from real space to phase space (Needs to be done only once)
+            DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
+            
+//            for( int m = 0; m < N; ++m ){
+//                std::cout << "1: f_fluc_k[" << i << "][" << m << "]" << f_fluc_k[i][m] << std::endl;
+//            }
+        }
+    
+         //f[][0] corresponds to Re(f_{i=0})
+         //f[][2],f[][3] corresponds to the Re and Im of f_{i=1}
+         // ...
+         //f[][1] corresponds to Re(f_{i=N/2})
+    
+//    for( int m = 0; m < N; ++m ){
+//        std::cout << "2: f_fluc_k[" << i << "][" << m << "]" << f_fluc_k[i][m] << std::endl;
+//    }
+        int j = m;
+             if(m==0)
+             {// zero-frequency (DC)
+                 PS[i][m] = m*pow(f_fluc_k[i][0]/N,2);
+                 
+             }else if(m == N/2){//Nyquist frequency
+                 PS[i][m] = m*pow(f_fluc_k[i][1]/N,2);
+             }else{
+                 
+                PS[i][m] = m*( pow(f_fluc_k[i][2*j]/N,2) + pow(f_fluc_k[i][2*j+1]/N,2));
+                
+             }
+    
+        PS[i][m] *= 2; //  the conjugate part needs to be taken into account as well, so double the value
+     //std::cout << " PS[" << i << "][" << idx << "] = " << PS[i][idx] << std::endl;
+        return PS[i][m];
+ 
+    #elif  dim==2
+    
+    if(m == m_start)
+    {
+        //Initialize PS to zero for each time step
+       std::fill(PS[i].begin(), PS[i].end(), 0);
+        
+        for( int j = 0; j < N; ++j )
+        {
+            for( int k = 0; k < N; ++k )
+            {
+                int idx_fluc = j*N + k;
+                f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                
+                       //         std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
+                //                std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
+             
+            }
+        }
+        
+//                        std::cout << "bf f_fluc[" << i << "][20]" << f_fluc[i][20] << std::endl;
+//                        std::cout << "bf f[" << i << "][20]" << f[i][20] << std::endl;
+//    std::cout << "bf _average[" << i << "]" << _average[i] << std::endl;
 
+                //transform from real space to phase space (Needs to be done only once)
+                DFT_r2cD2( f_fluc[i], f_fluc_k[i], f_fluc_k_nyquist[i] );
+        
+//        std::cout << "af f_fluc[" << i << "][20]" << f_fluc[i][20] << std::endl;
+//         std::cout << "af f_fluc_k[" << i << "][20]" << f_fluc_k[i][20] << std::endl;
+//        std::cout << "af f_fluc_k_nyquist[" << i << "][20]" << f_fluc_k_nyquist[i][20] << std::endl;
+        
+//        for( int aaa = 0; aaa < N; ++aaa ){
+//                            std::cout << "1: f_fluc_k[" << i << "][" << aaa << "]" << f_fluc_k[i][aaa] << std::endl;
+//                        }
+    }
+    
+    
+//        for( int bbb = 0; bbb < N; ++bbb ){
+//            std::cout << "2: f_fluc_k[" << i << "][" << bbb << "]" << f_fluc_k[i][bbb] << std::endl;
+//        }
+    
+        
+      for(int j = 0; j < N; ++j )
+      {
+          J = (j <= N/2 ? j : j-N);
+          
+          for(int k = 0; k <= N/2; ++k )
+          {
+              if ( m-1 < sqrt(pow(J,2)+pow(k,2)) && sqrt(pow(J,2)+pow(k,2)) <= m  )
+              {
+                  
+              if(k==N/2)//Nyquist
+              {
+                 
+                      if(m==N/2)//Since the outtermost mode (m=N/2) in the range (0<=k, 0<=j <=N/2) doesn't have an equal number of counterparts in the range (0<=k, N/2+1<j<=N-1), we consider the range (1<=k, 1<=j<=N/2) and multiply by 4 and add the Nyquist  (k=N/2, j=0) x 2 and (k=0, j=N/2) x 2.
+                      {
+                          // This corresponds to (k=N/2, j=0). We multiply the total sum by 4 at the end so we multiply by 0.5 here
+                          PS[i][m] += 0.5*m*(pow(f_fluc_k_nyquist[i][2*j],2) + pow(f_fluc_k_nyquist[i][2*j+1],2))/(pow(N,4));
+                      }
+//                              std::cout << "1: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+                      else {//No modes correspond to this branch
+                          PS[i][m] += m*(pow(f_fluc_k_nyquist[i][2*j],2) + pow(f_fluc_k_nyquist[i][2*j+1],2))/(pow(N,4));
+                      }
+                      
+                  
+                      
+                  
+                  
+              }else//Modes besides Nyquist
+              {
+                  
+//                  std::cout << "m = " << m << std::endl;
+//                  std::cout << "j = " << j << std::endl;
+//                  std::cout << "J = " << J << std::endl;
+//                  std::cout << "k = " << k << std::endl;
+//                  std::cout << "sqrt(pow(J,2)+pow(k,2)) = " << sqrt(pow(J,2)+pow(k,2)) << std::endl;
+                  
+                 
+                      if(m==N/2)//Since the outtermost mode (m=N/2) in the range (0<=k, 0<=j <=N/2) doesn't have an equal number of counterparts in the range (0<=k, N/2+1<j<=N-1), we consider the range (1<=k, 1<=j<=N/2) and multiply by 4 and add the Nyquist  (k=N/2, j=0) x 2 and (k=0, j=N/2) x 2.
+                      {
+                          if(j==N/2)
+                          {// This corresponds to (k=0, j=N/2). We multiply the total sum by 4 at the end so we multiply by 0.5 here
+                              PS[i][m] +=
+                              0.5*m*(pow(f_fluc_k[i][j*N+2*k],2) + pow(f_fluc_k[i][j*N+2*k+1],2))/(pow(N,4));
+                          }else{//No modes correspond to this branch
+                              PS[i][m] +=
+                              m*(pow(f_fluc_k[i][j*N+2*k],2) + pow(f_fluc_k[i][j*N+2*k+1],2))/(pow(N,4));
+                          }
+                             
+                              
+//                               std::cout << "3: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+                          
+                      }
+                      else
+                      {
+                    PS[i][m] +=  m*(pow(f_fluc_k[i][j*N+2*k],2) + pow(f_fluc_k[i][j*N+2*k+1],2))/(pow(N,4));
+                          
+//                          std::cout << "4: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+                      }
+                      
+              }//if ( m-1 < sqrt(pow(J,2)+pow(k,2)) && sqrt(pow(J,2)+pow(k,2)) <= m  )
+                  
+              }
+          }//for(int k = 0; k <= N/2; ++k )
+          
+        
+          
+      }//for(int j = 0; j < N; ++j )
+    
+    if(m==N/2)//Since the outtermost mode (m=N/2) in the range (0<=k, 0<=j <=N/2) doesn't have an equal number of counterparts in the range (0<=k, N/2+1<j<=N-1), we consider the range (1<=k, 1<=j<=N/2) and multiply by 4 and add the Nyquist  (k=N/2, j=0) x 2 and (k=0, j=N/2) x 2.
+    {
+        PS[i][m] *= 4;
+        
+//         std::cout << "5: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+    }
+    else
+    {
+         PS[i][m] *= 2; //  the conjugate part needs to be taken into account as well so double the value
+        
+//         std::cout << "6: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+    }
+    
+    //std::cout << "7: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+         return PS[i][m];
+    
+    
+    #elif  dim==3
+    
+    if(m == m_start)
+    {
+        //Initialize PS to zero for each time step
+        std::fill(PS[i].begin(), PS[i].end(), 0);
+        
+        for( int j = 0; j < N; ++j ){
+            for( int k = 0; k < N; ++k ){
+                for( int l = 0; l < N; ++l ){
+                    int idx_fluc = (j*N + k)*N + l;
+                    f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+
+//                             std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
+//                                    std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
+                }
+            }
+        }
+        //std::cout << std::endl;//Not sure why but without this line, we get "Segmentation fault: 11"
+        DFT_r2cD3( f_fluc[i], f_fluc_k[i], f_fluc_k_nyquist[i] );
+       
+    }
+    
+    
+    
+   
+    for(int j = 0; j < N; ++j )
+    {
+        J = (j <= N/2 ? j : j-N);
+        
+        for(int k = 0; k < N; k++)
+        {
+            K = (k <= N/2 ? k : k-N);
+        
+        for(int l = 0; l <= N/2; ++l )
+        {
+            
+            if ( m-1 < sqrt(pow(J,2)+pow(K,2)+pow(l,2)) && sqrt(pow(J,2)+pow(K,2)+pow(l,2)) <= m  )
+            {
+            
+            if(l==N/2)//Nyquist
+            {
+                
+                    if(m==N/2)//Since the outtermost mode (m=N/2) in the range (0<=l, 0<=k<=N/2, 0<=j<=N/2) doesn't have an equal number of counterparts in the range (0<=l && !(0<=k <=N/2, 0<=j <=N/2) ), we consider the range (1<=l, 1<=k<=N/2, 1<=j <=N/2 ) and multiply by 8 and add the Nyquist (l=N/2, k=0,j=0) x 2, (l=0, k=0, j=N/2) x 2 and (l=0, k=N/2, j=0) x 2.
+                
+                    {
+                        // This corresponds to (l=N/2, k=0,j=0). We multiply the total sum by 8 at the end so we multiply by 0.25 here
+                        PS[i][m] += 0.25*m*(pow(f_fluc_k_nyquist[i][j][2*k],2) + pow(f_fluc_k_nyquist[i][j][2*k+1],2))/(pow(N,6));
+                        
+//                                                      std::cout << "1: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+                    }
+                    else
+                    {//No modes correspond to this branch
+                        PS[i][m] += m*(pow(f_fluc_k_nyquist[i][j][2*k],2) + pow(f_fluc_k_nyquist[i][j][2*k+1],2))/(pow(N,6));
+                        
+//                                                   std::cout << "2: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+                    }
+                    
+                
+                
+            }else//Modes besides Nyquist
+            {
+                
+                //                  std::cout << "m = " << m << std::endl;
+                //                  std::cout << "j = " << j << std::endl;
+                //                  std::cout << "J = " << J << std::endl;
+                //                  std::cout << "k = " << k << std::endl;
+                //                  std::cout << "sqrt(pow(J,2)+pow(k,2)) = " << sqrt(pow(J,2)+pow(k,2)) << std::endl;
+                
+               
+                    if(m==N/2)//Since the outtermost mode (m=N/2) in the range (0<=l, 0<=k<=N/2, 0<=j<=N/2) doesn't have an equal number of counterparts in the range (0<=l && !(0<=k <=N/2, 0<=j <=N/2) ), we consider the range (1<=l, 1<=k<=N/2, 1<=j <=N/2 ) and multiply by 8 and add the Nyquist (l=N/2, k=0,j=0) x 2, (l=0, k=0, j=N/2) x 2 and (l=0, k=N/2, j=0) x 2.
+                    {
+                        if((j==N/2 && k==0) || (j==0 && k==N/2) )
+                        {// This corresponds to (l=0, k=0, j=N/2) and (l=0, k=N/2, j=0). We multiply the total sum by 8 at the end so we multiply by 0.25 here
+                            PS[i][m] +=
+                            0.25*m*(pow(f_fluc_k[i][(j*N + k)*N + 2*l],2) + pow(f_fluc_k[i][(j*N + k)*N + 2*l+1],2))/(pow(N,6));
+                        }else
+                        {
+                            PS[i][m] += m*(pow(f_fluc_k[i][(j*N + k)*N + 2*l],2) + pow(f_fluc_k[i][(j*N + k)*N + 2*l+1],2))/(pow(N,6));
+                            //                           std::cout << "2: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+                        }
+                        
+                        
+//                                                       std::cout << "3: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+                        
+                    }
+                    else
+                    {
+                        PS[i][m] +=
+                        m*(pow(f_fluc_k[i][(j*N + k)*N + 2*l],2) + pow(f_fluc_k[i][(j*N + k)*N + 2*l+1],2))/(pow(N,6));
+                        
+//                                                  std::cout << "4: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+                    }
+                    
+                
+            }
+                
+        } //if ( m-1 < sqrt(pow(J,2)+pow(K,2)+pow(l,2)) && sqrt(pow(J,2)+pow(K,2)+pow(l,2)) <= m  )
+            
+        }//for(int l = 0; l <= N/2; ++l )
+            
+        }//for(int k = 0; k <= N/2; ++k )
+        
+        
+        
+    }//for(int j = 0; j < N; ++j )
+    
+    if(m==N/2)//Since the outtermost mode (m=N/2) in the range (0<=l, 0<=k<=N/2, 0<=j <=N/2) doesn't have an equal number of counterparts in the range (0<=l && !(0<=k <=N/2, 0<=j <=N/2) ), we only consider the range (0<=l, 0<=k<=N/2, 0<=j <=N/2 ) and multiply by 8 at the end.
+    {
+        PS[i][m] *= 8;
+        
+//                 std::cout << "5: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+    }
+    else
+    {
+        PS[i][m] *= 2; //  the conjugate part needs to be taken into account as well so double the value
+        
+//                 std::cout << "6: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+    }
+    
+//    std::cout << "7: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
+    return PS[i][m];
+    
+    #endif
+
+    
+
+}

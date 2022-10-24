@@ -35,7 +35,13 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     time_start = std::chrono::system_clock::now(); // Start measuring elapsed time
     
     //Output Data File/Directory Management
+    if(k_switch){
     dir_manage(exist_dirname_k, new_dirname_k);
+    }
+    if(k_lattice_switch){
+    dir_manage(exist_dirname_k_lattice, new_dirname_k_lattice);
+    }
+    
     file_manage(exist_filename_sp);
     file_manage(exist_filename_zero);
     
@@ -67,9 +73,10 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     //---------------------------------------
      if(perturbation_switch){
          
-         
+    Logout("=====================================================\n");
     Logout("=====================================================\n\n");
     Logout( "Calculating Zeromode with Perturbation...\n\n");
+    Logout("=====================================================\n");
     Logout("=====================================================\n\n");
 
      //Instantiate zeromode
@@ -94,7 +101,6 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     //
           Logout("=====================================================\n\n");
           Logout( "Start Lattice Range\n\n");
-           Logout("-----------------------------------------------------\n\n");
 
           double **latticep;
       
@@ -146,9 +152,15 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
 
 
         }else{ // When there is no lattice range
-          Logout("Range: kfrom_knum = %d, kto_knum = %d, kinterval_knum = %d \n\n",kfrom_knum, kto_knum,kinterval_knum);
+            
+            if(lattice_kmodes_switch)
+            {
+                 Perturb.nonlatticerange_calc(kfrom_knum, kto_knum, Zero2);
+            }else
+            {
+                Logout("Range: kfrom_knum = %d, kto_knum = %d, kinterval_knum = %d \n\n",kfrom_knum, kto_knum,kinterval_knum);
           Perturb.nonlatticerange_calc(kfrom_knum, kto_knum, Zero2);
-
+            }
        }
          
      }

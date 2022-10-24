@@ -25,7 +25,6 @@ void lattice(double** lattice_var)
     file_manage(exist_filename_status);
     
     
-    
     double sigma_initial = 0;
     
     for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
@@ -131,6 +130,10 @@ void lattice(double** lattice_var)
 
     // Write data to status.txt
     write_status( new_filename_status, &field, &leapfrog, &energy, f, df, t0 );
+    
+    // add data to kanalyze files (power spectrum)
+    kanalyze_output_lattice(new_dirname_k_lattice, filename_k_lattice, &field, &leapfrog, f);
+    
 
     //Calculate Initialization Time
     current = std::chrono::high_resolution_clock::now();
@@ -144,13 +147,18 @@ void lattice(double** lattice_var)
     Logout("----------------------------------------------\n");
     Logout("            STARTING TIME ITERATION LOOP                \n\n");
 
-
+    int latticeloop_count = 1;
+    int latticeloop_interval = max_loop/screen_latticeloop_number;
 
     for( int loop = 0; loop < max_loop; ++loop ) // This many times vti files will be created
     {
         double t = t0 + loop*output_step*dt;
 
-        loop_start = std::chrono::high_resolution_clock::now();
+        if((loop+1) - 1 == latticeloop_interval*(latticeloop_count-1))
+        {
+            loop_start = std::chrono::high_resolution_clock::now();
+        }
+        
 
 
         for( int st_loop = 0; st_loop < st_max_loop; ++st_loop ) // This many times data will be added to status.txt between the output of vti files
@@ -188,15 +196,22 @@ void lattice(double** lattice_var)
 
         // Output vti files for the energy density of the field
         write_VTK_ed( new_dirname_ed, energy.value, "energy", loop );
-
-
-        //Calculate the elapsed time between the output of vti files
+        
+        // add data to kanalyze files (power spectrum)
+        kanalyze_output_lattice(new_dirname_k_lattice, filename_k_lattice, &field, &leapfrog, f);
+        
         current = std::chrono::high_resolution_clock::now();
         elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - loop_start );
 
         if(loop)
         {
-            Logout( " Loop %d/%d: %2.3f s \n", loop+1, max_loop, elapsed.count()*1.e-3 );
+                
+                if(loop+1 == latticeloop_interval*latticeloop_count)
+                {
+                    Logout( " Loop %d/%d: %2.3f s \n", latticeloop_interval*latticeloop_count, max_loop, elapsed.count()*1.e-3 );
+                    
+                    latticeloop_count++;
+                }
 
         }else{ // This branch is run only for the first loop (loop = 0) to calculate the total estimate time of the simulation judging from the first loop and the initialization time.
             double estimate_time = (init_elapsed.count()+elapsed.count()*max_loop)*1.e-3;

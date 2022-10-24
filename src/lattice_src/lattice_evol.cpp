@@ -836,6 +836,7 @@ void LeapFrog::evolution_expansion( Field* field, double** f, double** df, doubl
                     //set derivative of scalar fields back to program variables before leaving the evolution_expansion function
                     fields_deriv_convert( f, df, f_tilde, df_tilde, 1);
                     
+                    
 //                    std::cout << "after evolution expansion" << std::endl;
 //                    std::cout << "f[0][4] = " << f[0][4] << std::endl;
 //                    std::cout << "df[0][4] = " <<  df[0][4] << std::endl;

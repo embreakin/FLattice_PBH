@@ -88,46 +88,111 @@ void fdf_calc(double distance, double** lattice_var, double *field, double *deri
     int l;
     double log10_Fk, log10_Fk2, log10_dFk, log10_dFk2, omega;
     l = floor(distance);
-    if (l < N/2){
+    
+    if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+    {
+        if(l < outrange_num + 1){
+            
+            log10_Fk = Fk_log_int_calc(outrange_num+1, lattice_var, num_field);
+            
+            log10_Fk2 = Fk_log_int_calc(outrange_num+2, lattice_var, num_field);
+            
+            log10_Fk += (log10(distance) - log10(outrange_num+1))*(log10_Fk2 - log10_Fk)/(log10(outrange_num+2) - log10(outrange_num+1));
+            
+            log10_dFk = dFk_log_int_calc(outrange_num+1, lattice_var, num_field);
+            
+            log10_dFk2 = dFk_log_int_calc(outrange_num+2, lattice_var, num_field);
+            
+            log10_dFk += (log10(distance) - log10(outrange_num+1))*(log10_dFk2 - log10_dFk)/(log10(outrange_num+2) - log10(outrange_num+1));
+            
+            
+            
+            field[0] = pow(10,log10_Fk);
+            deriv[0] = pow(10,log10_dFk);
+            
+        }else if (l < N/2)
+        {
+            log10_Fk = Fk_log_int_calc(l, lattice_var, num_field);
+            log10_Fk2 = Fk_log_int_calc(l+1, lattice_var, num_field);
+            log10_Fk += (log10(distance) - log10(l))*(log10_Fk2 - log10_Fk)/(log10(l+1) - log10(l));
+            
+            log10_dFk = dFk_log_int_calc(l, lattice_var, num_field);
+            log10_dFk2 = dFk_log_int_calc(l+1, lattice_var, num_field);
+            
+            log10_dFk += (log10(distance) - log10(l))*(log10_dFk2 - log10_dFk)/(log10(l+1) - log10(l));
+            field[0] = pow(10,log10_Fk);
+            deriv[0] = pow(10,log10_dFk);
+        }
+        else
+        {
+            
+            log10_Fk = Fk_log_int_calc(N/2-1, lattice_var, num_field);
+            
+            log10_Fk2 = Fk_log_int_calc(N/2, lattice_var, num_field);
+            
+            log10_Fk += (log10(distance) - log10(N/2-1))*(log10_Fk2 - log10_Fk)/(log10(N/2) - log10(N/2-1));
+            
+            log10_dFk = dFk_log_int_calc(N/2-1, lattice_var, num_field);
+            
+            log10_dFk2 = dFk_log_int_calc(N/2, lattice_var, num_field);
+            
+            log10_dFk += (log10(distance) - log10(N/2-1))*(log10_dFk2 - log10_dFk)/(log10(N/2) - log10(N/2-1));
+            
+            
+            
+            field[0] = pow(10,log10_Fk);
+            deriv[0] = pow(10,log10_dFk);
+        }
         
-        log10_Fk = Fk_log_int_calc(l, lattice_var, num_field);
-        log10_Fk2 = Fk_log_int_calc(l+1, lattice_var, num_field);
-        log10_Fk += (log10(distance) - log10(l))*(log10_Fk2 - log10_Fk)/(log10(l+1) - log10(l));
-        
-        log10_dFk = dFk_log_int_calc(l, lattice_var, num_field);
-        log10_dFk2 = dFk_log_int_calc(l+1, lattice_var, num_field);
-        
-        log10_dFk += (log10(distance) - log10(l))*(log10_dFk2 - log10_dFk)/(log10(l+1) - log10(l));
-        field[0] = pow(10,log10_Fk);
-        deriv[0] = pow(10,log10_dFk);
-        
-        //        std::cout << "field[0] = " << field[0] << std::endl;
-        //        std::cout << "deriv[0] = " << deriv[0] << std::endl;
-        //
-        
-        //omega = abs(pow(10,log10_dFk)/(pow(10, log10_Fk)/rescale_B));
-        
-    }else{
-        
-        log10_Fk = Fk_log_int_calc(N/2-1, lattice_var, num_field);
-        
-        log10_Fk2 = Fk_log_int_calc(N/2, lattice_var, num_field);
-        
-        log10_Fk += (log10(distance) - log10(N/2-1))*(log10_Fk2 - log10_Fk)/(log10(N/2) - log10(N/2-1));
-        
-        log10_dFk = dFk_log_int_calc(N/2-1, lattice_var, num_field);
-        
-        log10_dFk2 = dFk_log_int_calc(N/2, lattice_var, num_field);
-        
-        log10_dFk += (log10(distance) - log10(N/2-1))*(log10_dFk2 - log10_dFk)/(log10(N/2) - log10(N/2-1));
-        
-        
-        
-        field[0] = pow(10,log10_Fk);
-        deriv[0] = pow(10,log10_dFk);
-        
-        
-        //omega =  abs(pow(10,log10_dFk)/(pow(10, log10_Fk)/rescale_B));
+    }
+    else
+    {
+        if (l < N/2)
+        {
+            
+            
+            
+            log10_Fk = Fk_log_int_calc(l, lattice_var, num_field);
+            log10_Fk2 = Fk_log_int_calc(l+1, lattice_var, num_field);
+            log10_Fk += (log10(distance) - log10(l))*(log10_Fk2 - log10_Fk)/(log10(l+1) - log10(l));
+            
+            log10_dFk = dFk_log_int_calc(l, lattice_var, num_field);
+            log10_dFk2 = dFk_log_int_calc(l+1, lattice_var, num_field);
+            
+            log10_dFk += (log10(distance) - log10(l))*(log10_dFk2 - log10_dFk)/(log10(l+1) - log10(l));
+            field[0] = pow(10,log10_Fk);
+            deriv[0] = pow(10,log10_dFk);
+            
+            //        std::cout << "field[0] = " << field[0] << std::endl;
+            //        std::cout << "deriv[0] = " << deriv[0] << std::endl;
+            //
+            
+            //omega = abs(pow(10,log10_dFk)/(pow(10, log10_Fk)/rescale_B));
+            
+        }
+        else
+        {
+            
+            log10_Fk = Fk_log_int_calc(N/2-1, lattice_var, num_field);
+            
+            log10_Fk2 = Fk_log_int_calc(N/2, lattice_var, num_field);
+            
+            log10_Fk += (log10(distance) - log10(N/2-1))*(log10_Fk2 - log10_Fk)/(log10(N/2) - log10(N/2-1));
+            
+            log10_dFk = dFk_log_int_calc(N/2-1, lattice_var, num_field);
+            
+            log10_dFk2 = dFk_log_int_calc(N/2, lattice_var, num_field);
+            
+            log10_dFk += (log10(distance) - log10(N/2-1))*(log10_dFk2 - log10_dFk)/(log10(N/2) - log10(N/2-1));
+            
+            
+            
+            field[0] = pow(10,log10_Fk);
+            deriv[0] = pow(10,log10_dFk);
+            
+            
+            //omega =  abs(pow(10,log10_dFk)/(pow(10, log10_Fk)/rescale_B));
+        }
     }
     
 }
@@ -264,6 +329,7 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
 void initialize_perturb(double** f, double** df, double** lattice_var, double mass_sq[])
 {
     
+    
     double p2;
     double dp2=pw2(2*M_PI/L);
     double omega;
@@ -391,7 +457,7 @@ void initialize_perturb(double** f, double** df, double** lattice_var, double ma
                 fdnyquist[2*jconj+1] = -fdnyquist[2*j+1];
                 
             }
-            // The 4 "corners" of the lattice are set to real values
+            // The  "corners" of the lattice are set to real values
             else if(j == 0 || j == N/2){
                 
                 p2 = dp2*pw2(py); //k = 0
@@ -621,6 +687,14 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
     //    j=28-30: log(a) derivatives of gravitational potential perturbation
     //    j=31-54: complex conjugate of [7]-[30]
     
+//        for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
+//
+//
+//            for (int i=0;i<N_pert;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , lattice_var[lattice_loop][i] );
+//
+//        }
+    
+    
     //Fields zeromode
     for (int i=0; i< num_fields; i++){
         
@@ -734,17 +808,18 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
 #if  dim==1
         
         //#pragma omp parallel for simd schedule(static) num_threads(num_threads)
+        
         for( int j = 0; j < N; ++j ){
             int idx = j;
-            std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+            //std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
             f[i][idx] += initial_field_values[i];
-            std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+           // std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
             
             //  std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
             
-            std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+           // std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
             df[i][idx] += initial_field_derivs[i];
-            std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+           // std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
         }
         
         std::cout << "after adding zeromode" << std::endl;
@@ -760,23 +835,23 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
             // #pragma omp simd
             for( int k = 0; k < N; ++k ){
                 int idx = j*N + k;
-                std::cout << "f[0]["<< idx <<"]" << f[i][idx] << std::endl;
-                std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
+              // std::cout << "f[" << i << "]["<< idx <<"]" << f[i][idx] << std::endl;
+//                std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
                 f[i][idx] += initial_field_values[i];
                 df[i][idx] += initial_field_derivs[i];
-                std::cout << "f[0]["<< idx <<"]" << f[i][idx] << std::endl;
-                std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
+//                std::cout << "f[0]["<< idx <<"]" << f[i][idx] << std::endl;
+//                std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
                 
             }
         }
         
-        //         for( int j = 0; j < N; ++j ){
-        //             for( int k = 0; k < N; ++k ){
-        //                 int idx = j*N + k;
-        //                 std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
-        //                 std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-        //             }
-        //         }
+//                 for( int j = 0; j < N; ++j ){
+//                     for( int k = 0; k < N; ++k ){
+//                         int idx = j*N + k;
+//                         std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+//                         std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+//                     }
+//                 }
         
         std::cout << "after adding zeromode" << std::endl;
         std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
@@ -810,7 +885,7 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
 #endif
     }
     
-    
+   
     delete[] initial_field_values;
     delete[] initial_field_derivs;
     delete[] mass_sq;

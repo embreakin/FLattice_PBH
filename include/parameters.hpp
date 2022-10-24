@@ -19,6 +19,8 @@
 
 extern std::string exist_filename_zero, new_filename_zero, exist_dirname_k, new_dirname_k, filename_k, exist_filename_sp, new_filename_sp, new_filename_spbfosc, exist_filename_spbfosc;
 
+extern bool k_switch;
+
 extern bool zeromode_switch;
 extern bool perturbation_switch;
 
@@ -42,6 +44,7 @@ extern bool spectrum_bfosc_switch;
 extern DP kfrom_Mpc;
 extern DP kto_Mpc;
 extern int kinterval_knum;
+extern bool lattice_kmodes_switch;
 
 //extern DP CN_par;                    //Potential paramater CN
 //extern DP mu_par;                //Potential paramater mu
@@ -119,7 +122,7 @@ extern int kinterval_knum;
 #define n_par 10.                        //Potential paramater n
 #define g_par 1.                //Potential parameter g
 #define SH -70.                //ln(a) at the end of calculation
-#define THRUNP -112                //ln(a) at which sigma and psi are fixed to the minimum
+#define THRUNP -110.815//-112                //ln(a) at which sigma and psi are fixed to the minimum
 #define THRLAST -90                //ln(a) at the beginning of oscillation of phi.-61.5
 
 #define dla 1.0E-1                //stepsize for fixed step RK-method
@@ -226,11 +229,15 @@ extern int kinterval_knum;
 
 #define dim 3
 
-extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f, exist_filename_status, new_filename_status;
+extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f, exist_filename_status, new_filename_status, exist_dirname_k_lattice, new_dirname_k_lattice, filename_k_lattice;
+
 
 inline double pw2(double x) { return (x*x);}
 
 extern int N;
+
+extern bool k_lattice_switch;
+extern bool k_lattice_startfromlattice_switch;
 
 extern bool latticerange_switch;
 extern bool initialize_perturb_switch;
@@ -253,6 +260,10 @@ extern double k_lattice_grid_min_MPl;
 //extern double k_lattice_grid_max_pr;
 extern double k_lattice_grid_max_MPl;
 
+extern int outrange_num;
+extern int latticerange_num;
+
+
 extern int rnd;
 extern int num_fields;
 extern int num_threads;
@@ -272,5 +283,7 @@ extern double dt;
 
 extern const int expansion;
 extern const int precision;
+
+extern const int screen_latticeloop_number;
 
 #endif

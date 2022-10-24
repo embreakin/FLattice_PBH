@@ -120,17 +120,86 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     
     static int nonlatticerange_count = 0;
     int k_loopend;
+    double m_end;
+    double k_begin_lattice;
+    double k_loopend_lattice;
     
-    if(latticerange_switch && nonlatticerange_count == 0){k_loopend = k_end;}
-    else{ k_loopend = k_end + kinterval_knum;};
-    
-    for (knum = k_begin; knum < k_loopend; knum = knum + kinterval_knum)
+    if(latticerange_switch && nonlatticerange_count == 0)
     {
+        k_loopend = k_end;
+        
+        m_end = (k_loopend - k_begin)/kinterval_knum;
+    }
+    else{
+        
+        if(lattice_kmodes_switch){
+            
+            
+            
+            if(k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+            {
+                
+                outrange_num = floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl);
+                
+                latticerange_num = (N/2) - outrange_num;
+                
+                k_begin_lattice = (outrange_num+1)*k_lattice_grid_min_MPl;
+                k_loopend_lattice = k_lattice_grid_max_MPl;
+                
+                m_end = latticerange_num;
+
+                Logout("k_lattice_grid_min_MPl < kfrom_MPl_lattice\n\n");
+                Logout("outrange_num = %d, latticerange_num = %d \n\n",outrange_num, latticerange_num);
+                
+            }else{
+                
+                k_begin_lattice = k_lattice_grid_min_MPl;
+                k_loopend_lattice = k_lattice_grid_max_MPl;
+                m_end = N/2;
+                latticerange_num = N/2;
+                Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n\n");
+                Logout("latticerange_num = %d \n\n", latticerange_num);
+                
+            }
+            
+        }else{
+        
+        k_loopend = k_end + kinterval_knum;
+            
+        m_end = (k_loopend - k_begin)/kinterval_knum;
+            
+        }
+    }
+    
+   
+    
+    for (int m = 0; m < m_end; m++)
+    //for (knum = k_begin; knum < k_loopend; knum = knum + kinterval_knum)
+    {
+        
+        
+        if(lattice_kmodes_switch){
+            
+            k_comoving = k_begin_lattice + m*k_lattice_grid_min_MPl;
+            
+            knum = UC::kMPl_to_knum(k_comoving);
+            
+            percentage =   ( (k_comoving - k_begin_lattice)/k_lattice_grid_min_MPl + 1) / ( floor((k_loopend_lattice - k_begin_lattice)/k_lattice_grid_min_MPl) + 1 )*100;
+
+           
+        }
+        else{
+        knum = k_begin + m*kinterval_knum;
+        
         percentage =   ( (knum - k_begin)/kinterval_knum + 1) / ( floor((k_loopend - k_begin)/kinterval_knum) + 1 )*100;
         
         k_comoving = UC::knum_to_kMPl(knum);
         
-        Logout("knum = %d, kMpc = %2.5e, kMPl = %2.5e: ",knum, UC::knum_to_kMpc(knum), k_comoving);
+
+
+        }
+        
+         Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: ", m+1, (int)floor(m_end) ,knum, UC::knum_to_kMpc(knum), k_comoving);
         
          p=itvl;
         
@@ -182,7 +251,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         //        for (i=0;i<N_pert;i++) std::cout << "delstart[" << i << "] = " << delstart[i] << std::endl;
             if(xmid < OSCSTART){
                NR::odeintpert(delstart,xmid,OSCSTART,epsSHI,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
-        //         std::cout << "timecount = " << timecount << std::endl;
+               
                 if(kanalyze_switch){
                 kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum,k_comoving);
                 }
@@ -219,6 +288,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             if(xmid < THRUNP){
                 NR::odeintpert(delstart,xmid,THRUNP,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
         //         std::cout << "timecount = " << timecount << std::endl;
+                
                 if(kanalyze_switch){
                 kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum,k_comoving);
                 }
@@ -242,6 +312,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             //THRLAST is set by hand according to the result for zero-mode.
             NR::odeintpert(delstart,xmid,THRLAST,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
         //         std::cout << "timecount = " << timecount << std::endl;
+        
                 if(kanalyze_switch){
             kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum, k_comoving);
                 }
@@ -263,6 +334,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             //(if perturbations of of sigma and psi are not solved, superhorizon parturbations begin to decrease)
             NR::odeintpert(delstart,xmid,xend,epslast,h2,hmin,nok,nbad,timecount,dxsav,fixfix,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
         //         std::cout << "timecount = " << timecount << std::endl;
+        
                 if(kanalyze_switch){
             kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum, k_comoving);
                 }
@@ -275,6 +347,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 }
 
         Logout( "Calculation %d%% Complete\n\n",percentage);
+        
             };
     
    nonlatticerange_count++;
@@ -314,8 +387,6 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
     Logout("Mpc^-1 Units: k_lattice_grid_min_MPl = %2.5e, kfrom_MPl_lattice = %2.5e, kto_MPl_lattice = %2.5e\n\n",UC::kMPl_to_kMpc(k_lattice_grid_min_MPl), UC::kMPl_to_kMpc(kfrom_MPl_lattice), UC::kMPl_to_kMpc(kto_MPl_lattice));
     Logout("knum Units: k_lattice_grid_min_MPl = %d, kfrom_MPl_lattice = %d, kto_MPl_lattice = %d\n\n",UC::kMPl_to_knum(k_lattice_grid_min_MPl), UC::kMPl_to_knum(kfrom_MPl_lattice), UC::kMPl_to_knum(kto_MPl_lattice));
     
-    int latticerange_num;
-    int outrange_num;
     double k_comoving_start;
     
     if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
@@ -346,8 +417,8 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
            percentage =  round( ( latticerange_loop + 1 )*100 / ( latticerange_num ) );
 
            k_comoving = k_comoving_start + k_lattice_grid_min_MPl*latticerange_loop;
-
-        Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: ", latticerange_loop+1, latticerange_num, UC::kMPl_to_knum(k_comoving), UC::kMPl_to_kMpc(k_comoving), k_comoving);
+            knum = UC::kMPl_to_knum(k_comoving);
+            Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: ", latticerange_loop+1, latticerange_num, knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
         
            p=itvl;
             
@@ -409,7 +480,7 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
                 NR::odeintpert(delstart,xmid,OSCSTART,epsSHI,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
                 //         std::cout << "timecount = " << timecount << std::endl;
                 if(kanalyze_switch){
-                    kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum, k_comoving);
+                    kanalyze_output(new_dirname_k_lattice, filename_k_lattice, xp2, delp, timecount, knum, k_comoving);
                 }
                 xmid=xp2[timecount-1];
                 a=exp(xmid);
@@ -453,10 +524,20 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
     
     if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
     {
-        for(int outrange = 0; outrange < outrange_num; outrange++ ){
-            for (i=0;i<N_pert;i++){
-            latticep[outrange][i] =
-            latticep[outrange_num][i];
+        for(int outrange = 0; outrange < outrange_num; outrange++ )
+        {
+            for (i=0;i<N_pert;i++)
+            {
+                if(i < N_zero)
+                {   //For zeromodes of the outrange wave modes, we use the values that are one step larger than kfrom_MPl_lattice
+                    latticep[outrange][i] =
+                    latticep[outrange_num][i];
+                }
+                else
+                {
+//                    For perturbations of the outrange wave modes, we set it to zero.
+                    latticep[outrange][i] = 0;
+                }
             }
         }
     

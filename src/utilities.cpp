@@ -106,7 +106,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
             {
                 OSCSTART = la; //Set oscillation start to the ln(a) when epsilon=1
                 Logout("-----------------------------------------------------\n\n");
-                std::cout << "OSCSTART = " << OSCSTART << std::endl ;
+                std::cout << "OSCSTART (Zeromode) = " << OSCSTART << std::endl ;
                 std::cout << "Variable values at OSCSTART (Zeromode class)" << std::endl ;
                 std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
                 std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
@@ -156,7 +156,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
 }
 
 //subroutine for k-analyze output
-void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving ){
+void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k_comoving ){
     //output results
     static int output_timecount = 0;
     static int knum_static = knum;
@@ -174,7 +174,19 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
     std::stringstream ss;
     std::ofstream k_output;
     
-    ss << "../" << dir << "/" << file << "_" << std::setw(4) << std::setfill('0') << knum <<".txt";
+    if(lattice_kmodes_switch){
+        
+        double kMpc, kMpc_int;
+        kMpc = UC::kMPl_to_kMpc(k_comoving);
+        kMpc_int = (int)floor(100*kMpc); //Round down to the second decimal place and make it an integer by multiplying by 100
+        ss << "../" << dir << "/" << file << "_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
+    }else{
+        ss << "../" << dir << "/" << file << "_" << std::setw(4) << std::setfill('0') << knum <<".txt";
+    }
+    
+    
+    
+    
     
     if( output_timecount == 1 )
     {
@@ -184,6 +196,13 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
     }
     
     DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, Kinetic, dda, pressure, epsilon;
+    
+    double k_horizoncrossing;
+    double k_horizoncrossing2;
+    static int epsilon_count=0;
+    double kMpc_max;
+    static double OSCSTART_MAX = OSCSTART;
+    static int kMpc_static = UC::kMPl_to_kMpc(k_comoving);
 
     Vec_DP zeta(6);
     Vec_DP tr(N_pert);
@@ -243,22 +262,61 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         dda = -a*(rho+3*pressure)/6;
         epsilon = 1 - dda/(pw2(H)*a);
         
-//        if (epsilon > 1){
-//            static int epsilon_count=0; ++epsilon_count;
-//            
-//            if(epsilon_count == 1)
-//            {
-//                OSCSTART = la; //Set oscillation start to the ln(a) when epsilon=1
-//                std::cout << "OSCSTART = " << OSCSTART << std::endl ;
-//                std::cout << "Variable values at OSCSTART (Perturbation class)" << std::endl ;
-//                std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
-//                std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
-//                std::cout << "rho_rad = " << tr[6] << std::endl ;
-//                std::cout << "dda = " << dda << std::endl ;
-//
-//            }
-//
-//        }
+        
+        if(latticerange_switch || lattice_kmodes_switch ){
+            kMpc_max =  kto_Mpc_lattice;
+        }else{
+            kMpc_max = kto_Mpc;
+        }
+        
+
+            //Set oscillation start to the ln(a) when epsilon=1
+        if (epsilon > 1){
+
+            if(kMpc_static == (int)UC::kMPl_to_kMpc(k_comoving)){
+                ++epsilon_count;
+            }else{
+                kMpc_static = (int)UC::kMPl_to_kMpc(k_comoving);
+                epsilon_count = 1;
+            };
+            
+            if(epsilon_count == 1 )
+            {
+                
+            OSCSTART = la;
+            
+            if (OSCSTART_MAX < OSCSTART)
+            {
+                OSCSTART_MAX = OSCSTART;
+            }
+                
+//                std::cout << "OSCSTART_MAX = "  << OSCSTART_MAX  << std::endl;
+//                std::cout << "OSCSTART = "  << OSCSTART  << std::endl;
+            
+            if( (int)UC::kMPl_to_kMpc(k_comoving) == (int)kMpc_max  ){
+                
+                
+                OSCSTART = OSCSTART_MAX;
+                k_horizoncrossing = a*H;
+                k_horizoncrossing2 = 0.7*a*H;
+                
+                Logout("\n\n-----------------------------------------------------\n\n");
+                std::cout << "OSCSTART (Perturbation) = " << std::setw(20) << std::setprecision(20)  << OSCSTART  << std::endl ;
+                std::cout << "Variable values at OSCSTART (Perturbation class)" << std::endl ;
+                std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
+                std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
+                std::cout << "rho_rad = " << tr[6] << std::endl ;
+                std::cout << "dda = " << dda << std::endl ;
+                std::cout << "Horizon crosing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
+                std::cout << "k = 0.7aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
+                Logout("-----------------------------------------------------\n\n");
+                
+            }
+            
+        }
+            
+        }
+        
         
 //        if(j==0){std::cout << la << "\n"; };
         k_output << std::setw(6) << la << " "               //log(a)
@@ -420,11 +478,11 @@ void DFT_c2rD1( double* f)
         for( int j = 0; j < N/2+1; ++j ){
             int idx = j;
             if(idx==0)
-            {
+            {// zero-frequency (DC)
                 in[idx][0] = f[idx]  ;
                 in[idx][1] = 0  ;
                 
-            }else if(idx==N/2){
+            }else if(idx==N/2){//Nyquist frequency
                 in[idx][0] = f[1]  ;
                 in[idx][1] = 0  ;
             }else{
@@ -445,6 +503,51 @@ void DFT_c2rD1( double* f)
     if( p ) fftw_destroy_plan(p);
     if( in ) fftw_free(in);
     delete[] out;
+}
+
+void DFT_r2cD1( std::vector<double>& f, std::vector<double>& f_k)
+{
+    fftw_plan p;
+    double* in;
+    fftw_complex* out;
+    size_t out_size;
+    
+    in = new double [N]();
+    out_size = sizeof(fftw_complex) * (N/2+1);
+    out  = (fftw_complex*)fftw_malloc( out_size );
+    p = fftw_plan_dft_r2c_1d( N, in, out, FFTW_ESTIMATE );
+    
+    for( int j = 0; j < N; ++j ){
+        int idx = j;
+        in[idx] = f[idx];
+    }
+    
+    fftw_execute(p);
+    
+    // Set output data
+    for( int j = 0; j < N/2+1; ++j ){
+        int idx = j;
+        //f[][0] corresponds to Re(f_{i=0})
+        //f[][2],f[][3] corresponds to the Re and Im of f_{i=1}
+        // ...
+        //f[][1] corresponds to Re(f_{i=N/2})
+        if(idx==0)
+        {// zero-frequency (DC)
+             f_k[idx] = out[idx][0];
+           // std::cout << " out[idx][0] = " << out[idx][0] << std::endl;
+          //  std::cout << " out[idx][1] = " << out[idx][1] << std::endl;
+        }else if(idx==N/2){//Nyquist frequency
+            f_k[1] = out[idx][0];
+        }else{
+            f_k[2*idx] = out[idx][0];
+            f_k[2*idx+1] = out[idx][1];
+        }
+        
+    }
+    
+    if( p ) fftw_destroy_plan(p);
+    if( out ) fftw_free(out);
+    delete[] in;
 }
 /*
 void DFT_c2rD2d( double* df,double* fdnyquist )
@@ -497,7 +600,7 @@ void DFT_c2rD2d( double* df,double* fdnyquist )
     delete[] out;
 }
 */
-void DFT_c2rD2( double* f,double* fnyquist )
+void DFT_c2rD2( double* f, double* fnyquist )
 {
     fftw_plan p;
     double* out;
@@ -523,6 +626,7 @@ void DFT_c2rD2( double* f,double* fnyquist )
                 }
             }
         }
+    
         fftw_execute(p);
         
         // Set output data
@@ -539,10 +643,53 @@ void DFT_c2rD2( double* f,double* fnyquist )
     delete[] out;
 }
 
+void DFT_r2cD2(std::vector<double>& f, std::vector<double>& f_k, std::vector<double>& f_k_nyquist )
+{
+    fftw_plan p;
+    double* in;
+    fftw_complex *out;
+    size_t out_size;
+    
+    in = new double [N*N]();
+    out_size = sizeof(fftw_complex) * N * (N/2+1);
+    out  = (fftw_complex*)fftw_malloc( out_size );
+    p = fftw_plan_dft_r2c_2d( N, N, in, out, FFTW_ESTIMATE );
+    
+    for( int j = 0; j < N; ++j ){
+        for( int k = 0; k < N; ++k ){
+            int idx = j*N + k;
+             in[idx] = f[idx];
+        }
+    }
+    
+    fftw_execute(p);
+    
+    // Set output data
+    
+    for( int j = 0; j < N; ++j ){
+        for( int k = 0; k < N/2+1; ++k ){
+            int idx = (N/2+1)*j + k;
+            //  int idx = j*N + k;
+            if(k == N/2){
+                 f_k_nyquist[2*j] = out[idx][0];
+                 f_k_nyquist[2*j+1] = out[idx][1];
+            }else {
+                f_k[j*N + 2*k] = out[idx][0];
+                f_k[j*N + 2*k+1] = out[idx][1];
+            }
+        }
+    }
+    
+    
+    if( p ) fftw_destroy_plan(p);
+    if( out ) fftw_free(out);
+    delete[] in;
+}
 
 
 
-void DFT_c2rD3( double* f,double** fnyquist )
+
+void DFT_c2rD3( double* f, double** fnyquist )
 {
     fftw_plan p;
     double* out;
@@ -571,6 +718,7 @@ void DFT_c2rD3( double* f,double** fnyquist )
                 }
             }
         }
+    
         fftw_execute(p);
         
         // Set output data
@@ -589,6 +737,60 @@ void DFT_c2rD3( double* f,double** fnyquist )
     if( in ) fftw_free(in);
     delete[] out;
 }
+
+void DFT_r2cD3( std::vector<double>& f, std::vector<double>& f_k, std::vector<std::vector<double>>& f_k_nyquist )
+{
+    
+    fftw_plan p;
+    double* in;
+    fftw_complex *out;
+    size_t out_size;
+    
+    in = new double [N*N*N]();
+    out_size = sizeof(fftw_complex) * N * N * (N/2+1);
+    out  = (fftw_complex*)fftw_malloc( out_size );
+    p = fftw_plan_dft_r2c_3d( N, N, N, in, out, FFTW_ESTIMATE );
+
+  
+    for( int j = 0; j < N; ++j ){
+        for( int k = 0; k < N; ++k ){
+            for( int l = 0; l < N; ++l ){
+                int idx = (j*N + k)*N + l;
+                in[idx] = f[idx];
+            }
+        }
+    }
+
+    fftw_execute(p);
+    
+    // Set output data
+    
+    
+//    #pragma omp parallel for simd collapse(3) schedule( static ) num_threads( num_threads )
+    for( int j = 0; j < N; ++j ){
+        for( int k = 0; k < N; ++k ){
+            for( int l = 0; l < N/2+1; ++l ){
+                int idx = (j*N + k)*(N/2+1) + l;
+                if(l == N/2){
+                   f_k_nyquist[j][2*k] = out[idx][0];
+                   f_k_nyquist[j][2*k+1] = out[idx][1];
+                }
+                else{
+                    f_k[(j*N + k)*N + 2*l]  = out[idx][0];
+                    f_k[(j*N + k)*N + 2*l+1] = out[idx][1];
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    if( p ) fftw_destroy_plan(p);
+    if( out ) fftw_free(out);
+    delete[] in;
+}
+
 
 /*
 void DFT_c2r( double** f,double* fnyquist )
@@ -964,5 +1166,96 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
    
 }
 
+//const vector<vector<vector<double>>>&PS,
+void kanalyze_output_lattice(const std::string dir, std::string file, Field* field, LeapFrog* leapfrog, double** f){
+    //output results
+    int knum, kMpc_int;
+    double k_comoving, kMpc;
 
+    DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, Kinetic, dda, pressure, epsilon, a_bar;
+    
+     a_bar = leapfrog->a();
+     a = a_bar*exp(OSCSTART);
+    
+     H = leapfrog->hubble();
+     la = log(a);
+     w = log10(H);
+    
+    int j_start, j_end;
+    static int time_count = 0;
+    
+    
+    if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+    {
+        j_start = outrange_num + 1;
+    }else
+    {
+        j_start = 1;
+    }
+    
+    j_end = N/2;
+     
+     for(int j=j_start; j < j_end + 1 ; j++) // j = 1,2...,N/2-1,N/2
+        {
+            
+            k_comoving = (2*M_PI/(L/rescale_B))*j;// [MPl]
+            knum = UC::kMPl_to_knum(k_comoving);
+           // std::cout << "knum = " << knum << std::endl;
+            kMpc = UC::kMPl_to_kMpc(k_comoving);
+            kMpc_int = (int)floor(100*kMpc); //Round down to the second decimal place and make it an integer by multiplying by 100
+            std::stringstream ss;
+            std::ofstream k_output;
+            
+            
+                 ss << "../" << dir << "/" << file << "_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
+                 
+            
+            
+            if(k_lattice_startfromlattice_switch && time_count == 0){
+                 k_output.open(ss.str().c_str(),std::ios::out);
+            }else{
+                k_output.open(ss.str().c_str(),std::ios::app);
+            }
+            
+                 k_output <<  std::setw(20) << std::setprecision(20) << la << " "               //log(a)
+                 << std::setw(10) << w << " "                        //log(H)
+                 << std::setw(10) << 0 << " "//Pzeta << " "                    //log(Zeta)
+                 << std::setw(10) << 0 << " "//PPot << " "                    //log(Gravitational Potential)
+                 << std::setw(10) << 0 << " "//log10(rhop/rho) << " "        //log(p/rho)
+                 << std::setw(10) << log10(H/a) << " "            //log(H/a)
+                 << std::setw(10) << log10(k_comoving/(a*H)) << " "        //log(k/(a*H))
+                                << std::setw(10) << log10(field->power_spectrum(f, 0, j)
+                    /pow(rescale_A*a_bar,2) )<< " "               //log(P_sigma)
+                                << std::setw(10) << log10(field->power_spectrum(f, 1, j)
+                    /pow(rescale_A*a_bar,2)) << " "                 //log(P_psi)
+                                << std::setw(10) << log10(field->power_spectrum(f, 2, j)
+                    /pow(rescale_A*a_bar,2)) << " "
+                         << std::setw(10) << 0 << " "//log10(sqrt(P_sigma_raw)) << " "               //log10(dsigma)
+                         << std::setw(10) << 0 << " "//log10(sqrt(P_psi_raw)) << " "                 //log10(dpsi)
+                         << std::setw(10) << 0 << " "//log10(sqrt(P_phi_raw)) << " "                 //log10(dphi)
+                         << std::setw(10) << 0 << " "//zeta[0]*zeta[0]/Pzeta_raw << " "                 //
+                         << std::setw(10) << 0 << " "//zeta[1]*zeta[1]/Pzeta_raw << " "                 //
+                         << std::setw(10) << 0 << " "//zeta[2]*zeta[2]/Pzeta_raw << " "                 //
+                         << std::setw(10) << 0 << " "//zeta[3]*zeta[3]/Pzeta_raw << " "                 //
+                         << std::setw(10) << 0 << " "//zeta[4]*zeta[4]/Pzeta_raw << " "                 //
+                         << std::setw(10) << 0 << " "//zeta[5]*zeta[5]/Pzeta_raw << " "                 //
+                         << std::setw(10) << 0 << " "//tr[0] << " "  //buffer for yp_p[i][0] sigma
+                         << std::setw(20) << 0 << " "//std::setprecision(20) << tr[1] << " " //buffer for yp_p[i][1] psi
+                         << std::setw(10) << 0 << " "//tr[2] << " " //buffer for yp_p[i][1] phi
+                         << std::setw(10) << 0 << " "//tr[3] << " "  //buffer for yp_p[i][0] sigma_dot
+                         << std::setw(20) << 0 << " "//std::setprecision(20) << tr[4] << " " //buffer for yp_p[i][1] psi_dot
+                         << std::setw(10) << 0 << " "//tr[5] << " " //buffer for yp_p[i][1] phi_dot
+                         << std::setw(10) << 0 << " "//rho << " "
+                         << std::setw(10) << 0 << " "//Kinetic << " "
+                         << std::setw(10) << 0 << " "//V(tr[0],tr[1],tr[2]) << " "
+                         << std::setw(10) << 0 << " "//rho_rad << " "
+                         << std::setw(10) << 0 << " "//dda << " "
+                         << std::setw(10) << 0 << " "//epsilon << " "
+                        << "\n\n";
+            
+        }
+    
+    time_count++;
+//    exit(1);
+}
 

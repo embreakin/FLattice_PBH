@@ -21,7 +21,7 @@ void file_manage(const std::string exist_file);
 //--------------------------------
 void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount);
 
-void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving);
+void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k_comoving);
 
 void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving);
 
@@ -32,10 +32,14 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
 //--------------------------------
 
 void DFT_c2rD1( double* f);
+void DFT_r2cD1( std::vector<double>& f, std::vector<double>& f_k);
 
 void DFT_c2rD2( double* f,double* fnyquist );
+void DFT_r2cD2(std::vector<double>& f, std::vector<double>& f_k, std::vector<double>& f_k_nyquist );
 
 void DFT_c2rD3( double* f,double** fnyquist );
+void DFT_r2cD3( std::vector<double>& f, std::vector<double>& f_k, std::vector<std::vector<double>>& f_k_nyquist );
+
 
 void write_VTK_f  ( const std::string dir_f, double* f, std::string str, int loop );
 
@@ -43,5 +47,6 @@ void write_VTK_ed  (const std::string dir_ed,  double* f, std::string str, int l
 
 void write_status ( const std::string status_file, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double** df, double t );
 
+void kanalyze_output_lattice(const std::string dir, std::string file, Field* field, LeapFrog* leapfrog, double** f);
 
 #endif
