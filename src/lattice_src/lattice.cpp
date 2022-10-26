@@ -51,6 +51,8 @@ void lattice(double** lattice_var)
     Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e, k_lattice_grid_min_MPl =  %2.5e \n\n",kfrom_MPl_lattice, kto_MPl_lattice, k_lattice_grid_min_MPl);
     Logout("kfrom_pr_lattice =  %2.5e, kto_pr_lattice =  %2.5e, k_lattice_grid_min_pr =  %2.5e \n\n",kfrom_MPl_lattice/rescale_B, kto_MPl_lattice/rescale_B, k_lattice_grid_min_pr);
     Logout("rescale_B = %2.5e, L_pr = %2.5e, N = %d \n\n",rescale_B, L, N);
+    
+    Logout("L = %2.5e [Mpc], dx = %2.5e [Mpc] \n\n", UC::xMPl_to_xMpc(L/rescale_B), UC::xMPl_to_xMpc(dx/rescale_B));
     Logout("Range of k_pr in lattice: %2.5e <= |k_pr| <= %2.5e \n\n", k_lattice_grid_min_pr, k_lattice_grid_max_pr);
     
 

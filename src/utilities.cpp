@@ -922,7 +922,9 @@ void write_VTK_f( const std::string dir_f, double* f, std::string str, int loop 
 	std::stringstream ss;
 	std::ofstream fout;
     
+    double dx_Kpc;
     
+    dx_Kpc = 1000*UC::xMPl_to_xMpc(dx/rescale_B);
 	
 	if( dim == 1 ){
 		ss << "../" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
@@ -930,7 +932,7 @@ void write_VTK_f( const std::string dir_f, double* f, std::string str, int loop 
  
     	for( int j = 0; j < N; j++ ){
 			int idx = j;
-			fout << idx*dx << " " << f[idx] << std::endl;
+			fout << idx*dx_Kpc << " " << f[idx] << std::endl;
 		}
     }else{
     	ss << "../" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
@@ -941,12 +943,12 @@ void write_VTK_f( const std::string dir_f, double* f, std::string str, int loop 
     	switch( dim ){
     		case 2:
 				size = sizeof(double) * pow(N, 2);//8byte*pow(N,2)
-				fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\" Origin=\"0 0 0\" Spacing=\"" << dx << " " << dx << " " << dx << "\">" << std::endl;
+				fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
 				fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\">" << std::endl;
     			break;
 			case 3:
 				size = sizeof(double) * pow(N, 3);
-				fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 <<" 0 " << N-1 << "\" Origin=\"0 0 0\" Spacing=\"" << dx << " " << dx << " " << dx << "\">" << std::endl;
+				fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 <<" 0 " << N-1 << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
 				fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << N-1 << "\">" << std::endl;
 				break;
     	}
@@ -981,8 +983,9 @@ void write_VTK_ed( const std::string dir_ed, double* f, std::string str, int loo
     unsigned int size;
     std::stringstream ss;
     std::ofstream fout;
+    double dx_Kpc;
     
-    
+    dx_Kpc = 1000*UC::xMPl_to_xMpc(dx/rescale_B);
     
     if( dim == 1 ){
         ss << "../" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
@@ -990,7 +993,7 @@ void write_VTK_ed( const std::string dir_ed, double* f, std::string str, int loo
         
         for( int j = 0; j < N; j++ ){
             int idx = j;
-            fout << idx*dx << " " << f[idx] << std::endl;
+            fout << idx*dx_Kpc << " " << f[idx] << std::endl;
         }
     }else{
         ss << "../" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
@@ -1001,12 +1004,12 @@ void write_VTK_ed( const std::string dir_ed, double* f, std::string str, int loo
         switch( dim ){
             case 2:
                 size = sizeof(double) * pow(N, 2);//8byte*pow(N,2)
-                fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\" Origin=\"0 0 0\" Spacing=\"" << dx << " " << dx << " " << dx << "\">" << std::endl;
+                fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
                 fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\">" << std::endl;
                 break;
             case 3:
                 size = sizeof(double) * pow(N, 3);
-                fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 <<" 0 " << N-1 << "\" Origin=\"0 0 0\" Spacing=\"" << dx << " " << dx << " " << dx << "\">" << std::endl;
+                fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 <<" 0 " << N-1 << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
                 fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << N-1 << "\">" << std::endl;
                 break;
         }

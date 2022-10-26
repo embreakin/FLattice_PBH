@@ -227,7 +227,7 @@ extern bool lattice_kmodes_switch;
 //=================
 
 
-#define dim 3
+#define dim 2
 
 extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f, exist_filename_status, new_filename_status, exist_dirname_k_lattice, new_dirname_k_lattice, filename_k_lattice;
 

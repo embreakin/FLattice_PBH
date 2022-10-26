@@ -113,7 +113,7 @@ int fluc_calc_switch  = 1;//Choose type of fluctuation initialization for scalar
 double kfrom_Mpc_lattice = 3;//[Mpc^-1] Calculate from this k for lattice range
 double kto_Mpc_lattice = 400;//[Mpc^-1] Calculate to this k for lattice range
 
-int N = 32;//512; //Should be 2^n
+int N = 64;//512; //Should be 2^n
 
 double kfrom_MPl_lattice = UC::kMpc_to_kMPl(kfrom_Mpc_lattice); //convert to MPl units
 double kto_MPl_lattice = UC::kMpc_to_kMPl(kto_Mpc_lattice); //convert to MPl units
@@ -139,7 +139,7 @@ double Hinitial_pr;
 //const double initderivs[] = {(1*Hinitial*initfield[0])/rescale_B};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
 
 int output_step = 2.0e+1;
-int total_step  = 4.1e+3;//1.75e+4;//8.75e+3;
+int total_step  = 8.2e+4;//1.75e+4;//8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files

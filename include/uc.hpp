@@ -6,16 +6,18 @@
 //Unit Conversion Functions
 namespace UC {
     
-    const DP Ck = 2.626E-61;  //Ck[MPl] for k = 10^-4 Mpc^{-1}
+    const double Ck = 2.626E-61;  //Ck[MPl] for k = 10^-4 Mpc^{-1}
     
-    DP knum_to_kMPl(int &k);
-    int kMPl_to_knum(DP &k);
+    double knum_to_kMPl(int k);
+    int kMPl_to_knum(double k);
     
-    DP knum_to_kMpc(int &k);
-    int kMpc_to_knum(DP &k);
+    double knum_to_kMpc(int k);
+    int kMpc_to_knum(double k);
     
-    DP kMpc_to_kMPl(DP &k);
-    DP kMPl_to_kMpc(DP &k);
+    double kMpc_to_kMPl(double k);
+    double kMPl_to_kMpc(double k);
+    
+    double xMPl_to_xMpc(double x);
     
 }
 #endif
