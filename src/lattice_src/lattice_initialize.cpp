@@ -210,11 +210,14 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
 {
     double phase, amplitude, norm, omega;
     double re_f_left, im_f_left, re_f_right, im_f_right;
+    double re_f_left_div, im_f_left_div, re_f_right_div, im_f_right_div, amplitude_div, norm_div;
+
     
     // std::cout << "field i = " << i << std::endl;
     
-    if (i==3){//Gravitational perturbation has to be calculated by case 1
-        fluc_calc_switch = 1;
+    if (i==3){//Gravitational perturbation has to be calculated by case 2
+        fluc_calc_switch = 2;
+       
     }
     
     switch (fluc_calc_switch) {
@@ -251,7 +254,6 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
             // The same amplitude is used for left and right moving waves to generate standing waves. The extra 1/sqrt(2) normalizes the initial occupation number correctly.
             
             amplitude = norm*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.)/sqrt(2);
-            phase = 2*M_PI*rand_uniform();
             //   std::cout << "norm = " << norm << std::endl;
             // std::cout << "omega = " << omega << std::endl;
             //    std::cout << "norm/sqrt(2*omega) = " << norm/sqrt(2*omega) << std::endl;
@@ -280,7 +282,7 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
             // The same amplitude is used for left and right moving waves to generate standing waves. The extra 1/sqrt(2) normalizes the initial occupation number correctly.
             
             amplitude = norm*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.)/sqrt(2);
-            phase = 2*M_PI*rand_uniform();
+           
             //   std::cout << "norm = " << norm << std::endl;
             // std::cout << "omega = " << omega << std::endl;
             //    std::cout << "norm/sqrt(2*omega) = " << norm/sqrt(2*omega) << std::endl;
@@ -289,27 +291,72 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
             
             break;
             
+            case 2: //Gravitational perturbation
+            
+            
+#if  dim==1
+            norm = sqrt(pow(rescale_B*L/(dx*dx),3))*(dx*dx/(L*sqrt(2*M_PI)))*field[0];
+            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3))*(dx*dx/(L*sqrt(2*M_PI)))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
+#elif  dim==2
+            norm = sqrt(pow(rescale_B*L/(dx*dx),3))*(dx/sqrt(L*M_PI))*field[0];
+            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3))*(dx/sqrt(L*M_PI))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
+#elif  dim==3
+            
+            norm =  sqrt(pow(rescale_B*L/(dx*dx),3))*field[0];
+            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
+#endif
+            
+            amplitude = norm*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.)/sqrt(2);
+            amplitude_div = norm_div*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.)/sqrt(2);
+            
+               std::cout << "norm = " << norm << std::endl;
+               std::cout << "norm_div = " << norm_div << std::endl;
+               std::cout << "amplitude = " << amplitude << std::endl;
+            std::cout << "amplitude_div = " << amplitude_div << std::endl;
+            
+            break;
         default:
-            Logout( "Parameter 'fluc_calc_switch' must be 0 ~ 1. \n" );
+            Logout( "Parameter 'fluc_calc_switch' must be 0 ~ 2. \n" );
             break;
     }
     
     
-    
+    phase = 2*M_PI*rand_uniform();
     //Left moving component
     re_f_left = amplitude * cos( phase );
     im_f_left = amplitude * sin( phase );
-    //Right moving component
+    if( fluc_calc_switch == 2 )
+    {
+    re_f_left_div = amplitude_div * cos( phase );
+    im_f_left_div = amplitude_div * sin( phase );
+    }
+        //Right moving component
     phase = 2*M_PI*rand_uniform();
     //  std::cout << "phase2 " << phase/(2*M_PI) << std::endl;
     re_f_right = amplitude * cos( phase );
     im_f_right = amplitude * sin( phase );
     
+    if( fluc_calc_switch == 2 )
+    {
+    re_f_right_div = amplitude_div * cos( phase );
+    im_f_right_div = amplitude_div * sin( phase );
+    }
+    
     field[0] = re_f_left + re_f_right;
     field[1] = im_f_left + im_f_right;
     
+    
+    if( fluc_calc_switch == 2 )
+    {
+        deriv[0] =  re_f_left_div + re_f_right_div;
+        deriv[1] = im_f_left_div + im_f_right_div;
+        std::cout << "field[0] = " << field[0] << std::endl;
+        std::cout << "deriv[0] = " << deriv[0] << std::endl;
+        
+    }else{
     deriv[0] = (omega/exp(OSCSTART))*(im_f_left - im_f_right);
     deriv[1] = -(omega/exp(OSCSTART))*(re_f_left - re_f_right);
+    }
     
     if(real==1)
     {
@@ -317,8 +364,7 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
         deriv[1]=0;
     }
     
-    //            std::cout << "field[0] = " << field[0] << std::endl;
-    //            std::cout << "deriv[0] = " << deriv[0] << std::endl;
+    
     
     return;
 }
@@ -893,8 +939,45 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
     //    exit(1);
 }
 
-void finalize( double** f, double** df )
+void finalize(double** f, double** df, Field* field, LeapFrog* leapfrog, double radiation_pr, double** lattice_var )
 {
+    double a = leapfrog->a();
+    double da = leapfrog->da();
+    
+   
+    for (int i=0; i< num_fields; i++){
+        
+        int j = (num_fields -1) + i;
+        
+        if(i < num_fields - 1)
+        {
+            for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
+            {
+                //
+                //    Logout(" lattice_var[%d][%d] = %2.5e \n", lattice_loop, i, lattice_var[lattice_loop][i]);
+                //
+                lattice_var[lattice_loop][i] = field->average(f[i], i)/(rescale_A*a) ;//0,1,2
+                
+                lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2);//3,4,5
+                
+                Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
+                Logout(" lattice_var[%d][%d] = %2.5e \n",lattice_loop,j,lattice_var[lattice_loop][j] );
+                
+            }
+            
+        }
+        
+    }
+    
+    
+    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
+    {
+        
+        lattice_var[lattice_loop][6] =  pow((rescale_B/(rescale_A*pow(a,2))),2)*radiation_pr;
+        
+    }
+    
+    
     delete [] f[0];
     delete [] df[0];
     delete [] f;

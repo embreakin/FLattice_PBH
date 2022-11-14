@@ -45,7 +45,15 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     file_manage(exist_filename_sp);
     file_manage(exist_filename_zero);
     
+    //------------------------
+    //Name of Parameter Set
+    //------------------------
     
+    Logout("=====================================================\n\n");
+    
+    Logout("Parameter Set: %s \n\n", par_set_name.c_str() );
+    
+    Logout("=====================================================\n\n");
     //------------------------
     //calculation of zeromode
     //------------------------
@@ -61,7 +69,7 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     Zero.zeromode_calc();
     
 
-    Logout( "Zeromode Calculation Complete\n\n");
+    Logout( "\nZeromode Calculation Complete\n\n");
    
     }
     
@@ -166,15 +174,15 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
      }
     
     time_end = std::chrono::system_clock::now();       // End measuring elapsed time
-    int time_hours = std::chrono::duration_cast<std::chrono::hours>(time_end - time_start).count(); // Casting time
-    int time_minutes = std::chrono::duration_cast<std::chrono::minutes>(time_end - time_start).count() - time_hours*60; // Casting time
-    int time_seconds = std::chrono::duration_cast<std::chrono::seconds>(time_end - time_start).count() - time_hours*60*60 - time_minutes*60; // Casting time
-    int time_days = time_hours / 24;
-    time_hours = time_hours % 24;
-     Logout("=====================================================\n\n");
-     Logout( "Total Computation Time: %d d %d h %d m %d s\n\n",time_days,time_hours,time_minutes,time_seconds);
-     Logout("=====================================================\n");
-
+//    int time_hours = std::chrono::duration_cast<std::chrono::hours>(time_end - time_start).count(); // Casting time
+//    int time_minutes = std::chrono::duration_cast<std::chrono::minutes>(time_end - time_start).count() - time_hours*60; // Casting time
+//    int time_seconds = std::chrono::duration_cast<std::chrono::seconds>(time_end - time_start).count() - time_hours*60*60 - time_minutes*60; // Casting time
+//    int time_days = time_hours / 24;
+//    time_hours = time_hours % 24;
+//     Logout("=====================================================\n\n");
+//     Logout( "Total Computation Time: %d d %d h %d m %d s\n\n",time_days,time_hours,time_minutes,time_seconds);
+//     Logout("=====================================================\n");
+    time_calc(time_start, time_end, "Total Computation Time");
 //
 //
 //

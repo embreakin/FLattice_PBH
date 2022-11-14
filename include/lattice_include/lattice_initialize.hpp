@@ -2,7 +2,7 @@
 #define _LATTICEINITIALIZE_H_
 
 #include "lattice_field.hpp"
-
+#include "lattice_evol.hpp"
 
 double Fk_log_int_calc(int k_int , double** lattice_var, int num_field);
 
@@ -16,6 +16,6 @@ void initialize_perturb(double** f, double** df, double** lattice_var, double ma
 
 void initialize( double**& f, double**& df, Field* field, double &radiation_pr, double**& lattice_var);
 
-void finalize( double** f, double** df );
+void finalize( double** f, double** df, Field* field, LeapFrog* leapfrog, double radiation_pr, double** lattice_var);
 
 #endif

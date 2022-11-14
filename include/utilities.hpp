@@ -1,10 +1,12 @@
 #ifndef _UTILITIES_H_
 #define _UTILITIES_H_
 
-#include <string>
+
 #include "lattice_calc.hpp"
 #include "nr.h"
 #include "uc.hpp"
+#include <string>
+#include <chrono>
 
 #define Logout(...) 	do { printf(__VA_ARGS__); fflush(stdout); } while(0)
 
@@ -15,6 +17,12 @@
 void dir_manage(const std::string exist_dir, const std::string new_dir);
 
 void file_manage(const std::string exist_file);
+
+//--------------------------------
+// Elapsed Time Calculation
+//--------------------------------
+
+void time_calc(std::chrono::system_clock::time_point time_start, std::chrono::system_clock::time_point time_end, std::string time_name);
 
 //--------------------------------
 // Double Inflation Subroutines

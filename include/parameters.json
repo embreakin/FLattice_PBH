@@ -1,0 +1,42 @@
+[
+        {
+            "Name": "TakayamaMasterThesis",
+            "GNORMAL": 1.0E-11,
+            "GLARGE": 1.0E-11,
+            "GLARGE2": 1.0E-11,
+            "CN_par": 0.1,
+            "mu_par": 2.7E-3,
+            "Cv_par": 6.4E-4,
+            "M_par": 1.6,
+            "m_par": 2.0,
+            "n_par": 10.0,
+            "g_par": 1.0,
+            "BEGIN_EFOLD": -135.6,
+            "UNPERT_EFOLD": -110.815,
+            "NEWINF_END_EFOLD": -90.0,
+            "END_EFOLD": -70.0,
+            "dla": 1.0E-1,
+            "itvl": 1000,
+            "sigma_init": 0.8
+        },
+        {
+        "Name": "TakayamaJournalPaperFIG1a",
+        "GNORMAL": 0.0,
+        "GLARGE": 1.0E-10,
+        "GLARGE2": 1.0E-10,
+        "CN_par": 0.04,
+        "mu_par": 2.04E-3,
+        "Cv_par": 4.7E-4,
+        "M_par": 1.17,
+        "m_par": 2.0,
+        "n_par": 4.0,
+        "g_par": 2.0E-5,
+        "BEGIN_EFOLD": -136.75,
+        "UNPERT_EFOLD": -108.0,
+        "NEWINF_END_EFOLD": -61.5,
+        "END_EFOLD": -57.0,
+        "dla": 1.0E-5,
+        "itvl": 1000,
+        "sigma_init": 0.4
+        }
+    ]

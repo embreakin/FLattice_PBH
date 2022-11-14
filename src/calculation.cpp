@@ -1,5 +1,7 @@
 #include "calculation.hpp"
 #include "utilities.hpp"
+#include <chrono>// Measuring elapsed time
+
 
 //------------------------------------
 //Subroutines for zeromode calculation
@@ -11,7 +13,7 @@ void Zeromode::zeromode_initial(Vec_DP &unp, DP &a, DP &H, DP &xbegin){
         //set initial conditions
         a = exp(xbegin);
     
-        unp[0] = Init_sigma;  //initial value of sigma
+        unp[0] = sigma_init;  //initial value of sigma
         unp[1] = exp(log(Pow(4,m_par)/(2*m_par*(2*m_par-1)))/(2*(m_par-1)))*M_par*exp(log(mu_par/unp[0])/(m_par-1));
         unp[2] = -Cv_par*Cv_par*unp[0]/(mu_par*mu_par);
         unp[3] = 0;
@@ -23,17 +25,21 @@ void Zeromode::zeromode_initial(Vec_DP &unp, DP &a, DP &H, DP &xbegin){
         //set decay rates
         Gamma1=GLARGE; //sigma
         Gamma2=GLARGE; // psi
-        Gamma3=GNOMAL; //phi
+        Gamma3=GNORMAL; //phi
     
     static int function_count = 0; ++function_count;
     
     if(function_count == 1){
     //Analytically estimated value of sigma at the end of hybrid inflation
      
+       Logout("m_par: %2.5e \n\n", m_par );
+        
         Logout("Potential_bare for initial value of fields: %2.5e \n\n", Vbare(unp[0], unp[1], unp[2]) );
         Logout("Potential for initial value of fields: %2.5e \n\n", V(unp[0], unp[1], unp[2]) );
-    Logout("Hybrid Inflation initial values:\n sigma = %2.5e, psi = %2.5e, phi = %2.5e, \n sigma_dot = %2.5e,  psi_dot = %2.5e, phi_dot = %2.5e, radiation = %2.5e , Hubble =  %2.5e \n\n",unp[0], unp[1], unp[2], unp[3], unp[4], unp[5], unp[6], H );
+    Logout("Hybrid Inflation initial values:\n sigma = %2.5e, psi = %2.5e, phi = %2.5e, \n sigma_dot = %2.5e,  psi_dot = %2.5e, phi_dot = %2.5e, radiation = %2.5e, Hubble =  %2.5e \n\n",unp[0], unp[1], unp[2], unp[3], unp[4], unp[5], unp[6], H );
+        
     Logout("Field psi is set using the approx eq which uses the initial field value of sigma. sigma =  %2.5e >> %2.5e must be satisfied for it to hold. \n\n",unp[0], pow(mu_par*pow(M_par,m_par-1),1/m_par) );
+        
     Logout("Estimated value of fields sigma and phi at the end of hybrid inflation (OSCSTART): sigma = %2.5e, phi = %2.5e \n\n", sigma_c, -pow(Cv_par/mu_par,2)*sigma_c);
         Logout("Estimated value of fields after oscillation period between hybrid and new inflation: sigma = %2.5e, psi = %2.5e, phi = %2.5e \n\n", 0.0, FIXPSI, -pow(Cv_par/mu_par,3)*sigma_c );
     Logout("Estimated value of field phi after oscillation that takes place after new inflation ends: phi = %2.5e \n\n", FIXPHI );
@@ -47,6 +53,9 @@ void Zeromode::zeromode_initial(Vec_DP &unp, DP &a, DP &H, DP &xbegin){
 
 //Zeromode calculation
 void Zeromode::zeromode_calc(){
+    
+    std::chrono::system_clock::time_point  time_BEGIN_zero, time_UNPERT_zero, time_END_zero;
+    time_BEGIN_zero = std::chrono::system_clock::now();
     
     Vec_DP unp(N_zero), tr(N_zero);
     
@@ -64,7 +73,11 @@ void Zeromode::zeromode_calc(){
    
     //Full evolution equations of zero-mode variables are solved until oscillatory phase begins.
     //THRUNP is set by hand, estimeted from the result of zero-mode evolution.
-    NR::odeint(unp,xbegin,THRUNP,eps4,h2,hmin,nok,nbad,timecount,dxsav,unpert,NR::rkqs,k_comoving,&xp,&yp, timecount_max_zero);
+    NR::odeint(unp,xbegin,UNPERT_EFOLD,eps4,h2,hmin,nok,nbad,timecount,dxsav,unpert,NR::rkqs,k_comoving,&xp,&yp, timecount_max_zero);
+    
+    time_UNPERT_zero = std::chrono::system_clock::now();
+    time_calc(time_BEGIN_zero,time_UNPERT_zero,"Zeromode BEGIN~UNPERT");
+    
     zeromode_output(new_filename_zero, xp, yp, timecount);
     
     for (j=0;j<N_zero;j++) tr[j]=yp[j][timecount-1];
@@ -81,13 +94,14 @@ void Zeromode::zeromode_calc(){
     //Evolution equations for phi is solved, with zero-modes of sigma and psi are fixed to minimum,
     //until the amplitude of oscillation of phi becomed sufficiently small at ln(a)=xend.
     //xend is set by hand according to the result for zero-mode.
-    
     NR::odeint(tr,la,xend,eps,h2,hmin,nok,nbad,timecount,dxsav,unpertfixfix,NR::rkqs,k_comoving,&xp,&yp, timecount_max_zero);
     
     zeromode_output(new_filename_zero, xp, yp, timecount);
     
     
-    
+    time_END_zero = std::chrono::system_clock::now();
+    time_calc(time_UNPERT_zero,time_END_zero,"Zeromode UNPERT~END");
+    time_calc(time_BEGIN_zero,time_END_zero,"Zeromode BEGIN~END");
 }
 
 //------------------------------------------------------
@@ -171,13 +185,15 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         }
     }
     
-   
+   std::chrono::system_clock::time_point  time_BEGIN_pert, time_OSCSTART_pert, time_UNPERT_pert,time_NEWINF_END_pert, time_END_pert;
     
     for (int m = 0; m < m_end; m++)
     //for (knum = k_begin; knum < k_loopend; knum = knum + kinterval_knum)
     {
-        
-        
+        if(m==0){
+        time_BEGIN_pert = std::chrono::system_clock::now();
+        }
+            
         if(lattice_kmodes_switch){
             
             k_comoving = k_begin_lattice + m*k_lattice_grid_min_MPl;
@@ -199,7 +215,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
 
         }
         
-         Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: ", m+1, (int)floor(m_end) ,knum, UC::knum_to_kMpc(knum), k_comoving);
+         Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n\n", m+1, (int)floor(m_end) ,knum, UC::knum_to_kMpc(knum), k_comoving);
         
          p=itvl;
         
@@ -240,6 +256,8 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             a=exp(xmid);
             H=Fri(tr2[0],tr2[1],tr2[2],tr2[3],tr2[4],tr2[5],tr2[6]);
             rhop=rhoandp(tr2[3],tr2[4],tr2[5],tr2[6]);
+        
+        
 
             dxsav=(xend-xmid)/5000.0;
       
@@ -260,6 +278,12 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
 //                std::cout << "2: xmid = " << xmid << "\n";
                 for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
             };
+        
+        if(m==0){
+        time_OSCSTART_pert = std::chrono::system_clock::now();
+        time_calc(time_BEGIN_pert,time_OSCSTART_pert,"Perturbation BEGIN~OSCSTART");
+        }
+        
             Gamma1 = GLARGE2;
             Gamma2 = GLARGE2;
         //        for (i=0;i<N_pert;i++) std::cout << "delstart[" << i << "] = " << delstart[i] << std::endl;
@@ -285,8 +309,8 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         };
 
 
-            if(xmid < THRUNP){
-                NR::odeintpert(delstart,xmid,THRUNP,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
+            if(xmid < UNPERT_EFOLD){
+                NR::odeintpert(delstart,xmid,UNPERT_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
         //         std::cout << "timecount = " << timecount << std::endl;
                 
                 if(kanalyze_switch){
@@ -307,10 +331,16 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             for (i=0;i<6;i++) delstart[16+i]=0;
             for (i=0;i<6;i++) delstart[31+i]=0;
             for (i=0;i<6;i++) delstart[40+i]=0;
+        
+        if(m==0){
+        time_UNPERT_pert = std::chrono::system_clock::now();
+        time_calc(time_OSCSTART_pert, time_UNPERT_pert,"Perturbation OSCSTART~UNPERT");
+        }
+        
             //Evolution equations for phi and its perturbations are solved, with zero-modes of sigma and psi are gixed to minimum
-            //until phi begins oscillation at ln)a)=THRLAST.
+            //until phi begins oscillation at ln(a)=THRLAST.
             //THRLAST is set by hand according to the result for zero-mode.
-            NR::odeintpert(delstart,xmid,THRLAST,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
+            NR::odeintpert(delstart,xmid,NEWINF_END_EFOLD,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
         //         std::cout << "timecount = " << timecount << std::endl;
         
                 if(kanalyze_switch){
@@ -328,6 +358,12 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             for (i=0;i<6;i++) delstart[16+i]=0;
             for (i=0;i<6;i++) delstart[31+i]=0;
             for (i=0;i<6;i++) delstart[40+i]=0;
+        
+        if(m==0){
+        time_NEWINF_END_pert = std::chrono::system_clock::now();
+        time_calc(time_UNPERT_pert, time_NEWINF_END_pert,"Perturbation UNPERT~NEWINF_END");
+        }
+        
             //Evolution equations for phi and all perturbations are solved, with zero-modes of sigma and psi are fixed to minimum.
             //until the amplitude of oscillation of phi becomed sufficiently small at ln(a)=xend.
             //xend is set by hand according to the result for zero-mode.
@@ -345,7 +381,13 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 if(spectrum_switch){
                 spectrum_output(new_filename_sp, xp2, delp, timecount, knum, k_comoving);
                 }
-
+        
+        if(m==0){
+        time_END_pert = std::chrono::system_clock::now();
+        time_calc(time_NEWINF_END_pert,time_END_pert,"Perturbation NEWINF_END~END");
+        time_calc(time_BEGIN_pert,time_END_pert,"Perturbation BEGIN~END");
+        }
+        
         Logout( "Calculation %d%% Complete\n\n",percentage);
         
             };
@@ -605,7 +647,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             //Evolution equations for phi and its perturbations are solved, with zero-modes of sigma and psi are fixed to minimum
             //until phi begins oscillation at ln(a)=THRLAST.
             //THRLAST is set by hand according to the result for zero-mode.
-            NR::odeintpert(delstart,THRUNP,THRLAST,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
+            NR::odeintpert(delstart,UNPERT_EFOLD,NEWINF_END_EFOLD,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
             //         std::cout << "timecount = " << timecount << std::endl;
              
             if(kanalyze_switch){

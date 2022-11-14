@@ -314,6 +314,7 @@ void LeapFrog::evol_scale_dderivs( Field* field, double** f, double ** f_tilde, 
 //        }
 //    }
 //    }
+   
 //   std::cout << "pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) = " << pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) << "f["<< jp2 << "] = " << f[jp2] << "f["<< jp1 << "] = " << f[jp1] << "f["<< jm1 << "] = " << f[jm1]<< "f["<< jm2 << "] = " << f[jm2] << std::endl;
 //
    if(h==0){
@@ -414,6 +415,10 @@ void LeapFrog::evol_gravpot( double** f, double** df, double h )
     #if dim == 1
                 int idx = j;
                 f[3][idx] += df[3][idx] * h*dt;
+//                 if(idx==3){
+//                Logout( "f[3][idx] = %2.5e \n", f[3][idx]);
+//                Logout( "df[3][idx] = %2.5e \n", df[3][idx] );
+//                 }
     #elif dim == 2
     #pragma omp simd
                 for( int k = 0; k < N; ++k ){
@@ -448,9 +453,65 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
             for( int j = 0; j < N; ++j ){
     #if dim == 1
                 int idx = j;
+                
+//                                        if(idx==3){
+//                    Logout( "h*dt = %2.5e \n", h*dt);
+//                    Logout( "_dda*f[3][idx]/_a = %2.5e \n", _dda*f[3][idx]/_a);
+//                    Logout( " -(_a + 2*f[3][idx])*(_dda/_a -pow(_da,2)/pow(_a,2)) = %2.5e \n", -(_a + 2*f[3][idx])*(_dda/_a -pow(_da,2)/pow(_a,2)));
+//
+//                    Logout( "- field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART))) = %2.5e \n", - field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART))));
+//
+//                                            Logout( " term4 = %2.5e \n",-(rho_rad -field->V_lattice(f, idx ,_a))/(3*rescale_A*rescale_A*_a));
+//                                            Logout( "term5 = %2.5e \n",   - ( _a + 2*f[3][idx] )*(
+//                                                                                                  pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
+//                                                                                                  +
+//                                                                                                  pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
+//                                                                                                  +
+//                                                                                                  pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
+//                                                                                                  )
+//                                                   /(3*rescale_A*rescale_A));
+//                                            Logout( "term6 = %2.5e \n",  - ( _a - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+//                                                                                                   +
+//                                                                                                   field->gradient_energy_eachpoint(f , 1, idx)
+//                                                                                                   +
+//                                                                                                   field->gradient_energy_eachpoint(f , 2, idx)
+//
+//                                                                                                   )/(3*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a)));
+//
+//                                            Logout( " addition = %2.5e \n\n",   (
+//                                                                                 _dda*f[3][idx]/_a
+//                                                                                 -(_a + 2*f[3][idx])*(_dda/_a -pow(_da,2)/pow(_a,2))
+//                                                                                 - field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART)))
+//                                                                                 -
+//                                                                                 (rho_rad -field->V_lattice(f, idx ,_a))/(3*rescale_A*rescale_A*_a)
+//                                                                                 - ( _a + 2*f[3][idx] )*(
+//                                                                                                         pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
+//                                                                                                         +
+//                                                                                                         pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
+//                                                                                                         +
+//                                                                                                         pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
+//                                                                                                         )
+//                                                                                 /(3*rescale_A*rescale_A)
+//                                                                                 - ( _a - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+//                                                                                                           +
+//                                                                                                           field->gradient_energy_eachpoint(f , 1, idx)
+//                                                                                                           +
+//                                                                                                           field->gradient_energy_eachpoint(f , 2, idx)
+//
+//                                                                                                           )/(3*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
+//                                                                                 ) * h*dt);
+//
+//                                        }
+//
+                
+                
                 df[3][idx] += (
-                               - field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART)))
-                               + f[3][idx]*(
+                              2*(pow(_da,2)/pow(_a,2)+_dda/_a)*f[3][idx]
+                               -_a*_dda
+                               + field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART)))
+                               +
+                               2*field->V_lattice(f, idx ,_a)/(3*rescale_A*rescale_A)
+                               - ( pow(_a,2) + 2*f[3][idx] )*(
                                             pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
                                             +
                                             pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
@@ -458,17 +519,13 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                                             pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
                                             )
                                             /(6*rescale_A*rescale_A)
-                               + (1+f[3][idx]/_a)*2*(field->gradient_energy_eachpoint(f , 0, idx)
+                               - ( pow(_a,2) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
                                                      +
                                                      field->gradient_energy_eachpoint(f , 1, idx)
                                                      +
                                                      field->gradient_energy_eachpoint(f , 2, idx)
                                                      
-                                                     )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART))*_a)
-                               +
-                               field->V_lattice(f, idx ,_a)/(6*rescale_A*rescale_A*_a)
-                               -
-                               (_dda -pow(_da,2)/_a)/2
+                                                     )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
                                ) * h*dt;
                 
     #elif dim == 2
@@ -476,28 +533,27 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                 for( int k = 0; k < N; ++k ){
                     int idx = j*N + k;
                     df[3][idx] += (
-                                   - field->laplacian(f[3], j, k)/(3*pw2(exp(OSCSTART)))
-                                   + f[3][idx]*(
-                                                pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
-                                                +
-                                                pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
-                                                +
-                                                pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
-                                                )
-                                   /(6*rescale_A*rescale_A)
-                                   + (1+f[3][idx]/_a)*2*(field->gradient_energy_eachpoint(f , 0, idx)
-                                                         +
-                                                         field->gradient_energy_eachpoint(f , 1, idx)
-                                                         +
-                                                         field->gradient_energy_eachpoint(f , 2, idx)
-                                                         
-                                                         )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART))*_a)
+                                   2*(pow(_da,2)/pow(_a,2)+_dda/_a)*f[3][idx]
+                                   -_a*_dda
+                                   + field->laplacian(f[3], j, k)/(3*pw2(exp(OSCSTART)))
                                    +
-                                   field->V_lattice(f, idx ,_a)/(6*rescale_A*rescale_A*_a)
-                                   -
-                                   (_dda -pow(_da,2)/_a)/2
+                                   2*field->V_lattice(f, idx ,_a)/(3*rescale_A*rescale_A)
+                                   - ( pow(_a,2) + 2*f[3][idx] )*(
+                                                                  pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
+                                                                  +
+                                                                  pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
+                                                                  +
+                                                                  pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
+                                                                  )
+                                   /(6*rescale_A*rescale_A)
+                                   - ( pow(_a,2) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+                                                                    +
+                                                                    field->gradient_energy_eachpoint(f , 1, idx)
+                                                                    +
+                                                                    field->gradient_energy_eachpoint(f , 2, idx)
+                                                                    
+                                                                    )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
                                    ) * h*dt;
-                    
                 }
                 
     #elif dim == 3
@@ -507,28 +563,27 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                     for( int l = 0; l < N; ++l ){
                         int idx = (j*N + k)*N + l;
                         df[3][idx] += (
-                                       - field->laplacian(f[3], j, k, l)/(3*pw2(exp(OSCSTART)))
-                                       + f[3][idx]*(
-                                                    pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
-                                                    +
-                                                    pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
-                                                    +
-                                                    pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
-                                                    )
-                                       /(6*rescale_A*rescale_A)
-                                       + (1+f[3][idx]/_a)*2*(field->gradient_energy_eachpoint(f , 0, idx)
-                                                             +
-                                                             field->gradient_energy_eachpoint(f , 1, idx)
-                                                             +
-                                                             field->gradient_energy_eachpoint(f , 2, idx)
-                                                             
-                                                             )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART))*_a)
+                                       2*(pow(_da,2)/pow(_a,2)+_dda/_a)*f[3][idx]
+                                       -_a*_dda
+                                       + field->laplacian(f[3], j, k, l)/(3*pw2(exp(OSCSTART)))
                                        +
-                                       field->V_lattice(f, idx ,_a)/(6*rescale_A*rescale_A*_a)
-                                       -
-                                       (_dda -pow(_da,2)/_a)/2
+                                       2*field->V_lattice(f, idx ,_a)/(3*rescale_A*rescale_A)
+                                       - ( pow(_a,2) + 2*f[3][idx] )*(
+                                                                      pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
+                                                                      +
+                                                                      pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
+                                                                      +
+                                                                      pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
+                                                                      )
+                                       /(6*rescale_A*rescale_A)
+                                       - ( pow(_a,2) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+                                                                        +
+                                                                        field->gradient_energy_eachpoint(f , 1, idx)
+                                                                        +
+                                                                        field->gradient_energy_eachpoint(f , 2, idx)
+                                                                        
+                                                                        )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
                                        ) * h*dt;
-                        
                     }
                         
                     }
@@ -782,7 +837,7 @@ void LeapFrog::evolution_expansion( Field* field, double** f, double** df, doubl
 //                        std::cout << "3 f_tilde[0][0] = " << f_tilde[0][0] << std::endl;
 //                        std::cout << "3 df_tilde[0][0] = " << df_tilde[0][0] << std::endl;
 //                        std::cout << "3 fdf_save[0][0] = " << fdf_save[0][0] << std::endl;
-                        evol_gravpot_derivs_expansion( f, df, f_tilde, df_tilde, field, 1);
+                        evol_gravpot_derivs_expansion( f, df, f_tilde, df_tilde, field,  1);
 //                        std::cout << "step 5" << std::endl;
 //                        std::cout << "4 f_tilde[0][0] = " << f_tilde[0][0] << std::endl;
 //                        std::cout << "4 df_tilde[0][0] = " << df_tilde[0][0] << std::endl;

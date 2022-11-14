@@ -1,9 +1,10 @@
 #include <chrono>
 #include "parameters.hpp"
 #include <sys/stat.h>
+#include "lattice_initialize.hpp"
 #include "utilities.hpp"
 #include "lattice.hpp"
-#include "lattice_initialize.hpp"
+
 
 double rescale_A;
 double rescale_B;
@@ -24,7 +25,7 @@ void lattice(double** lattice_var)
     dir_manage(exist_dirname_f, new_dirname_f);
     file_manage(exist_filename_status);
     
-    
+     
     double sigma_initial = 0;
     
     for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
@@ -234,8 +235,7 @@ void lattice(double** lattice_var)
 
 
     //Release all memory of fields and their derivatives
-    finalize( f, df );
-    
+    finalize( f, df, &field, &leapfrog, radiation, lattice_var );
 
     
 //    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){

@@ -60,6 +60,23 @@ void file_manage(const std::string exist_file)
 }
 
 //--------------------------------
+// Elapsed Time Calculation
+//--------------------------------
+void time_calc(std::chrono::system_clock::time_point time_start, std::chrono::system_clock::time_point time_end, std::string time_name)
+{
+    int time_hours = std::chrono::duration_cast<std::chrono::hours>(time_end - time_start).count();
+    int time_minutes = std::chrono::duration_cast<std::chrono::minutes>(time_end - time_start).count() - time_hours*60;
+    int time_seconds = std::chrono::duration_cast<std::chrono::seconds>(time_end - time_start).count() - time_hours*60*60 - time_minutes*60;
+    int time_days = time_hours / 24;
+    
+    time_hours = time_hours % 24;
+    
+    Logout("=====================================================\n\n");
+    Logout( "%s: %d d %d h %d m %d s\n\n",time_name.c_str(),time_days,time_hours,time_minutes,time_seconds);
+    Logout("=====================================================\n");
+}
+
+//--------------------------------
 // Double Inflation Subroutines
 //--------------------------------
 
@@ -120,7 +137,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
             
         }
     //output data
-    zeromode_output << std::setw(6) << (la-Ini)*msigma/H << " " //t
+    zeromode_output << std::setw(6) << (la-BEGIN_EFOLD)*msigma/H << " " //t
     << std::setw(10) << la << " " //log(a)
     << std::setw(10) << tr[0] << " "  //buffer for yp_p[i][0] sigma
     << std::setw(20) << std::setprecision(20) << tr[1] << " " //buffer for yp_p[i][1] psi
@@ -1090,7 +1107,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
         //f
         for( int i = 0; i < num_fields; ++i ){
             if(i == num_fields-1){
-                ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/(a) << " "; //Gravitational Potential in Reduced Plank units
+                ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/(a*a) << " "; //Gravitational Potential in Reduced Plank units
             }else{
                 
 //                if( i == 1){
@@ -1105,7 +1122,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
    
         for( int i = 0; i < num_fields; ++i ){
              if(i == num_fields-1){
-            ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(f[i], i)/(a) << " ";//Variance of Gravitational Potential in Reduced Plank units
+            ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(f[i], i)/(a*a) << " ";//Variance of Gravitational Potential in Reduced Plank units
              }else{
                 ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(f[i], i)/(rescale_A*a) << " ";//Variance of scalar fields in Reduced Plank units
              }
@@ -1116,7 +1133,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
         for( int i = 0; i < num_fields; ++i ){
             if(i == num_fields-1){
                 ofs << std::showpos << std::scientific << std::setprecision(4) <<
-                rescale_B*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " ";//Derivative of Gravitational Potential in Reduced Plank units
+                rescale_B*( field->average(df[i], i)  - 2*(da/a)*field->average(f[i], i) )/pow(a,3) << " ";//Derivative of Gravitational Potential in Reduced Plank units
             }else{
                 
 //                if( i == 1){
@@ -1130,7 +1147,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 //                    (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Fields other than psi in Reduced Plank units
                 
                 ofs << std::showpos << std::scientific << std::setprecision(4) <<
-                                    (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Fields other than psi in Reduced Plank units
+                                    (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Fields in Reduced Plank units
                 //}
             }
         }
@@ -1223,7 +1240,8 @@ void kanalyze_output_lattice(const std::string dir, std::string file, Field* fie
                  k_output <<  std::setw(20) << std::setprecision(20) << la << " "               //log(a)
                  << std::setw(10) << w << " "                        //log(H)
                  << std::setw(10) << 0 << " "//Pzeta << " "                    //log(Zeta)
-                 << std::setw(10) << 0 << " "//PPot << " "                    //log(Gravitational Potential)
+            << std::setw(10) << log10(field->power_spectrum(f, 3, j)
+                                      /pow(a_bar,4) ) << " "//PPot << " "                    //log(Gravitational Potential)
                  << std::setw(10) << 0 << " "//log10(rhop/rho) << " "        //log(p/rho)
                  << std::setw(10) << log10(H/a) << " "            //log(H/a)
                  << std::setw(10) << log10(k_comoving/(a*H)) << " "        //log(k/(a*H))

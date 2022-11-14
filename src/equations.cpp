@@ -604,7 +604,7 @@ void unpfull(const DP x,Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 }
 
 //evolution equations for zero-mode and perturbaton with fixed sigma and psi and their perturbaions
-void newinf(const DP x,Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
+void newinf(const DP x,Vec_I_DP &y, Vec_O_DP &dydx, const DP k_comoving)
 {
     DP H;
 	int ii;

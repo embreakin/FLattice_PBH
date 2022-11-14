@@ -26,9 +26,9 @@ class Zeromode
     DP a,H,w,rho,rhop,la,dxsav;
     
     //h parameters set the initial trial step size in adaptive step size RK-method for zeromode calcualtion and w/ perturbation calcualtion.
-    DP h1=1.0E-4,h2=1.0E-6,hmin=0.0,xbegin=Ini,xend=SH;
+    DP h1=1.0E-4,h2=1.0E-6,hmin=0.0,xbegin=BEGIN_EFOLD,xend=END_EFOLD;
     
-   
+  
     
     public:
     
@@ -74,7 +74,7 @@ class Perturbation
     DP a,H,w,rho,rhop,la,dxsav;
     
     //h parameters set the initial trial step size in adaptive step size RQ-method for zeromode calcualtion and w/ perturbation calcualtion.
-    DP h1=1.0E-4,h2=1.0E-6,hmin=0.0,xbegin=Ini,xend=SH;
+    DP h1=1.0E-4,h2=1.0E-6,hmin=0.0,xbegin=BEGIN_EFOLD,xend=END_EFOLD;
     
     
     
