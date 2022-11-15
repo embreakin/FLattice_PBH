@@ -3,42 +3,17 @@
 //====================================
 // Parameter Sets
 //====================================
-
 std::ifstream jsonfile("../include/parameters.json");
 json par_set = json::parse(jsonfile);
 
-//Choose Parameter Set defined in the JSON file
-int par_set_num = 1;
-//Takayama's Master Thesis: 0
-//Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a): 1
-//Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (b): 2
-//Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG2: 3
-//Primordial seeds of SMBHs (peak at 2kMpc-1): 4
-//Primordial seeds of SMBHs trying to shift the peak: 5
 
 
-double GNORMAL = par_set[par_set_num]["GNORMAL"].get<double>();//decay rate of phi set at the very beginning
-double GLARGE = par_set[par_set_num]["GLARGE"].get<double>();//decay rate of sigma and psi set at the very beginning
-double GLARGE2 = par_set[par_set_num]["GLARGE2"].get<double>(); //Decay rate of sigma and psi set at the end of oscillation period
-double CN_par = par_set[par_set_num]["CN_par"].get<double>();//Potential paramater CN
-double mu_par = par_set[par_set_num]["mu_par"].get<double>();//Potential paramater mu
-double Cv_par = par_set[par_set_num]["Cv_par"].get<double>();//Potential parameter Cv
-double M_par = par_set[par_set_num]["M_par"].get<double>();//Potential paramater M
-//double m_par = par_set[par_set_num]["m_par"].get<double>();//Potential paramater m
-//double n_par = par_set[par_set_num]["n_par"].get<double>();//Potential paramater n
-//double g_par = par_set[par_set_num]["g_par"].get<double>();//Potential parameter g
-//double BEGIN_EFOLD = par_set[par_set_num]["BEGIN_EFOLD"].get<double>();//initial ln(a)
-//double UNPERT_EFOLD = par_set[par_set_num]["UNPERT_EFOLD"].get<double>();//ln(a) at which sigma and psi are fixed to the minimum after oscillation period
-//double NEWINF_END_EFOLD = par_set[par_set_num]["NEWINF_END_EFOLD"].get<double>();//ln(a) at the beginning of oscillation of phi.
-//double END_EFOLD = par_set[par_set_num]["END_EFOLD"].get<double>();//ln(a) at the very end
-//double dla = par_set[par_set_num]["dla"].get<double>();//stepsize for fixed step RK-method
-//double itvl = par_set[par_set_num]["itvl"].get<double>(); //interval for output in fixed RK-method
-//double sigma_init = par_set[par_set_num]["sigma_init"].get<double>();//initial value of sigma
+
 std::string par_set_name = par_set[par_set_num]["Name"].get<std::string>();//Parameter set name
-//====================================
-//The following only holds for m=2
-//====================================
-//double msigma = sqrt(8*pow(mu_par,3)/M_par);//effective mass of sigma
+////====================================
+////The following only holds for m=2
+////====================================
+double msigma = sqrt(8*pow(mu_par,3)/M_par);//effective mass of sigma
 
 
 
