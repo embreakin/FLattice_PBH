@@ -18,9 +18,26 @@ namespace fs = boost::filesystem;
 
 void dir_manage(const std::string exist_dir, const std::string new_dir )
 {
+    static int par_set = 0; par_set++;
+    
+    if (exist_par_set_rmall_switch)
+    {
+        //Path of the existing parameter set directory
+        const fs::path existpath_par_set("../" + par_set_name_rm );
+        
+        //Tries to remove all files in there. If it fails, it throws an error.
+        try {
+            fs::remove_all(existpath_par_set);
+        }
+        catch (fs::filesystem_error& ex) {
+            std::cout << ex.what() << std::endl;
+            throw;
+        }
+    }
+    
     
     //Path of the existing data directory
-    const fs::path existpath("../" + exist_dir );
+    const fs::path existpath("../" + par_set_name_rm + "/" + exist_dir );
     
     //Tries to remove all files in there. If it fails, it throws an error.
     try {
@@ -31,10 +48,26 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
         throw;
     }
     
-    //Path of the newly set directory
-    const fs::path newpath("../" + new_dir );
     
-    //Tries to create a directory. If it fails, it throws an error.
+    
+    
+    if(par_set==1)//This only needs to be done once
+        {
+    //Path of the new parameter set directory
+    const fs::path newpath_par_set("../" + par_set_name );
+    
+    //Tries to create the directory. If it fails, it throws an error.
+    boost::system::error_code error_par_set;
+    const bool result_par_set = fs::create_directory(newpath_par_set, error_par_set);
+    if (!result_par_set || error_par_set) {
+        std::cout << "failed to create parameter set directory" << std::endl;
+            }
+        }
+    
+    //Path of the newly set directory in the new parameter set directory
+    const fs::path newpath("../" + par_set_name + "/"  + new_dir );
+    
+    //Tries to create the directory. If it fails, it throws an error.
     boost::system::error_code error;
     const bool result = fs::create_directory(newpath, error);
     if (!result || error) {
@@ -46,7 +79,7 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
 void file_manage(const std::string exist_file)
 {
     //Path of the existing status file
-    const fs::path statuspath("../" + exist_file);
+    const fs::path statuspath("../" + par_set_name_rm + "/" + exist_file);
     
     //Tries to remove the file. If it fails, it throws an error.
     try {
@@ -85,7 +118,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     static int output_timecount = 0; ++output_timecount;
     std::stringstream ss;
     std::ofstream zeromode_output;
-    ss << "../" << file;
+    ss << "../" << par_set_name << "/" << file;
     
     if( output_timecount == 1 )
     {
@@ -196,13 +229,10 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         double kMpc, kMpc_int;
         kMpc = UC::kMPl_to_kMpc(k_comoving);
         kMpc_int = (int)floor(100*kMpc); //Round down to the second decimal place and make it an integer by multiplying by 100
-        ss << "../" << dir << "/" << file << "_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
+        ss << "../" << par_set_name << "/" << dir << "/" << file << "_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
     }else{
-        ss << "../" << dir << "/" << file << "_" << std::setw(4) << std::setfill('0') << knum <<".txt";
+        ss << "../" << par_set_name << "/" << dir << "/" << file << "_" << std::setw(4) << std::setfill('0') << knum <<".txt";
     }
-    
-    
-    
     
     
     if( output_timecount == 1 )
@@ -378,8 +408,8 @@ void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, i
     static int output_timecount = 0; ++output_timecount;
     std::stringstream ss;
     std::ofstream sp_output;
-    ss << "../" << file;
-    
+    ss << "../" << par_set_name << "/" << file;
+
     if( output_timecount == 1 )
     {
         sp_output.open(ss.str().c_str(),std::ios::out);
@@ -436,8 +466,8 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     static int output_timecount = 0; ++output_timecount;
     std::stringstream ss;
     std::ofstream sp_output;
-    ss << "../" << file;
-    
+    ss << "../" << par_set_name << "/" << file;
+
     if( output_timecount == 1 )
     {
         sp_output.open(ss.str().c_str(),std::ios::out);
@@ -943,8 +973,9 @@ void write_VTK_f( const std::string dir_f, double* f, std::string str, int loop 
     
     dx_Kpc = 1000*UC::xMPl_to_xMpc(dx/rescale_B);
 	
-	if( dim == 1 ){
-		ss << "../" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
+    if( dim == 1 ){
+
+		ss << "../" << par_set_name << "/" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
     	fout.open( ss.str().c_str() );	
  
     	for( int j = 0; j < N; j++ ){
@@ -952,7 +983,7 @@ void write_VTK_f( const std::string dir_f, double* f, std::string str, int loop 
 			fout << idx*dx_Kpc << " " << f[idx] << std::endl;
 		}
     }else{
-    	ss << "../" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
+    	ss << "../" << par_set_name << "/" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
     	fout.open( ss.str().c_str() );
     
   	  	fout << "<?xml version=\"1.0\"?>" << std::endl;
@@ -1005,7 +1036,7 @@ void write_VTK_ed( const std::string dir_ed, double* f, std::string str, int loo
     dx_Kpc = 1000*UC::xMPl_to_xMpc(dx/rescale_B);
     
     if( dim == 1 ){
-        ss << "../" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
+        ss << "../" << par_set_name << "/" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
         fout.open( ss.str().c_str() );
         
         for( int j = 0; j < N; j++ ){
@@ -1013,7 +1044,7 @@ void write_VTK_ed( const std::string dir_ed, double* f, std::string str, int loo
             fout << idx*dx_Kpc << " " << f[idx] << std::endl;
         }
     }else{
-        ss << "../" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
+        ss << "../" << par_set_name << "/" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
         fout.open( ss.str().c_str() );
         
         fout << "<?xml version=\"1.0\"?>" << std::endl;
@@ -1066,8 +1097,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 	
 	if( t == t0 )
 	{
-		ofs.open( "../" + status_file, std::ios::trunc );
-
+		ofs.open( "../" + par_set_name +  "/" + status_file, std::ios::trunc );
 		ofs << std::setw(3) << std::right << "  t_pr ";
         if( expansion ) {
             ofs << "  a ";
@@ -1095,7 +1125,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
         ofs << "dV_psi ";
         ofs << "dV_phi "<< std::endl;
 	}
-	else ofs.open( "../" + status_file, std::ios::app );
+	else ofs.open( "../" + par_set_name + "/" + status_file, std::ios::app );
 	 
 	ofs << std::setw(3) << std::right << t << " ";
 	if( expansion )
@@ -1227,7 +1257,7 @@ void kanalyze_output_lattice(const std::string dir, std::string file, Field* fie
             std::ofstream k_output;
             
             
-                 ss << "../" << dir << "/" << file << "_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
+                 ss << "../" << par_set_name << "/" << dir << "/" << file << "_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
                  
             
             

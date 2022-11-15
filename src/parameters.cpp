@@ -1,15 +1,23 @@
 #include "parameters.hpp"
 
 //====================================
-// Parameter Sets
+//         General Parameters
 //====================================
 std::ifstream jsonfile("../include/parameters.json");
 json par_set = json::parse(jsonfile);
 
+bool exist_par_set_rmall_switch = true;//If this is true, the entire directory of the previously calculated parameter set will be deleted.
+
+//Name of the parameter set
+
+//This is the name of the parameter set that you are about to simulate
+std::string par_set_name = par_set[par_set_num]["Name"].get<std::string>();
+
+//This is the name of the parameter set that you have simulated previously
+std::string par_set_name_rm = par_set[par_set_num_rm]["Name"].get<std::string>();
 
 
 
-std::string par_set_name = par_set[par_set_num]["Name"].get<std::string>();//Parameter set name
 ////====================================
 ////The following only holds for m=2
 ////====================================
@@ -25,19 +33,19 @@ double msigma = sqrt(8*pow(mu_par,3)/M_par);//effective mass of sigma
 //-----------
 //File names
 //-----------
-std::string exist_filename_zero = par_set_name + "_unpWMAP5.txt";
+std::string exist_filename_zero = par_set_name_rm + "_unpWMAP5.txt";
 std::string new_filename_zero = par_set_name + "_unpWMAP5.txt";
 
-std::string exist_dirname_k = par_set_name + "_kAnalyze_nonlattice"; //remove this existing directory for k-analyze txt files
+std::string exist_dirname_k = par_set_name_rm + "_kAnalyze_nonlattice"; //remove this existing directory for k-analyze txt files
 std::string new_dirname_k = par_set_name + "_kAnalyze_nonlattice"; //create a new directory for k-analyze txt files
 std::string filename_k = par_set_name + "_kAnalyze"; // Head of the file name for k-analyze txt files
 
 bool k_switch = false; //If this is true, the existing dir and files for kAnalyze are deleted and new dir and files are created. If false, the dir and files remain as it is.
 
-std::string exist_filename_sp  = par_set_name + "_spectrum.txt";// remove this existing spectrum file
+std::string exist_filename_sp  = par_set_name_rm + "_spectrum.txt";// remove this existing spectrum file
 std::string new_filename_sp  = par_set_name + "_spectrum.txt"; // create this new spectrum file
 
-std::string exist_filename_spbfosc  = par_set_name + "_spectrum_bfosc.txt";// remove this existing spectrum file
+std::string exist_filename_spbfosc  = par_set_name_rm + "_spectrum_bfosc.txt";// remove this existing spectrum file
 std::string new_filename_spbfosc  = par_set_name + "_spectrum_bfosc.txt"; // create this new spectrum file
 
 
@@ -109,18 +117,18 @@ int kinterval_knum = 1;// [knum units] Calculate with this interval of knum
 //-----------
 
 
-std::string exist_dirname_ed = par_set_name + "_energy"; //remove this existing directory for energy vti files
+std::string exist_dirname_ed = par_set_name_rm + "_energy"; //remove this existing directory for energy vti files
 std::string new_dirname_ed = par_set_name + "_energy"; //create a new directory for energy vti files
 
-std::string exist_dirname_f = par_set_name + "_field"; //remove this existing directory for field vti files
+std::string exist_dirname_f = par_set_name_rm + "_field"; //remove this existing directory for field vti files
 std::string new_dirname_f = par_set_name + "_field"; //create a new directory for field vti files
 
 
-std::string exist_filename_status = par_set_name + "_status.txt"; // remove this existing status file
+std::string exist_filename_status = par_set_name_rm + "_status.txt"; // remove this existing status file
 std::string new_filename_status = par_set_name + "_status.txt";// create this new status file
 
 //lattice simulation version of kAnalyze
-std::string exist_dirname_k_lattice = par_set_name + "_kAnalyze_lattice"; //remove this existing directory for k-analyze txt files
+std::string exist_dirname_k_lattice = par_set_name_rm + "_kAnalyze_lattice"; //remove this existing directory for k-analyze txt files
 std::string new_dirname_k_lattice = par_set_name + "_kAnalyze_lattice"; //create a new directory for k-analyze txt files
 std::string filename_k_lattice = par_set_name + "_kAnalyze"; // Head of the file name for k-analyze txt files
 

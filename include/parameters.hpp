@@ -13,23 +13,24 @@
 #include "equations.hpp"
 #include "uc.hpp"
 
-////Libraries for using JSON
+//Libraries for using JSON
 #include <fstream>
 #include <json.hpp>
 using json = nlohmann::json;
 
 //====================================
-// Parameter Set defined in JSON file
+// General Parameters
 //====================================
 
 extern std::string par_set_name;
+extern std::string par_set_name_rm;
+
+extern bool exist_par_set_rmall_switch;
 
 
-
-
-//=================
-//Non-lattice Range
-//=================
+//==================================
+//Parameters in Non-lattice Range
+//==================================
 
 extern std::string exist_filename_zero, new_filename_zero, exist_dirname_k, new_dirname_k, filename_k, exist_filename_sp, new_filename_sp, new_filename_spbfosc, exist_filename_spbfosc;
 
@@ -61,6 +62,8 @@ extern DP kto_Mpc;
 extern int kinterval_knum;
 extern bool lattice_kmodes_switch;
 
+//Select existing parameter set to remove related directories and files
+#define par_set_num_rm 1
 
 //Choose Parameter Set
 #define par_set_num 1
@@ -94,135 +97,113 @@ extern bool lattice_kmodes_switch;
 
 #elif par_set_num == 1
 
-        //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a)
-        #define GNORMAL 0.0                //decay rate 1
-        #define GLARGE 1.0E-10          //decay rate 2 (if decay rate changes during the calculation)
-        #define GLARGE2 1.0E-10            //decay rate 3 (if decay rate changes during the calculation)
-        #define CN_par 0.04                    //Potential paramater CN
-        #define mu_par 2.04E-3                //Potential paramater mu
-        #define Cv_par 4.7E-4                //Potential parameter Cv mu/4.
-        #define M_par 1.17                    //Potential paramater M
-        #define m_par 2.0                        //Potential paramater m
-        #define n_par 4.0                        //Potential paramater n
-        #define g_par 2.0E-5                //Potential parameter g
-        #define BEGIN_EFOLD -136.75            //initial ln(a)
-        #define UNPERT_EFOLD -108.                //ln(a) at which sigma and psi are fixed to the minimum
-        #define NEWINF_END_EFOLD -61.5                //ln(a) at the beginning of oscillation of phi.-61.5
-        #define END_EFOLD -57.                //ln(a) at the end of calculation
-        #define dla 1.0E-5                //stepsize for fixed step RQ-method
-        #define itvl 1000.                //interval for output in fixed RQ-method
-        #define sigma_init 0.4                //initial value of sigma
+    //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a)
+    #define GNORMAL 0.0                //decay rate 1
+    #define GLARGE 1.0E-10          //decay rate 2 (if decay rate changes during the calculation)
+    #define GLARGE2 1.0E-10            //decay rate 3 (if decay rate changes during the calculation)
+    #define CN_par 0.04                    //Potential paramater CN
+    #define mu_par 2.04E-3                //Potential paramater mu
+    #define Cv_par 4.7E-4                //Potential parameter Cv mu/4.
+    #define M_par 1.17                    //Potential paramater M
+    #define m_par 2.0                        //Potential paramater m
+    #define n_par 4.0                        //Potential paramater n
+    #define g_par 2.0E-5                //Potential parameter g
+    #define BEGIN_EFOLD -136.75            //initial ln(a)
+    #define UNPERT_EFOLD -108.                //ln(a) at which sigma and psi are fixed to the minimum
+    #define NEWINF_END_EFOLD -61.5                //ln(a) at the beginning of oscillation of phi.-61.5
+    #define END_EFOLD -57.                //ln(a) at the end of calculation
+    #define dla 1.0E-5                //stepsize for fixed step RQ-method
+    #define itvl 1000.                //interval for output in fixed RQ-method
+    #define sigma_init 0.4                //initial value of sigma
 
 #elif par_set_num == 2
-////Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (b)
-#define GNOMAL 0.0                //decay rate 1
-#define GLARGE 6.0E-8          //decay rate 2 (if decay rate changes during the calculation)
-#define GLARGE2 6.0E-8            //decay rate 3 (if decay rate changes during the calculation)
-#define CN_par 0.04                    //Potential paramater CN
-#define mu_par 2.04E-3                //Potential paramater mu
-#define Cv_par 4.7E-4                //Potential parameter Cv mu/4.
-#define M_par 1.17                    //Potential paramater M
-#define m_par 2.0                        //Potential paramater m
-#define n_par 4.0                        //Potential paramater n
-#define g_par 2.0E-5                //Potential parameter g
-#define BEGIN_EFOLD -131.8            //initial ln(a)
-#define UNPERT_EFOLD -111.0                //ln(a) at which sigma and psi are fixed to the minimum
-#define NEWINF_END_EFOLD -61.5                //ln(a) at the beginning of oscillation of phi.-61.5
-#define END_EFOLD -58.                //ln(a) at the end of calculation
-#define dla 1.0E-5                //stepsize for fixed step RQ-method
-#define itvl 1000.                //interval for output in fixed RQ-method
-#define sigma_init 0.3                //initial value of sigma
-        
+//Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (b)
+    #define GNORMAL 0.0                //decay rate 1
+    #define GLARGE 6.0E-8          //decay rate 2 (if decay rate changes during the calculation)
+    #define GLARGE2 6.0E-8            //decay rate 3 (if decay rate changes during the calculation)
+    #define CN_par 0.04                    //Potential paramater CN
+    #define mu_par 2.04E-3                //Potential paramater mu
+    #define Cv_par 4.7E-4                //Potential parameter Cv mu/4.
+    #define M_par 1.17                    //Potential paramater M
+    #define m_par 2.0                        //Potential paramater m
+    #define n_par 4.0                        //Potential paramater n
+    #define g_par 2.0E-5                //Potential parameter g
+    #define BEGIN_EFOLD -131.8            //initial ln(a)
+    #define UNPERT_EFOLD -111.0                //ln(a) at which sigma and psi are fixed to the minimum
+    #define NEWINF_END_EFOLD -61.5                //ln(a) at the beginning of oscillation of phi.-61.5
+    #define END_EFOLD -58.                //ln(a) at the end of calculation
+    #define dla 1.0E-5                //stepsize for fixed step RQ-method
+    #define itvl 1000.                //interval for output in fixed RQ-method
+    #define sigma_init 0.3                //initial value of sigma
+
+#elif par_set_num == 3
+
+//Primordial seeds of SMBHs (peak at 2kMpc-1)
+    #define GNORMAL 0.0                //decay rate 1
+    #define GLARGE 1.0E-10          //decay rate 2 (if decay rate changes during the calculation)
+    #define GLARGE2 1.0E-10            //decay rate 3 (if decay rate changes during the calculation)
+    #define CN_par 0.04                    //Potential paramater CN
+    #define mu_par 2.04E-3                //Potential paramater mu
+    #define Cv_par 5.0E-4                //Potential parameter Cv mu/4.
+    #define M_par 1.12                    //Potential paramater M
+    #define m_par 2.0                        //Potential paramater m
+    #define n_par 4.0                        //Potential paramater n
+    #define g_par 2.0E-5                //Potential parameter g
+    #define BEGIN_EFOLD -131.8            //initial ln(a)
+    #define UNPERT_EFOLD -110.0                //ln(a) at which sigma and psi are fixed to the minimum
+    #define NEWINF_END_EFOLD -62.0                //ln(a) at the beginning of oscillation of phi.-61.5
+    #define END_EFOLD -58.                //ln(a) at the end of calculation
+    #define dla 1.0E-5                //stepsize for fixed step RQ-method
+    #define itvl 1000.                //interval for output in fixed RQ-method
+    #define sigma_init 0.3                //initial value of sigma
+
+#elif par_set_num == 4
+
+    #define GNORMAL 0.0                //decay rate 1
+    #define GLARGE 2.5E-7            //decay rate 2 (if decay rate changes during the calculation)
+    #define GLARGE2 2.5E-7            //decay rate 3 (if decay rate changes during the calculation)
+    #define CN_par 0.05                    //Potential paramater CN
+    #define mu_par 2.0E-3                //Potential paramater mu
+    #define Cv_par mu_par/4                //Potential parameter Cv mu/4.
+    #define M_par 0.59                    //Potential paramater M
+    #define m_par 2.0                        //Potential paramater m
+    #define n_par 4.0                        //Potential paramater n
+    #define g_par 2.0E-5                //Potential parameter g
+    #define BEGIN_EFOLD -150            //initial ln(a)
+    #define UNPERT_EFOLD -115                //ln(a) at which sigma and psi are fixed to the minimum
+    #define NEWINF_END_EFOLD -72.5                //ln(a) at the beginning of oscillation of phi.-61.5
+    #define END_EFOLD -67.                //ln(a) at the end of calculation
+    #define dla 1.0E-5                //stepsize for fixed step RQ-method
+    #define itvl 1000.                //interval for output in fixed RQ-method
+    #define sigma_init 0.28                //initial value of sigma
+
+#elif par_set_num == 5
+//Primordial seeds of SMBHs trying to shift the peak
+
+    #define GNOMAL 0.0                //decay rate 1
+    #define GLARGE 5.0E-7            //decay rate 2 (if decay rate changes during the calculation)
+    #define GLARGE2 5.0E-7            //decay rate 3 (if decay rate changes during the calculation)
+    #define CN_par 0.05                    //Potential paramater CN
+    #define mu_par 2.0E-3                //Potential paramater mu
+    #define Cv_par mu_par/4                //Potential parameter Cv mu/4.
+    #define M_par 0.59                    //Potential paramater M
+    #define m_par 2.0                        //Potential paramater m
+    #define n_par 4.0                        //Potential paramater n
+    #define g_par 2.0E-5                //Potential parameter g
+    #define BEGIN_EFOLD -150.            //initial ln(a)
+    #define UNPERT_EFOLD -111.               //ln(a) at which sigma and psi are fixed to the minimum
+    #define NEWINF_END_EFOLD -80.                //ln(a) at the beginning of oscillation of phi.-61.5
+    #define END_EFOLD -62.                //ln(a) at the end of calculation
+    #define dla 1.0E-5                //stepsize for fixed step RQ-method
+    #define itvl 1000.                //interval for output in fixed RQ-method
+    #define sigma_init 0.38                //initial value of sigma
+
 #endif
 
 
-
-
-
- //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG2
-//#define GNOMAL 0.0                //decay rate 1
-//#define GLARGE 1.0E-10          //decay rate 2 (if decay rate changes during the calculation)
-//#define GLARGE2 1.0E-10            //decay rate 3 (if decay rate changes during the calculation)
-//#define CN_par 0.04                    //Potential paramater CN
-//#define mu_par 2.04E-3                //Potential paramater mu
-//#define Cv_par 5.0E-4                //Potential parameter Cv mu/4.
-//#define M_par 1.12                    //Potential paramater M
-//#define m_par 2.0                        //Potential paramater m
-//#define n_par 4.0                        //Potential paramater n
-//#define g_par 2.0E-5                //Potential parameter g
-////#define FIXPHI -0.473        //minimum value of Phi (set by hand according to zero-mode calculation) -0.472871 -0.475 -0.459
-//#define SH -58.                //ln(a) at the end of calculation
-//#define THRUNP -110.0                //ln(a) at which sigma and psi are fixed to the minimum
-//#define THRLAST -62.0                //ln(a) at the beginning of oscillation of phi.-61.5
-//#define OSCSTART -114.5        //ln(a) at the beginning of oscillation/
-//#define dla 1.0E-5                //stepsize for fixed step RQ-method
-//#define itvl 1000.0                //interval for output in fixed RQ-method
-//#define Ini -131.8            //initial ln(a)  I1=0.3,Ini=-131.8
-//#define sigma_init 0.3                //initial value of sigma
-////////////////////////////////////////////
-//////The following only holds for m=2//////////////
-////////////////////////////////////////////
-//#define msigma sqrt(8*pow(mu_par,3)/M_par)      //effective mass of sigma
-
-//Primordial seeds of SMBHs (peak at 2kMpc-1)
-//#define CAPTION "ver.06-04-05-02:00"
-//#define Ck 2.626E-61            //k[MPl] for k=10000Mpc^{-1} // I think he means k[MPl] for k=10^-4 Mpc^{-1}
-//#define Pi 3.14159265358979        //pi
-//#define r2 1.41421356237310        //sqrt(2)
-//#define GNOMAL 0                //decay rate 1
-//#define GLARGE 2.5E-7            //decay rate 2 (if decay rate changes during the calculation)
-//#define GLARGE2 2.5E-7            //decay rate 3 (if decay rate changes during the calculation)
-//#define CN 0.05                    //Potential paramater CN
-//#define mu 2.0E-3                //Potential paramater mu
-//#define Cv mu/4                //Potential parameter Cv mu/4.
-//#define M 0.59                    //Potential paramater M
-//#define m 2                        //Potential paramater m
-//#define n 4                        //Potential paramater n
-//#define g 2.0E-5                //Potential parameter g
-//#define FIXPHI -0.473        //minimum value of Phi (set by hand according to zero-mode calculation) -0.472871 -0.475 -0.459
-//#define SH -67                //ln(a) at the end of calculation
-//#define THRUNP -115                //ln(a) at which sigma and psi are fixed to the minimum
-//#define THRLAST -72.5                //ln(a) at the beginning of oscillation of phi.-61.5
-//#define OSCSTART -122        //ln(a) at the beginning of oscillation/
-//#define dla 1.0E-5                //stepsize for fixed step RQ-method
-//#define itvl 1000                //interval for output in fixed RQ-method
-//#define Ini -150           //initial ln(a)  I1=0.3,Ini=-131.8
-//#define I1 0.28               //initial value of sigma
-//
-//#define msigma sqrt(8*pow(mu,3)/M)     //effective mass of sigma
-
-//Primordial seeds of SMBHs trying to shift the peak
-
-//#define CAPTION "ver.06-04-05-02:00"
-//#define Ck 2.626E-61            //k[MPl] for k=10000Mpc^{-1} // I think he means k[MPl] for k=10^-4 Mpc^{-1}
-//#define Pi 3.14159265358979        //pi
-//#define r2 1.41421356237310        //sqrt(2)
-//#define GNOMAL 0                //decay rate 1
-//#define GLARGE 5.0E-7            //decay rate 2 (if decay rate changes during the calculation)
-//#define GLARGE2 5.0E-7            //decay rate 3 (if decay rate changes during the calculation)
-//#define CN 0.05                    //Potential paramater CN
-//#define mu 2.0E-3                //Potential paramater mu
-//#define Cv mu/4                //Potential parameter Cv mu/4.
-//#define M 0.59                    //Potential paramater M
-//#define m 2                        //Potential paramater m
-//#define n 4                        //Potential paramater n
-//#define g 2.0E-5                //Potential parameter g
-//#define FIXPHI -0.473        //minimum value of Phi (set by hand according to zero-mode calculation) -0.472871 -0.475 -0.459
-//#define SH -62                //ln(a) at the end of calculation
-//#define THRUNP -111                //ln(a) at which sigma and psi are fixed to the minimum
-//#define THRLAST -80                //ln(a) at the beginning of oscillation of phi.-61.5
-//#define OSCSTART -117        //ln(a) at the beginning of oscillation/
-//#define dla 1.0E-5                //stepsize for fixed step RQ-method
-//#define itvl 1000                //interval for output in fixed RQ-method
-//#define Ini -150           //initial ln(a)  I1=0.3,Ini=-131.8
-//#define I1 0.38               //initial value of sigma
-//
-//#define msigma sqrt(8*pow(mu,3)/M)     //effective mass of sigma
-
-
-//=================
-//Lattice Range
-//=================
+//==================================
+//Parameters in Lattice Range
+//==================================
 
 
 #define dim 1
