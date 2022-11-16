@@ -723,3 +723,275 @@ double Field::power_spectrum( double** f, int i, int m)
     
 
 }
+
+
+
+void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiation_pr, double** lattice_var )
+{
+    double a = leapfrog->a();
+    double da = leapfrog->da();
+    
+    //Zero modes
+    for (int i = 0; i< num_fields - 1; i++){
+        
+        int j = (num_fields -1) + i;
+        
+        for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
+        {
+            //
+            //    Logout(" lattice_var[%d][%d] = %2.5e \n", lattice_loop, i, lattice_var[lattice_loop][i]);
+            //
+            lattice_var[lattice_loop][i] = average(f[i], i)/(rescale_A*a) ;//0,1,2
+            
+            lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2);//3,4,5
+            
+            Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
+            Logout(" lattice_var[%d][%d] = %2.5e \n",lattice_loop,j,lattice_var[lattice_loop][j] );
+            
+        }
+        
+        
+        
+    }
+    
+    //Radiation
+    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
+    {
+        
+        lattice_var[lattice_loop][6] =  pow((rescale_B/(rescale_A*pow(a,2))),2)*radiation_pr;//6
+        
+    }
+    
+    
+    //Perturbations
+    
+    int m_start, m_end;
+    
+    if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+    {
+        m_start = outrange_num + 1;
+    }else
+    {
+        m_start = 1;
+    }
+    
+    m_end = N/2;
+    
+    for (int i = 0; i < num_fields; i++){
+        
+#if  dim==1
+        
+        
+        //subtract zero mode
+        for( int j = 0; j < N; ++j ){
+            int idx_fluc = j;
+            f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+            df_fluc[i][idx_fluc] = df[i][idx_fluc] - average(df[i], i);
+            
+        }
+        
+        //Fourier Transform
+        DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
+        DFT_r2cD1( df_fluc[i], df_fluc_k[i] );
+        
+        //f[][0] corresponds to Re(f_{i=0})
+        //f[][2],f[][3] corresponds to the Re and Im of f_{i=1}
+        // ...
+        //f[][1] corresponds to Re(f_{i=N/2})
+        
+        //    for( int m = 0; m < N; ++m ){
+        //        std::cout << "2: f_fluc_k[" << i << "][" << m << "]" << f_fluc_k[i][m] << std::endl;
+        //    }
+        int j=m;
+        int N_m = 2; //number of fields in the range where m-1 < |m| <= m
+        
+    }
+    
+    for (int m = m_start; m < m_end + 1; ++m  )
+    {
+        int j=m;
+        
+        if(m == N/2)
+        {//Nyquist frequency
+            
+            if(i == 3)//Metric Peturbation
+            {
+                for(int num = 0 ; num < 3; num++ )
+                {
+                    if(num == 2)
+                    {
+                        //27
+                        lattice_var[m][25+num] = sqrt(N_m*pow(f_fluc_k[i][1],2)/(N_m - 1));
+                        //51
+                        lattice_var[m][49+num] = 0;
+                        
+                        //30
+                        lattice_var[m][28+num] = sqrt(N_m*pow(df_fluc_k[i][1],2)/(N_m - 1));
+                        //54
+                        lattice_var[m][52+num] = 0;
+                        
+                    }else{
+                        //25,26
+                        lattice_var[m][25+num] = 0;
+                        //49,50
+                        lattice_var[m][49+num] = 0;
+                        
+                        //28,29
+                        lattice_var[m][28+num] = 0;
+                        //52,53
+                        lattice_var[m][52+num] = 0;
+                    }
+                }
+                
+            }else//Scalar Peturbation
+            {
+                
+                for(int num = 0 ; num < 3; num++ )
+                {
+                    if(num == i)
+                    {
+                        //7,11,15
+                        lattice_var[m][7 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][1],2)/(N_m - 1));
+                        //31,35,39
+                        lattice_var[m][31 + 3*i + num] = 0;
+                        
+                        //16,20,24
+                        lattice_var[m][16 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][1],2)/(N_m - 1));
+                        //40,44,48
+                        lattice_var[m][40 + 3*i + num] = 0;
+                    }else
+                    {
+                        //8,9,10,12,13,14
+                        lattice_var[m][7 + 3*i + num] = 0;
+                        //32,33,34,36,37,38
+                        lattice_var[m][31 + 3*i + num] = 0;
+                        
+                        //17,18,19,21,22,23
+                        lattice_var[m][16 + 3*i + num] = 0;
+                        //41,42,43,45,46,47
+                        lattice_var[m][40 + 3*i + num] = 0;
+                    }
+                }
+                
+            }
+            
+            
+            
+        }else{//Besides Nyquist frequency
+            
+            if(i == 3)//Metric Peturbation
+            {
+                for(int num = 0 ; num < 3; num++ )
+                {
+                    if(num == 2)
+                    {
+                        //27
+                        lattice_var[m][25+num] = sqrt(N_m*pow(f_fluc_k[i][2*j],2)/(N_m - 1));
+                        //51
+                        lattice_var[m][49+num] = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2)/(N_m - 1));
+                        
+                        //30
+                        lattice_var[m][28+num] = sqrt(N_m*pow(df_fluc_k[i][2*j],2)/(N_m - 1));
+                        //54
+                        lattice_var[m][52+num] = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2)/(N_m - 1));
+                    }else{
+                        //25,26
+                        lattice_var[m][25+num] = 0;
+                        //49,50
+                        lattice_var[m][49+num] = 0;
+                        
+                        //28,29
+                        lattice_var[m][28+num] = 0;
+                        //52,53
+                        lattice_var[m][52+num] = 0;
+                    }
+                }
+                
+            }else//Scalar Peturbation
+            {
+                
+                for(int num = 0 ; num < 3; num++ )
+                {
+                    if(num == i)
+                    {
+                        //7,11,15
+                        lattice_var[m][7 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][2*j],2)/(N_m - 1));
+                        //31,35,39
+                        lattice_var[m][31 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2)/(N_m - 1));
+                        
+                        //16,20,24
+                        lattice_var[m][16 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][2*j],2)/(N_m - 1));
+                        //40,44,48
+                        lattice_var[m][40 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2)/(N_m - 1));
+                        
+                    }else
+                    {
+                        //8,9,10,12,13,14
+                        lattice_var[m][7 + 3*i + num] = 0;
+                        //32,33,34,36,37,38
+                        lattice_var[m][31 + 3*i + num] = 0;
+                        
+                        //17,18,19,21,22,23
+                        lattice_var[m][16 + 3*i + num] = 0;
+                        //41,42,43,45,46,47
+                        lattice_var[m][40 + 3*i + num] = 0;
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+#elif  dim==2
+        
+        for( int j = 0; j < N; ++j )
+        {
+            for( int k = 0; k < N; ++k )
+            {
+                int idx_fluc = j*N + k;
+                f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                
+                //         std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
+                //                std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
+                
+            }
+        }
+        
+        //                        std::cout << "bf f_fluc[" << i << "][20]" << f_fluc[i][20] << std::endl;
+        //                        std::cout << "bf f[" << i << "][20]" << f[i][20] << std::endl;
+        //    std::cout << "bf _average[" << i << "]" << _average[i] << std::endl;
+        
+        DFT_r2cD2( f_fluc[i], f_fluc_k[i], f_fluc_k_nyquist[i] );
+        
+        
+        
+#elif  dim==3
+        
+        
+        for( int j = 0; j < N; ++j ){
+            for( int k = 0; k < N; ++k ){
+                for( int l = 0; l < N; ++l ){
+                    int idx_fluc = (j*N + k)*N + l;
+                    f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                    
+                    //                             std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
+                    //                                    std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
+                }
+            }
+        }
+        
+        DFT_r2cD3( f_fluc[i], f_fluc_k[i], f_fluc_k_nyquist[i] );
+        
+#endif
+        
+    }
+    
+    
+    
+    delete [] f[0];
+    delete [] df[0];
+    delete [] f;
+    delete [] df;
+}
+

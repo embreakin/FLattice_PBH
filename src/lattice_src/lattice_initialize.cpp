@@ -939,49 +939,5 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
     //    exit(1);
 }
 
-void finalize(double** f, double** df, Field* field, LeapFrog* leapfrog, double radiation_pr, double** lattice_var )
-{
-    double a = leapfrog->a();
-    double da = leapfrog->da();
-    
-   
-    for (int i=0; i< num_fields; i++){
-        
-        int j = (num_fields -1) + i;
-        
-        if(i < num_fields - 1)
-        {
-            for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
-            {
-                //
-                //    Logout(" lattice_var[%d][%d] = %2.5e \n", lattice_loop, i, lattice_var[lattice_loop][i]);
-                //
-                lattice_var[lattice_loop][i] = field->average(f[i], i)/(rescale_A*a) ;//0,1,2
-                
-                lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2);//3,4,5
-                
-                Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
-                Logout(" lattice_var[%d][%d] = %2.5e \n",lattice_loop,j,lattice_var[lattice_loop][j] );
-                
-            }
-            
-        }
-        
-    }
-    
-    
-    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
-    {
-        
-        lattice_var[lattice_loop][6] =  pow((rescale_B/(rescale_A*pow(a,2))),2)*radiation_pr;
-        
-    }
-    
-    
-    delete [] f[0];
-    delete [] df[0];
-    delete [] f;
-    delete [] df;
-}
 
 

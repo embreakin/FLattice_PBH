@@ -3,7 +3,7 @@
 
 #include <cmath>
 #include "parameters.hpp"
-
+#include "lattice_evol.hpp"
 
 
 class Field
@@ -18,30 +18,43 @@ class Field
         int J,K;
         int m_start;
     
-        #if  dim==1
+#if  dim==1
     
-
-            //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
-            std::vector<std::vector<double>> PS = std::vector<std::vector<double>>(num_fields, std::vector<double>(N/2+1, 0));
     
-            //This 2D vector receives only the fluctuation of the input field
-            std::vector<std::vector<double>> f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
-            //This 2D vector receives the output of r2c Fourier transform
-            std::vector<std::vector<double>> f_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
+    //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
+    std::vector<std::vector<double>> PS = std::vector<std::vector<double>>(num_fields, std::vector<double>(N/2+1, 0));
     
-        #elif  dim==2
+    //This 2D vector receives only the fluctuation of the input field
+    std::vector<std::vector<double>> f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
+    //This 2D vector receives the output of r2c Fourier transform
+    std::vector<std::vector<double>> f_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
     
-        //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
-        std::vector<std::vector<double>> PS = std::vector<std::vector<double>>(num_fields, std::vector<double>(N/2+1, 0));
+    //This 2D vector receives only the fluctuation of the input field derivative
+    std::vector<std::vector<double>> df_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
+    //This 2D vector receives the output of r2c Fourier transform
+    std::vector<std::vector<double>> df_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
     
-        //This 2D vector receives only the fluctuation of the input field
-        std::vector<std::vector<double>> f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
-        //This 2D vector receives the output of r2c Fourier transform
-        std::vector<std::vector<double>> f_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
-        //This 2D vector receives the output of r2c Fourier transform (Nyquist frequency corresponding to k (z-axis) = N/2)
-        std::vector<std::vector<double>> f_fluc_k_nyquist =  std::vector<std::vector<double>>(num_fields, std::vector<double>(2*N, 0));
     
-        #elif  dim==3
+#elif  dim==2
+    
+    //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
+    std::vector<std::vector<double>> PS = std::vector<std::vector<double>>(num_fields, std::vector<double>(N/2+1, 0));
+    
+    //This 2D vector receives only the fluctuation of the input field
+    std::vector<std::vector<double>> f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
+    //This 2D vector receives the output of r2c Fourier transform
+    std::vector<std::vector<double>> f_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
+    //This 2D vector receives the output of r2c Fourier transform (Nyquist frequency corresponding to k (z-axis) = N/2)
+    std::vector<std::vector<double>> f_fluc_k_nyquist =  std::vector<std::vector<double>>(num_fields, std::vector<double>(2*N, 0));
+    
+    //This 2D vector receives only the fluctuation of the input field
+    std::vector<std::vector<double>> df_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
+    //This 2D vector receives the output of r2c Fourier transform
+    std::vector<std::vector<double>> df_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
+    //This 2D vector receives the output of r2c Fourier transform (Nyquist frequency corresponding to k (z-axis) = N/2)
+    std::vector<std::vector<double>> df_fluc_k_nyquist =  std::vector<std::vector<double>>(num_fields, std::vector<double>(2*N, 0));
+    
+#elif  dim==3
     
     //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
     std::vector<std::vector<double>> PS = std::vector<std::vector<double>>(num_fields, std::vector<double>(N/2+1, 0));
@@ -53,10 +66,20 @@ class Field
     //This 3D vector receives the output of r2c Fourier transform (Nyquist frequency corresponding to l (z-axis) = N/2)
     std::vector<std::vector<std::vector<double>>> f_fluc_k_nyquist =  std::vector<std::vector<std::vector<double>>>(num_fields, std::vector<std::vector<double>>(N, std::vector<double>(2*N, 0)));
     
+    //This 2D vector receives only the fluctuation of the input field
+    std::vector<std::vector<double>> df_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N*N, 0));
+    //This 2D vector receives the output of r2c Fourier transform
+    std::vector<std::vector<double>> df_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N*N, 0));
+    //This 3D vector receives the output of r2c Fourier transform (Nyquist frequency corresponding to l (z-axis) = N/2)
+    std::vector<std::vector<std::vector<double>>> df_fluc_k_nyquist =  std::vector<std::vector<std::vector<double>>>(num_fields, std::vector<std::vector<double>>(N, std::vector<double>(2*N, 0)));
     
-        #endif
+    
+#endif
+    
     
 	public:
+    
+   
     
         Field (): _average(new double [num_fields]()), _variance(new double [num_fields]()), f_MPl(new double [num_fields]())  {
             
@@ -141,6 +164,7 @@ class Field
         double ddV_lattice ( double** f, int i, int idx, double a = 1 );
         void effective_mass(double mass_sq[], double *field_values);
         double power_spectrum( double** f, int i, int j);
+    void finalize(double** f, double** df, LeapFrog* leapfrog, double radiation_pr, double** lattice_var );
 
 };
 
