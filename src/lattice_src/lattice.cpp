@@ -1,3 +1,13 @@
+//Doxygen
+/**
+* @file    lattice_initialize.cpp
+* @brief    Lattice source file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
+
 #include <chrono>
 #include "parameters.hpp"
 #include <sys/stat.h>

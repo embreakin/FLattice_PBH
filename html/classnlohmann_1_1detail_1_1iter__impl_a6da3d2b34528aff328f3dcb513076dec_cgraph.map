@@ -1,0 +1,4 @@
+<map id="nlohmann::detail::iter_impl::operator&#45;&gt;" name="nlohmann::detail::iter_impl::operator&#45;&gt;">
+<area shape="rect" id="node1" title="dereference the iterator" alt="" coords="5,5,148,45"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1detail_1_1primitive__iterator__t.html#a8d1a7d46b3fcd06edd034f04ededb5e4" title="return whether the iterator can be dereferenced" alt="" coords="196,5,371,45"/>
+</map>

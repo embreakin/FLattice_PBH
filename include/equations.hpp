@@ -1,3 +1,12 @@
+//Doxygen
+/**
+* @file    equations.hpp
+* @brief    Equations header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 #ifndef _EQUATIONS_H_
 #define _EQUATIONS_H_
 

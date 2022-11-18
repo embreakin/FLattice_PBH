@@ -1,3 +1,13 @@
+//Doxygen
+/**
+* @file    json.hpp
+* @brief    Json header file
+* @author   Niels Lohmann
+* @date
+* @details
+*/
+
+
 /*
  __ _____ _____ _____
  __|  |   __|     |   | |  JSON for Modern C++

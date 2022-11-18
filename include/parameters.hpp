@@ -1,3 +1,12 @@
+//Doxygen
+/**
+* @file   parameters.hpp
+* @brief    Parameters header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 #ifndef _PARAMETERS_H_
 #define _PARAMETERS_H_
 

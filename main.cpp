@@ -1,3 +1,12 @@
+//Doxygen
+/**
+* @file    main.cpp
+* @brief    Main source file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 #include <chrono>// Measuring elapsed time
 #include <stdint.h>
 #include <iostream>
@@ -10,8 +19,7 @@
 #include "parameters.hpp"
 #include "calculation.hpp"
 
-//-------------------
-// Declare variables
+
 
 
 

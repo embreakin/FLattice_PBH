@@ -1,0 +1,7 @@
+<map id="nlohmann::basic_json::insert_iterator" name="nlohmann::basic_json::insert_iterator">
+<area shape="rect" id="node1" title=" " alt="" coords="397,93,545,133"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#a0136728f5db69d4051c77b94307abd6c" title="inserts element" alt="" coords="201,93,349,133"/>
+<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#a4336103c941d9f60bd51320f4880e3dd" title="creates a diff as a JSON patch" alt="" coords="5,29,153,69"/>
+<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#a1ecce113ff11dd294689ee4d45cbb855" title="inserts element" alt="" coords="5,93,153,133"/>
+<area shape="rect" id="node5" href="$classnlohmann_1_1basic__json.html#a81e0c41a4a9dff4df2f6973f7f8b2a83" title="applies a JSON patch" alt="" coords="5,157,153,197"/>
+</map>

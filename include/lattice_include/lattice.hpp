@@ -1,3 +1,12 @@
+//Doxygen
+/**
+* @file   lattice.hpp
+* @brief    Lattice header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 #ifndef _LATTICE_H_
 #define _LATTICE_H_
 

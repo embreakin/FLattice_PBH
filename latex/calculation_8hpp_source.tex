@@ -1,0 +1,115 @@
+\hypertarget{calculation_8hpp_source}{}\doxysection{calculation.\+hpp}
+\label{calculation_8hpp_source}\index{include/calculation.hpp@{include/calculation.hpp}}
+\mbox{\hyperlink{calculation_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//Doxygen}}
+\DoxyCodeLine{10 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef \_CALCULATION\_H\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_CALCULATION\_H\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{nr_8h}{nr.h}}"{}}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{parameters_8hpp}{parameters.hpp}}"{}}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{equations_8hpp}{equations.hpp}}"{}}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{uc_8hpp}{uc.hpp}}"{}}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{class }\mbox{\hyperlink{class_zeromode}{Zeromode}}}
+\DoxyCodeLine{21 \{}
+\DoxyCodeLine{22     \textcolor{keyword}{private}:}
+\DoxyCodeLine{23     \textcolor{comment}{//eps parameters set the allowed error in adapive step size RK-\/method for zeromode calcualtion.}}
+\DoxyCodeLine{24     DP eps=1.0E-\/6,eps2=1.0E-\/7,eps3=1.0E-\/8,eps4=1.0E-\/6;}
+\DoxyCodeLine{25     }
+\DoxyCodeLine{26     \textcolor{keyword}{const} \textcolor{keywordtype}{int} timecount\_max\_zero = 100000;}
+\DoxyCodeLine{27     }
+\DoxyCodeLine{28     \mbox{\hyperlink{class_n_r_vec}{Vec\_DP}} *xp\_p;}
+\DoxyCodeLine{29     \mbox{\hyperlink{class_n_r_mat}{Mat\_DP}} *yp\_p;}
+\DoxyCodeLine{30     }
+\DoxyCodeLine{31     \mbox{\hyperlink{class_n_r_vec}{Vec\_DP}} \&xp=*xp\_p;}
+\DoxyCodeLine{32     \mbox{\hyperlink{class_n_r_mat}{Mat\_DP}} \&yp=*yp\_p;}
+\DoxyCodeLine{33     }
+\DoxyCodeLine{34     DP k\_comoving;}
+\DoxyCodeLine{35     }
+\DoxyCodeLine{36     \textcolor{keywordtype}{int} i,j,nbad,nok,timecount;}
+\DoxyCodeLine{37     DP a,H,w,rho,rhop,la,dxsav;}
+\DoxyCodeLine{38     }
+\DoxyCodeLine{39     \textcolor{comment}{//h parameters set the initial trial step size in adaptive step size RK-\/method for zeromode calcualtion and w/ perturbation calcualtion.}}
+\DoxyCodeLine{40     DP h1=1.0E-\/4,h2=1.0E-\/6,hmin=0.0,xbegin=BEGIN\_EFOLD,xend=END\_EFOLD;}
+\DoxyCodeLine{41     }
+\DoxyCodeLine{42   }
+\DoxyCodeLine{43     }
+\DoxyCodeLine{44     \textcolor{keyword}{public}:}
+\DoxyCodeLine{45     }
+\DoxyCodeLine{46     \mbox{\hyperlink{class_zeromode}{Zeromode}} (): xp\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{Vec\_DP}}(timecount\_max\_zero)), yp\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_mat}{Mat\_DP}}(N\_zero,timecount\_max\_zero))\{}
+\DoxyCodeLine{47         }
+\DoxyCodeLine{48     \}}
+\DoxyCodeLine{49     }
+\DoxyCodeLine{50     \mbox{\hyperlink{class_zeromode}{\string~Zeromode}} () \{}
+\DoxyCodeLine{51         \textcolor{keyword}{delete} xp\_p;}
+\DoxyCodeLine{52         \textcolor{keyword}{delete} yp\_p;}
+\DoxyCodeLine{53     \}}
+\DoxyCodeLine{54     }
+\DoxyCodeLine{55      \textcolor{keywordtype}{void} zeromode\_calc();}
+\DoxyCodeLine{56      \textcolor{keywordtype}{void} zeromode\_initial(\mbox{\hyperlink{class_n_r_vec}{Vec\_DP}} \&unp, DP \&a, DP \&H, DP \&xbegin);}
+\DoxyCodeLine{57     }
+\DoxyCodeLine{58     }
+\DoxyCodeLine{59 \};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{keyword}{class }\mbox{\hyperlink{class_perturbation}{Perturbation}}}
+\DoxyCodeLine{64 \{}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     \textcolor{keyword}{private}:}
+\DoxyCodeLine{67     }
+\DoxyCodeLine{68     DP xmid, la2;}
+\DoxyCodeLine{69     DP theta = M\_PI/4;;}
+\DoxyCodeLine{70     DP p = itvl;}
+\DoxyCodeLine{71      \textcolor{comment}{//eps parameters set the allowed error in adapive step size RK-\/method for w/-\/perturbation calcualtion.}}
+\DoxyCodeLine{72     DP epsSHI=1.0e-\/9,epsosc=1.0e-\/10,epsnew=1.0e-\/10,epslast=1.0e-\/10;}
+\DoxyCodeLine{73     }
+\DoxyCodeLine{74     \textcolor{keyword}{const} \textcolor{keywordtype}{int} timecount\_max\_pert = 10000;}
+\DoxyCodeLine{75     }
+\DoxyCodeLine{76     \mbox{\hyperlink{class_n_r_vec}{Vec\_DP}} *xp2\_p;}
+\DoxyCodeLine{77     \mbox{\hyperlink{class_n_r_mat}{Mat\_DP}} *delp\_p;}
+\DoxyCodeLine{78     }
+\DoxyCodeLine{79     \mbox{\hyperlink{class_n_r_vec}{Vec\_DP}} \&xp2=*xp2\_p;}
+\DoxyCodeLine{80     \mbox{\hyperlink{class_n_r_mat}{Mat\_DP}} \&delp=*delp\_p;}
+\DoxyCodeLine{81     }
+\DoxyCodeLine{82     DP k\_comoving;}
+\DoxyCodeLine{83     }
+\DoxyCodeLine{84     \textcolor{keywordtype}{int} i,j,nbad,nok,timecount;}
+\DoxyCodeLine{85     DP a,H,w,rho,rhop,la,dxsav;}
+\DoxyCodeLine{86     }
+\DoxyCodeLine{87     \textcolor{comment}{//h parameters set the initial trial step size in adaptive step size RQ-\/method for zeromode calcualtion and w/ perturbation calcualtion.}}
+\DoxyCodeLine{88     DP h1=1.0E-\/4,h2=1.0E-\/6,hmin=0.0,xbegin=BEGIN\_EFOLD,xend=END\_EFOLD;}
+\DoxyCodeLine{89     }
+\DoxyCodeLine{90     }
+\DoxyCodeLine{91     }
+\DoxyCodeLine{92     }
+\DoxyCodeLine{93     \textcolor{keywordtype}{int} knum;}
+\DoxyCodeLine{94     \textcolor{keywordtype}{int} percentage;}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96     }
+\DoxyCodeLine{97     \textcolor{keyword}{public}:}
+\DoxyCodeLine{98     }
+\DoxyCodeLine{99     \mbox{\hyperlink{class_perturbation}{Perturbation}}(): xp2\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{Vec\_DP}}(timecount\_max\_pert)), delp\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_mat}{Mat\_DP}}(N\_pert,timecount\_max\_pert))}
+\DoxyCodeLine{100     \{\}}
+\DoxyCodeLine{101     }
+\DoxyCodeLine{102     \mbox{\hyperlink{class_perturbation}{\string~Perturbation}} () \{}
+\DoxyCodeLine{103         \textcolor{keyword}{delete} xp2\_p;}
+\DoxyCodeLine{104         \textcolor{keyword}{delete} delp\_p;}
+\DoxyCodeLine{105        }
+\DoxyCodeLine{106     \}}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108     \textcolor{keywordtype}{void} perturbation\_initial(\mbox{\hyperlink{class_n_r_vec}{Vec\_DP}} \&tr2, DP \&k\_comoving, DP \&a, DP \&H);}
+\DoxyCodeLine{109     \textcolor{keywordtype}{void} nonlatticerange\_calc(\textcolor{keywordtype}{int} \&k\_begin, \textcolor{keywordtype}{int} \&k\_end, \mbox{\hyperlink{class_zeromode}{Zeromode}} \&zeromode);}
+\DoxyCodeLine{110     \textcolor{keywordtype}{void} lattice\_initialize( \textcolor{keywordtype}{double}** \&latticep );}
+\DoxyCodeLine{111     \textcolor{keywordtype}{void} lattice\_finalize( \textcolor{keywordtype}{double}** latticep );}
+\DoxyCodeLine{112     \textcolor{keywordtype}{void} latticerange\_firsthalf\_calc( \textcolor{keywordtype}{double}** latticep, \mbox{\hyperlink{class_zeromode}{Zeromode}} \&zeromode);}
+\DoxyCodeLine{113     \textcolor{keywordtype}{void} latticerange\_secondhalf\_calc(\textcolor{keywordtype}{double}** latticep);}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115 \};}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

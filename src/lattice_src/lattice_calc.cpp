@@ -1,3 +1,13 @@
+//Doxygen
+/**
+* @file    lattice_calc.cpp
+* @brief    Lattice calculation source file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
+
 #include <cmath>
 
 #include "lattice_calc.hpp"
@@ -133,24 +143,25 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
         for( int j = 0; j < N; ++j ){
             switch( dim ){
                 case 1:
-                    
+                    {
                     int idx = j;
                     
                     value[idx] /= _average_reduc ;
-                    _variance_reduc += pow( value[idx]  - 1 , 2 );
+                    _variance_reduc += pow( value[idx]  - 1 , 2.0 );
                     
                     if(value[idx] > _value_max_reduc){
                         _value_max_reduc = value[idx];
                     }
                     
                     break;
+                    }
                 case 2:
                     //            #pragma omp simd
                     for( int k = 0; k < N; ++k ){
                         int idx = j*N + k;
                         
                         value[idx] /= _average_reduc ;
-                        _variance_reduc += pow( value[idx]  - 1 , 2 );
+                        _variance_reduc += pow( value[idx]  - 1 , 2.0 );
                         
                         if(value[idx] > _value_max_reduc){
                             _value_max_reduc = value[idx];
@@ -164,7 +175,7 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
                         for( int l = 0; l < N; ++l ){
                             int idx = (j*N + k)*N + l;
                             value[idx] /= _average_reduc ;
-                            _variance_reduc += pow( value[idx]  - 1 , 2 );
+                            _variance_reduc += pow( value[idx]  - 1 , 2.0 );
                             
                             if(value[idx] > _value_max_reduc){
                                 _value_max_reduc = value[idx];
@@ -180,11 +191,11 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
         for( int j = 0; j < dim; ++j ) _variance_reduc /= N;
         
         //substitute the obtained variables to member variables
-        _total_average = _average_reduc*pow(a,-4);
-        _potential_average = _potential_average_reduc*pow(a,-4);
-        _timederiv_average = _timederiv_average_reduc*pow(a,-4);
-        _grad_average = _grad_average_reduc*pow(a,-4);
-        _rad = rad*pow(a,-4);
+        _total_average = _average_reduc*pow(a,-4.0);
+        _potential_average = _potential_average_reduc*pow(a,-4.0);
+        _timederiv_average = _timederiv_average_reduc*pow(a,-4.0);
+        _grad_average = _grad_average_reduc*pow(a,-4.0);
+        _rad = rad*pow(a,-4.0);
         _variance = _variance_reduc;
         _value_max = _value_max_reduc;
     
@@ -226,7 +237,7 @@ double Energy::gradient_energy_eachpoint( double** f ,int i, int idx )
     int jm1 = (j == 0)?   N-1: j-1;
     int jm2 = (j <  2)? j+N-2: j-2;
     
-    return  pow( ( - f[i][jp2]  + 8*f[i][jp1]  - 8*f[i][jm1] + f[i][jm2] ) / (12*dx), 2 )/2;
+    return  pow( ( - f[i][jp2]  + 8*f[i][jp1]  - 8*f[i][jm1] + f[i][jm2] ) / (12*dx), 2.0 )/2;
 
 #elif dim == 2
     int j = idx / N;
@@ -242,8 +253,8 @@ double Energy::gradient_energy_eachpoint( double** f ,int i, int idx )
   
 //    return (pow( (f[i][jp1*N+k] - f[i][jm1*N+k]) / (2*dx), 2 )
 //            + pow( (f[i][j*N+kp1] - f[i][j*N+km1]) / (2*dx), 2 ))/2;
-    return (pow( (- f[i][jp2*N+k] + 8*f[i][jp1*N+k] - 8*f[i][jm1*N+k] + f[i][jm2*N+k]) / (12*dx), 2 )
-            + pow( (- f[i][j*N+kp2] + 8*f[i][j*N+kp1] - 8*f[i][j*N+km1] + f[i][j*N+km2]) / (12*dx), 2 ))/2;
+    return (pow( (- f[i][jp2*N+k] + 8*f[i][jp1*N+k] - 8*f[i][jm1*N+k] + f[i][jm2*N+k]) / (12*dx), 2.0 )
+            + pow( (- f[i][j*N+kp2] + 8*f[i][j*N+kp1] - 8*f[i][j*N+km1] + f[i][j*N+km2]) / (12*dx), 2.0 ))/2;
 
 #elif dim == 3
     int j = idx /(N*N);
@@ -261,9 +272,9 @@ double Energy::gradient_energy_eachpoint( double** f ,int i, int idx )
             int lp2 = (l >= N-2)? l-N+2: l+2;
             int lm1 = (l ==   0)?   N-1: l-1;
             int lm2 = (l <    2)? l+N-2: l-2;
-       return  (pow( (- f[i][(jp2*N+k)*N+l] + 8*f[i][(jp1*N+k)*N+l] - 8*f[i][(jm1*N+k)*N+l] + f[i][(jm2*N+k)*N+l]) / (12*dx), 2 )
-             + pow( (- f[i][(j*N+kp2)*N+l] + 8*f[i][(j*N+kp1)*N+l] - 8*f[i][(j*N+km1)*N+l] + f[i][(j*N+km2)*N+l]) / (12*dx), 2 )
-             + pow( (- f[i][(j*N+k)*N+lp2] + 8*f[i][(j*N+k)*N+lp1] - 8*f[i][(j*N+k)*N+lm1] + f[i][(j*N+k)*N+lm2]) / (12*dx), 2 ))/2;
+       return  (pow( (- f[i][(jp2*N+k)*N+l] + 8*f[i][(jp1*N+k)*N+l] - 8*f[i][(jm1*N+k)*N+l] + f[i][(jm2*N+k)*N+l]) / (12*dx), 2.0 )
+             + pow( (- f[i][(j*N+kp2)*N+l] + 8*f[i][(j*N+kp1)*N+l] - 8*f[i][(j*N+km1)*N+l] + f[i][(j*N+km2)*N+l]) / (12*dx), 2.0 )
+             + pow( (- f[i][(j*N+k)*N+lp2] + 8*f[i][(j*N+k)*N+lp1] - 8*f[i][(j*N+k)*N+lm1] + f[i][(j*N+k)*N+lm2]) / (12*dx), 2.0 ))/2;
     
 #endif
     

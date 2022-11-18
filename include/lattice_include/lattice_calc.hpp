@@ -1,3 +1,12 @@
+//Doxygen
+/**
+* @file   lattice_calc.hpp
+* @brief    Lattice calclulation header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 #ifndef _LATTICECALC_H_
 #define _LATTICECALC_H_
 
@@ -58,7 +67,7 @@ class Energy
     
        #pragma omp declare simd
         double kinetic_energy_eachpoint( double** f , double** df, int i, int idx, double a = 1, double da = 0 )
-        {   return pow(df[i][idx]*a - f[i][idx]*da, 2)/(2*pow(a,2)); }
+        {   return pow(df[i][idx]*a - f[i][idx]*da, 2.0)/(2*pow(a,2.0)); }
 
 };
 

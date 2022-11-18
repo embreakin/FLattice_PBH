@@ -1,0 +1,501 @@
+\hypertarget{nr_8h_source}{}\doxysection{nr.\+h}
+\label{nr_8h_source}\index{include/nr.h@{include/nr.h}}
+\mbox{\hyperlink{nr_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//Doxygen}}
+\DoxyCodeLine{10 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef \_NR\_H\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_NR\_H\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{nrtypes__nr_8h}{nrtypes\_nr.h}}"{}}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{parameters_8hpp}{parameters.hpp}}"{}}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{namespace }NR \{}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keywordtype}{void} addint(\mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&uf, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&uc, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&res);}
+\DoxyCodeLine{19 \textcolor{keywordtype}{void} airy(\textcolor{keyword}{const} DP x, DP \&ai, DP \&bi, DP \&aip, DP \&bip);}
+\DoxyCodeLine{20 \textcolor{keywordtype}{void} amebsa(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&pb, DP \&yb, \textcolor{keyword}{const} DP ftol,}
+\DoxyCodeLine{21     DP funk(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&), \textcolor{keywordtype}{int} \&iter, \textcolor{keyword}{const} DP temptr);}
+\DoxyCodeLine{22 \textcolor{keywordtype}{void} amoeba(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&y, \textcolor{keyword}{const} DP ftol, DP funk(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&),}
+\DoxyCodeLine{23     \textcolor{keywordtype}{int} \&nfunk);}
+\DoxyCodeLine{24 DP amotry(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&psum, DP funk(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&),}
+\DoxyCodeLine{25     \textcolor{keyword}{const} \textcolor{keywordtype}{int} ihi, \textcolor{keyword}{const} DP fac);}
+\DoxyCodeLine{26 DP amotsa(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&psum, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&pb, DP \&yb,}
+\DoxyCodeLine{27     DP funk(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&), \textcolor{keyword}{const} \textcolor{keywordtype}{int} ihi, DP \&yhi, \textcolor{keyword}{const} DP fac);}
+\DoxyCodeLine{28 \textcolor{keywordtype}{void} anneal(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_INT}} \&iorder);}
+\DoxyCodeLine{29 DP anorm2(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a);}
+\DoxyCodeLine{30 \textcolor{keywordtype}{void} arcmak(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_ULNG}} \&nfreq, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nchh, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nradd,}
+\DoxyCodeLine{31     \mbox{\hyperlink{classarithcode}{arithcode}} \&acode);}
+\DoxyCodeLine{32 \textcolor{keywordtype}{void} arcode(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&ich, std::string \&code, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&lcd,}
+\DoxyCodeLine{33     \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign, \mbox{\hyperlink{classarithcode}{arithcode}} \&acode);}
+\DoxyCodeLine{34 \textcolor{keywordtype}{void} arcsum(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_ULNG}} \&iin, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_ULNG}} \&iout, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} ja,}
+\DoxyCodeLine{35     \textcolor{keyword}{const} \textcolor{keywordtype}{int} nwk, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nrad, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nc);}
+\DoxyCodeLine{36 \textcolor{keywordtype}{void} asolve(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x, \textcolor{keyword}{const} \textcolor{keywordtype}{int} itrnsp);}
+\DoxyCodeLine{37 \textcolor{keywordtype}{void} atimes(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&r, \textcolor{keyword}{const} \textcolor{keywordtype}{int} itrnsp);}
+\DoxyCodeLine{38 \textcolor{keywordtype}{void} avevar(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data, DP \&ave, DP \&var);}
+\DoxyCodeLine{39 \textcolor{keywordtype}{void} balanc(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a);}
+\DoxyCodeLine{40 \textcolor{keywordtype}{void} banbks(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m2, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&al,}
+\DoxyCodeLine{41     \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&indx, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&b);}
+\DoxyCodeLine{42 \textcolor{keywordtype}{void} bandec(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m2, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&al,}
+\DoxyCodeLine{43     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&indx, DP \&d);}
+\DoxyCodeLine{44 \textcolor{keywordtype}{void} banmul(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m2, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x,}
+\DoxyCodeLine{45     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&b);}
+\DoxyCodeLine{46 \textcolor{keywordtype}{void} bcucof(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y2, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y12,}
+\DoxyCodeLine{47     \textcolor{keyword}{const} DP d1, \textcolor{keyword}{const} DP d2, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&c);}
+\DoxyCodeLine{48 \textcolor{keywordtype}{void} bcuint(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y2, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y12,}
+\DoxyCodeLine{49     \textcolor{keyword}{const} DP x1l, \textcolor{keyword}{const} DP x1u, \textcolor{keyword}{const} DP x2l, \textcolor{keyword}{const} DP x2u,}
+\DoxyCodeLine{50     \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, DP \&ansy, DP \&ansy1, DP \&ansy2);}
+\DoxyCodeLine{51 \textcolor{keywordtype}{void} beschb(\textcolor{keyword}{const} DP x, DP \&gam1, DP \&gam2, DP \&gampl, DP \&gammi);}
+\DoxyCodeLine{52 DP bessi(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{53 DP bessi0(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{54 DP bessi1(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{55 \textcolor{keywordtype}{void} bessik(\textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP xnu, DP \&ri, DP \&rk, DP \&rip, DP \&rkp);}
+\DoxyCodeLine{56 DP bessj(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{57 DP bessj0(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{58 DP bessj1(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{59 \textcolor{keywordtype}{void} bessjy(\textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP xnu, DP \&rj, DP \&ry, DP \&rjp, DP \&ryp);}
+\DoxyCodeLine{60 DP bessk(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{61 DP bessk0(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{62 DP bessk1(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{63 DP bessy(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{64 DP bessy0(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{65 DP bessy1(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{66 DP beta(\textcolor{keyword}{const} DP z, \textcolor{keyword}{const} DP w);}
+\DoxyCodeLine{67 DP betacf(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{68 DP betai(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{69 DP bico(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} \textcolor{keywordtype}{int} k);}
+\DoxyCodeLine{70 \textcolor{keywordtype}{void} bksub(\textcolor{keyword}{const} \textcolor{keywordtype}{int} ne, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nb, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jf, \textcolor{keyword}{const} \textcolor{keywordtype}{int} k1,}
+\DoxyCodeLine{71     \textcolor{keyword}{const} \textcolor{keywordtype}{int} k2, \mbox{\hyperlink{class_n_r_mat3d}{Mat3D\_IO\_DP}} \&c);}
+\DoxyCodeLine{72 DP bnldev(\textcolor{keyword}{const} DP pp, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{73 DP brent(\textcolor{keyword}{const} DP ax, \textcolor{keyword}{const} DP bx, \textcolor{keyword}{const} DP cx, DP f(\textcolor{keyword}{const} DP),}
+\DoxyCodeLine{74     \textcolor{keyword}{const} DP tol, DP \&xmin);}
+\DoxyCodeLine{75 \textcolor{keywordtype}{void} broydn(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&x, \textcolor{keywordtype}{bool} \&check, \textcolor{keywordtype}{void} vecfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{76 \textcolor{keywordtype}{void} bsstep(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&dydx, DP \&xx, \textcolor{keyword}{const} DP htry,}
+\DoxyCodeLine{77     \textcolor{keyword}{const} DP eps, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&yscal, DP \&hdid, DP \&hnext,}
+\DoxyCodeLine{78     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{79 \textcolor{keywordtype}{void} caldat(\textcolor{keyword}{const} \textcolor{keywordtype}{int} julian, \textcolor{keywordtype}{int} \&mm, \textcolor{keywordtype}{int} \&\textcolor{keywordtype}{id}, \textcolor{keywordtype}{int} \&iyyy);}
+\DoxyCodeLine{80 \textcolor{keywordtype}{void} chder(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&cder, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{81 DP chebev(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&c, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{82 \textcolor{keywordtype}{void} chebft(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&c, DP func(\textcolor{keyword}{const} DP));}
+\DoxyCodeLine{83 \textcolor{keywordtype}{void} chebpc(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&d);}
+\DoxyCodeLine{84 \textcolor{keywordtype}{void} chint(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&cint, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{85 DP chixy(\textcolor{keyword}{const} DP bang);}
+\DoxyCodeLine{86 \textcolor{keywordtype}{void} choldc(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&p);}
+\DoxyCodeLine{87 \textcolor{keywordtype}{void} cholsl(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x);}
+\DoxyCodeLine{88 \textcolor{keywordtype}{void} chsone(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&bins, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&ebins, \textcolor{keyword}{const} \textcolor{keywordtype}{int} knstrn, DP \&df,}
+\DoxyCodeLine{89     DP \&chsq, DP \&prob);}
+\DoxyCodeLine{90 \textcolor{keywordtype}{void} chstwo(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&bins1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&bins2, \textcolor{keyword}{const} \textcolor{keywordtype}{int} knstrn, DP \&df,}
+\DoxyCodeLine{91     DP \&chsq, DP \&prob);}
+\DoxyCodeLine{92 \textcolor{keywordtype}{void} cisi(\textcolor{keyword}{const} DP x, std::complex<DP> \&cs);}
+\DoxyCodeLine{93 \textcolor{keywordtype}{void} cntab1(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_INT}} \&nn, DP \&chisq, DP \&df, DP \&prob, DP \&cramrv, DP \&ccc);}
+\DoxyCodeLine{94 \textcolor{keywordtype}{void} cntab2(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_INT}} \&nn, DP \&h, DP \&hx, DP \&hy, DP \&hygx, DP \&hxgy,}
+\DoxyCodeLine{95     DP \&uygx, DP \&uxgy, DP \&uxy);}
+\DoxyCodeLine{96 \textcolor{keywordtype}{void} convlv(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&respns, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign,}
+\DoxyCodeLine{97     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&ans);}
+\DoxyCodeLine{98 \textcolor{keywordtype}{void} copy(\mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&aout, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&ain);}
+\DoxyCodeLine{99 \textcolor{keywordtype}{void} correl(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data2, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&ans);}
+\DoxyCodeLine{100 \textcolor{keywordtype}{void} cosft1(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&y);}
+\DoxyCodeLine{101 \textcolor{keywordtype}{void} cosft2(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&y, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign);}
+\DoxyCodeLine{102 \textcolor{keywordtype}{void} covsrt(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&covar, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_BOOL}} \&ia, \textcolor{keyword}{const} \textcolor{keywordtype}{int} mfit);}
+\DoxyCodeLine{103 \textcolor{keywordtype}{void} crank(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&w, DP \&s);}
+\DoxyCodeLine{104 \textcolor{keywordtype}{void} cyclic(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&c, \textcolor{keyword}{const} DP alpha,}
+\DoxyCodeLine{105     \textcolor{keyword}{const} DP beta, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x);}
+\DoxyCodeLine{106 \textcolor{keywordtype}{void} daub4(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign);}
+\DoxyCodeLine{107 DP dawson(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{108 DP dbrent(\textcolor{keyword}{const} DP ax, \textcolor{keyword}{const} DP bx, \textcolor{keyword}{const} DP cx, DP f(\textcolor{keyword}{const} DP),}
+\DoxyCodeLine{109     DP df(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP tol, DP \&xmin);}
+\DoxyCodeLine{110 \textcolor{keywordtype}{void} ddpoly(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&c, \textcolor{keyword}{const} DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&pd);}
+\DoxyCodeLine{111 \textcolor{keywordtype}{bool} decchk(std::string str, \textcolor{keywordtype}{char} \&ch);}
+\DoxyCodeLine{112 \textcolor{keywordtype}{void} derivs\_s(\textcolor{keyword}{const} DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&dydx);}
+\DoxyCodeLine{113 DP df1dim(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{114 \textcolor{keywordtype}{void} dfpmin(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&p, \textcolor{keyword}{const} DP gtol, \textcolor{keywordtype}{int} \&iter, DP \&fret,}
+\DoxyCodeLine{115     DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&), \textcolor{keywordtype}{void} dfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{116 DP dfridr(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP h, DP \&err);}
+\DoxyCodeLine{117 \textcolor{keywordtype}{void} dftcor(\textcolor{keyword}{const} DP w, \textcolor{keyword}{const} DP delta, \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b,}
+\DoxyCodeLine{118     \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&endpts, DP \&corre, DP \&corim, DP \&corfac);}
+\DoxyCodeLine{119 \textcolor{keywordtype}{void} dftint(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \textcolor{keyword}{const} DP w,}
+\DoxyCodeLine{120     DP \&cosint, DP \&sinint);}
+\DoxyCodeLine{121 \textcolor{keywordtype}{void} difeq(\textcolor{keyword}{const} \textcolor{keywordtype}{int} k, \textcolor{keyword}{const} \textcolor{keywordtype}{int} k1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} k2, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jsf,}
+\DoxyCodeLine{122     \textcolor{keyword}{const} \textcolor{keywordtype}{int} is1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isf, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&indexv, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&s,}
+\DoxyCodeLine{123     \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&y);}
+\DoxyCodeLine{124 \textcolor{keywordtype}{void} dlinmin(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&xi, DP \&fret, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&),}
+\DoxyCodeLine{125     \textcolor{keywordtype}{void} dfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{126 \textcolor{keywordtype}{void} eclass(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&nf, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&lista, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&listb);}
+\DoxyCodeLine{127 \textcolor{keywordtype}{void} eclazz(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&nf, \textcolor{keywordtype}{bool} equiv(\textcolor{keyword}{const} \textcolor{keywordtype}{int}, \textcolor{keyword}{const} \textcolor{keywordtype}{int}));}
+\DoxyCodeLine{128 DP ei(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{129 \textcolor{keywordtype}{void} eigsrt(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&d, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&v);}
+\DoxyCodeLine{130 DP elle(\textcolor{keyword}{const} DP phi, \textcolor{keyword}{const} DP ak);}
+\DoxyCodeLine{131 DP ellf(\textcolor{keyword}{const} DP phi, \textcolor{keyword}{const} DP ak);}
+\DoxyCodeLine{132 DP ellpi(\textcolor{keyword}{const} DP phi, \textcolor{keyword}{const} DP en, \textcolor{keyword}{const} DP ak);}
+\DoxyCodeLine{133 \textcolor{keywordtype}{void} elmhes(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a);}
+\DoxyCodeLine{134 DP erfcc(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{135 DP erff(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{136 DP erffc(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{137 \textcolor{keywordtype}{void} eulsum(DP \&sum, \textcolor{keyword}{const} DP term, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jterm, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&wksp);}
+\DoxyCodeLine{138 DP evlmem(\textcolor{keyword}{const} DP fdt, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&d, \textcolor{keyword}{const} DP xms);}
+\DoxyCodeLine{139 DP expdev(\textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{140 DP expint(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{141 DP f1dim(\textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{142 DP factln(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{143 DP factrl(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{144 \textcolor{keywordtype}{void} fasper(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \textcolor{keyword}{const} DP ofac, \textcolor{keyword}{const} DP hifac,}
+\DoxyCodeLine{145     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&wk1, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&wk2, \textcolor{keywordtype}{int} \&nout, \textcolor{keywordtype}{int} \&jmax, DP \&prob);}
+\DoxyCodeLine{146 \textcolor{keywordtype}{void} fdjac(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&fvec, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&df,}
+\DoxyCodeLine{147     \textcolor{keywordtype}{void} vecfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{148 \textcolor{keywordtype}{void} fgauss(\textcolor{keyword}{const} DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&a, DP \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&dyda);}
+\DoxyCodeLine{149 \textcolor{keywordtype}{void} fit(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sig, \textcolor{keyword}{const} \textcolor{keywordtype}{bool} mwt, DP \&a,}
+\DoxyCodeLine{150     DP \&b, DP \&siga, DP \&sigb, DP \&chi2, DP \&q);}
+\DoxyCodeLine{151 \textcolor{keywordtype}{void} fitexy(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sigx, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sigy,}
+\DoxyCodeLine{152     DP \&a, DP \&b, DP \&siga, DP \&sigb, DP \&chi2, DP \&q);}
+\DoxyCodeLine{153 \textcolor{keywordtype}{void} fixrts(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&d);}
+\DoxyCodeLine{154 \textcolor{keywordtype}{void} fleg(\textcolor{keyword}{const} DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&pl);}
+\DoxyCodeLine{155 \textcolor{keywordtype}{void} flmoon(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nph, \textcolor{keywordtype}{int} \&jd, DP \&frac);}
+\DoxyCodeLine{156 DP fmin(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x);}
+\DoxyCodeLine{157 \textcolor{keywordtype}{void} four1(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&data, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign);}
+\DoxyCodeLine{158 \textcolor{keywordtype}{void} fourew(\mbox{\hyperlink{class_n_r_vec}{Vec\_FSTREAM\_p}} \&file, \textcolor{keywordtype}{int} \&na, \textcolor{keywordtype}{int} \&nb, \textcolor{keywordtype}{int} \&nc, \textcolor{keywordtype}{int} \&nd);}
+\DoxyCodeLine{159 \textcolor{keywordtype}{void} fourfs(\mbox{\hyperlink{class_n_r_vec}{Vec\_FSTREAM\_p}} \&file, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&nn, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign);}
+\DoxyCodeLine{160 \textcolor{keywordtype}{void} fourn(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&data, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&nn, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign);}
+\DoxyCodeLine{161 \textcolor{keywordtype}{void} fpoly(\textcolor{keyword}{const} DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&p);}
+\DoxyCodeLine{162 \textcolor{keywordtype}{void} fred2(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&t, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&f, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w,}
+\DoxyCodeLine{163     DP g(\textcolor{keyword}{const} DP), DP ak(\textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP));}
+\DoxyCodeLine{164 DP fredin(\textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&t, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&f,}
+\DoxyCodeLine{165     \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&w, DP g(\textcolor{keyword}{const} DP), DP ak(\textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP));}
+\DoxyCodeLine{166 \textcolor{keywordtype}{void} frenel(\textcolor{keyword}{const} DP x, std::complex<DP> \&cs);}
+\DoxyCodeLine{167 \textcolor{keywordtype}{void} frprmn(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&p, \textcolor{keyword}{const} DP ftol, \textcolor{keywordtype}{int} \&iter, DP \&fret,}
+\DoxyCodeLine{168     DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&), \textcolor{keywordtype}{void} dfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{169 \textcolor{keywordtype}{void} ftest(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data2, DP \&f, DP \&prob);}
+\DoxyCodeLine{170 DP gamdev(\textcolor{keyword}{const} \textcolor{keywordtype}{int} ia, \textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{171 DP gammln(\textcolor{keyword}{const} DP xx);}
+\DoxyCodeLine{172 DP gammp(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{173 DP gammq(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{174 DP gasdev(\textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{175 \textcolor{keywordtype}{void} gaucof(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&b, \textcolor{keyword}{const} DP amu0, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x,}
+\DoxyCodeLine{176     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w);}
+\DoxyCodeLine{177 \textcolor{keywordtype}{void} gauher(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w);}
+\DoxyCodeLine{178 \textcolor{keywordtype}{void} gaujac(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w, \textcolor{keyword}{const} DP alf, \textcolor{keyword}{const} DP bet);}
+\DoxyCodeLine{179 \textcolor{keywordtype}{void} gaulag(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w, \textcolor{keyword}{const} DP alf);}
+\DoxyCodeLine{180 \textcolor{keywordtype}{void} gauleg(\textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w);}
+\DoxyCodeLine{181 \textcolor{keywordtype}{void} gaussj(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&b);}
+\DoxyCodeLine{182 \textcolor{keywordtype}{void} gcf(DP \&gammcf, \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP x, DP \&gln);}
+\DoxyCodeLine{183 DP golden(\textcolor{keyword}{const} DP ax, \textcolor{keyword}{const} DP bx, \textcolor{keyword}{const} DP cx, DP f(\textcolor{keyword}{const} DP),}
+\DoxyCodeLine{184     \textcolor{keyword}{const} DP tol, DP \&xmin);}
+\DoxyCodeLine{185 \textcolor{keywordtype}{void} gser(DP \&gamser, \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP x, DP \&gln);}
+\DoxyCodeLine{186 \textcolor{keywordtype}{void} hpsel(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&heap);}
+\DoxyCodeLine{187 \textcolor{keywordtype}{void} hpsort(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&ra);}
+\DoxyCodeLine{188 \textcolor{keywordtype}{void} hqr(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_CPLX\_DP}} \&wri);}
+\DoxyCodeLine{189 \textcolor{keywordtype}{void} hufapp(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_ULNG}} \&index, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_ULNG}} \&nprob, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n,}
+\DoxyCodeLine{190     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} m);}
+\DoxyCodeLine{191 \textcolor{keywordtype}{void} hufdec(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&ich, std::string \&code, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} lcode,}
+\DoxyCodeLine{192     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&nb, \mbox{\hyperlink{classhuffcode}{huffcode}} \&hcode);}
+\DoxyCodeLine{193 \textcolor{keywordtype}{void} hufenc(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} ich, std::string \&code, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&nb,}
+\DoxyCodeLine{194     \mbox{\hyperlink{classhuffcode}{huffcode}} \&hcode);}
+\DoxyCodeLine{195 \textcolor{keywordtype}{void} hufmak(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_ULNG}} \&nfreq, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nchin,}
+\DoxyCodeLine{196     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&ilong, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&nlong, \mbox{\hyperlink{classhuffcode}{huffcode}} \&hcode);}
+\DoxyCodeLine{197 \textcolor{keywordtype}{void} hunt(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&xx, \textcolor{keyword}{const} DP x, \textcolor{keywordtype}{int} \&jlo);}
+\DoxyCodeLine{198 \textcolor{keywordtype}{void} hypdrv(\textcolor{keyword}{const} DP s, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&yy, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&dyyds);}
+\DoxyCodeLine{199 std::complex<DP> hypgeo(\textcolor{keyword}{const} std::complex<DP> \&a, \textcolor{keyword}{const} std::complex<DP> \&b,}
+\DoxyCodeLine{200     \textcolor{keyword}{const} std::complex<DP> \&c, \textcolor{keyword}{const} std::complex<DP> \&z);}
+\DoxyCodeLine{201 \textcolor{keywordtype}{void} hypser(\textcolor{keyword}{const} std::complex<DP> \&a, \textcolor{keyword}{const} std::complex<DP> \&b,}
+\DoxyCodeLine{202     \textcolor{keyword}{const} std::complex<DP> \&c, \textcolor{keyword}{const} std::complex<DP> \&z,}
+\DoxyCodeLine{203     std::complex<DP> \&series, std::complex<DP> \&deriv);}
+\DoxyCodeLine{204 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} icrc(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} crc, \textcolor{keyword}{const} std::string \&bufptr,}
+\DoxyCodeLine{205     \textcolor{keyword}{const} \textcolor{keywordtype}{short} jinit, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jrev);}
+\DoxyCodeLine{206 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} icrc1(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} crc, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} onech);}
+\DoxyCodeLine{207 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} igray(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n, \textcolor{keyword}{const} \textcolor{keywordtype}{int} is);}
+\DoxyCodeLine{208 \textcolor{keywordtype}{void} indexx(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&indx);}
+\DoxyCodeLine{209 \textcolor{keywordtype}{void} indexx(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&indx);}
+\DoxyCodeLine{210 \textcolor{keywordtype}{void} interp(\mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&uf, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&uc);}
+\DoxyCodeLine{211 \textcolor{keywordtype}{int} irbit1(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&iseed);}
+\DoxyCodeLine{212 \textcolor{keywordtype}{int} irbit2(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&iseed);}
+\DoxyCodeLine{213 \textcolor{keywordtype}{void} jacobi(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&d, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&v, \textcolor{keywordtype}{int} \&nrot);}
+\DoxyCodeLine{214 \textcolor{keywordtype}{void} jacobn\_s(\textcolor{keyword}{const} DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&dfdx, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&dfdy);}
+\DoxyCodeLine{215 \textcolor{keywordtype}{int} julday(\textcolor{keyword}{const} \textcolor{keywordtype}{int} mm, \textcolor{keyword}{const} \textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} \textcolor{keywordtype}{int} iyyy);}
+\DoxyCodeLine{216 \textcolor{keywordtype}{void} kendl1(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data2, DP \&tau, DP \&z, DP \&prob);}
+\DoxyCodeLine{217 \textcolor{keywordtype}{void} kendl2(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&tab, DP \&tau, DP \&z, DP \&prob);}
+\DoxyCodeLine{218 \textcolor{keywordtype}{void} kermom(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w, \textcolor{keyword}{const} DP y);}
+\DoxyCodeLine{219 \textcolor{keywordtype}{void} ks2d1s(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y1, \textcolor{keywordtype}{void} quadvl(\textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP,}
+\DoxyCodeLine{220     DP \&, DP \&, DP \&, DP \&), DP \&d1, DP \&prob);}
+\DoxyCodeLine{221 \textcolor{keywordtype}{void} ks2d2s(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x2, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y2, DP \&d,}
+\DoxyCodeLine{222     DP \&prob);}
+\DoxyCodeLine{223 \textcolor{keywordtype}{void} ksone(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&data, DP func(\textcolor{keyword}{const} DP), DP \&d, DP \&prob);}
+\DoxyCodeLine{224 \textcolor{keywordtype}{void} kstwo(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&data2, DP \&d, DP \&prob);}
+\DoxyCodeLine{225 \textcolor{keywordtype}{void} laguer(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_CPLX\_DP}} \&a, std::complex<DP> \&x, \textcolor{keywordtype}{int} \&its);}
+\DoxyCodeLine{226 \textcolor{keywordtype}{void} lfit(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sig, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&a,}
+\DoxyCodeLine{227     \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_BOOL}} \&ia, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&covar, DP \&chisq,}
+\DoxyCodeLine{228     \textcolor{keywordtype}{void} funcs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{229 \textcolor{keywordtype}{void} linbcg(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&x, \textcolor{keyword}{const} \textcolor{keywordtype}{int} itol, \textcolor{keyword}{const} DP tol,}
+\DoxyCodeLine{230     \textcolor{keyword}{const} \textcolor{keywordtype}{int} itmax, \textcolor{keywordtype}{int} \&iter, DP \&err);}
+\DoxyCodeLine{231 \textcolor{keywordtype}{void} linmin(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&xi, DP \&fret, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&));}
+\DoxyCodeLine{232 \textcolor{keywordtype}{void} lnsrch(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&xold, \textcolor{keyword}{const} DP fold, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&g, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&p,}
+\DoxyCodeLine{233     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x, DP \&f, \textcolor{keyword}{const} DP stpmax, \textcolor{keywordtype}{bool} \&check, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&));}
+\DoxyCodeLine{234 \textcolor{keywordtype}{void} locate(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&xx, \textcolor{keyword}{const} DP x, \textcolor{keywordtype}{int} \&j);}
+\DoxyCodeLine{235 \textcolor{keywordtype}{void} lop(\mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&out, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&u);}
+\DoxyCodeLine{236 \textcolor{keywordtype}{void} lubksb(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&indx, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&b);}
+\DoxyCodeLine{237 \textcolor{keywordtype}{void} ludcmp(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&indx, DP \&d);}
+\DoxyCodeLine{238 \textcolor{keywordtype}{void} machar(\textcolor{keywordtype}{int} \&ibeta, \textcolor{keywordtype}{int} \&it, \textcolor{keywordtype}{int} \&irnd, \textcolor{keywordtype}{int} \&ngrd, \textcolor{keywordtype}{int} \&machep,}
+\DoxyCodeLine{239     \textcolor{keywordtype}{int} \&negep, \textcolor{keywordtype}{int} \&iexp, \textcolor{keywordtype}{int} \&minexp, \textcolor{keywordtype}{int} \&maxexp, DP \&eps, DP \&epsneg,}
+\DoxyCodeLine{240     DP \&xmin, DP \&xmax);}
+\DoxyCodeLine{241 \textcolor{keywordtype}{void} matadd(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&b, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&c);}
+\DoxyCodeLine{242 \textcolor{keywordtype}{void} matsub(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&b, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&c);}
+\DoxyCodeLine{243 \textcolor{keywordtype}{void} medfit(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, DP \&a, DP \&b, DP \&abdev);}
+\DoxyCodeLine{244 \textcolor{keywordtype}{void} memcof(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data, DP \&xms, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&d);}
+\DoxyCodeLine{245 \textcolor{keywordtype}{bool} metrop(\textcolor{keyword}{const} DP de, \textcolor{keyword}{const} DP t);}
+\DoxyCodeLine{246 \textcolor{keywordtype}{void} mgfas(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&u, \textcolor{keyword}{const} \textcolor{keywordtype}{int} maxcyc);}
+\DoxyCodeLine{247 \textcolor{keywordtype}{void} mglin(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&u, \textcolor{keyword}{const} \textcolor{keywordtype}{int} ncycle);}
+\DoxyCodeLine{248 DP midexp(DP funk(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP aa, \textcolor{keyword}{const} DP bb, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{249 DP midinf(DP funk(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP aa, \textcolor{keyword}{const} DP bb, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{250 DP midpnt(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{251 DP midsql(DP funk(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP aa, \textcolor{keyword}{const} DP bb, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{252 DP midsqu(DP funk(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP aa, \textcolor{keyword}{const} DP bb, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{253 \textcolor{keywordtype}{void} miser(DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&), \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&regn, \textcolor{keyword}{const} \textcolor{keywordtype}{int} npts,}
+\DoxyCodeLine{254     \textcolor{keyword}{const} DP dith, DP \&ave, DP \&var);}
+\DoxyCodeLine{255 \textcolor{keywordtype}{void} mmid(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&dydx, \textcolor{keyword}{const} DP xs, \textcolor{keyword}{const} DP htot,}
+\DoxyCodeLine{256     \textcolor{keyword}{const} \textcolor{keywordtype}{int} nstep, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&yout,}
+\DoxyCodeLine{257     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{258 \textcolor{keywordtype}{void} mnbrak(DP \&ax, DP \&bx, DP \&cx, DP \&fa, DP \&fb, DP \&fc,}
+\DoxyCodeLine{259     DP func(\textcolor{keyword}{const} DP));}
+\DoxyCodeLine{260 \textcolor{keywordtype}{void} mnewt(\textcolor{keyword}{const} \textcolor{keywordtype}{int} ntrial, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&x, \textcolor{keyword}{const} DP tolx, \textcolor{keyword}{const} DP tolf);}
+\DoxyCodeLine{261 \textcolor{keywordtype}{void} moment(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data, DP \&ave, DP \&adev, DP \&sdev, DP \&var, DP \&skew,}
+\DoxyCodeLine{262     DP \&curt);}
+\DoxyCodeLine{263 \textcolor{keywordtype}{void} mp2dfr(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_UCHR}} \&a, std::string \&s);}
+\DoxyCodeLine{264 \textcolor{keywordtype}{void} mpadd(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&v);}
+\DoxyCodeLine{265 \textcolor{keywordtype}{void} mpdiv(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&q, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&v);}
+\DoxyCodeLine{266 \textcolor{keywordtype}{void} mpinv(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&v);}
+\DoxyCodeLine{267 \textcolor{keywordtype}{void} mplsh(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_UCHR}} \&u);}
+\DoxyCodeLine{268 \textcolor{keywordtype}{void} mpmov(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&v);}
+\DoxyCodeLine{269 \textcolor{keywordtype}{void} mpmul(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&v);}
+\DoxyCodeLine{270 \textcolor{keywordtype}{void} mpneg(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_UCHR}} \&u);}
+\DoxyCodeLine{271 \textcolor{keywordtype}{void} mppi(\textcolor{keyword}{const} \textcolor{keywordtype}{int} np);}
+\DoxyCodeLine{272 \textcolor{keywordtype}{void} mprove(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&alud, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&indx, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&b,}
+\DoxyCodeLine{273     \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&x);}
+\DoxyCodeLine{274 \textcolor{keywordtype}{void} mpsad(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&u, \textcolor{keyword}{const} \textcolor{keywordtype}{int} iv);}
+\DoxyCodeLine{275 \textcolor{keywordtype}{void} mpsdv(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&u, \textcolor{keyword}{const} \textcolor{keywordtype}{int} iv, \textcolor{keywordtype}{int} \&ir);}
+\DoxyCodeLine{276 \textcolor{keywordtype}{void} mpsmu(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&u, \textcolor{keyword}{const} \textcolor{keywordtype}{int} iv);}
+\DoxyCodeLine{277 \textcolor{keywordtype}{void} mpsqrt(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&v);}
+\DoxyCodeLine{278 \textcolor{keywordtype}{void} mpsub(\textcolor{keywordtype}{int} \&is, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}} \&v);}
+\DoxyCodeLine{279 \textcolor{keywordtype}{void} mrqcof(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sig, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&a,}
+\DoxyCodeLine{280     \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_BOOL}} \&ia, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&alpha, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&beta, DP \&chisq,}
+\DoxyCodeLine{281     \textcolor{keywordtype}{void} funcs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&,DP \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{282 \textcolor{keywordtype}{void} mrqmin(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sig, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&a,}
+\DoxyCodeLine{283     \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_BOOL}} \&ia, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&covar, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&alpha, DP \&chisq,}
+\DoxyCodeLine{284     \textcolor{keywordtype}{void} funcs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, DP \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&), DP \&alamda);}
+\DoxyCodeLine{285 \textcolor{keywordtype}{void} newt(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&x, \textcolor{keywordtype}{bool} \&check, \textcolor{keywordtype}{void} vecfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{286     \textcolor{keywordtype}{void} odeint(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&ystart, \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} DP eps,}
+\DoxyCodeLine{287                     \textcolor{keyword}{const} DP h1, \textcolor{keyword}{const} DP hmin, \textcolor{keywordtype}{int} \&nok, \textcolor{keywordtype}{int} \&nbad, \textcolor{keywordtype}{int} \&timecount, DP \&dxsav,}
+\DoxyCodeLine{288                     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&, \textcolor{keyword}{const} DP),}
+\DoxyCodeLine{289                     \textcolor{keywordtype}{void} rkqs(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, DP \&, \textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP,}
+\DoxyCodeLine{290                               \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, DP \&, DP \&, \textcolor{keywordtype}{void} (*)(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&,\textcolor{keyword}{const} DP),\textcolor{keyword}{const} DP),\textcolor{keyword}{const} DP k\_comoving , \mbox{\hyperlink{class_n_r_vec}{Vec\_DP}} *xp\_p, \mbox{\hyperlink{class_n_r_mat}{Mat\_DP}} *yp\_p , \textcolor{keyword}{const} \textcolor{keywordtype}{int} timecount\_max\_zero);}
+\DoxyCodeLine{291 \textcolor{keywordtype}{void} odeintSCH(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&ystart, \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} DP eps,}
+\DoxyCodeLine{292     \textcolor{keyword}{const} DP h1, \textcolor{keyword}{const} DP hmin, \textcolor{keywordtype}{int} \&nok, \textcolor{keywordtype}{int} \&nbad, \textcolor{keywordtype}{int} \&timecount, DP \&dxsav,}
+\DoxyCodeLine{293     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&),}
+\DoxyCodeLine{294     \textcolor{keywordtype}{void} rkqs(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, DP \&, \textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP,}
+\DoxyCodeLine{295     \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, DP \&, DP \&, \textcolor{keywordtype}{void} (*)(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&)), \textcolor{keyword}{const} DP k\_comoving);}
+\DoxyCodeLine{296     \textcolor{keywordtype}{void} odeintpert(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&ystart, \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} DP eps,}
+\DoxyCodeLine{297                         \textcolor{keyword}{const} DP h1, \textcolor{keyword}{const} DP hmin, \textcolor{keywordtype}{int} \&nok, \textcolor{keywordtype}{int} \&nbad, \textcolor{keywordtype}{int} \&timecount, DP \&dxsav,}
+\DoxyCodeLine{298                         \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&, \textcolor{keyword}{const} DP),}
+\DoxyCodeLine{299                         \textcolor{keywordtype}{void} rkqs(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, DP \&, \textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP,}
+\DoxyCodeLine{300                                   \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, DP \&, DP \&, \textcolor{keywordtype}{void} (*)(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&, \textcolor{keyword}{const} DP),\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP k\_comoving, \mbox{\hyperlink{class_n_r_vec}{Vec\_DP}} *xp2\_p, \mbox{\hyperlink{class_n_r_mat}{Mat\_DP}} *delp\_p, \textcolor{keyword}{const} \textcolor{keywordtype}{int} timecount\_max\_pert);}
+\DoxyCodeLine{301 \textcolor{keywordtype}{void} odeintMo(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&ystart, \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} DP eps,}
+\DoxyCodeLine{302     \textcolor{keyword}{const} DP h1, \textcolor{keyword}{const} DP hmin, \textcolor{keywordtype}{int} \&nok, \textcolor{keywordtype}{int} \&nbad, \textcolor{keywordtype}{int} \&timecount, DP \&dxsav,}
+\DoxyCodeLine{303     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&),}
+\DoxyCodeLine{304     \textcolor{keywordtype}{void} rkqs(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, DP \&, \textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP,}
+\DoxyCodeLine{305     \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, DP \&, DP \&, \textcolor{keywordtype}{void} (*)(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&)));}
+\DoxyCodeLine{306 \textcolor{keywordtype}{void} orthog(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&anu, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&alpha, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&beta, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&a,}
+\DoxyCodeLine{307     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&b);}
+\DoxyCodeLine{308 \textcolor{keywordtype}{void} pade(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&cof, DP \&resid);}
+\DoxyCodeLine{309 \textcolor{keywordtype}{void} pccheb(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&c);}
+\DoxyCodeLine{310 \textcolor{keywordtype}{void} pcshft(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&d);}
+\DoxyCodeLine{311 \textcolor{keywordtype}{void} pearsn(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, DP \&r, DP \&prob, DP \&z);}
+\DoxyCodeLine{312 \textcolor{keywordtype}{void} period(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \textcolor{keyword}{const} DP ofac, \textcolor{keyword}{const} DP hifac,}
+\DoxyCodeLine{313     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&px, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&py, \textcolor{keywordtype}{int} \&nout, \textcolor{keywordtype}{int} \&jmax, DP \&prob);}
+\DoxyCodeLine{314 \textcolor{keywordtype}{void} piksr2(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&brr);}
+\DoxyCodeLine{315 \textcolor{keywordtype}{void} piksrt(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&arr);}
+\DoxyCodeLine{316 \textcolor{keywordtype}{void} pinvs(\textcolor{keyword}{const} \textcolor{keywordtype}{int} ie1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} ie2, \textcolor{keyword}{const} \textcolor{keywordtype}{int} je1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jsf,}
+\DoxyCodeLine{317     \textcolor{keyword}{const} \textcolor{keywordtype}{int} jc1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} k, \mbox{\hyperlink{class_n_r_mat3d}{Mat3D\_O\_DP}} \&c, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&s);}
+\DoxyCodeLine{318 DP plgndr(\textcolor{keyword}{const} \textcolor{keywordtype}{int} l, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m, \textcolor{keyword}{const} DP x);}
+\DoxyCodeLine{319 DP poidev(\textcolor{keyword}{const} DP xm, \textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{320 \textcolor{keywordtype}{void} polcoe(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&cof);}
+\DoxyCodeLine{321 \textcolor{keywordtype}{void} polcof(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&xa, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&ya, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&cof);}
+\DoxyCodeLine{322 \textcolor{keywordtype}{void} poldiv(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&q, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&r);}
+\DoxyCodeLine{323 \textcolor{keywordtype}{void} polin2(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x1a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x2a, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&ya, \textcolor{keyword}{const} DP x1,}
+\DoxyCodeLine{324     \textcolor{keyword}{const} DP x2, DP \&y, DP \&dy);}
+\DoxyCodeLine{325 \textcolor{keywordtype}{void} polint(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&xa, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&ya, \textcolor{keyword}{const} DP x, DP \&y, DP \&dy);}
+\DoxyCodeLine{326 \textcolor{keywordtype}{void} powell(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&p, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&xi, \textcolor{keyword}{const} DP ftol, \textcolor{keywordtype}{int} \&iter,}
+\DoxyCodeLine{327     DP \&fret, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&));}
+\DoxyCodeLine{328 \textcolor{keywordtype}{void} predic(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&future);}
+\DoxyCodeLine{329 DP probks(\textcolor{keyword}{const} DP alam);}
+\DoxyCodeLine{330 \textcolor{keywordtype}{void} psdes(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&lword, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \&irword);}
+\DoxyCodeLine{331 \textcolor{keywordtype}{void} pwt(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign);}
+\DoxyCodeLine{332 \textcolor{keywordtype}{void} pwtset(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{333 DP pythag(\textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b);}
+\DoxyCodeLine{334 \textcolor{keywordtype}{void} pzextr(\textcolor{keyword}{const} \textcolor{keywordtype}{int} iest, \textcolor{keyword}{const} DP xest, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&yest, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&yz,}
+\DoxyCodeLine{335     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&dy);}
+\DoxyCodeLine{336 DP qgaus(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b);}
+\DoxyCodeLine{337 \textcolor{keywordtype}{void} qrdcmp(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&d, \textcolor{keywordtype}{bool} \&sing);}
+\DoxyCodeLine{338 DP qromb(DP func(\textcolor{keyword}{const} DP), DP a, DP b);}
+\DoxyCodeLine{339 DP qromo(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b,}
+\DoxyCodeLine{340     DP choose(DP (*)(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP, \textcolor{keyword}{const} \textcolor{keywordtype}{int}));}
+\DoxyCodeLine{341 \textcolor{keywordtype}{void} qroot(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&p, DP \&b, DP \&c, \textcolor{keyword}{const} DP eps);}
+\DoxyCodeLine{342 \textcolor{keywordtype}{void} qrsolv(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&b);}
+\DoxyCodeLine{343 \textcolor{keywordtype}{void} qrupdt(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&r, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&qt, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&v);}
+\DoxyCodeLine{344 DP qsimp(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b);}
+\DoxyCodeLine{345 DP qtrap(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b);}
+\DoxyCodeLine{346 DP quad3d(DP func(\textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2);}
+\DoxyCodeLine{347 \textcolor{keywordtype}{void} quadct(\textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&xx, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&yy, DP \&fa,}
+\DoxyCodeLine{348     DP \&fb, DP \&fc, DP \&fd);}
+\DoxyCodeLine{349 \textcolor{keywordtype}{void} quadmx(\mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&a);}
+\DoxyCodeLine{350 \textcolor{keywordtype}{void} quadvl(\textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP y, DP \&fa, DP \&fb, DP \&fc, DP \&fd);}
+\DoxyCodeLine{351 DP ran0(\textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{352 DP ran1(\textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{353 DP ran2(\textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{354 DP ran3(\textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{355 DP ran4(\textcolor{keywordtype}{int} \&idum);}
+\DoxyCodeLine{356 \textcolor{keywordtype}{void} rank(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&indx, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&irank);}
+\DoxyCodeLine{357 \textcolor{keywordtype}{void} ranpt(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&pt, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&regn);}
+\DoxyCodeLine{358 \textcolor{keywordtype}{void} ratint(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&xa, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&ya, \textcolor{keyword}{const} DP x, DP \&y, DP \&dy);}
+\DoxyCodeLine{359 \textcolor{keywordtype}{void} ratlsq(DP fn(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \textcolor{keyword}{const} \textcolor{keywordtype}{int} mm,}
+\DoxyCodeLine{360     \textcolor{keyword}{const} \textcolor{keywordtype}{int} kk, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&cof, DP \&dev);}
+\DoxyCodeLine{361 DP ratval(\textcolor{keyword}{const} DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&cof, \textcolor{keyword}{const} \textcolor{keywordtype}{int} mm, \textcolor{keyword}{const} \textcolor{keywordtype}{int} kk);}
+\DoxyCodeLine{362 DP rc(\textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP y);}
+\DoxyCodeLine{363 DP rd(\textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP y, \textcolor{keyword}{const} DP z);}
+\DoxyCodeLine{364 \textcolor{keywordtype}{void} realft(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&data, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign);}
+\DoxyCodeLine{365 \textcolor{keywordtype}{void} rebin(\textcolor{keyword}{const} DP rc, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nd, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&xin,}
+\DoxyCodeLine{366     \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&xi, \textcolor{keyword}{const} \textcolor{keywordtype}{int} j);}
+\DoxyCodeLine{367 \textcolor{keywordtype}{void} red(\textcolor{keyword}{const} \textcolor{keywordtype}{int} iz1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} iz2, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jz1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jz2,}
+\DoxyCodeLine{368     \textcolor{keyword}{const} \textcolor{keywordtype}{int} jm1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jm2, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jmf, \textcolor{keyword}{const} \textcolor{keywordtype}{int} ic1,}
+\DoxyCodeLine{369     \textcolor{keyword}{const} \textcolor{keywordtype}{int} jc1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} jcf, \textcolor{keyword}{const} \textcolor{keywordtype}{int} kc, \mbox{\hyperlink{class_n_r_mat3d}{Mat3D\_I\_DP}} \&c,}
+\DoxyCodeLine{370     \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&s);}
+\DoxyCodeLine{371 \textcolor{keywordtype}{void} relax(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&rhs);}
+\DoxyCodeLine{372 \textcolor{keywordtype}{void} relax2(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&rhs);}
+\DoxyCodeLine{373 \textcolor{keywordtype}{void} resid(\mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&res, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&rhs);}
+\DoxyCodeLine{374 DP revcst(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&iorder, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_INT}} \&n);}
+\DoxyCodeLine{375 \textcolor{keywordtype}{void} reverse(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_INT}} \&iorder, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&n);}
+\DoxyCodeLine{376 DP rf(\textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP y, \textcolor{keyword}{const} DP z);}
+\DoxyCodeLine{377 DP rj(\textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP y, \textcolor{keyword}{const} DP z, \textcolor{keyword}{const} DP p);}
+\DoxyCodeLine{378     \textcolor{keywordtype}{void} rk4(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&dydx, \textcolor{keyword}{const} DP x, \textcolor{keyword}{const} DP h,}
+\DoxyCodeLine{379                  \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&yout,\textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP,\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&, \textcolor{keyword}{const} DP k\_comoving), \textcolor{keyword}{const} DP k\_comoving);}
+\DoxyCodeLine{380     \textcolor{keywordtype}{void} rkck(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&dydx, \textcolor{keyword}{const} DP x,}
+\DoxyCodeLine{381                   \textcolor{keyword}{const} DP h, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&yout, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&yerr,}
+\DoxyCodeLine{382                   \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&, \textcolor{keyword}{const} DP k\_comoving));}
+\DoxyCodeLine{383 \textcolor{keywordtype}{void} rkdumb(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&vstart, \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2,}
+\DoxyCodeLine{384     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{385     \textcolor{keywordtype}{void} rkqs(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&dydx, DP \&x, \textcolor{keyword}{const} DP htry,}
+\DoxyCodeLine{386                   \textcolor{keyword}{const} DP eps, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&yscal, DP \&hdid, DP \&hnext,}
+\DoxyCodeLine{387                   \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&, \textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP k\_comoving);}
+\DoxyCodeLine{388 \textcolor{keywordtype}{void} rlft3(\mbox{\hyperlink{class_n_r_mat3d}{Mat3D\_IO\_DP}} \&data, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&speq, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign);}
+\DoxyCodeLine{389 DP rofunc(\textcolor{keyword}{const} DP b);}
+\DoxyCodeLine{390 \textcolor{keywordtype}{void} rotate(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&r, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&qt, \textcolor{keyword}{const} \textcolor{keywordtype}{int} i, \textcolor{keyword}{const} DP a,}
+\DoxyCodeLine{391     \textcolor{keyword}{const} DP b);}
+\DoxyCodeLine{392 \textcolor{keywordtype}{void} rsolv(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&b);}
+\DoxyCodeLine{393 \textcolor{keywordtype}{void} rstrct(\mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&uc, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&uf);}
+\DoxyCodeLine{394 DP rtbis(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} DP xacc);}
+\DoxyCodeLine{395 DP rtflsp(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} DP xacc);}
+\DoxyCodeLine{396 DP rtnewt(\textcolor{keywordtype}{void} funcd(\textcolor{keyword}{const} DP, DP \&, DP \&), \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2,}
+\DoxyCodeLine{397     \textcolor{keyword}{const} DP xacc);}
+\DoxyCodeLine{398 DP rtsafe(\textcolor{keywordtype}{void} funcd(\textcolor{keyword}{const} DP, DP \&, DP \&), \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2,}
+\DoxyCodeLine{399     \textcolor{keyword}{const} DP xacc);}
+\DoxyCodeLine{400 DP rtsec(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} DP xacc);}
+\DoxyCodeLine{401 \textcolor{keywordtype}{void} rzextr(\textcolor{keyword}{const} \textcolor{keywordtype}{int} iest, \textcolor{keyword}{const} DP xest, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&yest, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&yz,}
+\DoxyCodeLine{402     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&dy);}
+\DoxyCodeLine{403 \textcolor{keywordtype}{void} savgol(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&c, \textcolor{keyword}{const} \textcolor{keywordtype}{int} np, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nl, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nr,}
+\DoxyCodeLine{404     \textcolor{keyword}{const} \textcolor{keywordtype}{int} ld, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m);}
+\DoxyCodeLine{405 \textcolor{keywordtype}{void} scrsho(DP fx(\textcolor{keyword}{const} DP));}
+\DoxyCodeLine{406 DP select(\textcolor{keyword}{const} \textcolor{keywordtype}{int} k, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&arr);}
+\DoxyCodeLine{407 DP selip(\textcolor{keyword}{const} \textcolor{keywordtype}{int} k, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&arr);}
+\DoxyCodeLine{408 \textcolor{keywordtype}{void} shell(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&a);}
+\DoxyCodeLine{409 \textcolor{keywordtype}{void} shoot(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&f);}
+\DoxyCodeLine{410 \textcolor{keywordtype}{void} shootf(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&f);}
+\DoxyCodeLine{411 \textcolor{keywordtype}{void} simp1(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} mm, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&ll, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nll,}
+\DoxyCodeLine{412     \textcolor{keyword}{const} \textcolor{keywordtype}{int} iabf, \textcolor{keywordtype}{int} \&kp, DP \&bmax);}
+\DoxyCodeLine{413 \textcolor{keywordtype}{void} simp2(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} \&ip, \textcolor{keyword}{const} \textcolor{keywordtype}{int} kp);}
+\DoxyCodeLine{414 \textcolor{keywordtype}{void} simp3(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} i1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} k1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} ip,}
+\DoxyCodeLine{415     \textcolor{keyword}{const} \textcolor{keywordtype}{int} kp);}
+\DoxyCodeLine{416 \textcolor{keywordtype}{void} simplx(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m1, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m2, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m3,}
+\DoxyCodeLine{417     \textcolor{keywordtype}{int} \&icase, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&izrov, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&iposv);}
+\DoxyCodeLine{418 \textcolor{keywordtype}{void} simpr(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&dydx, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&dfdx, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&dfdy,}
+\DoxyCodeLine{419     \textcolor{keyword}{const} DP xs, \textcolor{keyword}{const} DP htot, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nstep, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&yout,}
+\DoxyCodeLine{420     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{421 \textcolor{keywordtype}{void} sinft(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&y);}
+\DoxyCodeLine{422 \textcolor{keywordtype}{void} slvsm2(\mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&rhs);}
+\DoxyCodeLine{423 \textcolor{keywordtype}{void} slvsml(\mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&rhs);}
+\DoxyCodeLine{424 \textcolor{keywordtype}{void} sncndn(\textcolor{keyword}{const} DP uu, \textcolor{keyword}{const} DP emmc, DP \&sn, DP \&cn, DP \&dn);}
+\DoxyCodeLine{425 DP snrm(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sx, \textcolor{keyword}{const} \textcolor{keywordtype}{int} itol);}
+\DoxyCodeLine{426 \textcolor{keywordtype}{void} sobseq(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x);}
+\DoxyCodeLine{427 \textcolor{keywordtype}{void} solvde(\textcolor{keyword}{const} \textcolor{keywordtype}{int} itmax, \textcolor{keyword}{const} DP conv, \textcolor{keyword}{const} DP slowc,}
+\DoxyCodeLine{428     \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&scalv, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&indexv, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nb, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&y);}
+\DoxyCodeLine{429 \textcolor{keywordtype}{void} sor(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&b, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&c, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&d, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&e,}
+\DoxyCodeLine{430     \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&f, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&u, \textcolor{keyword}{const} DP rjac);}
+\DoxyCodeLine{431 \textcolor{keywordtype}{void} sort(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&arr);}
+\DoxyCodeLine{432 \textcolor{keywordtype}{void} sort2(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&brr);}
+\DoxyCodeLine{433 \textcolor{keywordtype}{void} sort3(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&ra, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&rb, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&rc);}
+\DoxyCodeLine{434 \textcolor{keywordtype}{void} spctrm(std::ifstream \&fp, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&p, \textcolor{keyword}{const} \textcolor{keywordtype}{int} k, \textcolor{keyword}{const} \textcolor{keywordtype}{bool} ovrlap);}
+\DoxyCodeLine{435 \textcolor{keywordtype}{void} spear(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data2, DP \&d, DP \&zd, DP \&probd,}
+\DoxyCodeLine{436     DP \&rs, DP \&probrs);}
+\DoxyCodeLine{437 \textcolor{keywordtype}{void} sphbes(\textcolor{keyword}{const} \textcolor{keywordtype}{int} n, \textcolor{keyword}{const} DP x, DP \&sj, DP \&sy, DP \&sjp, DP \&syp);}
+\DoxyCodeLine{438 \textcolor{keywordtype}{void} splie2(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x1a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x2a, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&ya, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&y2a);}
+\DoxyCodeLine{439 \textcolor{keywordtype}{void} splin2(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x1a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x2a, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&ya, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&y2a,}
+\DoxyCodeLine{440     \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, DP \&y);}
+\DoxyCodeLine{441 \textcolor{keywordtype}{void} spline(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \textcolor{keyword}{const} DP yp1, \textcolor{keyword}{const} DP ypn,}
+\DoxyCodeLine{442     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&y2);}
+\DoxyCodeLine{443 \textcolor{keywordtype}{void} splint(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&xa, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&ya, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y2a, \textcolor{keyword}{const} DP x, DP \&y);}
+\DoxyCodeLine{444 \textcolor{keywordtype}{void} spread(\textcolor{keyword}{const} DP y, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&yy, \textcolor{keyword}{const} DP x, \textcolor{keyword}{const} \textcolor{keywordtype}{int} m);}
+\DoxyCodeLine{445 \textcolor{keywordtype}{void} sprsax(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&b);}
+\DoxyCodeLine{446 \textcolor{keywordtype}{void} sprsin(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&a, \textcolor{keyword}{const} DP thresh, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&ija);}
+\DoxyCodeLine{447 \textcolor{keywordtype}{void} sprspm(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sb, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&ijb,}
+\DoxyCodeLine{448     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&sc, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&ijc);}
+\DoxyCodeLine{449 \textcolor{keywordtype}{void} sprstm(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sb, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&ijb,}
+\DoxyCodeLine{450     \textcolor{keyword}{const} DP thresh, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&sc, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&ijc);}
+\DoxyCodeLine{451 \textcolor{keywordtype}{void} sprstp(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&sb, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}} \&ijb);}
+\DoxyCodeLine{452 \textcolor{keywordtype}{void} sprstx(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&b);}
+\DoxyCodeLine{453 \textcolor{keywordtype}{void} stifbs(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&dydx, DP \&xx, \textcolor{keyword}{const} DP htry,}
+\DoxyCodeLine{454     \textcolor{keyword}{const} DP eps, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&yscal, DP \&hdid, DP \&hnext,}
+\DoxyCodeLine{455     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{456 \textcolor{keywordtype}{void} stiff(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&dydx, DP \&x, \textcolor{keyword}{const} DP htry,}
+\DoxyCodeLine{457     \textcolor{keyword}{const} DP eps, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&yscal, DP \&hdid, DP \&hnext,}
+\DoxyCodeLine{458     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{459 \textcolor{keywordtype}{void} stoerm(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&d2y, \textcolor{keyword}{const} DP xs,}
+\DoxyCodeLine{460     \textcolor{keyword}{const} DP htot, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nstep, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&yout,}
+\DoxyCodeLine{461     \textcolor{keywordtype}{void} derivs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{462 \textcolor{keywordtype}{void} svbksb(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&w, \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x);}
+\DoxyCodeLine{463 \textcolor{keywordtype}{void} svdcmp(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&v);}
+\DoxyCodeLine{464 \textcolor{keywordtype}{void} svdfit(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&sig, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&a,}
+\DoxyCodeLine{465     \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w, DP \&chisq,}
+\DoxyCodeLine{466     \textcolor{keywordtype}{void} funcs(\textcolor{keyword}{const} DP, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&));}
+\DoxyCodeLine{467 \textcolor{keywordtype}{void} svdvar(\mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&w, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&cvm);}
+\DoxyCodeLine{468 \textcolor{keywordtype}{void} toeplz(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y);}
+\DoxyCodeLine{469 \textcolor{keywordtype}{void} tptest(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data2, DP \&t, DP \&prob);}
+\DoxyCodeLine{470 \textcolor{keywordtype}{void} tqli(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&e, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&z);}
+\DoxyCodeLine{471 DP trapzd(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP a, \textcolor{keyword}{const} DP b, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n);}
+\DoxyCodeLine{472 \textcolor{keywordtype}{void} tred2(\mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&e);}
+\DoxyCodeLine{473 \textcolor{keywordtype}{void} tridag(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&u);}
+\DoxyCodeLine{474 DP trncst(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&iorder, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_INT}} \&n);}
+\DoxyCodeLine{475 \textcolor{keywordtype}{void} trnspt(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_INT}} \&iorder, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&n);}
+\DoxyCodeLine{476 \textcolor{keywordtype}{void} ttest(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data2, DP \&t, DP \&prob);}
+\DoxyCodeLine{477 \textcolor{keywordtype}{void} tutest(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data2, DP \&t, DP \&prob);}
+\DoxyCodeLine{478 \textcolor{keywordtype}{void} twofft(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&data2, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&fft1,}
+\DoxyCodeLine{479     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&fft2);}
+\DoxyCodeLine{480 \textcolor{keywordtype}{void} vander(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&q);}
+\DoxyCodeLine{481 \textcolor{keywordtype}{void} vegas(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&regn, DP fxn(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&, \textcolor{keyword}{const} DP), \textcolor{keyword}{const} \textcolor{keywordtype}{int} init,}
+\DoxyCodeLine{482     \textcolor{keyword}{const} \textcolor{keywordtype}{int} ncall, \textcolor{keyword}{const} \textcolor{keywordtype}{int} itmx, \textcolor{keyword}{const} \textcolor{keywordtype}{int} nprn, DP \&tgral, DP \&sd,}
+\DoxyCodeLine{483     DP \&chi2a);}
+\DoxyCodeLine{484 \textcolor{keywordtype}{void} voltra(\textcolor{keyword}{const} DP t0, \textcolor{keyword}{const} DP h, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&t, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}} \&f,}
+\DoxyCodeLine{485     DP g(\textcolor{keyword}{const} \textcolor{keywordtype}{int}, \textcolor{keyword}{const} DP),}
+\DoxyCodeLine{486     DP ak(\textcolor{keyword}{const} \textcolor{keywordtype}{int}, \textcolor{keyword}{const} \textcolor{keywordtype}{int}, \textcolor{keyword}{const} DP, \textcolor{keyword}{const} DP));}
+\DoxyCodeLine{487 \textcolor{keywordtype}{void} wt1(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign,}
+\DoxyCodeLine{488     \textcolor{keywordtype}{void} wtstep(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}, \textcolor{keyword}{const} \textcolor{keywordtype}{int}));}
+\DoxyCodeLine{489 \textcolor{keywordtype}{void} wtn(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}} \&nn, \textcolor{keyword}{const} \textcolor{keywordtype}{int} isign,}
+\DoxyCodeLine{490     \textcolor{keywordtype}{void} wtstep(\mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}} \&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}, \textcolor{keyword}{const} \textcolor{keywordtype}{int}));}
+\DoxyCodeLine{491 \textcolor{keywordtype}{void} wwghts(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&wghts, \textcolor{keyword}{const} DP h,}
+\DoxyCodeLine{492     \textcolor{keywordtype}{void} kermom(\mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&w, \textcolor{keyword}{const} DP y));}
+\DoxyCodeLine{493 \textcolor{keywordtype}{bool} zbrac(DP func(\textcolor{keyword}{const} DP), DP \&x1, DP \&x2);}
+\DoxyCodeLine{494 \textcolor{keywordtype}{void} zbrak(DP fx(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n,}
+\DoxyCodeLine{495     \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&xb1, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}} \&xb2, \textcolor{keywordtype}{int} \&nroot);}
+\DoxyCodeLine{496 DP zbrent(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} DP tol);}
+\DoxyCodeLine{497 \textcolor{keywordtype}{void} zrhqr(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_CPLX\_DP}} \&rt);}
+\DoxyCodeLine{498 DP zriddr(DP func(\textcolor{keyword}{const} DP), \textcolor{keyword}{const} DP x1, \textcolor{keyword}{const} DP x2, \textcolor{keyword}{const} DP xacc);}
+\DoxyCodeLine{499 \textcolor{keywordtype}{void} zroots(\mbox{\hyperlink{class_n_r_vec}{Vec\_I\_CPLX\_DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_CPLX\_DP}} \&roots, \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \&polish);}
+\DoxyCodeLine{500 \}}
+\DoxyCodeLine{501 }
+\DoxyCodeLine{502 }
+\DoxyCodeLine{503 \textcolor{preprocessor}{\#endif }}
+
+\end{DoxyCode}

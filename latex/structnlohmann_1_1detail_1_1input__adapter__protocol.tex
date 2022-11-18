@@ -1,0 +1,52 @@
+\hypertarget{structnlohmann_1_1detail_1_1input__adapter__protocol}{}\doxysection{nlohmann\+::detail\+::input\+\_\+adapter\+\_\+protocol Struct Reference}
+\label{structnlohmann_1_1detail_1_1input__adapter__protocol}\index{nlohmann::detail::input\_adapter\_protocol@{nlohmann::detail::input\_adapter\_protocol}}
+
+
+abstract input adapter interface  
+
+
+
+
+{\ttfamily \#include $<$json.\+hpp$>$}
+
+
+
+Inheritance diagram for nlohmann\+::detail\+::input\+\_\+adapter\+\_\+protocol\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{structnlohmann_1_1detail_1_1input__adapter__protocol__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::char\+\_\+traits$<$ char $>$\+::int\+\_\+type \mbox{\hyperlink{structnlohmann_1_1detail_1_1input__adapter__protocol_ac4acb1eac715f3f63a427e44517d31b6}{get\+\_\+character}} ()=0
+\begin{DoxyCompactList}\small\item\em get a character \mbox{[}0,255\mbox{]} or std\+::char\+\_\+traits$<$char$>$\+::eof(). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+abstract input adapter interface 
+
+Produces a stream of std\+::char\+\_\+traits$<$char$>$\+::int\+\_\+type characters from a std\+::istream, a buffer, or some other input type. Accepts the return of exactly one non-\/\+EOF character for future input. The int\+\_\+type characters returned consist of all valid char values as positive values (typically unsigned char), plus an EOF value outside that range, specified by the value of the function std\+::char\+\_\+traits$<$char$>$\+::eof(). This value is typically -\/1, but could be any arbitrary value which is not a valid char value. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structnlohmann_1_1detail_1_1input__adapter__protocol_ac4acb1eac715f3f63a427e44517d31b6}\label{structnlohmann_1_1detail_1_1input__adapter__protocol_ac4acb1eac715f3f63a427e44517d31b6}} 
+\index{nlohmann::detail::input\_adapter\_protocol@{nlohmann::detail::input\_adapter\_protocol}!get\_character@{get\_character}}
+\index{get\_character@{get\_character}!nlohmann::detail::input\_adapter\_protocol@{nlohmann::detail::input\_adapter\_protocol}}
+\doxysubsubsection{\texorpdfstring{get\_character()}{get\_character()}}
+{\footnotesize\ttfamily virtual std\+::char\+\_\+traits$<$ char $>$\+::int\+\_\+type nlohmann\+::detail\+::input\+\_\+adapter\+\_\+protocol\+::get\+\_\+character (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+get a character \mbox{[}0,255\mbox{]} or std\+::char\+\_\+traits$<$char$>$\+::eof(). 
+
+
+
+Implemented in \mbox{\hyperlink{classnlohmann_1_1detail_1_1file__input__adapter_a7212ffadebeb1af5c6e3933796eff3cd}{nlohmann\+::detail\+::file\+\_\+input\+\_\+adapter}}, \mbox{\hyperlink{classnlohmann_1_1detail_1_1input__buffer__adapter_aeb6ab9236f15656d9320299ef891b922}{nlohmann\+::detail\+::input\+\_\+buffer\+\_\+adapter}}, \mbox{\hyperlink{classnlohmann_1_1detail_1_1wide__string__input__adapter_a6a584f8de6b64737e263d8927dedce0a}{nlohmann\+::detail\+::wide\+\_\+string\+\_\+input\+\_\+adapter$<$ Wide\+String\+Type $>$}}, and \mbox{\hyperlink{classnlohmann_1_1detail_1_1input__stream__adapter_af62923bebc158401c9f09ac56047abd8}{nlohmann\+::detail\+::input\+\_\+stream\+\_\+adapter}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{json_8hpp}{json.\+hpp}}\end{DoxyCompactItemize}

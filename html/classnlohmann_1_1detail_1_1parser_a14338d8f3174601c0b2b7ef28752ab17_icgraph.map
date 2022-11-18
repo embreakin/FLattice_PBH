@@ -1,0 +1,5 @@
+<map id="nlohmann::detail::parser::parse" name="nlohmann::detail::parser::parse">
+<area shape="rect" id="node1" title="public parser interface" alt="" coords="360,5,521,45"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#afd4ef1ac8ad50a5894a9afebca69140a" title="deserialize from a compatible input" alt="" coords="164,5,312,45"/>
+<area shape="rect" id="node3" href="$json_8hpp.html#ae90d59ab420a183cd5fb8588bdc95e06" title="user&#45;defined string literal for JSON values" alt="" coords="5,13,116,38"/>
+</map>

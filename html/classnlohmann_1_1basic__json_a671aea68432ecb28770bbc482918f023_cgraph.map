@@ -1,0 +1,5 @@
+<map id="nlohmann::basic_json::value" name="nlohmann::basic_json::value">
+<area shape="rect" id="node1" title="access specified object element via JSON Pointer with default value" alt="" coords="5,37,153,77"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#af8f511af124e82e4579f444b4175787c" title="return whether value is an object" alt="" coords="201,5,349,45"/>
+<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#a521d4e91a5dfe4dc5de4629235ca2291" title="return the type as string" alt="" coords="201,69,349,109"/>
+</map>

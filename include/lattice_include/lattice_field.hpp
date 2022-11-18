@@ -1,10 +1,19 @@
+//Doxygen
+/**
+* @file   lattice_field.hpp
+* @brief    Lattice field header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 #ifndef _LATTICEFIELD_H_
 #define _LATTICEFIELD_H_
 
 #include <cmath>
 #include "parameters.hpp"
-#include "lattice_evol.hpp"
 
+class LeapFrog;
 
 class Field
 {

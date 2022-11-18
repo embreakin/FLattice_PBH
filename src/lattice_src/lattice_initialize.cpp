@@ -1,3 +1,12 @@
+//Doxygen
+/**
+* @file    lattice_initialize.cpp
+* @brief    Lattice initialization source file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 
 #include "lattice_initialize.hpp"
 #include "utilities.hpp"
@@ -14,16 +23,16 @@ double Fk_log_int_calc(int k_int , double** lattice_var, int num_field)
         case 2:  //phi field
             //Fourier mode before discretization
             F_k =  sqrt(
-                        pow(lattice_var[k_int-1][7+3*num_field],2) + pow(lattice_var[k_int-1][31+3*num_field],2)
-                        +pow(lattice_var[k_int-1][8+3*num_field],2) + pow(lattice_var[k_int-1][32+3*num_field],2)
-                        +pow(lattice_var[k_int-1][9+3*num_field],2) + pow(lattice_var[k_int-1][33+3*num_field],2)
+                        pow(lattice_var[k_int-1][7+3*num_field],2.0) + pow(lattice_var[k_int-1][31+3*num_field],2.0)
+                        +pow(lattice_var[k_int-1][8+3*num_field],2.0) + pow(lattice_var[k_int-1][32+3*num_field],2.0)
+                        +pow(lattice_var[k_int-1][9+3*num_field],2.0) + pow(lattice_var[k_int-1][33+3*num_field],2.0)
                         );
-            // std::cout << "pow(lattice_var[k_int-1][7+3*num_field],2) = " << pow(lattice_var[k_int-1][7+3*num_field],2) << std::endl;
-            //             std::cout << "pow(lattice_var[k_int-1][31+3*num_field],2) = " << pow(lattice_var[k_int-1][31+3*num_field],2) << std::endl;
-            //             std::cout << "pow(lattice_var[k_int-1][8+3*num_field],2) = " << pow(lattice_var[k_int-1][8+3*num_field],2) << std::endl;
-            //             std::cout << "pow(lattice_var[k_int-1][32+3*num_field],2) = " << pow(lattice_var[k_int-1][32+3*num_field],2) << std::endl;
-            //             std::cout << "pow(lattice_var[k_int-1][9+3*num_field],2) = " << pow(lattice_var[k_int-1][9+3*num_field],2) << std::endl;
-            //             std::cout << "pow(lattice_var[k_int-1][33+3*num_field],2) = " << pow(lattice_var[k_int-1][33+3*num_field],2) << std::endl;
+            // std::cout << "pow(lattice_var[k_int-1][7+3*num_field],2.0) = " << pow(lattice_var[k_int-1][7+3*num_field],2.0) << std::endl;
+            //             std::cout << "pow(lattice_var[k_int-1][31+3*num_field],2.0) = " << pow(lattice_var[k_int-1][31+3*num_field],2.0) << std::endl;
+            //             std::cout << "pow(lattice_var[k_int-1][8+3*num_field],2.0) = " << pow(lattice_var[k_int-1][8+3*num_field],2.0) << std::endl;
+            //             std::cout << "pow(lattice_var[k_int-1][32+3*num_field],2.0) = " << pow(lattice_var[k_int-1][32+3*num_field],2.0) << std::endl;
+            //             std::cout << "pow(lattice_var[k_int-1][9+3*num_field],2.0) = " << pow(lattice_var[k_int-1][9+3*num_field],2.0) << std::endl;
+            //             std::cout << "pow(lattice_var[k_int-1][33+3*num_field],2.0) = " << pow(lattice_var[k_int-1][33+3*num_field],2.0) << std::endl;
             //            std::cout << "dF_k = " << dF_k << std::endl;
             //           std::cout << "F_k = " << F_k << std::endl;
             //            std::cout << "rescale_B = " << rescale_B << std::endl;
@@ -32,9 +41,9 @@ double Fk_log_int_calc(int k_int , double** lattice_var, int num_field)
         case 3: //gravitational potential
             //Fourier mode before discretization
             F_k =  sqrt(
-                        pow(lattice_var[k_int-1][25],2) + pow(lattice_var[k_int-1][49],2)
-                        +pow(lattice_var[k_int-1][26],2) + pow(lattice_var[k_int-1][50],2)
-                        +pow(lattice_var[k_int-1][27],2) + pow(lattice_var[k_int-1][51],2)
+                        pow(lattice_var[k_int-1][25],2.0) + pow(lattice_var[k_int-1][49],2.0)
+                        +pow(lattice_var[k_int-1][26],2.0) + pow(lattice_var[k_int-1][50],2.0)
+                        +pow(lattice_var[k_int-1][27],2.0) + pow(lattice_var[k_int-1][51],2.0)
                         );
             break;
         default:
@@ -57,9 +66,9 @@ double dFk_log_int_calc(int k_int , double** lattice_var, int num_field)
         case 1: //psi field
         case 2:  //phi field
             //Fourier mode of the derivative before discretization
-            dF_k = sqrt(pow(lattice_var[k_int-1][16+3*num_field],2) + pow(lattice_var[k_int-1][40+3*num_field],2)
-                        +pow(lattice_var[k_int-1][17+3*num_field],2) + pow(lattice_var[k_int-1][41+3*num_field],2)
-                        +pow(lattice_var[k_int-1][18+3*num_field],2) + pow(lattice_var[k_int-1][42+3*num_field],2)
+            dF_k = sqrt(pow(lattice_var[k_int-1][16+3*num_field],2.0) + pow(lattice_var[k_int-1][40+3*num_field],2.0)
+                        +pow(lattice_var[k_int-1][17+3*num_field],2.0) + pow(lattice_var[k_int-1][41+3*num_field],2.0)
+                        +pow(lattice_var[k_int-1][18+3*num_field],2.0) + pow(lattice_var[k_int-1][42+3*num_field],2.0)
                         );
             
             //std::cout << "dF_k = " << dF_k << std::endl;
@@ -68,9 +77,9 @@ double dFk_log_int_calc(int k_int , double** lattice_var, int num_field)
         case 3: //gravitational potential
             //Fourier mode of the derivative before discretization
             dF_k = sqrt(
-                        pow(lattice_var[k_int-1][28],2) + pow(lattice_var[k_int-1][52],2)
-                        +pow(lattice_var[k_int-1][29],2) + pow(lattice_var[k_int-1][53],2)
-                        +pow(lattice_var[k_int-1][30],2) + pow(lattice_var[k_int-1][54],2)
+                        pow(lattice_var[k_int-1][28],2.0) + pow(lattice_var[k_int-1][52],2.0)
+                        +pow(lattice_var[k_int-1][29],2.0) + pow(lattice_var[k_int-1][53],2.0)
+                        +pow(lattice_var[k_int-1][30],2.0) + pow(lattice_var[k_int-1][54],2.0)
                         );
             break;
         default:
@@ -107,8 +116,8 @@ void fdf_calc(double distance, double** lattice_var, double *field, double *deri
             
             
             
-            field[0] = pow(10,log10_Fk);
-            deriv[0] = pow(10,log10_dFk);
+            field[0] = pow(10.0,log10_Fk);
+            deriv[0] = pow(10.0,log10_dFk);
             
         }else if (l < N/2)
         {
@@ -120,8 +129,8 @@ void fdf_calc(double distance, double** lattice_var, double *field, double *deri
             log10_dFk2 = dFk_log_int_calc(l+1, lattice_var, num_field);
             
             log10_dFk += (log10(distance) - log10(l))*(log10_dFk2 - log10_dFk)/(log10(l+1) - log10(l));
-            field[0] = pow(10,log10_Fk);
-            deriv[0] = pow(10,log10_dFk);
+            field[0] = pow(10.0,log10_Fk);
+            deriv[0] = pow(10.0,log10_dFk);
         }
         else
         {
@@ -140,8 +149,8 @@ void fdf_calc(double distance, double** lattice_var, double *field, double *deri
             
             
             
-            field[0] = pow(10,log10_Fk);
-            deriv[0] = pow(10,log10_dFk);
+            field[0] = pow(10.0,log10_Fk);
+            deriv[0] = pow(10.0,log10_dFk);
         }
         
     }
@@ -160,8 +169,8 @@ void fdf_calc(double distance, double** lattice_var, double *field, double *deri
             log10_dFk2 = dFk_log_int_calc(l+1, lattice_var, num_field);
             
             log10_dFk += (log10(distance) - log10(l))*(log10_dFk2 - log10_dFk)/(log10(l+1) - log10(l));
-            field[0] = pow(10,log10_Fk);
-            deriv[0] = pow(10,log10_dFk);
+            field[0] = pow(10.0,log10_Fk);
+            deriv[0] = pow(10.0,log10_dFk);
             
             //        std::cout << "field[0] = " << field[0] << std::endl;
             //        std::cout << "deriv[0] = " << deriv[0] << std::endl;
@@ -187,8 +196,8 @@ void fdf_calc(double distance, double** lattice_var, double *field, double *deri
             
             
             
-            field[0] = pow(10,log10_Fk);
-            deriv[0] = pow(10,log10_dFk);
+            field[0] = pow(10.0,log10_Fk);
+            deriv[0] = pow(10.0,log10_dFk);
             
             
             //omega =  abs(pow(10,log10_dFk)/(pow(10, log10_Fk)/rescale_B));
@@ -267,16 +276,16 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
             omega = abs(deriv[0]/(field[0]*rescale_B))*exp(OSCSTART);
             
 #if  dim==1
-            norm = (dx*dx/(L*sqrt(2*M_PI)))*field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3));
+            norm = (dx*dx/(L*sqrt(2*M_PI)))*field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0));
 #elif  dim==2
-            norm = (dx/sqrt(L*M_PI))*field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3));
+            norm = (dx/sqrt(L*M_PI))*field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0));
 #elif  dim==3
             
-            norm =  field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3));
+            norm =  field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0));
 #endif
             
             // std::cout << "dx*dx/(L*sqrt(2*M_PI)) = " << dx*dx/(L*sqrt(2*M_PI)) << std::endl;
-            //  std::cout << "field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3)) = " << field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3)) << std::endl;
+            //  std::cout << "field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0)) = " << field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0)) << std::endl;
             //   std::cout << "norm = " << norm << std::endl;
             //Amplitude = RMS amplitude x Rayleigh distributed random number
             // The same amplitude is used for left and right moving waves to generate standing waves. The extra 1/sqrt(2) normalizes the initial occupation number correctly.
@@ -295,15 +304,15 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
             
             
 #if  dim==1
-            norm = sqrt(pow(rescale_B*L/(dx*dx),3))*(dx*dx/(L*sqrt(2*M_PI)))*field[0];
-            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3))*(dx*dx/(L*sqrt(2*M_PI)))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
+            norm = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx*dx/(L*sqrt(2*M_PI)))*field[0];
+            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx*dx/(L*sqrt(2*M_PI)))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
 #elif  dim==2
-            norm = sqrt(pow(rescale_B*L/(dx*dx),3))*(dx/sqrt(L*M_PI))*field[0];
-            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3))*(dx/sqrt(L*M_PI))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
+            norm = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx/sqrt(L*M_PI))*field[0];
+            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx/sqrt(L*M_PI))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
 #elif  dim==3
             
-            norm =  sqrt(pow(rescale_B*L/(dx*dx),3))*field[0];
-            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
+            norm =  sqrt(pow(rescale_B*L/(dx*dx),3.0))*field[0];
+            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
 #endif
             
             amplitude = norm*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.)/sqrt(2);
@@ -835,7 +844,7 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
     Logout("radiation_var = %2.5e \n", radiation_var);
     
     //Rescaling radiation to a lattice program variable
-    radiation_pr = pow((rescale_A/rescale_B),2)*radiation_var;
+    radiation_pr = pow((rescale_A/rescale_B),2.0)*radiation_var;
     
     Logout("radiation_pr = %2.5e \n", radiation_pr);
     

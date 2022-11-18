@@ -1,0 +1,477 @@
+\hypertarget{nrutil__nr_8h_source}{}\doxysection{nrutil\+\_\+nr.\+h}
+\label{nrutil__nr_8h_source}\index{include/nrutil\_nr.h@{include/nrutil\_nr.h}}
+\mbox{\hyperlink{nrutil__nr_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//Doxygen}}
+\DoxyCodeLine{10 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef \_NR\_UTIL\_H\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_NR\_UTIL\_H\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <complex>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{typedef} \textcolor{keywordtype}{double} DP;}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{template}<\textcolor{keyword}{class} T>}
+\DoxyCodeLine{20 \textcolor{keyword}{inline} \textcolor{keyword}{const} T SQR(\textcolor{keyword}{const} T a) \{\textcolor{keywordflow}{return} a*a;\}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{template}<\textcolor{keyword}{class} T>}
+\DoxyCodeLine{23 \textcolor{keyword}{inline} \textcolor{keyword}{const} T MAX(\textcolor{keyword}{const} T \&a, \textcolor{keyword}{const} T \&b)}
+\DoxyCodeLine{24         \{\textcolor{keywordflow}{return} b > a ? (b) : (a);\}}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} MAX(\textcolor{keyword}{const} \textcolor{keywordtype}{double} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{float} \&b)}
+\DoxyCodeLine{27         \{\textcolor{keywordflow}{return} b > a ? (b) : \textcolor{keywordtype}{float}(a);\}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} MAX(\textcolor{keyword}{const} \textcolor{keywordtype}{float} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{double} \&b)}
+\DoxyCodeLine{30         \{\textcolor{keywordflow}{return} b > a ? float(b) : (a);\}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{template}<\textcolor{keyword}{class} T>}
+\DoxyCodeLine{33 \textcolor{keyword}{inline} \textcolor{keyword}{const} T MIN(\textcolor{keyword}{const} T \&a, \textcolor{keyword}{const} T \&b)}
+\DoxyCodeLine{34         \{\textcolor{keywordflow}{return} b < a ? (b) : (a);\}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} MIN(\textcolor{keyword}{const} \textcolor{keywordtype}{double} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{float} \&b)}
+\DoxyCodeLine{37         \{\textcolor{keywordflow}{return} b < a ? (b) : \textcolor{keywordtype}{float}(a);\}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} MIN(\textcolor{keyword}{const} \textcolor{keywordtype}{float} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{double} \&b)}
+\DoxyCodeLine{40         \{\textcolor{keywordflow}{return} b < a ? float(b) : (a);\}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{keyword}{template}<\textcolor{keyword}{class} T>}
+\DoxyCodeLine{43 \textcolor{keyword}{inline} \textcolor{keyword}{const} T SIGN(\textcolor{keyword}{const} T \&a, \textcolor{keyword}{const} T \&b)}
+\DoxyCodeLine{44     \{\textcolor{keywordflow}{return} b >= 0 ? (a >= 0 ? a : -\/a) : (a >= 0 ? -\/a : a);\}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} SIGN(\textcolor{keyword}{const} \textcolor{keywordtype}{float} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{double} \&b)}
+\DoxyCodeLine{47     \{\textcolor{keywordflow}{return} b >= 0 ? (a >= 0 ? a : -\/a) : (a >= 0 ? -\/a : a);\}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} SIGN(\textcolor{keyword}{const} \textcolor{keywordtype}{double} \&a, \textcolor{keyword}{const} \textcolor{keywordtype}{float} \&b)}
+\DoxyCodeLine{50     \{\textcolor{keywordflow}{return} b >= 0 ? (a >= 0 ? a : -\/a) : (a >= 0 ? -\/a : a);\}}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{keyword}{template}<\textcolor{keyword}{class} T>}
+\DoxyCodeLine{53 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} SWAP(T \&a, T \&b)}
+\DoxyCodeLine{54     \{T dum=a; a=b; b=dum;\}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{keyword}{namespace }NR \{}
+\DoxyCodeLine{57     \textcolor{keyword}{inline} \textcolor{keywordtype}{void} nrerror(\textcolor{keyword}{const} std::string error\_text)}
+\DoxyCodeLine{58     \textcolor{comment}{// Numerical Recipes standard error handler}}
+\DoxyCodeLine{59     \{}
+\DoxyCodeLine{60         std::cerr << \textcolor{stringliteral}{"{}Numerical Recipes run-\/time error..."{}} << std::endl;}
+\DoxyCodeLine{61         std::cerr << error\_text << std::endl;}
+\DoxyCodeLine{62         std::cerr << \textcolor{stringliteral}{"{}...now exiting to system..."{}} << std::endl;}
+\DoxyCodeLine{63         exit(1);}
+\DoxyCodeLine{64     \}}
+\DoxyCodeLine{65 \}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{68 \textcolor{keyword}{class }\mbox{\hyperlink{class_n_r_vec}{NRVec}} \{}
+\DoxyCodeLine{69 \textcolor{keyword}{private}:}
+\DoxyCodeLine{70     \textcolor{keywordtype}{int} nn; \textcolor{comment}{// size of array. upper index is nn-\/1}}
+\DoxyCodeLine{71     T *v;}
+\DoxyCodeLine{72 \textcolor{keyword}{public}:}
+\DoxyCodeLine{73     \mbox{\hyperlink{class_n_r_vec}{NRVec}}();}
+\DoxyCodeLine{74     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_n_r_vec}{NRVec}}(\textcolor{keywordtype}{int} n);     \textcolor{comment}{// Zero-\/based array}}
+\DoxyCodeLine{75     \mbox{\hyperlink{class_n_r_vec}{NRVec}}(\textcolor{keyword}{const} T \&a, \textcolor{keywordtype}{int} n);  \textcolor{comment}{//initialize to constant value}}
+\DoxyCodeLine{76     \mbox{\hyperlink{class_n_r_vec}{NRVec}}(\textcolor{keyword}{const} T *a, \textcolor{keywordtype}{int} n);  \textcolor{comment}{// Initialize to array}}
+\DoxyCodeLine{77     \mbox{\hyperlink{class_n_r_vec}{NRVec}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec}} \&rhs);  \textcolor{comment}{// Copy constructor}}
+\DoxyCodeLine{78     \mbox{\hyperlink{class_n_r_vec}{NRVec}} \& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec}} \&rhs);  \textcolor{comment}{//assignment}}
+\DoxyCodeLine{79     \mbox{\hyperlink{class_n_r_vec}{NRVec}} \& operator=(\textcolor{keyword}{const} T \&a); \textcolor{comment}{//assign a to every element}}
+\DoxyCodeLine{80     \textcolor{keyword}{inline} T \& operator[](\textcolor{keyword}{const} \textcolor{keywordtype}{int} i); \textcolor{comment}{//i'th element}}
+\DoxyCodeLine{81     \textcolor{keyword}{inline} \textcolor{keyword}{const} T \& operator[](\textcolor{keyword}{const} \textcolor{keywordtype}{int} i) \textcolor{keyword}{const};}
+\DoxyCodeLine{82     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} size() \textcolor{keyword}{const};}
+\DoxyCodeLine{83     \mbox{\hyperlink{class_n_r_vec}{\string~NRVec}}();}
+\DoxyCodeLine{84 \};}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{87 \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::NRVec}}() : nn(0), v(0) \{\}}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{90 \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::NRVec}}(\textcolor{keywordtype}{int} n) : nn(n), v(new T[n]) \{\}}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{93 \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::NRVec}}(\textcolor{keyword}{const} T\& a, \textcolor{keywordtype}{int} n) : nn(n), v(new T[n])}
+\DoxyCodeLine{94 \{}
+\DoxyCodeLine{95     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<n; i++)}
+\DoxyCodeLine{96         v[i] = a;}
+\DoxyCodeLine{97 \}}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{100 \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::NRVec}}(\textcolor{keyword}{const} T *a, \textcolor{keywordtype}{int} n) : nn(n), v(new T[n])}
+\DoxyCodeLine{101 \{}
+\DoxyCodeLine{102     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<n; i++)}
+\DoxyCodeLine{103         v[i] = *a++;}
+\DoxyCodeLine{104 \}}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{107 \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::NRVec}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<T>}} \&rhs) : nn(rhs.nn), v(new T[nn])}
+\DoxyCodeLine{108 \{}
+\DoxyCodeLine{109     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<nn; i++)}
+\DoxyCodeLine{110         v[i] = rhs[i];}
+\DoxyCodeLine{111 \}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{114 \mbox{\hyperlink{class_n_r_vec}{NRVec<T>}} \& \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::operator=}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<T>}} \&rhs)}
+\DoxyCodeLine{115 \textcolor{comment}{// postcondition: normal assignment via copying has been performed;}}
+\DoxyCodeLine{116 \textcolor{comment}{//      if vector and rhs were different sizes, vector}}
+\DoxyCodeLine{117 \textcolor{comment}{//      has been resized to match the size of rhs}}
+\DoxyCodeLine{118 \{}
+\DoxyCodeLine{119     \textcolor{keywordflow}{if} (\textcolor{keyword}{this} != \&rhs)}
+\DoxyCodeLine{120     \{}
+\DoxyCodeLine{121         \textcolor{keywordflow}{if} (nn != rhs.nn) \{}
+\DoxyCodeLine{122             \textcolor{keywordflow}{if} (v != 0) \textcolor{keyword}{delete} [] (v);}
+\DoxyCodeLine{123             nn=rhs.nn;}
+\DoxyCodeLine{124             v= \textcolor{keyword}{new} T[nn];}
+\DoxyCodeLine{125         \}}
+\DoxyCodeLine{126         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i<nn; i++)}
+\DoxyCodeLine{127             v[i]=rhs[i];}
+\DoxyCodeLine{128     \}}
+\DoxyCodeLine{129     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{130 \}}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{133 \mbox{\hyperlink{class_n_r_vec}{NRVec<T>}} \& \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::operator=}}(\textcolor{keyword}{const} T \&a)   \textcolor{comment}{//assign a to every element}}
+\DoxyCodeLine{134 \{}
+\DoxyCodeLine{135     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i<nn; i++)}
+\DoxyCodeLine{136         v[i]=a;}
+\DoxyCodeLine{137     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{138 \}}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{141 \textcolor{keyword}{inline} T \& \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::operator[]}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} i)    \textcolor{comment}{//subscripting}}
+\DoxyCodeLine{142 \{}
+\DoxyCodeLine{143     \textcolor{keywordflow}{return} v[i];}
+\DoxyCodeLine{144 \}}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{147 \textcolor{keyword}{inline} \textcolor{keyword}{const} T \& \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::operator[]}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} i) \textcolor{keyword}{const}    \textcolor{comment}{//subscripting}}
+\DoxyCodeLine{148 \{}
+\DoxyCodeLine{149     \textcolor{keywordflow}{return} v[i];}
+\DoxyCodeLine{150 \}}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{153 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::size}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{154 \textcolor{keyword}{}\{}
+\DoxyCodeLine{155     \textcolor{keywordflow}{return} nn;}
+\DoxyCodeLine{156 \}}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{159 \mbox{\hyperlink{class_n_r_vec}{NRVec<T>::\string~NRVec}}()}
+\DoxyCodeLine{160 \{}
+\DoxyCodeLine{161     \textcolor{keywordflow}{if} (v != 0)}
+\DoxyCodeLine{162         \textcolor{keyword}{delete}[] (v);}
+\DoxyCodeLine{163 \}}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{166 \textcolor{keyword}{class }\mbox{\hyperlink{class_n_r_mat}{NRMat}} \{}
+\DoxyCodeLine{167 \textcolor{keyword}{private}:}
+\DoxyCodeLine{168     \textcolor{keywordtype}{int} nn;}
+\DoxyCodeLine{169     \textcolor{keywordtype}{int} mm;}
+\DoxyCodeLine{170     T **v;}
+\DoxyCodeLine{171 \textcolor{keyword}{public}:}
+\DoxyCodeLine{172     \mbox{\hyperlink{class_n_r_mat}{NRMat}}();}
+\DoxyCodeLine{173     \mbox{\hyperlink{class_n_r_mat}{NRMat}}(\textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} m);           \textcolor{comment}{// Zero-\/based array}}
+\DoxyCodeLine{174     \mbox{\hyperlink{class_n_r_mat}{NRMat}}(\textcolor{keyword}{const} T \&a, \textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} m);   \textcolor{comment}{//Initialize to constant}}
+\DoxyCodeLine{175     \mbox{\hyperlink{class_n_r_mat}{NRMat}}(\textcolor{keyword}{const} T *a, \textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} m);   \textcolor{comment}{// Initialize to array}}
+\DoxyCodeLine{176     \mbox{\hyperlink{class_n_r_mat}{NRMat}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat}} \&rhs);      \textcolor{comment}{// Copy constructor}}
+\DoxyCodeLine{177     \mbox{\hyperlink{class_n_r_mat}{NRMat}} \& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat}} \&rhs);  \textcolor{comment}{//assignment}}
+\DoxyCodeLine{178     \mbox{\hyperlink{class_n_r_mat}{NRMat}} \& operator=(\textcolor{keyword}{const} T \&a);     \textcolor{comment}{//assign a to every element}}
+\DoxyCodeLine{179     \textcolor{keyword}{inline} T* operator[](\textcolor{keyword}{const} \textcolor{keywordtype}{int} i);  \textcolor{comment}{//subscripting: pointer to row i}}
+\DoxyCodeLine{180     \textcolor{keyword}{inline} \textcolor{keyword}{const} T* operator[](\textcolor{keyword}{const} \textcolor{keywordtype}{int} i) \textcolor{keyword}{const};}
+\DoxyCodeLine{181     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} nrows() \textcolor{keyword}{const};}
+\DoxyCodeLine{182     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} ncols() \textcolor{keyword}{const};}
+\DoxyCodeLine{183     \mbox{\hyperlink{class_n_r_mat}{\string~NRMat}}();}
+\DoxyCodeLine{184 \};}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{187 \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::NRMat}}() : nn(0), mm(0), v(0) \{\}}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{190 \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::NRMat}}(\textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} m) : nn(n), mm(m), v(new T*[n])}
+\DoxyCodeLine{191 \{}
+\DoxyCodeLine{192     v[0] = \textcolor{keyword}{new} T[m*n];}
+\DoxyCodeLine{193     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=1; i< n; i++)}
+\DoxyCodeLine{194         v[i] = v[i-\/1] + m;}
+\DoxyCodeLine{195 \}}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{198 \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::NRMat}}(\textcolor{keyword}{const} T \&a, \textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} m) : nn(n), mm(m), v(new T*[n])}
+\DoxyCodeLine{199 \{}
+\DoxyCodeLine{200     \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{201     v[0] = \textcolor{keyword}{new} T[m*n];}
+\DoxyCodeLine{202     \textcolor{keywordflow}{for} (i=1; i< n; i++)}
+\DoxyCodeLine{203         v[i] = v[i-\/1] + m;}
+\DoxyCodeLine{204     \textcolor{keywordflow}{for} (i=0; i< n; i++)}
+\DoxyCodeLine{205         \textcolor{keywordflow}{for} (j=0; j<m; j++)}
+\DoxyCodeLine{206             v[i][j] = a;}
+\DoxyCodeLine{207 \}}
+\DoxyCodeLine{208 }
+\DoxyCodeLine{209 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{210 \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::NRMat}}(\textcolor{keyword}{const} T *a, \textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} m) : nn(n), mm(m), v(new T*[n])}
+\DoxyCodeLine{211 \{}
+\DoxyCodeLine{212     \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{213     v[0] = \textcolor{keyword}{new} T[m*n];}
+\DoxyCodeLine{214     \textcolor{keywordflow}{for} (i=1; i< n; i++)}
+\DoxyCodeLine{215         v[i] = v[i-\/1] + m;}
+\DoxyCodeLine{216     \textcolor{keywordflow}{for} (i=0; i< n; i++)}
+\DoxyCodeLine{217         \textcolor{keywordflow}{for} (j=0; j<m; j++)}
+\DoxyCodeLine{218             v[i][j] = *a++;}
+\DoxyCodeLine{219 \}}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{221 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{222 \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::NRMat}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat}} \&rhs) : nn(rhs.nn), mm(rhs.mm), v(new T*[nn])}
+\DoxyCodeLine{223 \{}
+\DoxyCodeLine{224     \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{225     v[0] = \textcolor{keyword}{new} T[mm*nn];}
+\DoxyCodeLine{226     \textcolor{keywordflow}{for} (i=1; i< nn; i++)}
+\DoxyCodeLine{227         v[i] = v[i-\/1] + mm;}
+\DoxyCodeLine{228     \textcolor{keywordflow}{for} (i=0; i< nn; i++)}
+\DoxyCodeLine{229         \textcolor{keywordflow}{for} (j=0; j<mm; j++)}
+\DoxyCodeLine{230             v[i][j] = rhs[i][j];}
+\DoxyCodeLine{231 \}}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{234 \mbox{\hyperlink{class_n_r_mat}{NRMat<T>}} \& \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::operator=}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<T>}} \&rhs)}
+\DoxyCodeLine{235 \textcolor{comment}{// postcondition: normal assignment via copying has been performed;}}
+\DoxyCodeLine{236 \textcolor{comment}{//      if matrix and rhs were different sizes, matrix}}
+\DoxyCodeLine{237 \textcolor{comment}{//      has been resized to match the size of rhs}}
+\DoxyCodeLine{238 \{}
+\DoxyCodeLine{239     \textcolor{keywordflow}{if} (\textcolor{keyword}{this} != \&rhs) \{}
+\DoxyCodeLine{240         \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{241         \textcolor{keywordflow}{if} (nn != rhs.nn || mm != rhs.mm) \{}
+\DoxyCodeLine{242             \textcolor{keywordflow}{if} (v != 0) \{}
+\DoxyCodeLine{243                 \textcolor{keyword}{delete}[] (v[0]);}
+\DoxyCodeLine{244                 \textcolor{keyword}{delete}[] (v);}
+\DoxyCodeLine{245             \}}
+\DoxyCodeLine{246             nn=rhs.nn;}
+\DoxyCodeLine{247             mm=rhs.mm;}
+\DoxyCodeLine{248             v = \textcolor{keyword}{new} T*[nn];}
+\DoxyCodeLine{249             v[0] = \textcolor{keyword}{new} T[mm*nn];}
+\DoxyCodeLine{250         \}}
+\DoxyCodeLine{251         \textcolor{keywordflow}{for} (i=1; i< nn; i++)}
+\DoxyCodeLine{252             v[i] = v[i-\/1] + mm;}
+\DoxyCodeLine{253         \textcolor{keywordflow}{for} (i=0; i< nn; i++)}
+\DoxyCodeLine{254             \textcolor{keywordflow}{for} (j=0; j<mm; j++)}
+\DoxyCodeLine{255                 v[i][j] = rhs[i][j];}
+\DoxyCodeLine{256     \}}
+\DoxyCodeLine{257     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{258 \}}
+\DoxyCodeLine{259 }
+\DoxyCodeLine{260 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{261 \mbox{\hyperlink{class_n_r_mat}{NRMat<T>}} \& \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::operator=}}(\textcolor{keyword}{const} T \&a)   \textcolor{comment}{//assign a to every element}}
+\DoxyCodeLine{262 \{}
+\DoxyCodeLine{263     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i< nn; i++)}
+\DoxyCodeLine{264         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0; j<mm; j++)}
+\DoxyCodeLine{265             v[i][j] = a;}
+\DoxyCodeLine{266     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{267 \}}
+\DoxyCodeLine{268 }
+\DoxyCodeLine{269 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{270 \textcolor{keyword}{inline} T* \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::operator[]}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} i) \textcolor{comment}{//subscripting: pointer to row i}}
+\DoxyCodeLine{271 \{}
+\DoxyCodeLine{272     \textcolor{keywordflow}{return} v[i];}
+\DoxyCodeLine{273 \}}
+\DoxyCodeLine{274 }
+\DoxyCodeLine{275 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{276 \textcolor{keyword}{inline} \textcolor{keyword}{const} T* \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::operator[]}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} i)\textcolor{keyword}{ const}}
+\DoxyCodeLine{277 \textcolor{keyword}{}\{}
+\DoxyCodeLine{278     \textcolor{keywordflow}{return} v[i];}
+\DoxyCodeLine{279 \}}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{281 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{282 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::nrows}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{283 \textcolor{keyword}{}\{}
+\DoxyCodeLine{284     \textcolor{keywordflow}{return} nn;}
+\DoxyCodeLine{285 \}}
+\DoxyCodeLine{286 }
+\DoxyCodeLine{287 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{288 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::ncols}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{289 \textcolor{keyword}{}\{}
+\DoxyCodeLine{290     \textcolor{keywordflow}{return} mm;}
+\DoxyCodeLine{291 \}}
+\DoxyCodeLine{292 }
+\DoxyCodeLine{293 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{294 \mbox{\hyperlink{class_n_r_mat}{NRMat<T>::\string~NRMat}}()}
+\DoxyCodeLine{295 \{}
+\DoxyCodeLine{296     \textcolor{keywordflow}{if} (v != 0) \{}
+\DoxyCodeLine{297         \textcolor{keyword}{delete}[] (v[0]);}
+\DoxyCodeLine{298         \textcolor{keyword}{delete}[] (v);}
+\DoxyCodeLine{299     \}}
+\DoxyCodeLine{300 \}}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{303 \textcolor{keyword}{class }\mbox{\hyperlink{class_n_r_mat3d}{NRMat3d}} \{}
+\DoxyCodeLine{304 \textcolor{keyword}{private}:}
+\DoxyCodeLine{305     \textcolor{keywordtype}{int} nn;}
+\DoxyCodeLine{306     \textcolor{keywordtype}{int} mm;}
+\DoxyCodeLine{307     \textcolor{keywordtype}{int} kk;}
+\DoxyCodeLine{308     T ***v;}
+\DoxyCodeLine{309 \textcolor{keyword}{public}:}
+\DoxyCodeLine{310     \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d}}();}
+\DoxyCodeLine{311     \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d}}(\textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} m, \textcolor{keywordtype}{int} k);}
+\DoxyCodeLine{312     \textcolor{keyword}{inline} T** operator[](\textcolor{keyword}{const} \textcolor{keywordtype}{int} i); \textcolor{comment}{//subscripting: pointer to row i}}
+\DoxyCodeLine{313     \textcolor{keyword}{inline} \textcolor{keyword}{const} T* \textcolor{keyword}{const} * operator[](\textcolor{keyword}{const} \textcolor{keywordtype}{int} i) \textcolor{keyword}{const};}
+\DoxyCodeLine{314     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} dim1() \textcolor{keyword}{const};}
+\DoxyCodeLine{315     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} dim2() \textcolor{keyword}{const};}
+\DoxyCodeLine{316     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} dim3() \textcolor{keyword}{const};}
+\DoxyCodeLine{317     \mbox{\hyperlink{class_n_r_mat3d}{\string~NRMat3d}}();}
+\DoxyCodeLine{318 \};}
+\DoxyCodeLine{319 }
+\DoxyCodeLine{320 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{321 \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<T>::NRMat3d}}(): nn(0), mm(0), kk(0), v(0) \{\}}
+\DoxyCodeLine{322 }
+\DoxyCodeLine{323 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{324 \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<T>::NRMat3d}}(\textcolor{keywordtype}{int} n, \textcolor{keywordtype}{int} m, \textcolor{keywordtype}{int} k) : nn(n), mm(m), kk(k), v(new T**[n])}
+\DoxyCodeLine{325 \{}
+\DoxyCodeLine{326     \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{327     v[0] = \textcolor{keyword}{new} T*[n*m];}
+\DoxyCodeLine{328     v[0][0] = \textcolor{keyword}{new} T[n*m*k];}
+\DoxyCodeLine{329     \textcolor{keywordflow}{for}(j=1; j<m; j++)}
+\DoxyCodeLine{330         v[0][j] = v[0][j-\/1] + k;}
+\DoxyCodeLine{331     \textcolor{keywordflow}{for}(i=1; i<n; i++) \{}
+\DoxyCodeLine{332         v[i] = v[i-\/1] + m;}
+\DoxyCodeLine{333         v[i][0] = v[i-\/1][0] + m*k;}
+\DoxyCodeLine{334         \textcolor{keywordflow}{for}(j=1; j<m; j++)}
+\DoxyCodeLine{335             v[i][j] = v[i][j-\/1] + k;}
+\DoxyCodeLine{336     \}}
+\DoxyCodeLine{337 \}}
+\DoxyCodeLine{338 }
+\DoxyCodeLine{339 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{340 \textcolor{keyword}{inline} T** \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<T>::operator[]}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} i) \textcolor{comment}{//subscripting: pointer to row i}}
+\DoxyCodeLine{341 \{}
+\DoxyCodeLine{342     \textcolor{keywordflow}{return} v[i];}
+\DoxyCodeLine{343 \}}
+\DoxyCodeLine{344 }
+\DoxyCodeLine{345 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{346 \textcolor{keyword}{inline} \textcolor{keyword}{const} T* \textcolor{keyword}{const} * \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<T>::operator[]}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} i)\textcolor{keyword}{ const}}
+\DoxyCodeLine{347 \textcolor{keyword}{}\{}
+\DoxyCodeLine{348     \textcolor{keywordflow}{return} v[i];}
+\DoxyCodeLine{349 \}}
+\DoxyCodeLine{350 }
+\DoxyCodeLine{351 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{352 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<T>::dim1}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{353 \textcolor{keyword}{}\{}
+\DoxyCodeLine{354     \textcolor{keywordflow}{return} nn;}
+\DoxyCodeLine{355 \}}
+\DoxyCodeLine{356 }
+\DoxyCodeLine{357 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{358 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<T>::dim2}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{359 \textcolor{keyword}{}\{}
+\DoxyCodeLine{360     \textcolor{keywordflow}{return} mm;}
+\DoxyCodeLine{361 \}}
+\DoxyCodeLine{362 }
+\DoxyCodeLine{363 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{364 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<T>::dim3}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{365 \textcolor{keyword}{}\{}
+\DoxyCodeLine{366     \textcolor{keywordflow}{return} kk;}
+\DoxyCodeLine{367 \}}
+\DoxyCodeLine{368 }
+\DoxyCodeLine{369 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{370 \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<T>::\string~NRMat3d}}()}
+\DoxyCodeLine{371 \{}
+\DoxyCodeLine{372     \textcolor{keywordflow}{if} (v != 0) \{}
+\DoxyCodeLine{373         \textcolor{keyword}{delete}[] (v[0][0]);}
+\DoxyCodeLine{374         \textcolor{keyword}{delete}[] (v[0]);}
+\DoxyCodeLine{375         \textcolor{keyword}{delete}[] (v);}
+\DoxyCodeLine{376     \}}
+\DoxyCodeLine{377 \}}
+\DoxyCodeLine{378 }
+\DoxyCodeLine{379 \textcolor{comment}{//The next 3 classes are used in artihmetic coding, Huffman coding, and}}
+\DoxyCodeLine{380 \textcolor{comment}{//wavelet transforms respectively. This is as good a place as any to put them!}}
+\DoxyCodeLine{381 }
+\DoxyCodeLine{382 \textcolor{keyword}{class }\mbox{\hyperlink{classarithcode}{arithcode}} \{}
+\DoxyCodeLine{383 \textcolor{keyword}{private}:}
+\DoxyCodeLine{384     \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}} *ilob\_p,*iupb\_p,*ncumfq\_p;}
+\DoxyCodeLine{385 \textcolor{keyword}{public}:}
+\DoxyCodeLine{386     \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}} \&ilob,\&iupb,\&ncumfq;}
+\DoxyCodeLine{387     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} jdif,nc,minint,nch,ncum,nrad;}
+\DoxyCodeLine{388     \mbox{\hyperlink{classarithcode}{arithcode}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n1, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n2, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n3)}
+\DoxyCodeLine{389         : ilob\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}}(n1)),}
+\DoxyCodeLine{390         iupb\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}}(n2)),}
+\DoxyCodeLine{391         ncumfq\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}}(n3)),}
+\DoxyCodeLine{392         ilob(*ilob\_p),iupb(*iupb\_p),ncumfq(*ncumfq\_p) \{\}}
+\DoxyCodeLine{393     \mbox{\hyperlink{classarithcode}{\string~arithcode}}() \{}
+\DoxyCodeLine{394         \textcolor{keywordflow}{if} (ilob\_p != 0) \textcolor{keyword}{delete} ilob\_p;}
+\DoxyCodeLine{395         \textcolor{keywordflow}{if} (iupb\_p != 0) \textcolor{keyword}{delete} iupb\_p;}
+\DoxyCodeLine{396         \textcolor{keywordflow}{if} (ncumfq\_p != 0) \textcolor{keyword}{delete} ncumfq\_p;}
+\DoxyCodeLine{397     \}}
+\DoxyCodeLine{398 \};}
+\DoxyCodeLine{399 }
+\DoxyCodeLine{400 \textcolor{keyword}{class }\mbox{\hyperlink{classhuffcode}{huffcode}} \{}
+\DoxyCodeLine{401 \textcolor{keyword}{private}:}
+\DoxyCodeLine{402     \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}} *icod\_p,*ncod\_p,*left\_p,*right\_p;}
+\DoxyCodeLine{403 \textcolor{keyword}{public}:}
+\DoxyCodeLine{404     \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}} \&icod,\&ncod,\&left,\&right;}
+\DoxyCodeLine{405     \textcolor{keywordtype}{int} nch,nodemax;}
+\DoxyCodeLine{406     \mbox{\hyperlink{classhuffcode}{huffcode}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n1, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n2, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n3,}
+\DoxyCodeLine{407         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n4) :}
+\DoxyCodeLine{408         icod\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}}(n1)),}
+\DoxyCodeLine{409         ncod\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}}(n2)),}
+\DoxyCodeLine{410         left\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}}(n3)),}
+\DoxyCodeLine{411         right\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}}(n4)),}
+\DoxyCodeLine{412         icod(*icod\_p),ncod(*ncod\_p),left(*left\_p),right(*right\_p) \{\}}
+\DoxyCodeLine{413     \mbox{\hyperlink{classhuffcode}{\string~huffcode}}() \{}
+\DoxyCodeLine{414         \textcolor{keywordflow}{if} (icod\_p != 0) \textcolor{keyword}{delete} icod\_p;}
+\DoxyCodeLine{415         \textcolor{keywordflow}{if} (ncod\_p != 0) \textcolor{keyword}{delete} ncod\_p;}
+\DoxyCodeLine{416         \textcolor{keywordflow}{if} (left\_p != 0) \textcolor{keyword}{delete} left\_p;}
+\DoxyCodeLine{417         \textcolor{keywordflow}{if} (right\_p != 0) \textcolor{keyword}{delete} right\_p;}
+\DoxyCodeLine{418     \}}
+\DoxyCodeLine{419 \};}
+\DoxyCodeLine{420 }
+\DoxyCodeLine{421 \textcolor{keyword}{class }\mbox{\hyperlink{classwavefilt}{wavefilt}} \{}
+\DoxyCodeLine{422 \textcolor{keyword}{private}:}
+\DoxyCodeLine{423     \mbox{\hyperlink{class_n_r_vec}{NRVec<DP>}} *cc\_p,*cr\_p;}
+\DoxyCodeLine{424 \textcolor{keyword}{public}:}
+\DoxyCodeLine{425     \textcolor{keywordtype}{int} ncof,ioff,joff;}
+\DoxyCodeLine{426     \mbox{\hyperlink{class_n_r_vec}{NRVec<DP>}} \&cc,\&cr;}
+\DoxyCodeLine{427     \mbox{\hyperlink{classwavefilt}{wavefilt}}() : cc(*cc\_p),cr(*cr\_p) \{\}}
+\DoxyCodeLine{428     \mbox{\hyperlink{classwavefilt}{wavefilt}}(\textcolor{keyword}{const} DP *a, \textcolor{keyword}{const} \textcolor{keywordtype}{int} n) :  \textcolor{comment}{//initialize to array}}
+\DoxyCodeLine{429         cc\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{NRVec<DP>}}(n)),cr\_p(\textcolor{keyword}{new} \mbox{\hyperlink{class_n_r_vec}{NRVec<DP>}}(n)),}
+\DoxyCodeLine{430         ncof(n),ioff(-\/(n >> 1)),joff(-\/(n >> 1)),cc(*cc\_p),cr(*cr\_p) \{}
+\DoxyCodeLine{431             \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{432             \textcolor{keywordflow}{for} (i=0; i<n; i++)}
+\DoxyCodeLine{433                 cc[i] = *a++;}
+\DoxyCodeLine{434             DP sig = -\/1.0;}
+\DoxyCodeLine{435             \textcolor{keywordflow}{for} (i=0; i<n; i++) \{}
+\DoxyCodeLine{436                 cr[n-\/1-\/i]=sig*cc[i];}
+\DoxyCodeLine{437                 sig = -\/sig;}
+\DoxyCodeLine{438             \}}
+\DoxyCodeLine{439     \}}
+\DoxyCodeLine{440     \mbox{\hyperlink{classwavefilt}{\string~wavefilt}}() \{}
+\DoxyCodeLine{441         \textcolor{keywordflow}{if} (cc\_p != 0) \textcolor{keyword}{delete} cc\_p;}
+\DoxyCodeLine{442         \textcolor{keywordflow}{if} (cr\_p != 0) \textcolor{keyword}{delete} cr\_p;}
+\DoxyCodeLine{443     \}}
+\DoxyCodeLine{444 \};}
+\DoxyCodeLine{445 }
+\DoxyCodeLine{446 \textcolor{comment}{//Overloaded complex operations to handle mixed float and double}}
+\DoxyCodeLine{447 \textcolor{comment}{//This takes care of e.g. 1.0/z, z complex<float>}}
+\DoxyCodeLine{448 }
+\DoxyCodeLine{449 \textcolor{keyword}{inline} \textcolor{keyword}{const} std::complex<float> operator+(\textcolor{keyword}{const} \textcolor{keywordtype}{double} \&a,}
+\DoxyCodeLine{450     \textcolor{keyword}{const} std::complex<float> \&b) \{ \textcolor{keywordflow}{return} float(a)+b; \}}
+\DoxyCodeLine{451 }
+\DoxyCodeLine{452 \textcolor{keyword}{inline} \textcolor{keyword}{const} std::complex<float> operator+(\textcolor{keyword}{const} std::complex<float> \&a,}
+\DoxyCodeLine{453     \textcolor{keyword}{const} \textcolor{keywordtype}{double} \&b) \{ \textcolor{keywordflow}{return} a+float(b); \}}
+\DoxyCodeLine{454 }
+\DoxyCodeLine{455 \textcolor{keyword}{inline} \textcolor{keyword}{const} std::complex<float> operator-\/(\textcolor{keyword}{const} \textcolor{keywordtype}{double} \&a,}
+\DoxyCodeLine{456     \textcolor{keyword}{const} std::complex<float> \&b) \{ \textcolor{keywordflow}{return} float(a)-\/b; \}}
+\DoxyCodeLine{457 }
+\DoxyCodeLine{458 \textcolor{keyword}{inline} \textcolor{keyword}{const} std::complex<float> operator-\/(\textcolor{keyword}{const} std::complex<float> \&a,}
+\DoxyCodeLine{459     \textcolor{keyword}{const} \textcolor{keywordtype}{double} \&b) \{ \textcolor{keywordflow}{return} a-\/float(b); \}}
+\DoxyCodeLine{460 }
+\DoxyCodeLine{461 \textcolor{keyword}{inline} \textcolor{keyword}{const} std::complex<float> operator*(\textcolor{keyword}{const} \textcolor{keywordtype}{double} \&a,}
+\DoxyCodeLine{462     \textcolor{keyword}{const} std::complex<float> \&b) \{ \textcolor{keywordflow}{return} float(a)*b; \}}
+\DoxyCodeLine{463 }
+\DoxyCodeLine{464 \textcolor{keyword}{inline} \textcolor{keyword}{const} std::complex<float> operator*(\textcolor{keyword}{const} std::complex<float> \&a,}
+\DoxyCodeLine{465     \textcolor{keyword}{const} \textcolor{keywordtype}{double} \&b) \{ \textcolor{keywordflow}{return} a*float(b); \}}
+\DoxyCodeLine{466 }
+\DoxyCodeLine{467 \textcolor{keyword}{inline} \textcolor{keyword}{const} std::complex<float> operator/(\textcolor{keyword}{const} \textcolor{keywordtype}{double} \&a,}
+\DoxyCodeLine{468     \textcolor{keyword}{const} std::complex<float> \&b) \{ \textcolor{keywordflow}{return} float(a)/b; \}}
+\DoxyCodeLine{469 }
+\DoxyCodeLine{470 \textcolor{keyword}{inline} \textcolor{keyword}{const} std::complex<float> operator/(\textcolor{keyword}{const} std::complex<float> \&a,}
+\DoxyCodeLine{471     \textcolor{keyword}{const} \textcolor{keywordtype}{double} \&b) \{ \textcolor{keywordflow}{return} a/float(b); \}}
+\DoxyCodeLine{472 }
+\DoxyCodeLine{473 \textcolor{comment}{//some compilers choke on pow(float,double) in single precision. also atan2}}
+\DoxyCodeLine{474 }
+\DoxyCodeLine{475 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} pow (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{double} y) \{\textcolor{keywordflow}{return} pow(\textcolor{keywordtype}{double}(x),y);\}}
+\DoxyCodeLine{476 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} pow (\textcolor{keywordtype}{double} x, \textcolor{keywordtype}{float} y) \{\textcolor{keywordflow}{return} pow(x,\textcolor{keywordtype}{double}(y));\}}
+\DoxyCodeLine{477 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} atan2 (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{double} y) \{\textcolor{keywordflow}{return} atan2(\textcolor{keywordtype}{double}(x),y);\}}
+\DoxyCodeLine{478 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} atan2 (\textcolor{keywordtype}{double} x, \textcolor{keywordtype}{float} y) \{\textcolor{keywordflow}{return} atan2(x,\textcolor{keywordtype}{double}(y));\}}
+\DoxyCodeLine{479 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_NR\_UTIL\_H\_ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

@@ -1,0 +1,10 @@
+<map id="nlohmann::basic_json::begin" name="nlohmann::basic_json::begin">
+<area shape="rect" id="node1" title="returns an iterator to the first element" alt="" coords="201,245,349,285"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#a4336103c941d9f60bd51320f4880e3dd" title="creates a diff as a JSON patch" alt="" coords="5,29,153,69"/>
+<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#a564c84efd6afeb31278e9484051d60e8" title="add an object to an object if key does not exist" alt="" coords="5,93,153,133"/>
+<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#a3acba9c6ceb7214e565fe08c3ba5b352" title="access the first element" alt="" coords="5,157,153,197"/>
+<area shape="rect" id="node5" href="$classnlohmann_1_1basic__json.html#a7c43ed2a3004c1fa9543913f37b9fca9" title="applies a JSON Merge Patch" alt="" coords="5,245,153,285"/>
+<area shape="rect" id="node6" href="$classnlohmann_1_1basic__json.html#a81e0c41a4a9dff4df2f6973f7f8b2a83" title="applies a JSON patch" alt="" coords="5,309,153,349"/>
+<area shape="rect" id="node7" href="$classnlohmann_1_1basic__json.html#a1be31ef2d2934d37a818083a4af44f99" title="add an object to an object" alt="" coords="5,373,153,413"/>
+<area shape="rect" id="node8" href="$classnlohmann_1_1basic__json.html#ac77aed0925d447744676725ab0b6d535" title="returns an iterator to the reverse&#45;end" alt="" coords="5,437,153,477"/>
+</map>

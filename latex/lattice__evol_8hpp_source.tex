@@ -1,0 +1,88 @@
+\hypertarget{lattice__evol_8hpp_source}{}\doxysection{lattice\+\_\+evol.\+hpp}
+\label{lattice__evol_8hpp_source}\index{include/lattice\_include/lattice\_evol.hpp@{include/lattice\_include/lattice\_evol.hpp}}
+\mbox{\hyperlink{lattice__evol_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//Doxygen}}
+\DoxyCodeLine{10 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef \_LATTICEEVOL\_H\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_LATTICEEVOL\_H\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{lattice__field_8hpp}{lattice\_field.hpp}}"{}}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{lattice_8hpp}{lattice.hpp}}"{}}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{class_leap_frog}{LeapFrog}}}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18     \textcolor{keyword}{private}:}
+\DoxyCodeLine{19         \textcolor{keywordtype}{double} \_a,\_da, \_dda;}
+\DoxyCodeLine{20         \textcolor{keywordtype}{double} sfexponent;}
+\DoxyCodeLine{21         \textcolor{keywordtype}{double} sfbase;}
+\DoxyCodeLine{22         \textcolor{keywordtype}{double} hubble\_init = Hinitial\_pr;}
+\DoxyCodeLine{23         \textcolor{keywordtype}{double} \_sfint = 0;}
+\DoxyCodeLine{24         \textcolor{keywordtype}{double} \_a\_save1 = 1;}
+\DoxyCodeLine{25     }
+\DoxyCodeLine{26     \textcolor{comment}{//Decay rate for all scalar fields  (program variables)}}
+\DoxyCodeLine{27         \textcolor{keywordtype}{double}* Gamma\_pr = \textcolor{keyword}{new} \textcolor{keywordtype}{double} [num\_fields-\/1];}
+\DoxyCodeLine{28     }
+\DoxyCodeLine{29     }
+\DoxyCodeLine{30     \textcolor{comment}{//Evolution variables for scalar fields}}
+\DoxyCodeLine{31         \textcolor{keywordtype}{double} **f\_tilde, **df\_tilde, **fdf\_save;}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33         \textcolor{keywordtype}{void} evol\_sfint(\textcolor{keywordtype}{double} h)}
+\DoxyCodeLine{34         \{}
+\DoxyCodeLine{35             \textcolor{comment}{//Integration by using trapezoidal rule}}
+\DoxyCodeLine{36             \_sfint += ( \_a + \_a\_save1 )*h*dt/2;}
+\DoxyCodeLine{37         \}}
+\DoxyCodeLine{38     }
+\DoxyCodeLine{39         \textcolor{keywordtype}{void} evol\_fields( \textcolor{keywordtype}{double}** f\_tilde\_from, \textcolor{keywordtype}{double}** f\_tilde\_to, \textcolor{keywordtype}{double}** df\_tilde, \textcolor{keywordtype}{double} h );}
+\DoxyCodeLine{40     }
+\DoxyCodeLine{41         \textcolor{keywordtype}{void} evol\_field\_derivs\_expansion(\textcolor{keywordtype}{double}** df\_tilde\_from, \textcolor{keywordtype}{double}** df\_tilde\_to, \textcolor{keywordtype}{double}** f, \textcolor{keywordtype}{double}** f\_tilde, \mbox{\hyperlink{class_field}{Field}}* field,  \textcolor{keywordtype}{double} h );}
+\DoxyCodeLine{42         }
+\DoxyCodeLine{43     }
+\DoxyCodeLine{44         \textcolor{keywordtype}{void} evol\_scale\_dderivs( \mbox{\hyperlink{class_field}{Field}}* field, \textcolor{keywordtype}{double}** f, \textcolor{keywordtype}{double}** f\_tilde, \textcolor{keywordtype}{double}\& rho\_r,  \textcolor{keywordtype}{double} h);}
+\DoxyCodeLine{45         \textcolor{keywordtype}{void} evol\_scale\_derivs ( \textcolor{keywordtype}{double} h )\{ \_da += \_dda * h*dt; \}}
+\DoxyCodeLine{46         \textcolor{keywordtype}{void} evol\_scale ( \textcolor{keywordtype}{double} h )\{}
+\DoxyCodeLine{47             }
+\DoxyCodeLine{48             \_a\_save1 = \_a;}
+\DoxyCodeLine{49             \_a += \_da *h*dt;}
+\DoxyCodeLine{50             }
+\DoxyCodeLine{51 \textcolor{comment}{//            std::cout << "{}\_a = "{} << \_a <<std::endl;}}
+\DoxyCodeLine{52 \textcolor{comment}{//            std::cout << "{}\_da = "{} << \_da <<std::endl;}}
+\DoxyCodeLine{53 \textcolor{comment}{//            std::cout << "{}\_dda = "{} << \_dda <<std::endl;}}
+\DoxyCodeLine{54             }
+\DoxyCodeLine{55         \}}
+\DoxyCodeLine{56     }
+\DoxyCodeLine{57         \textcolor{keywordtype}{void} evol\_radiation(\mbox{\hyperlink{class_field}{Field}}* field, \textcolor{keywordtype}{double}** f\_tilde, \textcolor{keywordtype}{double}** df\_tilde, \textcolor{keywordtype}{double}\& rho,  \textcolor{keywordtype}{double} h);}
+\DoxyCodeLine{58     }
+\DoxyCodeLine{59         \textcolor{keywordtype}{void} evol\_gravpot( \textcolor{keywordtype}{double}** f, \textcolor{keywordtype}{double}** df, \textcolor{keywordtype}{double} h );}
+\DoxyCodeLine{60         \textcolor{keywordtype}{void} evol\_gravpot\_derivs\_expansion( \textcolor{keywordtype}{double}** f, \textcolor{keywordtype}{double}** df, \textcolor{keywordtype}{double}** f\_tilde, \textcolor{keywordtype}{double}** df\_tilde, \mbox{\hyperlink{class_field}{Field}}* field, \textcolor{keywordtype}{double} h );}
+\DoxyCodeLine{61     }
+\DoxyCodeLine{62         \textcolor{keywordtype}{void} fields\_copy( \textcolor{keywordtype}{double}** f\_from, \textcolor{keywordtype}{double}** f\_to);}
+\DoxyCodeLine{63         \textcolor{keywordtype}{void} fields\_convert( \textcolor{keywordtype}{double}** f, \textcolor{keywordtype}{double}** f\_tilde, \textcolor{keywordtype}{int} convert\_switch);}
+\DoxyCodeLine{64         \textcolor{keywordtype}{void} fields\_deriv\_convert( \textcolor{keywordtype}{double}** f, \textcolor{keywordtype}{double}** df, \textcolor{keywordtype}{double}** f\_tilde, \textcolor{keywordtype}{double}** df\_tilde, \textcolor{keywordtype}{int} convert\_switch);}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     }
+\DoxyCodeLine{67     \textcolor{keyword}{public}:}
+\DoxyCodeLine{68     \mbox{\hyperlink{class_leap_frog}{LeapFrog}}( \mbox{\hyperlink{class_field}{Field}}* field, \textcolor{keywordtype}{double}** f, \textcolor{keywordtype}{double}** df, \textcolor{keywordtype}{double}\& rad\_pr );}
+\DoxyCodeLine{69     }
+\DoxyCodeLine{70     \mbox{\hyperlink{class_leap_frog}{\string~LeapFrog}}() \{}
+\DoxyCodeLine{71         \textcolor{keyword}{delete} [] Gamma\_pr;}
+\DoxyCodeLine{72         \textcolor{keyword}{delete} [] f\_tilde[0];}
+\DoxyCodeLine{73         \textcolor{keyword}{delete} [] df\_tilde[0];}
+\DoxyCodeLine{74         \textcolor{keyword}{delete} [] fdf\_save[0];}
+\DoxyCodeLine{75         \textcolor{keyword}{delete} [] f\_tilde;}
+\DoxyCodeLine{76         \textcolor{keyword}{delete} [] df\_tilde;}
+\DoxyCodeLine{77         \textcolor{keyword}{delete} [] fdf\_save;}
+\DoxyCodeLine{78     \}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80         \textcolor{keywordtype}{void} evolution\_expansion ( \mbox{\hyperlink{class_field}{Field}}* field, \textcolor{keywordtype}{double}** f, \textcolor{keywordtype}{double}** df, \textcolor{keywordtype}{double}\& rad );}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82         \textcolor{keywordtype}{double} a()  \{ \textcolor{keywordflow}{return} \_a; \}}
+\DoxyCodeLine{83         \textcolor{keywordtype}{double} efolds() \{ \textcolor{keywordflow}{return} OSCSTART + log(\_a); \}}
+\DoxyCodeLine{84         \textcolor{keywordtype}{double} da() \{ \textcolor{keywordflow}{return} \_da; \}}
+\DoxyCodeLine{85         \textcolor{keywordtype}{double} hubble() \{ \textcolor{keywordflow}{return} \_da*rescale\_B*pow(\_a,-\/2);\}}
+\DoxyCodeLine{86         \textcolor{keywordtype}{double} adotdot() \{\textcolor{keywordflow}{return} exp(OSCSTART)*pw2(rescale\_B)*pow(\_a,-\/2)*(\_dda-\/pw2(\_da)/\_a);\}}
+\DoxyCodeLine{87 \};}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

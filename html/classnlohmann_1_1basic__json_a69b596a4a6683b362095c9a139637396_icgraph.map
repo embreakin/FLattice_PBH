@@ -1,0 +1,8 @@
+<map id="nlohmann::basic_json::is_string" name="nlohmann::basic_json::is_string">
+<area shape="rect" id="node1" title="return whether value is a string" alt="" coords="397,125,545,165"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#a068a16e76be178e83da6a192916923ed" title="remove element given an iterator" alt="" coords="201,61,349,101"/>
+<area shape="rect" id="node5" href="$classnlohmann_1_1basic__json.html#a6362b88718eb5c6d4fed6a61eed44b95" title="return whether type is primitive" alt="" coords="201,125,349,165"/>
+<area shape="rect" id="node6" href="$classnlohmann_1_1basic__json.html#adaa1ed0a889d86c8e0216a3d66980f76" title="exchanges the values" alt="" coords="201,189,349,229"/>
+<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#a7c43ed2a3004c1fa9543913f37b9fca9" title="applies a JSON Merge Patch" alt="" coords="5,29,153,69"/>
+<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#a81e0c41a4a9dff4df2f6973f7f8b2a83" title="applies a JSON patch" alt="" coords="5,93,153,133"/>
+</map>

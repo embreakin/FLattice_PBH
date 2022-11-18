@@ -1,3 +1,12 @@
+//Doxygen
+/**
+* @file    calculation.hpp
+* @brief      Calculation header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 #ifndef _CALCULATION_H_
 #define _CALCULATION_H_
 
@@ -5,6 +14,8 @@
 #include "parameters.hpp"
 #include "equations.hpp"
 #include "uc.hpp"
+
+
 
 class Zeromode
 {

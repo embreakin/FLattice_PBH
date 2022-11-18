@@ -1,23 +1,31 @@
-cmake_minimum_required ( VERSION 3.10 )
+cmake_minimum_required ( VERSION 3.14 )
 
-set ( CMAKE_CXX_COMPILER icpc )
-set ( CMAKE_CXX_STANDARD 17 )
+project( FLattice CXX )
 
-# -qopenmp
-# set ( CMAKE_CXX_FLAGS " -fast  -Wall" )
+if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
+# using Intel C++
 
 # -parallel is for automatic parallelization
 # -qopenmp is for OpenMP parallelization
-set ( CMAKE_CXX_FLAGS "-ipo -xhost -no-prec-div -qopenmp -parallel" )  # -guide
+set ( CMAKE_CXX_FLAGS "-ipo -xhost -no-prec-div -qopenmp -parallel" )
 
-project( FLattice CXX )
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+  # using GCC
+set ( CMAKE_CXX_FLAGS " -Ofast   -fopenmp" ) #-Wall
+
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+
+
+else ()
+
+endif()
+
+set ( CMAKE_CXX_STANDARD 17 )
 
 # Add include files (-I option)
 include_directories ( ${PROJECT_SOURCE_DIR}/include )
 include_directories ( ${PROJECT_SOURCE_DIR}/include/lattice_include )
 include_directories ( /opt/fftw/include )
-
-
 
 # Specify the Library directory (-L option)
 link_directories ( /opt/fftw/lib )

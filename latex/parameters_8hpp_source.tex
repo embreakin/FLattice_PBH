@@ -1,0 +1,275 @@
+\hypertarget{parameters_8hpp_source}{}\doxysection{parameters.\+hpp}
+\label{parameters_8hpp_source}\index{include/parameters.hpp@{include/parameters.hpp}}
+\mbox{\hyperlink{parameters_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//Doxygen}}
+\DoxyCodeLine{10 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef \_PARAMETERS\_H\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_PARAMETERS\_H\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <omp.h>}}
+\DoxyCodeLine{20 \textcolor{comment}{//\#include <math.h>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{nr_8h}{nr.h}}"{}}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{equations_8hpp}{equations.hpp}}"{}}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{uc_8hpp}{uc.hpp}}"{}}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{comment}{//Libraries for using JSON}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{json_8hpp}{json.hpp}}>}}
+\DoxyCodeLine{28 \textcolor{keyword}{using }\mbox{\hyperlink{classnlohmann_1_1basic__json}{json}} = \mbox{\hyperlink{namespacenlohmann_a2bfd99e845a2e5cd90aeaf1b1431f474}{nlohmann::json}};}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{comment}{//====================================}}
+\DoxyCodeLine{31 \textcolor{comment}{// General Parameters}}
+\DoxyCodeLine{32 \textcolor{comment}{//====================================}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{extern} std::string par\_set\_name;}
+\DoxyCodeLine{35 \textcolor{keyword}{extern} std::string par\_set\_name\_rm;}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} exist\_par\_set\_rmall\_switch;}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{comment}{//==================================}}
+\DoxyCodeLine{41 \textcolor{comment}{//Parameters in Non-\/lattice Range}}
+\DoxyCodeLine{42 \textcolor{comment}{//==================================}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{keyword}{extern} std::string exist\_filename\_zero, new\_filename\_zero, exist\_dirname\_k, new\_dirname\_k, filename\_k, exist\_filename\_sp, new\_filename\_sp, new\_filename\_spbfosc, exist\_filename\_spbfosc;}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} k\_switch;}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} zeromode\_switch;}
+\DoxyCodeLine{49 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} perturbation\_switch;}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{comment}{//Array elements}}
+\DoxyCodeLine{52 \textcolor{keyword}{extern} \textcolor{keyword}{const} \textcolor{keywordtype}{int} N\_zero, N\_pert;}
+\DoxyCodeLine{53 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} k\_target;}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{keyword}{extern} DP sigma\_c;}
+\DoxyCodeLine{56 \textcolor{keyword}{extern} DP FIXPHI;}
+\DoxyCodeLine{57 \textcolor{keyword}{extern} DP FIXPSI;}
+\DoxyCodeLine{58 \textcolor{keyword}{extern} DP CNT;}
+\DoxyCodeLine{59 \textcolor{keyword}{extern} DP Gamma1,Gamma2,Gamma3;}
+\DoxyCodeLine{60 \textcolor{keyword}{extern} DP OSCSTART;}
+\DoxyCodeLine{61 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} msigma;}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{keyword}{extern} std::vector<int> knum\_zero;}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} kanalyze\_switch;}
+\DoxyCodeLine{66 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} spectrum\_switch;}
+\DoxyCodeLine{67 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} spectrum\_bfosc\_switch;}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{keyword}{extern} DP kfrom\_Mpc;}
+\DoxyCodeLine{70 \textcolor{keyword}{extern} DP kto\_Mpc;}
+\DoxyCodeLine{71 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} kinterval\_knum;}
+\DoxyCodeLine{72 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} lattice\_kmodes\_switch;}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 \textcolor{comment}{//Select existing parameter set to remove related directories and files}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{\#define par\_set\_num\_rm 1}}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77 \textcolor{comment}{//Choose Parameter Set}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#define par\_set\_num 1}}
+\DoxyCodeLine{79 \textcolor{comment}{//Takayama's Master Thesis: 0}}
+\DoxyCodeLine{80 \textcolor{comment}{//Paper "{}Power spectrum of the density perturbations from smooth hybrid new inflation model"{} FIG1 (a): 1}}
+\DoxyCodeLine{81 \textcolor{comment}{//Paper "{}Power spectrum of the density perturbations from smooth hybrid new inflation model"{} FIG1 (b): 2}}
+\DoxyCodeLine{82 \textcolor{comment}{//Paper "{}Power spectrum of the density perturbations from smooth hybrid new inflation model"{} FIG2: 3}}
+\DoxyCodeLine{83 \textcolor{comment}{//Primordial seeds of SMBHs (peak at 2kMpc-\/1): 4}}
+\DoxyCodeLine{84 \textcolor{comment}{//Primordial seeds of SMBHs trying to shift the peak: 5}}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#if  par\_set\_num == 0}}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88     \textcolor{comment}{//Takayama's Master Thesis}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{    \#define GNORMAL 1.0E-\/11                }\textcolor{comment}{//decay rate 1}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{    \#define GLARGE 1.0E-\/11          }\textcolor{comment}{//decay rate 2 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{91 \textcolor{preprocessor}{    \#define GLARGE2 1.0E-\/11             }\textcolor{comment}{//decay rate 3 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{92 \textcolor{preprocessor}{    \#define CN\_par 0.1                    }\textcolor{comment}{//Potential paramater CN}}
+\DoxyCodeLine{93 \textcolor{preprocessor}{    \#define mu\_par 2.7E-\/3                }\textcolor{comment}{//Potential paramater mu}}
+\DoxyCodeLine{94 \textcolor{preprocessor}{    \#define Cv\_par 6.4E-\/4                }\textcolor{comment}{//Potential parameter Cv mu/4.}}
+\DoxyCodeLine{95 \textcolor{preprocessor}{    \#define M\_par 1.6                    }\textcolor{comment}{//Potential paramater M}}
+\DoxyCodeLine{96 \textcolor{preprocessor}{    \#define m\_par 2.0                        }\textcolor{comment}{//Potential paramater m}}
+\DoxyCodeLine{97 \textcolor{preprocessor}{    \#define n\_par 10.0                        }\textcolor{comment}{//Potential paramater n}}
+\DoxyCodeLine{98 \textcolor{preprocessor}{    \#define g\_par 1.0                }\textcolor{comment}{//Potential parameter g}}
+\DoxyCodeLine{99 \textcolor{preprocessor}{    \#define BEGIN\_EFOLD -\/135.6            }\textcolor{comment}{//initial ln(a)}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{    \#define UNPERT\_EFOLD -\/110.815                }\textcolor{comment}{//ln(a) at which sigma and psi are fixed to the minimum}}
+\DoxyCodeLine{101 \textcolor{preprocessor}{    \#define NEWINF\_END\_EFOLD -\/90.0                }\textcolor{comment}{//ln(a) at the beginning of oscillation of phi.-\/61.5}}
+\DoxyCodeLine{102 \textcolor{preprocessor}{    \#define END\_EFOLD -\/70.0                }\textcolor{comment}{//ln(a) at the end of calculation}}
+\DoxyCodeLine{103 \textcolor{preprocessor}{    \#define dla 1.0E-\/1                }\textcolor{comment}{//stepsize for fixed step RQ-\/method}}
+\DoxyCodeLine{104 \textcolor{preprocessor}{    \#define itvl 1000.                }\textcolor{comment}{//interval for output in fixed RQ-\/method}}
+\DoxyCodeLine{105 \textcolor{preprocessor}{    \#define sigma\_init 0.8                }\textcolor{comment}{//initial value of sigma}}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \textcolor{preprocessor}{\#elif par\_set\_num == 1}}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109     \textcolor{comment}{//Paper "{}Power spectrum of the density perturbations from smooth hybrid new inflation model"{} FIG1 (a)}}
+\DoxyCodeLine{110 \textcolor{preprocessor}{    \#define GNORMAL 0.0                }\textcolor{comment}{//decay rate 1}}
+\DoxyCodeLine{111 \textcolor{preprocessor}{    \#define GLARGE 1.0E-\/10          }\textcolor{comment}{//decay rate 2 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{112 \textcolor{preprocessor}{    \#define GLARGE2 1.0E-\/10            }\textcolor{comment}{//decay rate 3 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{113 \textcolor{preprocessor}{    \#define CN\_par 0.04                    }\textcolor{comment}{//Potential paramater CN}}
+\DoxyCodeLine{114 \textcolor{preprocessor}{    \#define mu\_par 2.04E-\/3                }\textcolor{comment}{//Potential paramater mu}}
+\DoxyCodeLine{115 \textcolor{preprocessor}{    \#define Cv\_par 4.7E-\/4                }\textcolor{comment}{//Potential parameter Cv mu/4.}}
+\DoxyCodeLine{116 \textcolor{preprocessor}{    \#define M\_par 1.17                    }\textcolor{comment}{//Potential paramater M}}
+\DoxyCodeLine{117 \textcolor{preprocessor}{    \#define m\_par 2.0                        }\textcolor{comment}{//Potential paramater m}}
+\DoxyCodeLine{118 \textcolor{preprocessor}{    \#define n\_par 4.0                        }\textcolor{comment}{//Potential paramater n}}
+\DoxyCodeLine{119 \textcolor{preprocessor}{    \#define g\_par 2.0E-\/5                }\textcolor{comment}{//Potential parameter g}}
+\DoxyCodeLine{120 \textcolor{preprocessor}{    \#define BEGIN\_EFOLD -\/136.75            }\textcolor{comment}{//initial ln(a)}}
+\DoxyCodeLine{121 \textcolor{preprocessor}{    \#define UNPERT\_EFOLD -\/108.                }\textcolor{comment}{//ln(a) at which sigma and psi are fixed to the minimum}}
+\DoxyCodeLine{122 \textcolor{preprocessor}{    \#define NEWINF\_END\_EFOLD -\/61.5                }\textcolor{comment}{//ln(a) at the beginning of oscillation of phi.-\/61.5}}
+\DoxyCodeLine{123 \textcolor{preprocessor}{    \#define END\_EFOLD -\/57.                }\textcolor{comment}{//ln(a) at the end of calculation}}
+\DoxyCodeLine{124 \textcolor{preprocessor}{    \#define dla 1.0E-\/5                }\textcolor{comment}{//stepsize for fixed step RQ-\/method}}
+\DoxyCodeLine{125 \textcolor{preprocessor}{    \#define itvl 1000.                }\textcolor{comment}{//interval for output in fixed RQ-\/method}}
+\DoxyCodeLine{126 \textcolor{preprocessor}{    \#define sigma\_init 0.4                }\textcolor{comment}{//initial value of sigma}}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128 \textcolor{preprocessor}{\#elif par\_set\_num == 2}}
+\DoxyCodeLine{129 \textcolor{comment}{//Paper "{}Power spectrum of the density perturbations from smooth hybrid new inflation model"{} FIG1 (b)}}
+\DoxyCodeLine{130 \textcolor{preprocessor}{    \#define GNORMAL 0.0                }\textcolor{comment}{//decay rate 1}}
+\DoxyCodeLine{131 \textcolor{preprocessor}{    \#define GLARGE 6.0E-\/8          }\textcolor{comment}{//decay rate 2 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{132 \textcolor{preprocessor}{    \#define GLARGE2 6.0E-\/8            }\textcolor{comment}{//decay rate 3 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{133 \textcolor{preprocessor}{    \#define CN\_par 0.04                    }\textcolor{comment}{//Potential paramater CN}}
+\DoxyCodeLine{134 \textcolor{preprocessor}{    \#define mu\_par 2.04E-\/3                }\textcolor{comment}{//Potential paramater mu}}
+\DoxyCodeLine{135 \textcolor{preprocessor}{    \#define Cv\_par 4.7E-\/4                }\textcolor{comment}{//Potential parameter Cv mu/4.}}
+\DoxyCodeLine{136 \textcolor{preprocessor}{    \#define M\_par 1.17                    }\textcolor{comment}{//Potential paramater M}}
+\DoxyCodeLine{137 \textcolor{preprocessor}{    \#define m\_par 2.0                        }\textcolor{comment}{//Potential paramater m}}
+\DoxyCodeLine{138 \textcolor{preprocessor}{    \#define n\_par 4.0                        }\textcolor{comment}{//Potential paramater n}}
+\DoxyCodeLine{139 \textcolor{preprocessor}{    \#define g\_par 2.0E-\/5                }\textcolor{comment}{//Potential parameter g}}
+\DoxyCodeLine{140 \textcolor{preprocessor}{    \#define BEGIN\_EFOLD -\/131.8            }\textcolor{comment}{//initial ln(a)}}
+\DoxyCodeLine{141 \textcolor{preprocessor}{    \#define UNPERT\_EFOLD -\/111.0                }\textcolor{comment}{//ln(a) at which sigma and psi are fixed to the minimum}}
+\DoxyCodeLine{142 \textcolor{preprocessor}{    \#define NEWINF\_END\_EFOLD -\/61.5                }\textcolor{comment}{//ln(a) at the beginning of oscillation of phi.-\/61.5}}
+\DoxyCodeLine{143 \textcolor{preprocessor}{    \#define END\_EFOLD -\/58.                }\textcolor{comment}{//ln(a) at the end of calculation}}
+\DoxyCodeLine{144 \textcolor{preprocessor}{    \#define dla 1.0E-\/5                }\textcolor{comment}{//stepsize for fixed step RQ-\/method}}
+\DoxyCodeLine{145 \textcolor{preprocessor}{    \#define itvl 1000.                }\textcolor{comment}{//interval for output in fixed RQ-\/method}}
+\DoxyCodeLine{146 \textcolor{preprocessor}{    \#define sigma\_init 0.3                }\textcolor{comment}{//initial value of sigma}}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 \textcolor{preprocessor}{\#elif par\_set\_num == 3}}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150 \textcolor{comment}{//Primordial seeds of SMBHs (peak at 2kMpc-\/1)}}
+\DoxyCodeLine{151 \textcolor{preprocessor}{    \#define GNORMAL 0.0                }\textcolor{comment}{//decay rate 1}}
+\DoxyCodeLine{152 \textcolor{preprocessor}{    \#define GLARGE 1.0E-\/10          }\textcolor{comment}{//decay rate 2 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{153 \textcolor{preprocessor}{    \#define GLARGE2 1.0E-\/10            }\textcolor{comment}{//decay rate 3 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{154 \textcolor{preprocessor}{    \#define CN\_par 0.04                    }\textcolor{comment}{//Potential paramater CN}}
+\DoxyCodeLine{155 \textcolor{preprocessor}{    \#define mu\_par 2.04E-\/3                }\textcolor{comment}{//Potential paramater mu}}
+\DoxyCodeLine{156 \textcolor{preprocessor}{    \#define Cv\_par 5.0E-\/4                }\textcolor{comment}{//Potential parameter Cv mu/4.}}
+\DoxyCodeLine{157 \textcolor{preprocessor}{    \#define M\_par 1.12                    }\textcolor{comment}{//Potential paramater M}}
+\DoxyCodeLine{158 \textcolor{preprocessor}{    \#define m\_par 2.0                        }\textcolor{comment}{//Potential paramater m}}
+\DoxyCodeLine{159 \textcolor{preprocessor}{    \#define n\_par 4.0                        }\textcolor{comment}{//Potential paramater n}}
+\DoxyCodeLine{160 \textcolor{preprocessor}{    \#define g\_par 2.0E-\/5                }\textcolor{comment}{//Potential parameter g}}
+\DoxyCodeLine{161 \textcolor{preprocessor}{    \#define BEGIN\_EFOLD -\/131.8            }\textcolor{comment}{//initial ln(a)}}
+\DoxyCodeLine{162 \textcolor{preprocessor}{    \#define UNPERT\_EFOLD -\/110.0                }\textcolor{comment}{//ln(a) at which sigma and psi are fixed to the minimum}}
+\DoxyCodeLine{163 \textcolor{preprocessor}{    \#define NEWINF\_END\_EFOLD -\/62.0                }\textcolor{comment}{//ln(a) at the beginning of oscillation of phi.-\/61.5}}
+\DoxyCodeLine{164 \textcolor{preprocessor}{    \#define END\_EFOLD -\/58.                }\textcolor{comment}{//ln(a) at the end of calculation}}
+\DoxyCodeLine{165 \textcolor{preprocessor}{    \#define dla 1.0E-\/5                }\textcolor{comment}{//stepsize for fixed step RQ-\/method}}
+\DoxyCodeLine{166 \textcolor{preprocessor}{    \#define itvl 1000.                }\textcolor{comment}{//interval for output in fixed RQ-\/method}}
+\DoxyCodeLine{167 \textcolor{preprocessor}{    \#define sigma\_init 0.3                }\textcolor{comment}{//initial value of sigma}}
+\DoxyCodeLine{168 }
+\DoxyCodeLine{169 \textcolor{preprocessor}{\#elif par\_set\_num == 4}}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171 \textcolor{preprocessor}{    \#define GNORMAL 0.0                }\textcolor{comment}{//decay rate 1}}
+\DoxyCodeLine{172 \textcolor{preprocessor}{    \#define GLARGE 2.5E-\/7            }\textcolor{comment}{//decay rate 2 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{173 \textcolor{preprocessor}{    \#define GLARGE2 2.5E-\/7            }\textcolor{comment}{//decay rate 3 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{174 \textcolor{preprocessor}{    \#define CN\_par 0.05                    }\textcolor{comment}{//Potential paramater CN}}
+\DoxyCodeLine{175 \textcolor{preprocessor}{    \#define mu\_par 2.0E-\/3                }\textcolor{comment}{//Potential paramater mu}}
+\DoxyCodeLine{176 \textcolor{preprocessor}{    \#define Cv\_par mu\_par/4                }\textcolor{comment}{//Potential parameter Cv mu/4.}}
+\DoxyCodeLine{177 \textcolor{preprocessor}{    \#define M\_par 0.59                    }\textcolor{comment}{//Potential paramater M}}
+\DoxyCodeLine{178 \textcolor{preprocessor}{    \#define m\_par 2.0                        }\textcolor{comment}{//Potential paramater m}}
+\DoxyCodeLine{179 \textcolor{preprocessor}{    \#define n\_par 4.0                        }\textcolor{comment}{//Potential paramater n}}
+\DoxyCodeLine{180 \textcolor{preprocessor}{    \#define g\_par 2.0E-\/5                }\textcolor{comment}{//Potential parameter g}}
+\DoxyCodeLine{181 \textcolor{preprocessor}{    \#define BEGIN\_EFOLD -\/150            }\textcolor{comment}{//initial ln(a)}}
+\DoxyCodeLine{182 \textcolor{preprocessor}{    \#define UNPERT\_EFOLD -\/115                }\textcolor{comment}{//ln(a) at which sigma and psi are fixed to the minimum}}
+\DoxyCodeLine{183 \textcolor{preprocessor}{    \#define NEWINF\_END\_EFOLD -\/72.5                }\textcolor{comment}{//ln(a) at the beginning of oscillation of phi.-\/61.5}}
+\DoxyCodeLine{184 \textcolor{preprocessor}{    \#define END\_EFOLD -\/67.                }\textcolor{comment}{//ln(a) at the end of calculation}}
+\DoxyCodeLine{185 \textcolor{preprocessor}{    \#define dla 1.0E-\/5                }\textcolor{comment}{//stepsize for fixed step RQ-\/method}}
+\DoxyCodeLine{186 \textcolor{preprocessor}{    \#define itvl 1000.                }\textcolor{comment}{//interval for output in fixed RQ-\/method}}
+\DoxyCodeLine{187 \textcolor{preprocessor}{    \#define sigma\_init 0.28                }\textcolor{comment}{//initial value of sigma}}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189 \textcolor{preprocessor}{\#elif par\_set\_num == 5}}
+\DoxyCodeLine{190 \textcolor{comment}{//Primordial seeds of SMBHs trying to shift the peak}}
+\DoxyCodeLine{191 }
+\DoxyCodeLine{192 \textcolor{preprocessor}{    \#define GNOMAL 0.0                }\textcolor{comment}{//decay rate 1}}
+\DoxyCodeLine{193 \textcolor{preprocessor}{    \#define GLARGE 5.0E-\/7            }\textcolor{comment}{//decay rate 2 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{194 \textcolor{preprocessor}{    \#define GLARGE2 5.0E-\/7            }\textcolor{comment}{//decay rate 3 (if decay rate changes during the calculation)}}
+\DoxyCodeLine{195 \textcolor{preprocessor}{    \#define CN\_par 0.05                    }\textcolor{comment}{//Potential paramater CN}}
+\DoxyCodeLine{196 \textcolor{preprocessor}{    \#define mu\_par 2.0E-\/3                }\textcolor{comment}{//Potential paramater mu}}
+\DoxyCodeLine{197 \textcolor{preprocessor}{    \#define Cv\_par mu\_par/4                }\textcolor{comment}{//Potential parameter Cv mu/4.}}
+\DoxyCodeLine{198 \textcolor{preprocessor}{    \#define M\_par 0.59                    }\textcolor{comment}{//Potential paramater M}}
+\DoxyCodeLine{199 \textcolor{preprocessor}{    \#define m\_par 2.0                        }\textcolor{comment}{//Potential paramater m}}
+\DoxyCodeLine{200 \textcolor{preprocessor}{    \#define n\_par 4.0                        }\textcolor{comment}{//Potential paramater n}}
+\DoxyCodeLine{201 \textcolor{preprocessor}{    \#define g\_par 2.0E-\/5                }\textcolor{comment}{//Potential parameter g}}
+\DoxyCodeLine{202 \textcolor{preprocessor}{    \#define BEGIN\_EFOLD -\/150.            }\textcolor{comment}{//initial ln(a)}}
+\DoxyCodeLine{203 \textcolor{preprocessor}{    \#define UNPERT\_EFOLD -\/111.               }\textcolor{comment}{//ln(a) at which sigma and psi are fixed to the minimum}}
+\DoxyCodeLine{204 \textcolor{preprocessor}{    \#define NEWINF\_END\_EFOLD -\/80.                }\textcolor{comment}{//ln(a) at the beginning of oscillation of phi.-\/61.5}}
+\DoxyCodeLine{205 \textcolor{preprocessor}{    \#define END\_EFOLD -\/62.                }\textcolor{comment}{//ln(a) at the end of calculation}}
+\DoxyCodeLine{206 \textcolor{preprocessor}{    \#define dla 1.0E-\/5                }\textcolor{comment}{//stepsize for fixed step RQ-\/method}}
+\DoxyCodeLine{207 \textcolor{preprocessor}{    \#define itvl 1000.                }\textcolor{comment}{//interval for output in fixed RQ-\/method}}
+\DoxyCodeLine{208 \textcolor{preprocessor}{    \#define sigma\_init 0.38                }\textcolor{comment}{//initial value of sigma}}
+\DoxyCodeLine{209 }
+\DoxyCodeLine{210 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{211 }
+\DoxyCodeLine{212 }
+\DoxyCodeLine{213 \textcolor{comment}{//==================================}}
+\DoxyCodeLine{214 \textcolor{comment}{//Parameters in Lattice Range}}
+\DoxyCodeLine{215 \textcolor{comment}{//==================================}}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217 }
+\DoxyCodeLine{218 \textcolor{preprocessor}{\#define dim 1}}
+\DoxyCodeLine{219 }
+\DoxyCodeLine{220 \textcolor{keyword}{extern} std::string exist\_dirname\_ed, new\_dirname\_ed, exist\_dirname\_f, new\_dirname\_f, exist\_filename\_status, new\_filename\_status, exist\_dirname\_k\_lattice, new\_dirname\_k\_lattice, filename\_k\_lattice;}
+\DoxyCodeLine{221 }
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223 \textcolor{keyword}{inline} \textcolor{keywordtype}{double} pw2(\textcolor{keywordtype}{double} x) \{ \textcolor{keywordflow}{return} (x*x);\}}
+\DoxyCodeLine{224 }
+\DoxyCodeLine{225 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} N;}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} k\_lattice\_switch;}
+\DoxyCodeLine{228 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} k\_lattice\_startfromlattice\_switch;}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{230 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} latticerange\_switch;}
+\DoxyCodeLine{231 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} initialize\_perturb\_switch;}
+\DoxyCodeLine{232 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} fluc\_calc\_switch;}
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} kfrom\_Mpc\_lattice;\textcolor{comment}{//[Mpc] Calculate from this k for lattice range}}
+\DoxyCodeLine{235 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} kto\_Mpc\_lattice;\textcolor{comment}{//[Mpc] Calculate to this k for lattice range}}
+\DoxyCodeLine{236 }
+\DoxyCodeLine{237 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} kfrom\_MPl\_lattice; \textcolor{comment}{//convert to MPl units}}
+\DoxyCodeLine{238 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} kto\_MPl\_lattice; \textcolor{comment}{//convert to MPl units}}
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240 \textcolor{comment}{//extern double sigma\_initial;}}
+\DoxyCodeLine{241 \textcolor{comment}{//extern double rescale\_A;}}
+\DoxyCodeLine{242 \textcolor{comment}{//extern double rescale\_B;}}
+\DoxyCodeLine{243 \textcolor{comment}{//extern double L;}}
+\DoxyCodeLine{244 \textcolor{comment}{//}}
+\DoxyCodeLine{245 \textcolor{comment}{//extern double k\_lattice\_grid\_min\_pr;}}
+\DoxyCodeLine{246 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} k\_lattice\_grid\_min\_MPl;}
+\DoxyCodeLine{247 \textcolor{comment}{//}}
+\DoxyCodeLine{248 \textcolor{comment}{//extern double k\_lattice\_grid\_max\_pr;}}
+\DoxyCodeLine{249 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} k\_lattice\_grid\_max\_MPl;}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{251 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} outrange\_num;}
+\DoxyCodeLine{252 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} latticerange\_num;}
+\DoxyCodeLine{253 }
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} rnd;}
+\DoxyCodeLine{256 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} num\_fields;}
+\DoxyCodeLine{257 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} num\_threads;}
+\DoxyCodeLine{258 \textcolor{keyword}{extern} \textcolor{keyword}{const} \textcolor{keywordtype}{double} initfield[];}
+\DoxyCodeLine{259 \textcolor{keyword}{extern} \textcolor{keyword}{const} \textcolor{keywordtype}{double} initderivs[];}
+\DoxyCodeLine{260 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} Hinitial\_pr;}
+\DoxyCodeLine{261 }
+\DoxyCodeLine{262 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} output\_step;}
+\DoxyCodeLine{263 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} total\_step;}
+\DoxyCodeLine{264 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} max\_loop;}
+\DoxyCodeLine{265 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} st\_output\_step;}
+\DoxyCodeLine{266 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} st\_max\_loop;}
+\DoxyCodeLine{267 }
+\DoxyCodeLine{268 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} t0;}
+\DoxyCodeLine{269 \textcolor{keyword}{extern} \textcolor{keywordtype}{double} dt;}
+\DoxyCodeLine{270 \textcolor{comment}{//extern double dx;}}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272 \textcolor{keyword}{extern} \textcolor{keyword}{const} \textcolor{keywordtype}{int} expansion;}
+\DoxyCodeLine{273 \textcolor{keyword}{extern} \textcolor{keyword}{const} \textcolor{keywordtype}{int} precision;}
+\DoxyCodeLine{274 }
+\DoxyCodeLine{275 \textcolor{keyword}{extern} \textcolor{keyword}{const} \textcolor{keywordtype}{int} screen\_latticeloop\_number;}
+\DoxyCodeLine{276 }
+\DoxyCodeLine{277 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,130 @@
+\hypertarget{nrutil__nr_8h}{}\doxysection{include/nrutil\+\_\+nr.h File Reference}
+\label{nrutil__nr_8h}\index{include/nrutil\_nr.h@{include/nrutil\_nr.h}}
+
+
+Numerical Recipes utilities header file.  
+
+
+{\ttfamily \#include $<$complex$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+Include dependency graph for nrutil\+\_\+nr.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=206pt]{nrutil__nr_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{nrutil__nr_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_n_r_vec}{NRVec$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{class_n_r_mat}{NRMat$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classarithcode}{arithcode}}
+\item 
+class \mbox{\hyperlink{classhuffcode}{huffcode}}
+\item 
+class \mbox{\hyperlink{classwavefilt}{wavefilt}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a0c1754352217a5977fbd447f36b40c17}\label{nrutil__nr_8h_a0c1754352217a5977fbd447f36b40c17}} 
+typedef double {\bfseries DP}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a60717f8f0dfdff9d5979e19985a1be7a}\label{nrutil__nr_8h_a60717f8f0dfdff9d5979e19985a1be7a}} 
+{\footnotesize template$<$class T $>$ }\\const T {\bfseries SQR} (const T a)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a915f0e70ac7aee47871038316dcc28a4}\label{nrutil__nr_8h_a915f0e70ac7aee47871038316dcc28a4}} 
+{\footnotesize template$<$class T $>$ }\\const T {\bfseries MAX} (const T \&a, const T \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_af81927aa1249cf37ac3750267885b120}\label{nrutil__nr_8h_af81927aa1249cf37ac3750267885b120}} 
+float {\bfseries MAX} (const double \&a, const float \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a3e7d146382ee63a63057d0d1da21681c}\label{nrutil__nr_8h_a3e7d146382ee63a63057d0d1da21681c}} 
+float {\bfseries MAX} (const float \&a, const double \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a1a51733cfa7caa521570194dd5942756}\label{nrutil__nr_8h_a1a51733cfa7caa521570194dd5942756}} 
+{\footnotesize template$<$class T $>$ }\\const T {\bfseries MIN} (const T \&a, const T \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a2cfa98af017775923db28dc7c2e20172}\label{nrutil__nr_8h_a2cfa98af017775923db28dc7c2e20172}} 
+float {\bfseries MIN} (const double \&a, const float \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a3d33ecea9b81bb92f8eea3582752aa9a}\label{nrutil__nr_8h_a3d33ecea9b81bb92f8eea3582752aa9a}} 
+float {\bfseries MIN} (const float \&a, const double \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a73ed9c206e7e0031e9afbd17366ee779}\label{nrutil__nr_8h_a73ed9c206e7e0031e9afbd17366ee779}} 
+{\footnotesize template$<$class T $>$ }\\const T {\bfseries SIGN} (const T \&a, const T \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a050c6451d15aaccc09c71cc4a383b8f7}\label{nrutil__nr_8h_a050c6451d15aaccc09c71cc4a383b8f7}} 
+float {\bfseries SIGN} (const float \&a, const double \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_aae9be2b78e310ebaae80d3a980ef37c3}\label{nrutil__nr_8h_aae9be2b78e310ebaae80d3a980ef37c3}} 
+float {\bfseries SIGN} (const double \&a, const float \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a7c47ab41142fb494373b0b511cfe219b}\label{nrutil__nr_8h_a7c47ab41142fb494373b0b511cfe219b}} 
+{\footnotesize template$<$class T $>$ }\\void {\bfseries SWAP} (T \&a, T \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_abbab14449a779eec2eeee93bb05ac2a2}\label{nrutil__nr_8h_abbab14449a779eec2eeee93bb05ac2a2}} 
+void {\bfseries NR\+::nrerror} (const std\+::string error\+\_\+text)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_ad0cbacf3cb893bbfc8e8f4cdc293027a}\label{nrutil__nr_8h_ad0cbacf3cb893bbfc8e8f4cdc293027a}} 
+const std\+::complex$<$ float $>$ {\bfseries operator+} (const double \&a, const std\+::complex$<$ float $>$ \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a7a6cf2b1f51b7a338fd9caa7f1d415a6}\label{nrutil__nr_8h_a7a6cf2b1f51b7a338fd9caa7f1d415a6}} 
+const std\+::complex$<$ float $>$ {\bfseries operator+} (const std\+::complex$<$ float $>$ \&a, const double \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a9c24a1c8a01546af13f7414a709bea22}\label{nrutil__nr_8h_a9c24a1c8a01546af13f7414a709bea22}} 
+const std\+::complex$<$ float $>$ {\bfseries operator-\/} (const double \&a, const std\+::complex$<$ float $>$ \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_aac0bf57843bfa226e03686396db6dbf7}\label{nrutil__nr_8h_aac0bf57843bfa226e03686396db6dbf7}} 
+const std\+::complex$<$ float $>$ {\bfseries operator-\/} (const std\+::complex$<$ float $>$ \&a, const double \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a3f209efaf3fcda7e835c64b311992650}\label{nrutil__nr_8h_a3f209efaf3fcda7e835c64b311992650}} 
+const std\+::complex$<$ float $>$ {\bfseries operator$\ast$} (const double \&a, const std\+::complex$<$ float $>$ \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_ad266e43d860d6d4b640922d7cc1a8fd5}\label{nrutil__nr_8h_ad266e43d860d6d4b640922d7cc1a8fd5}} 
+const std\+::complex$<$ float $>$ {\bfseries operator$\ast$} (const std\+::complex$<$ float $>$ \&a, const double \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a1bdabbdedc93218b986a70b86cebfc4d}\label{nrutil__nr_8h_a1bdabbdedc93218b986a70b86cebfc4d}} 
+const std\+::complex$<$ float $>$ {\bfseries operator/} (const double \&a, const std\+::complex$<$ float $>$ \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a01b5b618868711c29315b1726029904d}\label{nrutil__nr_8h_a01b5b618868711c29315b1726029904d}} 
+const std\+::complex$<$ float $>$ {\bfseries operator/} (const std\+::complex$<$ float $>$ \&a, const double \&b)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a0c6419b6f375fd05c1cd758ca031974c}\label{nrutil__nr_8h_a0c6419b6f375fd05c1cd758ca031974c}} 
+float {\bfseries pow} (float x, double y)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_abfb50e4e21c6ac2aa9c93ec44108a763}\label{nrutil__nr_8h_abfb50e4e21c6ac2aa9c93ec44108a763}} 
+float {\bfseries pow} (double x, float y)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_ad642c6665fb6e512b57b2531cbd081bf}\label{nrutil__nr_8h_ad642c6665fb6e512b57b2531cbd081bf}} 
+float {\bfseries atan2} (float x, double y)
+\item 
+\mbox{\Hypertarget{nrutil__nr_8h_a0ce5286f20e0c0ef4ee6c921ffe10074}\label{nrutil__nr_8h_a0ce5286f20e0c0ef4ee6c921ffe10074}} 
+float {\bfseries atan2} (double x, float y)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Numerical Recipes utilities header file. 
+
+\begin{DoxyAuthor}{Author}
+Francis Otani 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+
+\end{DoxyDate}

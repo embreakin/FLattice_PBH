@@ -1,0 +1,254 @@
+\hypertarget{parameters_8cpp}{}\doxysection{src/parameters.cpp File Reference}
+\label{parameters_8cpp}\index{src/parameters.cpp@{src/parameters.cpp}}
+
+
+Parameters source file.  
+
+
+{\ttfamily \#include \char`\"{}parameters.\+hpp\char`\"{}}\newline
+Include dependency graph for parameters.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{parameters_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ae9731761631a55a253b32da981acc8b5}\label{parameters_8cpp_ae9731761631a55a253b32da981acc8b5}} 
+std\+::ifstream {\bfseries jsonfile} (\char`\"{}../include/parameters.\+json\char`\"{})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a1649d2a93f61c02efd64bc78b86c4a93}\label{parameters_8cpp_a1649d2a93f61c02efd64bc78b86c4a93}} 
+\mbox{\hyperlink{classnlohmann_1_1basic__json}{json}} {\bfseries par\+\_\+set} = json\+::parse(jsonfile)
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a6567bdef69cdb0b8f9ff83b3c6873638}\label{parameters_8cpp_a6567bdef69cdb0b8f9ff83b3c6873638}} 
+bool {\bfseries exist\+\_\+par\+\_\+set\+\_\+rmall\+\_\+switch} = true
+\item 
+\mbox{\Hypertarget{parameters_8cpp_aa8e240000518606170d734b1fb9a5851}\label{parameters_8cpp_aa8e240000518606170d734b1fb9a5851}} 
+std\+::string {\bfseries par\+\_\+set\+\_\+name} = par\+\_\+set\mbox{[}par\+\_\+set\+\_\+num\mbox{]}\mbox{[}\char`\"{}Name\char`\"{}\mbox{]}.get$<$std\+::string$>$()
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a787d64040df4846231d4948213e2c0fa}\label{parameters_8cpp_a787d64040df4846231d4948213e2c0fa}} 
+std\+::string {\bfseries par\+\_\+set\+\_\+name\+\_\+rm} = par\+\_\+set\mbox{[}par\+\_\+set\+\_\+num\+\_\+rm\mbox{]}\mbox{[}\char`\"{}Name\char`\"{}\mbox{]}.get$<$std\+::string$>$()
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a37d814ebf3ed41b435f38682562de962}\label{parameters_8cpp_a37d814ebf3ed41b435f38682562de962}} 
+double {\bfseries msigma} = sqrt(8$\ast$pow(mu\+\_\+par,3)/M\+\_\+par)
+\item 
+\mbox{\Hypertarget{parameters_8cpp_abcb71b38e27d35be6e0c726a37b4bf15}\label{parameters_8cpp_abcb71b38e27d35be6e0c726a37b4bf15}} 
+std\+::string {\bfseries exist\+\_\+filename\+\_\+zero} = par\+\_\+set\+\_\+name\+\_\+rm + \char`\"{}\+\_\+unp\+WMAP5.\+txt\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_acb176857ac274c6d5f1b8b799657edbf}\label{parameters_8cpp_acb176857ac274c6d5f1b8b799657edbf}} 
+std\+::string {\bfseries new\+\_\+filename\+\_\+zero} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+unp\+WMAP5.\+txt\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a5f48a574d774ee68678950ff2a8745b4}\label{parameters_8cpp_a5f48a574d774ee68678950ff2a8745b4}} 
+std\+::string {\bfseries exist\+\_\+dirname\+\_\+k} = par\+\_\+set\+\_\+name\+\_\+rm + \char`\"{}\+\_\+k\+Analyze\+\_\+nonlattice\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a50f91de24857ca8d814a591ea3972e8e}\label{parameters_8cpp_a50f91de24857ca8d814a591ea3972e8e}} 
+std\+::string {\bfseries new\+\_\+dirname\+\_\+k} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+k\+Analyze\+\_\+nonlattice\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a6b4e53fa88a1a1630aff4803f12a17e4}\label{parameters_8cpp_a6b4e53fa88a1a1630aff4803f12a17e4}} 
+std\+::string {\bfseries filename\+\_\+k} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+k\+Analyze\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a7ca58379e3537359b4aa9cfc963cda73}\label{parameters_8cpp_a7ca58379e3537359b4aa9cfc963cda73}} 
+bool {\bfseries k\+\_\+switch} = false
+\item 
+\mbox{\Hypertarget{parameters_8cpp_adbf67d0f7854d93c2efd475f4217c4d9}\label{parameters_8cpp_adbf67d0f7854d93c2efd475f4217c4d9}} 
+std\+::string {\bfseries exist\+\_\+filename\+\_\+sp} = par\+\_\+set\+\_\+name\+\_\+rm + \char`\"{}\+\_\+spectrum.\+txt\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ab628840a8df2209a1b94069e501cb764}\label{parameters_8cpp_ab628840a8df2209a1b94069e501cb764}} 
+std\+::string {\bfseries new\+\_\+filename\+\_\+sp} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+spectrum.\+txt\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ad03c499bb88af39f589bc3957a3e23f9}\label{parameters_8cpp_ad03c499bb88af39f589bc3957a3e23f9}} 
+std\+::string {\bfseries exist\+\_\+filename\+\_\+spbfosc} = par\+\_\+set\+\_\+name\+\_\+rm + \char`\"{}\+\_\+spectrum\+\_\+bfosc.\+txt\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_abf0a18531934f2a944bfbcfaa5c0e4d0}\label{parameters_8cpp_abf0a18531934f2a944bfbcfaa5c0e4d0}} 
+std\+::string {\bfseries new\+\_\+filename\+\_\+spbfosc} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+spectrum\+\_\+bfosc.\+txt\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ae9a01b9d1856f42d3f6fa3827e247f22}\label{parameters_8cpp_ae9a01b9d1856f42d3f6fa3827e247f22}} 
+bool {\bfseries zeromode\+\_\+switch} = true
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ab3e14303b2e47ce01eeedd73be92085d}\label{parameters_8cpp_ab3e14303b2e47ce01eeedd73be92085d}} 
+const int {\bfseries N\+\_\+zero} =7
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a3b79977b3357389425aa2500860734c1}\label{parameters_8cpp_a3b79977b3357389425aa2500860734c1}} 
+DP {\bfseries sigma\+\_\+c} = pow((m\+\_\+par/(2$\ast$m\+\_\+par-\/1))$\ast$((3$\ast$m\+\_\+par-\/1)/(m\+\_\+par-\/1)),(m\+\_\+par-\/1)/(4$\ast$m\+\_\+par-\/2))$\ast$2/pow(2$\ast$m\+\_\+par$\ast$(2$\ast$m\+\_\+par-\/1),m\+\_\+par/(4$\ast$m\+\_\+par-\/2))$\ast$pow(mu\+\_\+par$\ast$pow(M\+\_\+par,m\+\_\+par-\/1),1/(2$\ast$m\+\_\+par -\/1))
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a7f25928c8833dd85edf3ab42c3edfc81}\label{parameters_8cpp_a7f25928c8833dd85edf3ab42c3edfc81}} 
+DP {\bfseries FIXPSI} = 2$\ast$pow(mu\+\_\+par$\ast$pow(M\+\_\+par,m\+\_\+par-\/1),1/m\+\_\+par)
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a2fa1055b884057f02dc846f6ae833c34}\label{parameters_8cpp_a2fa1055b884057f02dc846f6ae833c34}} 
+DP {\bfseries FIXPHI} = -\/sqrt(2)$\ast$pow(pw2(Cv\+\_\+par)/g\+\_\+par,1/n\+\_\+par)
+\item 
+\mbox{\Hypertarget{parameters_8cpp_abb5c0a0e90f78dca22f56a9d5180f89d}\label{parameters_8cpp_abb5c0a0e90f78dca22f56a9d5180f89d}} 
+DP {\bfseries CNT} = (-\/1)$\ast$Vbare(0.\+0,FIXPSI,FIXPHI)
+\item 
+\mbox{\Hypertarget{parameters_8cpp_aba5d64614072d2d3896ac51e37b132d0}\label{parameters_8cpp_aba5d64614072d2d3896ac51e37b132d0}} 
+DP {\bfseries Gamma1}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_afd18c5eeacb4698192306ecad0aa89ea}\label{parameters_8cpp_afd18c5eeacb4698192306ecad0aa89ea}} 
+DP {\bfseries Gamma2}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a55feaeabccc51107c8c3f36f55771d6b}\label{parameters_8cpp_a55feaeabccc51107c8c3f36f55771d6b}} 
+DP {\bfseries Gamma3}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a7d52c13c6f7b5b069127160e7e5cdbfd}\label{parameters_8cpp_a7d52c13c6f7b5b069127160e7e5cdbfd}} 
+DP {\bfseries OSCSTART}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a523bd14b533af44e1aa4e2244fe7bb31}\label{parameters_8cpp_a523bd14b533af44e1aa4e2244fe7bb31}} 
+std\+::vector$<$ int $>$ {\bfseries knum\+\_\+zero} = \{200, 400, 634, 700\}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_aec90dcf1d64d1ec370e58c80b8571ffa}\label{parameters_8cpp_aec90dcf1d64d1ec370e58c80b8571ffa}} 
+int {\bfseries k\+\_\+target} = knum\+\_\+zero\mbox{[}3\mbox{]}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_af594019f12a9f01a479639d9ef5021d1}\label{parameters_8cpp_af594019f12a9f01a479639d9ef5021d1}} 
+bool {\bfseries perturbation\+\_\+switch} = true
+\item 
+\mbox{\Hypertarget{parameters_8cpp_adb479bb0e29f4033a263182bdbcf148e}\label{parameters_8cpp_adb479bb0e29f4033a263182bdbcf148e}} 
+bool {\bfseries lattice\+\_\+kmodes\+\_\+switch} = false
+\item 
+\mbox{\Hypertarget{parameters_8cpp_af8534973245d937b95cb376cd51ec813}\label{parameters_8cpp_af8534973245d937b95cb376cd51ec813}} 
+bool {\bfseries kanalyze\+\_\+switch} = true
+\item 
+\mbox{\Hypertarget{parameters_8cpp_af00f0492c04eeb9880979251c8a4a796}\label{parameters_8cpp_af00f0492c04eeb9880979251c8a4a796}} 
+bool {\bfseries spectrum\+\_\+switch} = true
+\item 
+\mbox{\Hypertarget{parameters_8cpp_aab61752863f20a4be9d4069f2b058727}\label{parameters_8cpp_aab61752863f20a4be9d4069f2b058727}} 
+bool {\bfseries spectrum\+\_\+bfosc\+\_\+switch} = true
+\item 
+\mbox{\Hypertarget{parameters_8cpp_aaa6f254de54278bd761693915d6c626a}\label{parameters_8cpp_aaa6f254de54278bd761693915d6c626a}} 
+const int {\bfseries N\+\_\+pert} =55
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ab4062c66e4aef192d3df4ba7c00b9310}\label{parameters_8cpp_ab4062c66e4aef192d3df4ba7c00b9310}} 
+DP {\bfseries kfrom\+\_\+\+Mpc} = 1.\+0e-\/4
+\item 
+\mbox{\Hypertarget{parameters_8cpp_aa93e1103baa74f9187e828f6dc92fec0}\label{parameters_8cpp_aa93e1103baa74f9187e828f6dc92fec0}} 
+DP {\bfseries kto\+\_\+\+Mpc} = 1.\+0e+4
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a863a4f252c97a1d866e6eef7edb225c2}\label{parameters_8cpp_a863a4f252c97a1d866e6eef7edb225c2}} 
+int {\bfseries kinterval\+\_\+knum} = 1
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a70325cd29b7e2e43fed5a7550d3c2d9d}\label{parameters_8cpp_a70325cd29b7e2e43fed5a7550d3c2d9d}} 
+std\+::string {\bfseries exist\+\_\+dirname\+\_\+ed} = par\+\_\+set\+\_\+name\+\_\+rm + \char`\"{}\+\_\+energy\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a1dc9310ca063a024f56abf1c5b107db7}\label{parameters_8cpp_a1dc9310ca063a024f56abf1c5b107db7}} 
+std\+::string {\bfseries new\+\_\+dirname\+\_\+ed} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+energy\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a06bcbacba6d232e077a7fb5cabe67c43}\label{parameters_8cpp_a06bcbacba6d232e077a7fb5cabe67c43}} 
+std\+::string {\bfseries exist\+\_\+dirname\+\_\+f} = par\+\_\+set\+\_\+name\+\_\+rm + \char`\"{}\+\_\+field\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a0bb4a87e8751f6f32d803964e917ea71}\label{parameters_8cpp_a0bb4a87e8751f6f32d803964e917ea71}} 
+std\+::string {\bfseries new\+\_\+dirname\+\_\+f} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+field\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_af20747d6869b16ac6a048e0f89e6c8d4}\label{parameters_8cpp_af20747d6869b16ac6a048e0f89e6c8d4}} 
+std\+::string {\bfseries exist\+\_\+filename\+\_\+status} = par\+\_\+set\+\_\+name\+\_\+rm + \char`\"{}\+\_\+status.\+txt\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a3287ad36be036297aaa03aafe287a227}\label{parameters_8cpp_a3287ad36be036297aaa03aafe287a227}} 
+std\+::string {\bfseries new\+\_\+filename\+\_\+status} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+status.\+txt\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a8e982c6134d099bb2c7bb9dbe682bade}\label{parameters_8cpp_a8e982c6134d099bb2c7bb9dbe682bade}} 
+std\+::string {\bfseries exist\+\_\+dirname\+\_\+k\+\_\+lattice} = par\+\_\+set\+\_\+name\+\_\+rm + \char`\"{}\+\_\+k\+Analyze\+\_\+lattice\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a104a349f527cf030bf40bb1ad952b003}\label{parameters_8cpp_a104a349f527cf030bf40bb1ad952b003}} 
+std\+::string {\bfseries new\+\_\+dirname\+\_\+k\+\_\+lattice} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+k\+Analyze\+\_\+lattice\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ae3cc341bb5a2faa8b3f8acce730d22a2}\label{parameters_8cpp_ae3cc341bb5a2faa8b3f8acce730d22a2}} 
+std\+::string {\bfseries filename\+\_\+k\+\_\+lattice} = par\+\_\+set\+\_\+name + \char`\"{}\+\_\+k\+Analyze\char`\"{}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a5cc4617edddced1219fd0af588bf90c9}\label{parameters_8cpp_a5cc4617edddced1219fd0af588bf90c9}} 
+bool {\bfseries k\+\_\+lattice\+\_\+switch} = true
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a63440cf96b8392de0dde91290d7bceaa}\label{parameters_8cpp_a63440cf96b8392de0dde91290d7bceaa}} 
+bool {\bfseries k\+\_\+lattice\+\_\+startfromlattice\+\_\+switch} = false
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ad7ee2983bcb23b0d70c6798363991f66}\label{parameters_8cpp_ad7ee2983bcb23b0d70c6798363991f66}} 
+bool {\bfseries latticerange\+\_\+switch} = false
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a8f69c3023e8b554006cb8ea1c5898bb0}\label{parameters_8cpp_a8f69c3023e8b554006cb8ea1c5898bb0}} 
+bool {\bfseries initialize\+\_\+perturb\+\_\+switch} = true
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a97d0d86136bd1762d5b157bcad3794ac}\label{parameters_8cpp_a97d0d86136bd1762d5b157bcad3794ac}} 
+int {\bfseries fluc\+\_\+calc\+\_\+switch} = 1
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a3e74fa80ee85a1bedd8bf09641a61801}\label{parameters_8cpp_a3e74fa80ee85a1bedd8bf09641a61801}} 
+double {\bfseries kfrom\+\_\+\+Mpc\+\_\+lattice} = 1
+\item 
+\mbox{\Hypertarget{parameters_8cpp_acbddf58646f1897629ab7f8a1dd022db}\label{parameters_8cpp_acbddf58646f1897629ab7f8a1dd022db}} 
+double {\bfseries kto\+\_\+\+Mpc\+\_\+lattice} = 3000
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a7722c8ecbb62d99aee7ce68b1752f337}\label{parameters_8cpp_a7722c8ecbb62d99aee7ce68b1752f337}} 
+int {\bfseries N} = 64
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a2095e90fd7a2a978308e244bfadef745}\label{parameters_8cpp_a2095e90fd7a2a978308e244bfadef745}} 
+double {\bfseries kfrom\+\_\+\+MPl\+\_\+lattice} = UC\+::k\+Mpc\+\_\+to\+\_\+k\+MPl(kfrom\+\_\+\+Mpc\+\_\+lattice)
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a037b601a54df1dd4d052981f5dfae330}\label{parameters_8cpp_a037b601a54df1dd4d052981f5dfae330}} 
+double {\bfseries kto\+\_\+\+MPl\+\_\+lattice} = UC\+::k\+Mpc\+\_\+to\+\_\+k\+MPl(kto\+\_\+\+Mpc\+\_\+lattice)
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ac86bc95d05573e8c3c33700d967a0ee6}\label{parameters_8cpp_ac86bc95d05573e8c3c33700d967a0ee6}} 
+double {\bfseries k\+\_\+lattice\+\_\+grid\+\_\+min\+\_\+\+MPl} = kto\+\_\+\+MPl\+\_\+lattice/(N/2)
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a47be9ec5b289bd2ddcf8b9eedcb274ae}\label{parameters_8cpp_a47be9ec5b289bd2ddcf8b9eedcb274ae}} 
+double {\bfseries k\+\_\+lattice\+\_\+grid\+\_\+max\+\_\+\+MPl} = kto\+\_\+\+MPl\+\_\+lattice
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a884d73b7911b81ccd74ca8c28b779687}\label{parameters_8cpp_a884d73b7911b81ccd74ca8c28b779687}} 
+int {\bfseries outrange\+\_\+num}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a4b16e6a64c929dd9e47a3c5c310b4c82}\label{parameters_8cpp_a4b16e6a64c929dd9e47a3c5c310b4c82}} 
+int {\bfseries latticerange\+\_\+num}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a09b6a8d6828bf27a2194d8e4c6cc33a6}\label{parameters_8cpp_a09b6a8d6828bf27a2194d8e4c6cc33a6}} 
+int {\bfseries rnd} = 1
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ac0ae3334b9e17a8fd23ad6fd3a032034}\label{parameters_8cpp_ac0ae3334b9e17a8fd23ad6fd3a032034}} 
+int {\bfseries num\+\_\+fields} = 4
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a08963f7335eef295237ab460863bc3d5}\label{parameters_8cpp_a08963f7335eef295237ab460863bc3d5}} 
+int {\bfseries num\+\_\+threads} = omp\+\_\+get\+\_\+num\+\_\+procs()/2
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a6bcf1044276f25375fc0119b42428c97}\label{parameters_8cpp_a6bcf1044276f25375fc0119b42428c97}} 
+double {\bfseries Hinitial\+\_\+pr}
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ab50ed4bd2c936265c82d528c75c9d89e}\label{parameters_8cpp_ab50ed4bd2c936265c82d528c75c9d89e}} 
+int {\bfseries output\+\_\+step} = 2.\+0e+1
+\item 
+\mbox{\Hypertarget{parameters_8cpp_ae27569894e6c6b4fb3d4374255e073aa}\label{parameters_8cpp_ae27569894e6c6b4fb3d4374255e073aa}} 
+int {\bfseries total\+\_\+step} = 8.\+2e+4
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a7159f4ef2915aa29a4f5462119edbf27}\label{parameters_8cpp_a7159f4ef2915aa29a4f5462119edbf27}} 
+int {\bfseries max\+\_\+loop} = total\+\_\+step/output\+\_\+step
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a7e75fbbeb1b47abd322a90bf6b5b42ea}\label{parameters_8cpp_a7e75fbbeb1b47abd322a90bf6b5b42ea}} 
+int {\bfseries st\+\_\+output\+\_\+step} = 10
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a315ac4fb64466e57315ded00b1876557}\label{parameters_8cpp_a315ac4fb64466e57315ded00b1876557}} 
+int {\bfseries st\+\_\+max\+\_\+loop} = output\+\_\+step/st\+\_\+output\+\_\+step
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a2a6d90c736b9e880fad815952157136f}\label{parameters_8cpp_a2a6d90c736b9e880fad815952157136f}} 
+double {\bfseries t0} = 0
+\item 
+\mbox{\Hypertarget{parameters_8cpp_a03e28be41881b703c836edbfe9b51b17}\label{parameters_8cpp_a03e28be41881b703c836edbfe9b51b17}} 
+double {\bfseries dt} = 1.e-\/4
+\item 
+\mbox{\Hypertarget{parameters_8cpp_acbe2cad50d14232e9b3585177b04176e}\label{parameters_8cpp_acbe2cad50d14232e9b3585177b04176e}} 
+const int {\bfseries expansion} = 1
+\item 
+\mbox{\Hypertarget{parameters_8cpp_af5d6cb985ffb3bfead1239c709e39804}\label{parameters_8cpp_af5d6cb985ffb3bfead1239c709e39804}} 
+const int {\bfseries precision} = 2
+\item 
+\mbox{\Hypertarget{parameters_8cpp_aaa9f7f4eca581d84cc78b7f09972ceda}\label{parameters_8cpp_aaa9f7f4eca581d84cc78b7f09972ceda}} 
+const int {\bfseries screen\+\_\+latticeloop\+\_\+number} = 100
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Parameters source file. 
+
+\begin{DoxyAuthor}{Author}
+Francis Otani 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+
+\end{DoxyDate}

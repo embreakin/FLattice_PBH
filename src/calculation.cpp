@@ -1,6 +1,18 @@
+//Doxygen
+/**
+* @file    calculation.cpp
+* @brief    Calculation source file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
+
 #include "calculation.hpp"
 #include "utilities.hpp"
 #include <chrono>// Measuring elapsed time
+
+
 
 
 //------------------------------------
@@ -40,11 +52,11 @@ void Zeromode::zeromode_initial(Vec_DP &unp, DP &a, DP &H, DP &xbegin){
         
     Logout("Field psi is set using the approx eq which uses the initial field value of sigma. sigma =  %2.5e >> %2.5e must be satisfied for it to hold. \n\n",unp[0], pow(mu_par*pow(M_par,m_par-1),1/m_par) );
         
-    Logout("Estimated value of fields sigma and phi at the end of hybrid inflation (OSCSTART): sigma = %2.5e, phi = %2.5e \n\n", sigma_c, -pow(Cv_par/mu_par,2)*sigma_c);
-        Logout("Estimated value of fields after oscillation period between hybrid and new inflation: sigma = %2.5e, psi = %2.5e, phi = %2.5e \n\n", 0.0, FIXPSI, -pow(Cv_par/mu_par,3)*sigma_c );
+    Logout("Estimated value of fields sigma and phi at the end of hybrid inflation (OSCSTART): sigma = %2.5e, phi = %2.5e \n\n", sigma_c, -pow(Cv_par/mu_par,2.0)*sigma_c);
+        Logout("Estimated value of fields after oscillation period between hybrid and new inflation: sigma = %2.5e, psi = %2.5e, phi = %2.5e \n\n", 0.0, FIXPSI, -pow(Cv_par/mu_par,3.0)*sigma_c );
     Logout("Estimated value of field phi after oscillation that takes place after new inflation ends: phi = %2.5e \n\n", FIXPHI );
     Logout("Estimated value of CNT: %2.5e, Actual value of CNT: %2.5e \n\n",
-               3*pow(n_par/(n_par+1),2)*pow(Cv_par,4)*pow(FIXPHI/sqrt(2),2), CNT );
+               3*pow(n_par/(n_par+1),2.0)*pow(Cv_par,4.0)*pow(FIXPHI/sqrt(2),2.0), CNT );
         Logout("Potential_bare for final value of fields: %2.5e \n\n", Vbare(0, FIXPSI, FIXPHI) );
         Logout("Potential for final value of fields: %2.5e \n\n", V(0, FIXPSI, FIXPHI) );
     }

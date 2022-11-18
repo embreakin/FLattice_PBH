@@ -1,0 +1,97 @@
+\hypertarget{utilities_8hpp}{}\doxysection{include/utilities.hpp File Reference}
+\label{utilities_8hpp}\index{include/utilities.hpp@{include/utilities.hpp}}
+
+
+Utilities header file.  
+
+
+{\ttfamily \#include \char`\"{}lattice\+\_\+calc.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}nr.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}uc.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+Include dependency graph for utilities.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utilities_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utilities_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{utilities_8hpp_ade1b3939d2f2163209a9c91774bf5d59}\label{utilities_8hpp_ade1b3939d2f2163209a9c91774bf5d59}} 
+\#define {\bfseries Logout}(...)~do \{ printf(\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+); fflush(stdout); \} while(0)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a2ea5f285621fd281770f35bca950a21f}\label{utilities_8hpp_a2ea5f285621fd281770f35bca950a21f}} 
+void {\bfseries dir\+\_\+manage} (const std\+::string exist\+\_\+dir, const std\+::string new\+\_\+dir)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a503e422f7abe52f2f7c60898825c12ac}\label{utilities_8hpp_a503e422f7abe52f2f7c60898825c12ac}} 
+void {\bfseries file\+\_\+manage} (const std\+::string exist\+\_\+file)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a04c15ad714ab119cfbdbc53790b334e6}\label{utilities_8hpp_a04c15ad714ab119cfbdbc53790b334e6}} 
+void {\bfseries time\+\_\+calc} (std\+::chrono\+::system\+\_\+clock\+::time\+\_\+point time\+\_\+start, std\+::chrono\+::system\+\_\+clock\+::time\+\_\+point time\+\_\+end, std\+::string time\+\_\+name)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a22fbee36e314fe0127bb1f08f04c2692}\label{utilities_8hpp_a22fbee36e314fe0127bb1f08f04c2692}} 
+void {\bfseries zeromode\+\_\+output} (const std\+::string file, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xx, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&yp, int timecount)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a983b2ab2bdbf9b473962d1490f5de10a}\label{utilities_8hpp_a983b2ab2bdbf9b473962d1490f5de10a}} 
+void {\bfseries kanalyze\+\_\+output} (const std\+::string dir, std\+::string file, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xx, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&yp, int timecount, int knum, DP k\+\_\+comoving)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a91805c66e18e00375b1cd5b20f183ad0}\label{utilities_8hpp_a91805c66e18e00375b1cd5b20f183ad0}} 
+void {\bfseries spectrum\+\_\+bfosc\+\_\+output} (const std\+::string file, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xx, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&yp, int timecount, int knum, const DP k\+\_\+comoving)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_ad25baba2dfc7b2b4f2345a7e5b9f2511}\label{utilities_8hpp_ad25baba2dfc7b2b4f2345a7e5b9f2511}} 
+void {\bfseries spectrum\+\_\+output} (const std\+::string file, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xx, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&yp, int timecount, int knum, const DP k\+\_\+comoving)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a8c7896c7ed4d3c5624af5e89befe1055}\label{utilities_8hpp_a8c7896c7ed4d3c5624af5e89befe1055}} 
+void {\bfseries DFT\+\_\+c2r\+D1} (double $\ast$f)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a045a808516ad031a0159fc95a6513ff6}\label{utilities_8hpp_a045a808516ad031a0159fc95a6513ff6}} 
+void {\bfseries DFT\+\_\+r2c\+D1} (std\+::vector$<$ double $>$ \&f, std\+::vector$<$ double $>$ \&f\+\_\+k)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a5d9f2921c5b4d65c11a16ab21dc829c7}\label{utilities_8hpp_a5d9f2921c5b4d65c11a16ab21dc829c7}} 
+void {\bfseries DFT\+\_\+c2r\+D2} (double $\ast$f, double $\ast$fnyquist)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a5b2b4ce0e13cb7ce379ff19238b388dd}\label{utilities_8hpp_a5b2b4ce0e13cb7ce379ff19238b388dd}} 
+void {\bfseries DFT\+\_\+r2c\+D2} (std\+::vector$<$ double $>$ \&f, std\+::vector$<$ double $>$ \&f\+\_\+k, std\+::vector$<$ double $>$ \&f\+\_\+k\+\_\+nyquist)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_ad5142c77797235476c6b211cabeae58c}\label{utilities_8hpp_ad5142c77797235476c6b211cabeae58c}} 
+void {\bfseries DFT\+\_\+c2r\+D3} (double $\ast$f, double $\ast$$\ast$fnyquist)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_a46f4d775edbe694415c8b0a99ec87213}\label{utilities_8hpp_a46f4d775edbe694415c8b0a99ec87213}} 
+void {\bfseries DFT\+\_\+r2c\+D3} (std\+::vector$<$ double $>$ \&f, std\+::vector$<$ double $>$ \&f\+\_\+k, std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \&f\+\_\+k\+\_\+nyquist)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_acd98e7e5f44636d028f3f2839d315a4d}\label{utilities_8hpp_acd98e7e5f44636d028f3f2839d315a4d}} 
+void {\bfseries write\+\_\+\+VTK\+\_\+f} (const std\+::string dir\+\_\+f, double $\ast$f, std\+::string str, int loop)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_ab0478d80542a3138da0f0dbf57de84fe}\label{utilities_8hpp_ab0478d80542a3138da0f0dbf57de84fe}} 
+void {\bfseries write\+\_\+\+VTK\+\_\+ed} (const std\+::string dir\+\_\+ed, double $\ast$f, std\+::string str, int loop)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_ac858ff7cca3ea740a3ddad2a1cef0362}\label{utilities_8hpp_ac858ff7cca3ea740a3ddad2a1cef0362}} 
+void {\bfseries write\+\_\+status} (const std\+::string status\+\_\+file, \mbox{\hyperlink{class_field}{Field}} $\ast$field, \mbox{\hyperlink{class_leap_frog}{Leap\+Frog}} $\ast$leapfrog, \mbox{\hyperlink{class_energy}{Energy}} $\ast$energy, double $\ast$$\ast$f, double $\ast$$\ast$df, double t)
+\item 
+\mbox{\Hypertarget{utilities_8hpp_ad733fdc6fb0fe226049cba7a6dd78593}\label{utilities_8hpp_ad733fdc6fb0fe226049cba7a6dd78593}} 
+void {\bfseries kanalyze\+\_\+output\+\_\+lattice} (const std\+::string dir, std\+::string file, \mbox{\hyperlink{class_field}{Field}} $\ast$field, \mbox{\hyperlink{class_leap_frog}{Leap\+Frog}} $\ast$leapfrog, double $\ast$$\ast$f)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Utilities header file. 
+
+\begin{DoxyAuthor}{Author}
+Francis Otani 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+
+\end{DoxyDate}

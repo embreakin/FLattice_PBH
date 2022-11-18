@@ -1,0 +1,20 @@
+<map id="nlohmann::basic_json::is_object" name="nlohmann::basic_json::is_object">
+<area shape="rect" id="node1" title="return whether value is an object" alt="" coords="612,419,760,459"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#a93403e803947b86f4da2d1fb3345cf2c" title="access specified object element with bounds checking" alt="" coords="397,5,564,31"/>
+<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#a0a45fc740637123fdf05fef970f8be47" title="check the existence of an element in a JSON object" alt="" coords="407,55,555,95"/>
+<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#a0d74bfcf65662f1d66d14c34b0027098" title="returns the number of occurrences of a key in a JSON object" alt="" coords="407,119,555,159"/>
+<area shape="rect" id="node5" href="$classnlohmann_1_1basic__json.html#a564c84efd6afeb31278e9484051d60e8" title="add an object to an object if key does not exist" alt="" coords="407,183,555,223"/>
+<area shape="rect" id="node6" href="$classnlohmann_1_1basic__json.html#a2f8484d69c55d8f2a9697a7bec29362a" title="remove element from a JSON object given a key" alt="" coords="407,247,555,287"/>
+<area shape="rect" id="node7" href="$classnlohmann_1_1basic__json.html#a89eb3928f57903677051c80534be9cb1" title="find an element in a JSON object" alt="" coords="407,362,555,402"/>
+<area shape="rect" id="node9" href="$classnlohmann_1_1basic__json.html#a81e0c41a4a9dff4df2f6973f7f8b2a83" title="applies a JSON patch" alt="" coords="201,274,349,314"/>
+<area shape="rect" id="node10" href="$classnlohmann_1_1basic__json.html#adcf8ca5079f5db993820bf50036bf45d" title="access specified object element with default value" alt="" coords="201,426,349,466"/>
+<area shape="rect" id="node12" href="$classnlohmann_1_1basic__json.html#a1b0a4e60d56f1fe80501ed941e122892" title="inserts elements" alt="" coords="407,477,555,517"/>
+<area shape="rect" id="node13" href="$classnlohmann_1_1basic__json.html#a9f68a0af820c3ced7f9d17851ce4c22d" title="return whether type is structured" alt="" coords="407,541,555,581"/>
+<area shape="rect" id="node14" href="$classnlohmann_1_1basic__json.html#a7c43ed2a3004c1fa9543913f37b9fca9" title="applies a JSON Merge Patch" alt="" coords="407,629,555,669"/>
+<area shape="rect" id="node15" href="$classnlohmann_1_1basic__json.html#a233b02b0839ef798942dd46157cc0fe6" title="access specified object element" alt="" coords="407,693,555,733"/>
+<area shape="rect" id="node16" href="$classnlohmann_1_1basic__json.html#ae11a3a51782c058fff2f6550cdfb9b3c" title="add an object to an object" alt="" coords="407,757,555,797"/>
+<area shape="rect" id="node17" href="$classnlohmann_1_1basic__json.html#ac31f12587d2f1a3be5ffc394aa9d72a4" title="exchanges the values" alt="" coords="407,821,555,861"/>
+<area shape="rect" id="node18" href="$classnlohmann_1_1basic__json.html#a1cfa9ae5e7c2434cab4cfe69bffffe11" title="updates a JSON object from another object, overwriting existing keys" alt="" coords="407,885,555,925"/>
+<area shape="rect" id="node8" href="$classnlohmann_1_1basic__json.html#a4336103c941d9f60bd51320f4880e3dd" title="creates a diff as a JSON patch" alt="" coords="201,362,349,402"/>
+<area shape="rect" id="node11" href="$classnlohmann_1_1basic__json.html#ad6a18403e7fbac9c4efd06facc71fc88" title="overload for a default value of type const char*" alt="" coords="5,426,153,466"/>
+</map>

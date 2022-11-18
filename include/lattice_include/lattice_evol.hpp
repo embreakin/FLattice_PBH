@@ -1,8 +1,19 @@
+//Doxygen
+/**
+* @file   lattice_evol.hpp
+* @brief    Lattice evolution header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 #ifndef _LATTICEEVOL_H_
 #define _LATTICEEVOL_H_
 
-#include "lattice_field.hpp"
+#include "parameters.hpp"
 #include "lattice.hpp"
+
+class Field;
 
 class LeapFrog
 {
@@ -73,8 +84,8 @@ class LeapFrog
 		double a()  { return _a; }
         double efolds() { return OSCSTART + log(_a); }
         double da() { return _da; }
-        double hubble() { return _da*rescale_B*pow(_a,-2);}
-        double adotdot() {return exp(OSCSTART)*pw2(rescale_B)*pow(_a,-2)*(_dda-pw2(_da)/_a);}
+        double hubble() { return _da*rescale_B*pow(_a,-2.0);}
+        double adotdot() {return exp(OSCSTART)*pw2(rescale_B)*pow(_a,-2.0)*(_dda-pw2(_da)/_a);}
 };
 
 

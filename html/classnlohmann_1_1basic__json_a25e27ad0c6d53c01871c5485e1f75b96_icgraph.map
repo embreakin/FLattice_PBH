@@ -1,0 +1,7 @@
+<map id="nlohmann::basic_json::size" name="nlohmann::basic_json::size">
+<area shape="rect" id="node1" title="returns the number of elements" alt="" coords="201,125,349,165"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#a4336103c941d9f60bd51320f4880e3dd" title="creates a diff as a JSON patch" alt="" coords="5,29,153,69"/>
+<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#a88cbcefe9a3f4d294bed0653550a5cb9" title="remove element from a JSON array given an index" alt="" coords="5,93,153,133"/>
+<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#a2f47d3c6a441c57dd2be00449fbb88e1" title="returns the maximum possible number of elements" alt="" coords="5,157,153,197"/>
+<area shape="rect" id="node5" href="$classnlohmann_1_1basic__json.html#a81e0c41a4a9dff4df2f6973f7f8b2a83" title="applies a JSON patch" alt="" coords="5,221,153,261"/>
+</map>

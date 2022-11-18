@@ -1,3 +1,13 @@
+//Doxygen
+/**
+* @file   uc.hpp
+* @brief    Unit conversions header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
+
 #ifndef _UC_H_
 #define _UC_H_
 

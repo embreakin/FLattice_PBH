@@ -1,0 +1,74 @@
+\hypertarget{classnlohmann_1_1detail_1_1input__buffer__adapter}{}\doxysection{nlohmann\+::detail\+::input\+\_\+buffer\+\_\+adapter Class Reference}
+\label{classnlohmann_1_1detail_1_1input__buffer__adapter}\index{nlohmann::detail::input\_buffer\_adapter@{nlohmann::detail::input\_buffer\_adapter}}
+
+
+input adapter for buffer input  
+
+
+
+
+{\ttfamily \#include $<$json.\+hpp$>$}
+
+
+
+Inheritance diagram for nlohmann\+::detail\+::input\+\_\+buffer\+\_\+adapter\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=195pt]{classnlohmann_1_1detail_1_1input__buffer__adapter__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for nlohmann\+::detail\+::input\+\_\+buffer\+\_\+adapter\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=195pt]{classnlohmann_1_1detail_1_1input__buffer__adapter__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classnlohmann_1_1detail_1_1input__buffer__adapter_ad9b912fabdcb53de255e8c444d625ac3}\label{classnlohmann_1_1detail_1_1input__buffer__adapter_ad9b912fabdcb53de255e8c444d625ac3}} 
+{\bfseries input\+\_\+buffer\+\_\+adapter} (const char $\ast$b, const std\+::size\+\_\+t l) noexcept
+\item 
+\mbox{\Hypertarget{classnlohmann_1_1detail_1_1input__buffer__adapter_ada76d7b75c5d6b989af0e18687ef07b6}\label{classnlohmann_1_1detail_1_1input__buffer__adapter_ada76d7b75c5d6b989af0e18687ef07b6}} 
+{\bfseries input\+\_\+buffer\+\_\+adapter} (const \mbox{\hyperlink{classnlohmann_1_1detail_1_1input__buffer__adapter}{input\+\_\+buffer\+\_\+adapter}} \&)=delete
+\item 
+\mbox{\Hypertarget{classnlohmann_1_1detail_1_1input__buffer__adapter_aa13913b796d42adbc189984d6f149759}\label{classnlohmann_1_1detail_1_1input__buffer__adapter_aa13913b796d42adbc189984d6f149759}} 
+\mbox{\hyperlink{classnlohmann_1_1detail_1_1input__buffer__adapter}{input\+\_\+buffer\+\_\+adapter}} \& {\bfseries operator=} (\mbox{\hyperlink{classnlohmann_1_1detail_1_1input__buffer__adapter}{input\+\_\+buffer\+\_\+adapter}} \&)=delete
+\item 
+\mbox{\Hypertarget{classnlohmann_1_1detail_1_1input__buffer__adapter_ab6bc6bb785408b74af284a5b7544d9dc}\label{classnlohmann_1_1detail_1_1input__buffer__adapter_ab6bc6bb785408b74af284a5b7544d9dc}} 
+{\bfseries input\+\_\+buffer\+\_\+adapter} (\mbox{\hyperlink{classnlohmann_1_1detail_1_1input__buffer__adapter}{input\+\_\+buffer\+\_\+adapter}} \&\&)=delete
+\item 
+\mbox{\Hypertarget{classnlohmann_1_1detail_1_1input__buffer__adapter_a032d511dccd8e2eb31ca323b9b461521}\label{classnlohmann_1_1detail_1_1input__buffer__adapter_a032d511dccd8e2eb31ca323b9b461521}} 
+\mbox{\hyperlink{classnlohmann_1_1detail_1_1input__buffer__adapter}{input\+\_\+buffer\+\_\+adapter}} \& {\bfseries operator=} (\mbox{\hyperlink{classnlohmann_1_1detail_1_1input__buffer__adapter}{input\+\_\+buffer\+\_\+adapter}} \&\&)=delete
+\item 
+std\+::char\+\_\+traits$<$ char $>$\+::int\+\_\+type \mbox{\hyperlink{classnlohmann_1_1detail_1_1input__buffer__adapter_aeb6ab9236f15656d9320299ef891b922}{get\+\_\+character}} () noexcept override
+\begin{DoxyCompactList}\small\item\em get a character \mbox{[}0,255\mbox{]} or std\+::char\+\_\+traits$<$char$>$\+::eof(). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+input adapter for buffer input 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classnlohmann_1_1detail_1_1input__buffer__adapter_aeb6ab9236f15656d9320299ef891b922}\label{classnlohmann_1_1detail_1_1input__buffer__adapter_aeb6ab9236f15656d9320299ef891b922}} 
+\index{nlohmann::detail::input\_buffer\_adapter@{nlohmann::detail::input\_buffer\_adapter}!get\_character@{get\_character}}
+\index{get\_character@{get\_character}!nlohmann::detail::input\_buffer\_adapter@{nlohmann::detail::input\_buffer\_adapter}}
+\doxysubsubsection{\texorpdfstring{get\_character()}{get\_character()}}
+{\footnotesize\ttfamily std\+::char\+\_\+traits$<$ char $>$\+::int\+\_\+type nlohmann\+::detail\+::input\+\_\+buffer\+\_\+adapter\+::get\+\_\+character (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+get a character \mbox{[}0,255\mbox{]} or std\+::char\+\_\+traits$<$char$>$\+::eof(). 
+
+
+
+Implements \mbox{\hyperlink{structnlohmann_1_1detail_1_1input__adapter__protocol_ac4acb1eac715f3f63a427e44517d31b6}{nlohmann\+::detail\+::input\+\_\+adapter\+\_\+protocol}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{json_8hpp}{json.\+hpp}}\end{DoxyCompactItemize}

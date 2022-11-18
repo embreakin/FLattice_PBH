@@ -1,3 +1,14 @@
+//Doxygen
+/**
+* @file    lattice_field.cpp
+* @brief    Lattice field source file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
+
+
 #include <cmath>
 #include <random>
 #include "lattice_field.hpp"
@@ -79,7 +90,7 @@ double Field::gradient_energy_eachpoint( double** f ,int i, int idx )
     int jm1 = (j == 0)?   N-1: j-1;
     int jm2 = (j <  2)? j+N-2: j-2;
     
-    return  pow( ( - f[i][jp2]  + 8*f[i][jp1]  - 8*f[i][jm1] + f[i][jm2] ) / (12*dx), 2 )/2;
+    return  pow( ( - f[i][jp2]  + 8*f[i][jp1]  - 8*f[i][jm1] + f[i][jm2] ) / (12*dx), 2.0 )/2;
     
 #elif dim == 2
     int j = idx / N;
@@ -152,7 +163,7 @@ double Field::gradient_energy( double* f )
                 grad[0] = ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx);
             }
             #else
-            gradient_energy +=  pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 );
+            gradient_energy +=  pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2.0 );
 //            std::cout << "pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) = " << pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) << "f["<< jp2 << "] = " << f[jp2] << "f["<< jp1 << "] = " << f[jp1] << "f["<< jm1 << "] = " << f[jm1]<< "f["<< jm2 << "] = " << f[jm2] << std::endl;
 		    #endif
 	    #elif dim == 2
@@ -163,8 +174,8 @@ double Field::gradient_energy( double* f )
                 int km2 = (k <    2)? k+N-2: k-2;
 //                gradient_energy +=  pow( (f[jp1*N+k] - f[jm1*N+k]) / (2*dx), 2 );
 //                 gradient_energy += pow( ( f[j*N+kp1]  - f[j*N+km1] ) /(2*dx), 2 );
-              gradient_energy += pow( ( - f[jp2*N+k] + 8*f[jp1*N+k] - 8*f[jm1*N+k] + f[jm2*N+k] ) / (12*dx), 2 );
-                gradient_energy += pow( ( - f[j*N+kp2] + 8*f[j*N+kp1] - 8*f[j*N+km1] + f[j*N+km2] ) / (12*dx), 2 );
+              gradient_energy += pow( ( - f[jp2*N+k] + 8*f[jp1*N+k] - 8*f[jm1*N+k] + f[jm2*N+k] ) / (12*dx), 2.0 );
+                gradient_energy += pow( ( - f[j*N+kp2] + 8*f[j*N+kp1] - 8*f[j*N+km1] + f[j*N+km2] ) / (12*dx), 2.0 );
             }
         #elif dim == 3
             for( int k = 0; k < N; ++k ){
@@ -177,9 +188,9 @@ double Field::gradient_energy( double* f )
                     int lp2 = (l >= N-2) ? l-N+2: l+2;
                     int lm1 = (l ==   0) ?   N-1: l-1;
                     int lm2 = (l <    2) ? l+N-2: l-2;                        
-                    gradient_energy += pow( ( - f[(jp2*N+k)*N+l] + 8*f[(jp1*N+k)*N+l] - 8*f[(jm1*N+k)*N+l] + f[(jm2*N+k)*N+l] ) / (12*dx), 2 );
-                    gradient_energy += pow( ( - f[(j*N+kp2)*N+l] + 8*f[(j*N+kp1)*N+l] - 8*f[(j*N+km1)*N+l] + f[(j*N+km2)*N+l] ) / (12*dx), 2 );
-                    gradient_energy += pow( ( - f[(j*N+k)*N+lp2] + 8*f[(j*N+k)*N+lp1] - 8*f[(j*N+k)*N+lm1] + f[(j*N+k)*N+lm2] ) / (12*dx), 2 );
+                    gradient_energy += pow( ( - f[(jp2*N+k)*N+l] + 8*f[(jp1*N+k)*N+l] - 8*f[(jm1*N+k)*N+l] + f[(jm2*N+k)*N+l] ) / (12*dx), 2.0 );
+                    gradient_energy += pow( ( - f[(j*N+kp2)*N+l] + 8*f[(j*N+kp1)*N+l] - 8*f[(j*N+km1)*N+l] + f[(j*N+km2)*N+l] ) / (12*dx), 2.0 );
+                    gradient_energy += pow( ( - f[(j*N+k)*N+lp2] + 8*f[(j*N+k)*N+lp1] - 8*f[(j*N+k)*N+lm1] + f[(j*N+k)*N+lm2] ) / (12*dx), 2.0 );
                 }
             }
         #endif
@@ -242,9 +253,11 @@ double Field::average( double* f, int i )
 		switch( dim )
 		{
 			case 1:
+            {
 				int idx = j;
 				average += f[idx];
 				break;
+            }
 			case 2:
             #pragma omp simd reduction(+:average)
 				for( int k = 0; k < N; ++k ){
@@ -286,14 +299,16 @@ double Field::variance( double* f, int i )
 	for( int j = 0; j < N; ++j ){
 		switch( dim ){
 			case 1:
+            {
 				int idx = j;
-				variance += pow( f[idx] - _average[i], 2 );
+				variance += pow( f[idx] - _average[i], 2.0 );
 				break;
+            }
 			case 2:
                 #pragma omp simd reduction(+:variance)
 				for( int k = 0; k < N; ++k ){
 					int idx = j*N + k;
-                    variance += pow( f[idx] - _average[i], 2 );
+                    variance += pow( f[idx] - _average[i], 2.0 );
                 
 				}
 				break;
@@ -302,7 +317,7 @@ double Field::variance( double* f, int i )
                     #pragma omp simd reduction(+:variance)
 					for( int l = 0; l < N; ++l ){
 						int idx = (j*N + k)*N + l;
-						variance += pow( f[idx] - _average[i], 2 );
+						variance += pow( f[idx] - _average[i], 2.0 );
 					}
 				}
 				break;
@@ -329,11 +344,11 @@ double Field::V_lattice   ( double** f, int idx, double a )  {
         
         f_MPl[fld] = f[fld][idx]/(rescale_A*a);
     }
-//    std::cout << "pow(a,4) = " << pow(a,4) << std::endl;
-//    std::cout << "pow(rescale_A/rescale_B,2) = " << pow(rescale_A/rescale_B,2) << std::endl;
+//    std::cout << "pow(a,4.0) = " << pow(a,4.0) << std::endl;
+//    std::cout << "pow(rescale_A/rescale_B,2.0) = " << pow(rescale_A/rescale_B,2.0) << std::endl;
 //    std::cout << "V(f_MPl[0],f_MPl[1],f_MPl[2]) = " << V(f_MPl[0],f_MPl[1],f_MPl[2]) << std::endl;
     
-    return pow(a,4)*pow(rescale_A/rescale_B,2)*V(f_MPl[0],f_MPl[1],f_MPl[2]); }
+    return pow(a,4.0)*pow(rescale_A/rescale_B,2.0)*V(f_MPl[0],f_MPl[1],f_MPl[2]); }
 
 //#pragma omp declare simd
 double Field::dV_lattice ( double** f, int i, int idx, double a )  {
@@ -355,18 +370,18 @@ double Field::dV_lattice ( double** f, int i, int idx, double a )  {
         case 0:
           
             
-            return pow(a,3)*rescale_A*V_1(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //sigma
+            return pow(a,3.0)*rescale_A*V_1(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //sigma
             
            
-//        case 1: return -pow(a,3)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
-        case 1: return pow(a,3)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
+//        case 1: return -pow(a,3.0)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
+        case 1: return pow(a,3.0)*rescale_A*V_2(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //psi
          
         case 2:
             
             
-//            std::cout << "pow(a,3)*rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B) = " <<  pow(a,3)*rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B) << std::endl;
+//            std::cout << "pow(a,3.0)*rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B) = " <<  pow(a,3.0)*rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B) << std::endl;
             
-            return pow(a,3)*rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //phi
+            return pow(a,3.0)*rescale_A*V_3(f_MPl[0],f_MPl[1],f_MPl[2])/(rescale_B*rescale_B); //phi
            
         default:  Logout( "Parameter 'i' in dV_lattice must be 0 ~ 2. \n" );
                 exit(1);
@@ -389,9 +404,9 @@ double Field::ddV_lattice ( double** f, int i, int idx, double a )  {
     
     
     switch (i){
-        case 0: return pow(a/rescale_B,2)*V_11(f_MPl[0],f_MPl[1],f_MPl[2]); //sigma
-        case 1: return pow(a/rescale_B,2)*V_22(f_MPl[0],f_MPl[1],f_MPl[2]); //psi
-        case 2: return pow(a/rescale_B,2)*V_33(f_MPl[0],f_MPl[1],f_MPl[2]); //phi
+        case 0: return pow(a/rescale_B,2.0)*V_11(f_MPl[0],f_MPl[1],f_MPl[2]); //sigma
+        case 1: return pow(a/rescale_B,2.0)*V_22(f_MPl[0],f_MPl[1],f_MPl[2]); //psi
+        case 2: return pow(a/rescale_B,2.0)*V_33(f_MPl[0],f_MPl[1],f_MPl[2]); //phi
         default:  Logout( "Parameter 'i' in ddV_lattice must be 0 ~ 2. \n" );
             exit(1);
     }
@@ -401,9 +416,9 @@ double Field::ddV_lattice ( double** f, int i, int idx, double a )  {
 
 void Field::effective_mass(double mass_sq[], double *field_values){
 
-    mass_sq[0] = pow(exp(OSCSTART)/rescale_B,2)*V_11(field_values[0],field_values[1],field_values[2]); //sigma
-    mass_sq[1] = pow(exp(OSCSTART)/rescale_B,2)*V_22(field_values[0],field_values[1],field_values[2]); //psi
-    mass_sq[2] = pow(exp(OSCSTART)/rescale_B,2)*V_33(field_values[0],field_values[1],field_values[2]); //phi
+    mass_sq[0] = pow(exp(OSCSTART)/rescale_B,2.0)*V_11(field_values[0],field_values[1],field_values[2]); //sigma
+    mass_sq[1] = pow(exp(OSCSTART)/rescale_B,2.0)*V_22(field_values[0],field_values[1],field_values[2]); //psi
+    mass_sq[2] = pow(exp(OSCSTART)/rescale_B,2.0)*V_33(field_values[0],field_values[1],field_values[2]); //phi
 
 }
 
@@ -455,13 +470,13 @@ double Field::power_spectrum( double** f, int i, int m)
         int j = m;
              if(m==0)
              {// zero-frequency (DC)
-                 PS[i][m] = m*pow(f_fluc_k[i][0]/N,2);
+                 PS[i][m] = m*pow(f_fluc_k[i][0]/N,2.0);
                  
              }else if(m == N/2){//Nyquist frequency
-                 PS[i][m] = m*pow(f_fluc_k[i][1]/N,2);
+                 PS[i][m] = m*pow(f_fluc_k[i][1]/N,2.0);
              }else{
                  
-                PS[i][m] = m*( pow(f_fluc_k[i][2*j]/N,2) + pow(f_fluc_k[i][2*j+1]/N,2));
+                PS[i][m] = m*( pow(f_fluc_k[i][2*j]/N,2.0) + pow(f_fluc_k[i][2*j+1]/N,2.0));
                 
              }
     
@@ -517,7 +532,7 @@ double Field::power_spectrum( double** f, int i, int m)
           
           for(int k = 0; k <= N/2; ++k )
           {
-              if ( m-1 < sqrt(pow(J,2)+pow(k,2)) && sqrt(pow(J,2)+pow(k,2)) <= m  )
+              if ( m-1 < sqrt(pow(J,2.0)+pow(k,2.0.)) && sqrt(pow(J,2.0)+pow(k,2.0)) <= m  )
               {
                   
               if(k==N/2)//Nyquist
@@ -526,11 +541,11 @@ double Field::power_spectrum( double** f, int i, int m)
                       if(m==N/2)//Since the outtermost mode (m=N/2) in the range (0<=k, 0<=j <=N/2) doesn't have an equal number of counterparts in the range (0<=k, N/2+1<j<=N-1), we consider the range (1<=k, 1<=j<=N/2) and multiply by 4 and add the Nyquist  (k=N/2, j=0) x 2 and (k=0, j=N/2) x 2.
                       {
                           // This corresponds to (k=N/2, j=0). We multiply the total sum by 4 at the end so we multiply by 0.5 here
-                          PS[i][m] += 0.5*m*(pow(f_fluc_k_nyquist[i][2*j],2) + pow(f_fluc_k_nyquist[i][2*j+1],2))/(pow(N,4));
+                          PS[i][m] += 0.5*m*(pow(f_fluc_k_nyquist[i][2*j],2.0) + pow(f_fluc_k_nyquist[i][2*j+1],2.0))/(pow(N,4.0));
                       }
 //                              std::cout << "1: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
                       else {//No modes correspond to this branch
-                          PS[i][m] += m*(pow(f_fluc_k_nyquist[i][2*j],2) + pow(f_fluc_k_nyquist[i][2*j+1],2))/(pow(N,4));
+                          PS[i][m] += m*(pow(f_fluc_k_nyquist[i][2*j],2.0) + pow(f_fluc_k_nyquist[i][2*j+1],2.0))/(pow(N,4.0));
                       }
                       
                   
@@ -544,7 +559,7 @@ double Field::power_spectrum( double** f, int i, int m)
 //                  std::cout << "j = " << j << std::endl;
 //                  std::cout << "J = " << J << std::endl;
 //                  std::cout << "k = " << k << std::endl;
-//                  std::cout << "sqrt(pow(J,2)+pow(k,2)) = " << sqrt(pow(J,2)+pow(k,2)) << std::endl;
+//                  std::cout << "sqrt(pow(J,2.0)+pow(k,2.0)) = " << sqrt(pow(J,2.0)+pow(k,2.0)) << std::endl;
                   
                  
                       if(m==N/2)//Since the outtermost mode (m=N/2) in the range (0<=k, 0<=j <=N/2) doesn't have an equal number of counterparts in the range (0<=k, N/2+1<j<=N-1), we consider the range (1<=k, 1<=j<=N/2) and multiply by 4 and add the Nyquist  (k=N/2, j=0) x 2 and (k=0, j=N/2) x 2.
@@ -552,10 +567,10 @@ double Field::power_spectrum( double** f, int i, int m)
                           if(j==N/2)
                           {// This corresponds to (k=0, j=N/2). We multiply the total sum by 4 at the end so we multiply by 0.5 here
                               PS[i][m] +=
-                              0.5*m*(pow(f_fluc_k[i][j*N+2*k],2) + pow(f_fluc_k[i][j*N+2*k+1],2))/(pow(N,4));
+                              0.5*m*(pow(f_fluc_k[i][j*N+2*k],2.0) + pow(f_fluc_k[i][j*N+2*k+1],2.0))/(pow(N,4.0));
                           }else{//No modes correspond to this branch
                               PS[i][m] +=
-                              m*(pow(f_fluc_k[i][j*N+2*k],2) + pow(f_fluc_k[i][j*N+2*k+1],2))/(pow(N,4));
+                              m*(pow(f_fluc_k[i][j*N+2*k],2.0) + pow(f_fluc_k[i][j*N+2*k+1],2.0))/(pow(N,4.0));
                           }
                              
                               
@@ -564,12 +579,12 @@ double Field::power_spectrum( double** f, int i, int m)
                       }
                       else
                       {
-                    PS[i][m] +=  m*(pow(f_fluc_k[i][j*N+2*k],2) + pow(f_fluc_k[i][j*N+2*k+1],2))/(pow(N,4));
+                    PS[i][m] +=  m*(pow(f_fluc_k[i][j*N+2*k],2.0) + pow(f_fluc_k[i][j*N+2*k+1],2.0))/(pow(N,4.0));
                           
 //                          std::cout << "4: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
                       }
                       
-              }//if ( m-1 < sqrt(pow(J,2)+pow(k,2)) && sqrt(pow(J,2)+pow(k,2)) <= m  )
+              }//if ( m-1 < sqrt(pow(J,2.0)+pow(k,2.0)) && sqrt(pow(J,2.0)+pow(k,2.0)) <= m  )
                   
               }
           }//for(int k = 0; k <= N/2; ++k )
@@ -632,7 +647,7 @@ double Field::power_spectrum( double** f, int i, int m)
         for(int l = 0; l <= N/2; ++l )
         {
             
-            if ( m-1 < sqrt(pow(J,2)+pow(K,2)+pow(l,2)) && sqrt(pow(J,2)+pow(K,2)+pow(l,2)) <= m  )
+            if ( m-1 < sqrt(pow(J,2.0)+pow(K,2.0)+pow(l,2.0)) && sqrt(pow(J,2.0)+pow(K,2.0)+pow(l,2.0)) <= m  )
             {
             
             if(l==N/2)//Nyquist
@@ -642,13 +657,13 @@ double Field::power_spectrum( double** f, int i, int m)
                 
                     {
                         // This corresponds to (l=N/2, k=0,j=0). We multiply the total sum by 8 at the end so we multiply by 0.25 here
-                        PS[i][m] += 0.25*m*(pow(f_fluc_k_nyquist[i][j][2*k],2) + pow(f_fluc_k_nyquist[i][j][2*k+1],2))/(pow(N,6));
+                        PS[i][m] += 0.25*m*(pow(f_fluc_k_nyquist[i][j][2*k],2.0) + pow(f_fluc_k_nyquist[i][j][2*k+1],2.0))/(pow(N,6.0));
                         
 //                                                      std::cout << "1: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
                     }
                     else
                     {//No modes correspond to this branch
-                        PS[i][m] += m*(pow(f_fluc_k_nyquist[i][j][2*k],2) + pow(f_fluc_k_nyquist[i][j][2*k+1],2))/(pow(N,6));
+                        PS[i][m] += m*(pow(f_fluc_k_nyquist[i][j][2*k],2.0) + pow(f_fluc_k_nyquist[i][j][2*k+1],2.0))/(pow(N,6.0));
                         
 //                                                   std::cout << "2: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
                     }
@@ -662,7 +677,7 @@ double Field::power_spectrum( double** f, int i, int m)
                 //                  std::cout << "j = " << j << std::endl;
                 //                  std::cout << "J = " << J << std::endl;
                 //                  std::cout << "k = " << k << std::endl;
-                //                  std::cout << "sqrt(pow(J,2)+pow(k,2)) = " << sqrt(pow(J,2)+pow(k,2)) << std::endl;
+                //                  std::cout << "sqrt(pow(J,2.0)+pow(k,2.0)) = " << sqrt(pow(J,2.0)+pow(k,2.0)) << std::endl;
                 
                
                     if(m==N/2)//Since the outtermost mode (m=N/2) in the range (0<=l, 0<=k<=N/2, 0<=j<=N/2) doesn't have an equal number of counterparts in the range (0<=l && !(0<=k <=N/2, 0<=j <=N/2) ), we consider the range (1<=l, 1<=k<=N/2, 1<=j <=N/2 ) and multiply by 8 and add the Nyquist (l=N/2, k=0,j=0) x 2, (l=0, k=0, j=N/2) x 2 and (l=0, k=N/2, j=0) x 2.
@@ -670,10 +685,10 @@ double Field::power_spectrum( double** f, int i, int m)
                         if((j==N/2 && k==0) || (j==0 && k==N/2) )
                         {// This corresponds to (l=0, k=0, j=N/2) and (l=0, k=N/2, j=0). We multiply the total sum by 8 at the end so we multiply by 0.25 here
                             PS[i][m] +=
-                            0.25*m*(pow(f_fluc_k[i][(j*N + k)*N + 2*l],2) + pow(f_fluc_k[i][(j*N + k)*N + 2*l+1],2))/(pow(N,6));
+                            0.25*m*(pow(f_fluc_k[i][(j*N + k)*N + 2*l],2.0) + pow(f_fluc_k[i][(j*N + k)*N + 2*l+1],2.0))/(pow(N,6.0));
                         }else
                         {
-                            PS[i][m] += m*(pow(f_fluc_k[i][(j*N + k)*N + 2*l],2) + pow(f_fluc_k[i][(j*N + k)*N + 2*l+1],2))/(pow(N,6));
+                            PS[i][m] += m*(pow(f_fluc_k[i][(j*N + k)*N + 2*l],2.0) + pow(f_fluc_k[i][(j*N + k)*N + 2*l+1],2.0))/(pow(N,6.0));
                             //                           std::cout << "2: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
                         }
                         
@@ -684,7 +699,7 @@ double Field::power_spectrum( double** f, int i, int m)
                     else
                     {
                         PS[i][m] +=
-                        m*(pow(f_fluc_k[i][(j*N + k)*N + 2*l],2) + pow(f_fluc_k[i][(j*N + k)*N + 2*l+1],2))/(pow(N,6));
+                        m*(pow(f_fluc_k[i][(j*N + k)*N + 2*l],2.0) + pow(f_fluc_k[i][(j*N + k)*N + 2*l+1],2.0))/(pow(N,6.0));
                         
 //                                                  std::cout << "4: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
                     }
@@ -692,7 +707,7 @@ double Field::power_spectrum( double** f, int i, int m)
                 
             }
                 
-        } //if ( m-1 < sqrt(pow(J,2)+pow(K,2)+pow(l,2)) && sqrt(pow(J,2)+pow(K,2)+pow(l,2)) <= m  )
+        } //if ( m-1 < sqrt(pow(J,2.0)+pow(K,2.0)+pow(l,2.0)) && sqrt(pow(J,2.0)+pow(K,2.0)+pow(l,2.0)) <= m  )
             
         }//for(int l = 0; l <= N/2; ++l )
             
@@ -743,7 +758,7 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
             //
             lattice_var[lattice_loop][i] = average(f[i], i)/(rescale_A*a) ;//0,1,2
             
-            lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2);//3,4,5
+            lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( average(df[i], i)  - (da/a)*average(f[i], i) )/pow(a,2.0);//3,4,5
             
             Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
             Logout(" lattice_var[%d][%d] = %2.5e \n",lattice_loop,j,lattice_var[lattice_loop][j] );
@@ -758,7 +773,7 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
     for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
     {
         
-        lattice_var[lattice_loop][6] =  pow((rescale_B/(rescale_A*pow(a,2))),2)*radiation_pr;//6
+        lattice_var[lattice_loop][6] =  pow((rescale_B/(rescale_A*pow(a,2.0))),2.0)*radiation_pr;//6
         
     }
     
@@ -802,10 +817,10 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
         //    for( int m = 0; m < N; ++m ){
         //        std::cout << "2: f_fluc_k[" << i << "][" << m << "]" << f_fluc_k[i][m] << std::endl;
         //    }
-        int j=m;
+        
         int N_m = 2; //number of fields in the range where m-1 < |m| <= m
         
-    }
+    
     
     for (int m = m_start; m < m_end + 1; ++m  )
     {
@@ -821,12 +836,12 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                     if(num == 2)
                     {
                         //27
-                        lattice_var[m][25+num] = sqrt(N_m*pow(f_fluc_k[i][1],2)/(N_m - 1));
+                        lattice_var[m][25+num] = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
                         //51
                         lattice_var[m][49+num] = 0;
                         
                         //30
-                        lattice_var[m][28+num] = sqrt(N_m*pow(df_fluc_k[i][1],2)/(N_m - 1));
+                        lattice_var[m][28+num] = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
                         //54
                         lattice_var[m][52+num] = 0;
                         
@@ -851,12 +866,12 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                     if(num == i)
                     {
                         //7,11,15
-                        lattice_var[m][7 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][1],2)/(N_m - 1));
+                        lattice_var[m][7 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
                         //31,35,39
                         lattice_var[m][31 + 3*i + num] = 0;
                         
                         //16,20,24
-                        lattice_var[m][16 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][1],2)/(N_m - 1));
+                        lattice_var[m][16 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
                         //40,44,48
                         lattice_var[m][40 + 3*i + num] = 0;
                     }else
@@ -886,14 +901,14 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                     if(num == 2)
                     {
                         //27
-                        lattice_var[m][25+num] = sqrt(N_m*pow(f_fluc_k[i][2*j],2)/(N_m - 1));
+                        lattice_var[m][25+num] = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
                         //51
-                        lattice_var[m][49+num] = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2)/(N_m - 1));
+                        lattice_var[m][49+num] = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
                         
                         //30
-                        lattice_var[m][28+num] = sqrt(N_m*pow(df_fluc_k[i][2*j],2)/(N_m - 1));
+                        lattice_var[m][28+num] = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
                         //54
-                        lattice_var[m][52+num] = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2)/(N_m - 1));
+                        lattice_var[m][52+num] = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
                     }else{
                         //25,26
                         lattice_var[m][25+num] = 0;
@@ -915,14 +930,14 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                     if(num == i)
                     {
                         //7,11,15
-                        lattice_var[m][7 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][2*j],2)/(N_m - 1));
+                        lattice_var[m][7 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
                         //31,35,39
-                        lattice_var[m][31 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2)/(N_m - 1));
+                        lattice_var[m][31 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
                         
                         //16,20,24
-                        lattice_var[m][16 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][2*j],2)/(N_m - 1));
+                        lattice_var[m][16 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
                         //40,44,48
-                        lattice_var[m][40 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2)/(N_m - 1));
+                        lattice_var[m][40 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
                         
                     }else
                     {
@@ -942,6 +957,7 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
             }
             
         }
+    }
         
 #elif  dim==2
         
@@ -985,7 +1001,7 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
         
 #endif
         
-    }
+    }//for (int i = 0; i < num_fields; i++){
     
     
     

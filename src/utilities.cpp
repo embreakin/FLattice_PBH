@@ -1,3 +1,13 @@
+//Doxygen
+/**
+* @file    utilities.cpp
+* @brief      Utilities source file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
+
 #include <math.h>
 #include <fstream>
 #include <iostream>
@@ -8,6 +18,7 @@
 #include "utilities.hpp"
 #include <boost/filesystem.hpp>
 #include "equations.hpp"
+
 
 
 //--------------------------------

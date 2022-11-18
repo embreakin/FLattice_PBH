@@ -1,0 +1,4 @@
+<map id="nlohmann::detail::binary_writer::write_bson" name="nlohmann::detail::binary_writer::write_bson">
+<area shape="rect" id="node1" title=" " alt="" coords="201,5,361,45"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#a51df13f73a970da95c3dcb3d47b0c2c4" title="Serializes the given JSON object j to BSON and forwards the corresponding BSON&#45;representation to the ..." alt="" coords="5,5,153,45"/>
+</map>

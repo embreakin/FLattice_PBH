@@ -1,4 +1,16 @@
+//Doxygen
+/**
+* @file    parameters.cpp
+* @brief      Parameters source file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
+
 #include "parameters.hpp"
+
+
 
 //====================================
 //         General Parameters
@@ -21,7 +33,7 @@ std::string par_set_name_rm = par_set[par_set_num_rm]["Name"].get<std::string>()
 ////====================================
 ////The following only holds for m=2
 ////====================================
-double msigma = sqrt(8*pow(mu_par,3)/M_par);//effective mass of sigma
+double msigma = sqrt(8*pow(mu_par,3.0)/M_par);//effective mass of sigma
 
 
 

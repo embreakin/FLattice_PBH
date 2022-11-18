@@ -1,0 +1,14 @@
+<map id="nlohmann::basic_json::is_null" name="nlohmann::basic_json::is_null">
+<area shape="rect" id="node1" title="return whether value is null" alt="" coords="397,165,545,205"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#a564c84efd6afeb31278e9484051d60e8" title="add an object to an object if key does not exist" alt="" coords="201,5,349,45"/>
+<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#aacf5eed15a8b66fb1e88910707a5e229" title="add an object to an array" alt="" coords="201,69,349,109"/>
+<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#a6362b88718eb5c6d4fed6a61eed44b95" title="return whether type is primitive" alt="" coords="201,133,349,173"/>
+<area shape="rect" id="node5" href="$classnlohmann_1_1basic__json.html#ac871e3b03fb2eeca9a8de4db2bea760f" title="access specified array element" alt="" coords="201,197,349,237"/>
+<area shape="rect" id="node7" href="$classnlohmann_1_1basic__json.html#ac8e523ddc8c2dd7e5d2daf0d49a9c0d7" title="add an object to an array" alt="" coords="201,261,349,301"/>
+<area shape="rect" id="node12" href="$classnlohmann_1_1basic__json.html#a1cfa9ae5e7c2434cab4cfe69bffffe11" title="updates a JSON object from another object, overwriting existing keys" alt="" coords="201,325,349,365"/>
+<area shape="rect" id="node6" href="$classnlohmann_1_1basic__json.html#a7c43ed2a3004c1fa9543913f37b9fca9" title="applies a JSON Merge Patch" alt="" coords="5,109,153,149"/>
+<area shape="rect" id="node8" href="$classnlohmann_1_1basic__json.html#a4336103c941d9f60bd51320f4880e3dd" title="creates a diff as a JSON patch" alt="" coords="5,197,153,237"/>
+<area shape="rect" id="node9" href="$classnlohmann_1_1basic__json.html#aea1085f2d35cc0e1ce119cf0110119e6" title="add an object to an array" alt="" coords="5,261,153,301"/>
+<area shape="rect" id="node10" href="$classnlohmann_1_1basic__json.html#a81e0c41a4a9dff4df2f6973f7f8b2a83" title="applies a JSON patch" alt="" coords="5,325,153,365"/>
+<area shape="rect" id="node11" href="$classnlohmann_1_1basic__json.html#a1be31ef2d2934d37a818083a4af44f99" title="add an object to an object" alt="" coords="5,389,153,429"/>
+</map>

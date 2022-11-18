@@ -1,7 +1,16 @@
+//Doxygen
+/**
+* @file   lattice_initialize.hpp
+* @brief    Lattice initialization header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
 #ifndef _LATTICEINITIALIZE_H_
 #define _LATTICEINITIALIZE_H_
 
-#include "lattice_field.hpp"
+#include "lattice_evol.hpp"
 
 
 double Fk_log_int_calc(int k_int , double** lattice_var, int num_field);

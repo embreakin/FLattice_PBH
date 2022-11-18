@@ -1,7 +1,20 @@
+//Doxygen
+/**
+* @file    calculation.cpp
+* @brief    Equations source file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
+
 #include <sstream>
 #include "nr.h"
 #include "parameters.hpp"
 #include "calculation.hpp" // k_comoving
+
+
+
 
 DP Pow(DP x,int i){
    DP val;

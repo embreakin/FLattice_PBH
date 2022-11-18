@@ -1,0 +1,22 @@
+<map id="include/equations.hpp" name="include/equations.hpp">
+<area shape="rect" id="node1" title="Equations header file." alt="" coords="430,5,578,31"/>
+<area shape="rect" id="node2" href="$calculation_8hpp.html" title="Calculation header file." alt="" coords="195,335,349,361"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title="Main source file." alt="" coords="120,511,195,537"/>
+<area shape="rect" id="node5" href="$parameters_8hpp.html" title="Parameters header file." alt="" coords="425,79,583,104"/>
+<area shape="rect" id="node10" href="$lattice__field_8cpp.html" title="Lattice field source file." alt="" coords="1110,504,1253,544"/>
+<area shape="rect" id="node12" href="$utilities_8cpp.html" title="Utilities source file." alt="" coords="975,511,1086,537"/>
+<area shape="rect" id="node4" href="$calculation_8cpp.html" title="Calculation source file." alt="" coords="324,511,455,537"/>
+<area shape="rect" id="node6" href="$lattice__field_8hpp.html" title="Lattice field header file." alt="" coords="791,152,942,192"/>
+<area shape="rect" id="node9" href="$lattice__evol_8cpp.html" title="Lattice evolution source file." alt="" coords="809,504,951,544"/>
+<area shape="rect" id="node13" href="$lattice__calc_8cpp.html" title="Lattice calculation source file." alt="" coords="574,416,717,456"/>
+<area shape="rect" id="node16" href="$nr_8h.html" title="Numerical Recipes header file." alt="" coords="268,159,356,185"/>
+<area shape="rect" id="node20" href="$parameters_8cpp.html" title="Parameters source file." alt="" coords="633,159,767,185"/>
+<area shape="rect" id="node7" href="$lattice__calc_8hpp.html" title="Lattice calclulation header file." alt="" coords="633,328,783,368"/>
+<area shape="rect" id="node14" href="$lattice__evol_8hpp.html" title="Lattice evolution header file." alt="" coords="791,240,942,280"/>
+<area shape="rect" id="node15" href="$lattice__initialize_8hpp.html" title="Lattice initialization header file." alt="" coords="741,416,891,456"/>
+<area shape="rect" id="node8" href="$utilities_8hpp.html" title="Utilities header file." alt="" coords="416,423,549,449"/>
+<area shape="rect" id="node11" href="$lattice__initialize_8cpp.html" title="Lattice source file." alt="" coords="534,504,677,544"/>
+<area shape="rect" id="node17" href="$uc_8hpp.html" title="Unit conversions header file." alt="" coords="451,247,557,273"/>
+<area shape="rect" id="node19" href="$nr_8cpp.html" title="Numerical Recipes source file." alt="" coords="195,247,274,273"/>
+<area shape="rect" id="node18" href="$uc_8cpp.html" title="Unit conversion source file." alt="" coords="424,335,507,361"/>
+</map>

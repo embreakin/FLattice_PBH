@@ -1,0 +1,1084 @@
+\hypertarget{nr_8h}{}\doxysection{include/nr.h File Reference}
+\label{nr_8h}\index{include/nr.h@{include/nr.h}}
+
+
+Numerical Recipes header file.  
+
+
+{\ttfamily \#include \char`\"{}nrtypes\+\_\+nr.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}parameters.\+hpp\char`\"{}}\newline
+Include dependency graph for nr.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{nr_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{nr_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{nr_8h_aaab613fb80abc0d628e6625e1a9e5f42}\label{nr_8h_aaab613fb80abc0d628e6625e1a9e5f42}} 
+void {\bfseries NR\+::addint} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&uf, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&uc, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&res)
+\item 
+\mbox{\Hypertarget{nr_8h_a90700ac65b3bb16117cdf03479f37529}\label{nr_8h_a90700ac65b3bb16117cdf03479f37529}} 
+void {\bfseries NR\+::airy} (const DP x, DP \&ai, DP \&bi, DP \&aip, DP \&bip)
+\item 
+\mbox{\Hypertarget{nr_8h_a268778b02b6b0174580ca6006fdbac02}\label{nr_8h_a268778b02b6b0174580ca6006fdbac02}} 
+void {\bfseries NR\+::amebsa} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&pb, DP \&yb, const DP ftol, DP funk(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&), int \&iter, const DP temptr)
+\item 
+\mbox{\Hypertarget{nr_8h_a55aa747fecbb0e45dc63e070662c6e2c}\label{nr_8h_a55aa747fecbb0e45dc63e070662c6e2c}} 
+void {\bfseries NR\+::amoeba} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&y, const DP ftol, DP funk(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&), int \&nfunk)
+\item 
+\mbox{\Hypertarget{nr_8h_a752225a62f24c2b80c703fd887f5c56e}\label{nr_8h_a752225a62f24c2b80c703fd887f5c56e}} 
+DP {\bfseries NR\+::amotry} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&psum, DP funk(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&), const int ihi, const DP fac)
+\item 
+\mbox{\Hypertarget{nr_8h_a2f1f661e2421d96e8602ab14e7825666}\label{nr_8h_a2f1f661e2421d96e8602ab14e7825666}} 
+DP {\bfseries NR\+::amotsa} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&psum, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&pb, DP \&yb, DP funk(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&), const int ihi, DP \&yhi, const DP fac)
+\item 
+\mbox{\Hypertarget{nr_8h_a65844d09b0713b4ceedf062342980ed3}\label{nr_8h_a65844d09b0713b4ceedf062342980ed3}} 
+void {\bfseries NR\+::anneal} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+INT}} \&iorder)
+\item 
+\mbox{\Hypertarget{nr_8h_af5ce2ea46359aa499509ecbaff2c19df}\label{nr_8h_af5ce2ea46359aa499509ecbaff2c19df}} 
+DP {\bfseries NR\+::anorm2} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a)
+\item 
+\mbox{\Hypertarget{nr_8h_a3e98d20522b73c2270f4a8ec4676500f}\label{nr_8h_a3e98d20522b73c2270f4a8ec4676500f}} 
+void {\bfseries NR\+::arcmak} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+ULNG}} \&nfreq, unsigned long nchh, unsigned long nradd, \mbox{\hyperlink{classarithcode}{arithcode}} \&acode)
+\item 
+\mbox{\Hypertarget{nr_8h_a7638af127fe6942f24780c5e4c284138}\label{nr_8h_a7638af127fe6942f24780c5e4c284138}} 
+void {\bfseries NR\+::arcode} (unsigned long \&ich, std\+::string \&code, unsigned long \&lcd, const int isign, \mbox{\hyperlink{classarithcode}{arithcode}} \&acode)
+\item 
+\mbox{\Hypertarget{nr_8h_adea26b3b53b427d36dacd90db22fc5e2}\label{nr_8h_adea26b3b53b427d36dacd90db22fc5e2}} 
+void {\bfseries NR\+::arcsum} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+ULNG}} \&iin, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+ULNG}} \&iout, unsigned long ja, const int nwk, const unsigned long nrad, const unsigned long nc)
+\item 
+\mbox{\Hypertarget{nr_8h_a73116d8e72803b4f516bbb3cd7dcd4a0}\label{nr_8h_a73116d8e72803b4f516bbb3cd7dcd4a0}} 
+void {\bfseries NR\+::asolve} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x, const int itrnsp)
+\item 
+\mbox{\Hypertarget{nr_8h_a262c43d532c94b65394e128aa2bf565c}\label{nr_8h_a262c43d532c94b65394e128aa2bf565c}} 
+void {\bfseries NR\+::atimes} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&r, const int itrnsp)
+\item 
+\mbox{\Hypertarget{nr_8h_a2a23625f7925fb351b9fb826f5fef1cf}\label{nr_8h_a2a23625f7925fb351b9fb826f5fef1cf}} 
+void {\bfseries NR\+::avevar} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data, DP \&ave, DP \&var)
+\item 
+\mbox{\Hypertarget{nr_8h_a2684fb6923e5945cc4197b44eae4df56}\label{nr_8h_a2684fb6923e5945cc4197b44eae4df56}} 
+void {\bfseries NR\+::balanc} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a)
+\item 
+\mbox{\Hypertarget{nr_8h_af240c4551b9a0a9c5cde123be9205132}\label{nr_8h_af240c4551b9a0a9c5cde123be9205132}} 
+void {\bfseries NR\+::banbks} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, const int m1, const int m2, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&al, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&indx, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&b)
+\item 
+\mbox{\Hypertarget{nr_8h_ad98237b2408813153be739eb27223c44}\label{nr_8h_ad98237b2408813153be739eb27223c44}} 
+void {\bfseries NR\+::bandec} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, const int m1, const int m2, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&al, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&indx, DP \&d)
+\item 
+\mbox{\Hypertarget{nr_8h_a6c1a4ae0a3f56dd2d6c3a24d04681fa0}\label{nr_8h_a6c1a4ae0a3f56dd2d6c3a24d04681fa0}} 
+void {\bfseries NR\+::banmul} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, const int m1, const int m2, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&b)
+\item 
+\mbox{\Hypertarget{nr_8h_a82353f6fd70a72d599d3b4603afd3f43}\label{nr_8h_a82353f6fd70a72d599d3b4603afd3f43}} 
+void {\bfseries NR\+::bcucof} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y2, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y12, const DP d1, const DP d2, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&c)
+\item 
+\mbox{\Hypertarget{nr_8h_a607b5af26688cb0b3ba487bf2f36e19a}\label{nr_8h_a607b5af26688cb0b3ba487bf2f36e19a}} 
+void {\bfseries NR\+::bcuint} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y2, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y12, const DP x1l, const DP x1u, const DP x2l, const DP x2u, const DP x1, const DP x2, DP \&ansy, DP \&ansy1, DP \&ansy2)
+\item 
+\mbox{\Hypertarget{nr_8h_a59a7410b6bb6b498a11bb530d8bf6f0c}\label{nr_8h_a59a7410b6bb6b498a11bb530d8bf6f0c}} 
+void {\bfseries NR\+::beschb} (const DP x, DP \&gam1, DP \&gam2, DP \&gampl, DP \&gammi)
+\item 
+\mbox{\Hypertarget{nr_8h_a17f13d2217a863a186aa76237c3c288b}\label{nr_8h_a17f13d2217a863a186aa76237c3c288b}} 
+DP {\bfseries NR\+::bessi} (const int n, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a225c3ef3fda946f4edce62f5e8b31840}\label{nr_8h_a225c3ef3fda946f4edce62f5e8b31840}} 
+DP {\bfseries NR\+::bessi0} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a70a172f14124c10b796af212fdb125ec}\label{nr_8h_a70a172f14124c10b796af212fdb125ec}} 
+DP {\bfseries NR\+::bessi1} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_ac11d8c1819aee8d97aa4bdf944534212}\label{nr_8h_ac11d8c1819aee8d97aa4bdf944534212}} 
+void {\bfseries NR\+::bessik} (const DP x, const DP xnu, DP \&ri, DP \&rk, DP \&rip, DP \&rkp)
+\item 
+\mbox{\Hypertarget{nr_8h_a92c1165db5f7c1972279d98ef34037d0}\label{nr_8h_a92c1165db5f7c1972279d98ef34037d0}} 
+DP {\bfseries NR\+::bessj} (const int n, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_ac93cd7e7156598f76f6bb6de2833c776}\label{nr_8h_ac93cd7e7156598f76f6bb6de2833c776}} 
+DP {\bfseries NR\+::bessj0} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a4115607a7ec9c7f9120010c2b95828bb}\label{nr_8h_a4115607a7ec9c7f9120010c2b95828bb}} 
+DP {\bfseries NR\+::bessj1} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a1d4131e07fae6eb514a9c163b52e0c04}\label{nr_8h_a1d4131e07fae6eb514a9c163b52e0c04}} 
+void {\bfseries NR\+::bessjy} (const DP x, const DP xnu, DP \&rj, DP \&ry, DP \&rjp, DP \&ryp)
+\item 
+\mbox{\Hypertarget{nr_8h_a40c43ba6abef517ca55293673c417584}\label{nr_8h_a40c43ba6abef517ca55293673c417584}} 
+DP {\bfseries NR\+::bessk} (const int n, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_ad7a01f8ec189b154d56f9c82617d9991}\label{nr_8h_ad7a01f8ec189b154d56f9c82617d9991}} 
+DP {\bfseries NR\+::bessk0} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a78b14863c0539fb70061775456e35d08}\label{nr_8h_a78b14863c0539fb70061775456e35d08}} 
+DP {\bfseries NR\+::bessk1} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a470fb46ac0e710eae347c1137b1ebfb8}\label{nr_8h_a470fb46ac0e710eae347c1137b1ebfb8}} 
+DP {\bfseries NR\+::bessy} (const int n, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_ae31454cfbd454b6de0460f0e08ef933b}\label{nr_8h_ae31454cfbd454b6de0460f0e08ef933b}} 
+DP {\bfseries NR\+::bessy0} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_ae507795ea35c6716c6bf449c48af314f}\label{nr_8h_ae507795ea35c6716c6bf449c48af314f}} 
+DP {\bfseries NR\+::bessy1} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a060c1496967431dfd707b603985a33b7}\label{nr_8h_a060c1496967431dfd707b603985a33b7}} 
+DP {\bfseries NR\+::beta} (const DP z, const DP w)
+\item 
+\mbox{\Hypertarget{nr_8h_a52e6dba4373484f23464637a58c46c39}\label{nr_8h_a52e6dba4373484f23464637a58c46c39}} 
+DP {\bfseries NR\+::betacf} (const DP a, const DP b, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a462b09f1ae76391cfc50c8a032259b8a}\label{nr_8h_a462b09f1ae76391cfc50c8a032259b8a}} 
+DP {\bfseries NR\+::betai} (const DP a, const DP b, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a35306d0e713b54e50ad6bfdeca55d162}\label{nr_8h_a35306d0e713b54e50ad6bfdeca55d162}} 
+DP {\bfseries NR\+::bico} (const int n, const int k)
+\item 
+\mbox{\Hypertarget{nr_8h_a16bf04bccb961bc7c1f0a1aa65d849ea}\label{nr_8h_a16bf04bccb961bc7c1f0a1aa65d849ea}} 
+void {\bfseries NR\+::bksub} (const int ne, const int nb, const int jf, const int k1, const int k2, \mbox{\hyperlink{class_n_r_mat3d}{Mat3\+D\+\_\+\+IO\+\_\+\+DP}} \&c)
+\item 
+\mbox{\Hypertarget{nr_8h_aa9a538f63c380caf2e72b8d6f4bdbe3e}\label{nr_8h_aa9a538f63c380caf2e72b8d6f4bdbe3e}} 
+DP {\bfseries NR\+::bnldev} (const DP pp, const int n, int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_a949db0b9cc65ac1f2224f5c48384f58a}\label{nr_8h_a949db0b9cc65ac1f2224f5c48384f58a}} 
+DP {\bfseries NR\+::brent} (const DP ax, const DP bx, const DP cx, DP f(const DP), const DP tol, DP \&xmin)
+\item 
+\mbox{\Hypertarget{nr_8h_a11b0d45adeba8de27502be58cc893210}\label{nr_8h_a11b0d45adeba8de27502be58cc893210}} 
+void {\bfseries NR\+::broydn} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&x, bool \&check, void vecfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a2fc62044e08a4a33016b21cba60408be}\label{nr_8h_a2fc62044e08a4a33016b21cba60408be}} 
+void {\bfseries NR\+::bsstep} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&dydx, DP \&xx, const DP htry, const DP eps, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&yscal, DP \&hdid, DP \&hnext, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_ad0042558c0003dd2b235a92f031d84f8}\label{nr_8h_ad0042558c0003dd2b235a92f031d84f8}} 
+void {\bfseries NR\+::caldat} (const int julian, int \&mm, int \&id, int \&iyyy)
+\item 
+\mbox{\Hypertarget{nr_8h_a139dd9db85bba8d70c67d174413b5837}\label{nr_8h_a139dd9db85bba8d70c67d174413b5837}} 
+void {\bfseries NR\+::chder} (const DP a, const DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&cder, const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_a824086662aa6006a7bf1d3954ae84e43}\label{nr_8h_a824086662aa6006a7bf1d3954ae84e43}} 
+DP {\bfseries NR\+::chebev} (const DP a, const DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&c, const int m, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a66f115e76c9feef59cfc3ef4a534acc5}\label{nr_8h_a66f115e76c9feef59cfc3ef4a534acc5}} 
+void {\bfseries NR\+::chebft} (const DP a, const DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&c, DP func(const DP))
+\item 
+\mbox{\Hypertarget{nr_8h_a76a061d807150f37b176e040ce5c93c4}\label{nr_8h_a76a061d807150f37b176e040ce5c93c4}} 
+void {\bfseries NR\+::chebpc} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&d)
+\item 
+\mbox{\Hypertarget{nr_8h_a5d3b77d2ac43628be77688f9cf398473}\label{nr_8h_a5d3b77d2ac43628be77688f9cf398473}} 
+void {\bfseries NR\+::chint} (const DP a, const DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&cint, const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_a78d98f7ea50330e48e2439f1476f1a11}\label{nr_8h_a78d98f7ea50330e48e2439f1476f1a11}} 
+DP {\bfseries NR\+::chixy} (const DP bang)
+\item 
+\mbox{\Hypertarget{nr_8h_ade5b24841dfda9180b307c75b572c2e5}\label{nr_8h_ade5b24841dfda9180b307c75b572c2e5}} 
+void {\bfseries NR\+::choldc} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&p)
+\item 
+\mbox{\Hypertarget{nr_8h_aac72daccbf4c98d768d3aaae022c3f88}\label{nr_8h_aac72daccbf4c98d768d3aaae022c3f88}} 
+void {\bfseries NR\+::cholsl} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x)
+\item 
+\mbox{\Hypertarget{nr_8h_a79990074123af59275160b7887c3fc51}\label{nr_8h_a79990074123af59275160b7887c3fc51}} 
+void {\bfseries NR\+::chsone} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&bins, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&ebins, const int knstrn, DP \&df, DP \&chsq, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_ae212f167f2b1e98deda943eb3aacd84b}\label{nr_8h_ae212f167f2b1e98deda943eb3aacd84b}} 
+void {\bfseries NR\+::chstwo} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&bins1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&bins2, const int knstrn, DP \&df, DP \&chsq, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_abf0103a0b1c7451d1cad9852e6701274}\label{nr_8h_abf0103a0b1c7451d1cad9852e6701274}} 
+void {\bfseries NR\+::cisi} (const DP x, std\+::complex$<$ DP $>$ \&cs)
+\item 
+\mbox{\Hypertarget{nr_8h_ac0de242c7ce066888f5add441fe1099e}\label{nr_8h_ac0de242c7ce066888f5add441fe1099e}} 
+void {\bfseries NR\+::cntab1} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+INT}} \&nn, DP \&chisq, DP \&df, DP \&prob, DP \&cramrv, DP \&ccc)
+\item 
+\mbox{\Hypertarget{nr_8h_a04d9c5104ecc26262c5c9cf755b6c496}\label{nr_8h_a04d9c5104ecc26262c5c9cf755b6c496}} 
+void {\bfseries NR\+::cntab2} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+INT}} \&nn, DP \&h, DP \&hx, DP \&hy, DP \&hygx, DP \&hxgy, DP \&uygx, DP \&uxgy, DP \&uxy)
+\item 
+\mbox{\Hypertarget{nr_8h_a2082dd6448479336557410a290a17c2c}\label{nr_8h_a2082dd6448479336557410a290a17c2c}} 
+void {\bfseries NR\+::convlv} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&respns, const int isign, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&ans)
+\item 
+\mbox{\Hypertarget{nr_8h_a33f0ee887bd75c78a6b2f97a825f5be1}\label{nr_8h_a33f0ee887bd75c78a6b2f97a825f5be1}} 
+void {\bfseries NR\+::copy} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&aout, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&ain)
+\item 
+\mbox{\Hypertarget{nr_8h_a38e1298c084b073e4e7465dbd62ad7fb}\label{nr_8h_a38e1298c084b073e4e7465dbd62ad7fb}} 
+void {\bfseries NR\+::correl} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data2, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&ans)
+\item 
+\mbox{\Hypertarget{nr_8h_a3359e0c5092d8ab9afdbec3c55066b61}\label{nr_8h_a3359e0c5092d8ab9afdbec3c55066b61}} 
+void {\bfseries NR\+::cosft1} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&y)
+\item 
+\mbox{\Hypertarget{nr_8h_a86490ad17a4fd0e6d60ea67f2588fd00}\label{nr_8h_a86490ad17a4fd0e6d60ea67f2588fd00}} 
+void {\bfseries NR\+::cosft2} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&y, const int isign)
+\item 
+\mbox{\Hypertarget{nr_8h_ac2f90a8cf35f76c733d46d6c217e7698}\label{nr_8h_ac2f90a8cf35f76c733d46d6c217e7698}} 
+void {\bfseries NR\+::covsrt} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&covar, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+BOOL}} \&ia, const int mfit)
+\item 
+\mbox{\Hypertarget{nr_8h_a62558f3207c569f0bb176c97de157616}\label{nr_8h_a62558f3207c569f0bb176c97de157616}} 
+void {\bfseries NR\+::crank} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&w, DP \&s)
+\item 
+\mbox{\Hypertarget{nr_8h_abe6af2a0141e9c645da6b86e995dfe82}\label{nr_8h_abe6af2a0141e9c645da6b86e995dfe82}} 
+void {\bfseries NR\+::cyclic} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&c, const DP alpha, const DP beta, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x)
+\item 
+\mbox{\Hypertarget{nr_8h_afb5a6ee4e921ad8ae733cd25c9178abf}\label{nr_8h_afb5a6ee4e921ad8ae733cd25c9178abf}} 
+void {\bfseries NR\+::daub4} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&a, const int n, const int isign)
+\item 
+\mbox{\Hypertarget{nr_8h_a6e1128d2427bfc7d48d0f09057399227}\label{nr_8h_a6e1128d2427bfc7d48d0f09057399227}} 
+DP {\bfseries NR\+::dawson} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_af1d68c637282cf655b5c683b052a0b6d}\label{nr_8h_af1d68c637282cf655b5c683b052a0b6d}} 
+DP {\bfseries NR\+::dbrent} (const DP ax, const DP bx, const DP cx, DP f(const DP), DP df(const DP), const DP tol, DP \&xmin)
+\item 
+\mbox{\Hypertarget{nr_8h_ad41cff50a7498a881df8034897f4fb51}\label{nr_8h_ad41cff50a7498a881df8034897f4fb51}} 
+void {\bfseries NR\+::ddpoly} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&c, const DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&pd)
+\item 
+\mbox{\Hypertarget{nr_8h_a8d6348025222a219a6ed25d9f2d2b3f4}\label{nr_8h_a8d6348025222a219a6ed25d9f2d2b3f4}} 
+bool {\bfseries NR\+::decchk} (std\+::string str, char \&ch)
+\item 
+\mbox{\Hypertarget{nr_8h_a42dd648242c5c48df166bfb2b2125d80}\label{nr_8h_a42dd648242c5c48df166bfb2b2125d80}} 
+void {\bfseries NR\+::derivs\+\_\+s} (const DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&dydx)
+\item 
+\mbox{\Hypertarget{nr_8h_a2df356ad46edbeee385843c4545f3963}\label{nr_8h_a2df356ad46edbeee385843c4545f3963}} 
+DP {\bfseries NR\+::df1dim} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a1c51cf1eefec14e2597519a70b6158d6}\label{nr_8h_a1c51cf1eefec14e2597519a70b6158d6}} 
+void {\bfseries NR\+::dfpmin} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&p, const DP gtol, int \&iter, DP \&fret, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&), void dfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a116c23af5766d8a201469f22f62f50dc}\label{nr_8h_a116c23af5766d8a201469f22f62f50dc}} 
+DP {\bfseries NR\+::dfridr} (DP func(const DP), const DP x, const DP h, DP \&err)
+\item 
+\mbox{\Hypertarget{nr_8h_a1c902ada2900da8c449d3901707c075b}\label{nr_8h_a1c902ada2900da8c449d3901707c075b}} 
+void {\bfseries NR\+::dftcor} (const DP w, const DP delta, const DP a, const DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&endpts, DP \&corre, DP \&corim, DP \&corfac)
+\item 
+\mbox{\Hypertarget{nr_8h_ae09a210159f99a027ae6554b6a605e5b}\label{nr_8h_ae09a210159f99a027ae6554b6a605e5b}} 
+void {\bfseries NR\+::dftint} (DP func(const DP), const DP a, const DP b, const DP w, DP \&cosint, DP \&sinint)
+\item 
+\mbox{\Hypertarget{nr_8h_a7bed161b003de9971b9d0220074c406e}\label{nr_8h_a7bed161b003de9971b9d0220074c406e}} 
+void {\bfseries NR\+::difeq} (const int k, const int k1, const int k2, const int jsf, const int is1, const int isf, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&indexv, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&s, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&y)
+\item 
+\mbox{\Hypertarget{nr_8h_adb5624ebdf74af474a3a644c2aa3d3e7}\label{nr_8h_adb5624ebdf74af474a3a644c2aa3d3e7}} 
+void {\bfseries NR\+::dlinmin} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&xi, DP \&fret, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&), void dfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_aba4c7b853200439cb13a271f6333b19f}\label{nr_8h_aba4c7b853200439cb13a271f6333b19f}} 
+void {\bfseries NR\+::eclass} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&nf, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&lista, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&listb)
+\item 
+\mbox{\Hypertarget{nr_8h_ac02292b35dc1a4b253166611be75e6dd}\label{nr_8h_ac02292b35dc1a4b253166611be75e6dd}} 
+void {\bfseries NR\+::eclazz} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&nf, bool equiv(const int, const int))
+\item 
+\mbox{\Hypertarget{nr_8h_a28d2f7fc957866378bc8d49df208d5bc}\label{nr_8h_a28d2f7fc957866378bc8d49df208d5bc}} 
+DP {\bfseries NR\+::ei} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a47b470822fede3df423c4b65fd109d46}\label{nr_8h_a47b470822fede3df423c4b65fd109d46}} 
+void {\bfseries NR\+::eigsrt} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&d, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_a1762d8c42e9423b8290b196da5ed3b88}\label{nr_8h_a1762d8c42e9423b8290b196da5ed3b88}} 
+DP {\bfseries NR\+::elle} (const DP phi, const DP ak)
+\item 
+\mbox{\Hypertarget{nr_8h_a1571206bbdfafab7d95c23d356084050}\label{nr_8h_a1571206bbdfafab7d95c23d356084050}} 
+DP {\bfseries NR\+::ellf} (const DP phi, const DP ak)
+\item 
+\mbox{\Hypertarget{nr_8h_ae61b03165ff02c431ab5a669537e6978}\label{nr_8h_ae61b03165ff02c431ab5a669537e6978}} 
+DP {\bfseries NR\+::ellpi} (const DP phi, const DP en, const DP ak)
+\item 
+\mbox{\Hypertarget{nr_8h_a9dc23a1436a50ce9c28a541f92711f84}\label{nr_8h_a9dc23a1436a50ce9c28a541f92711f84}} 
+void {\bfseries NR\+::elmhes} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a)
+\item 
+\mbox{\Hypertarget{nr_8h_a6ebc6459d6bf176fe05cd0f33e37744b}\label{nr_8h_a6ebc6459d6bf176fe05cd0f33e37744b}} 
+DP {\bfseries NR\+::erfcc} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a3dbd4e3cae13708e991a26347f305238}\label{nr_8h_a3dbd4e3cae13708e991a26347f305238}} 
+DP {\bfseries NR\+::erff} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_ab32cef5a592608701b19750c27605413}\label{nr_8h_ab32cef5a592608701b19750c27605413}} 
+DP {\bfseries NR\+::erffc} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_af6b58017e35503e394fd95ac85f8fbb7}\label{nr_8h_af6b58017e35503e394fd95ac85f8fbb7}} 
+void {\bfseries NR\+::eulsum} (DP \&sum, const DP term, const int jterm, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&wksp)
+\item 
+\mbox{\Hypertarget{nr_8h_acf9bcd45ac074c4fc27723f2093d332e}\label{nr_8h_acf9bcd45ac074c4fc27723f2093d332e}} 
+DP {\bfseries NR\+::evlmem} (const DP fdt, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&d, const DP xms)
+\item 
+\mbox{\Hypertarget{nr_8h_aa445323c2e4f1c7d6859208169d37307}\label{nr_8h_aa445323c2e4f1c7d6859208169d37307}} 
+DP {\bfseries NR\+::expdev} (int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_a03af1157f0cf4a00d857e0dde2483104}\label{nr_8h_a03af1157f0cf4a00d857e0dde2483104}} 
+DP {\bfseries NR\+::expint} (const int n, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a6c415158b378bbd03f785e29d8a7ac1f}\label{nr_8h_a6c415158b378bbd03f785e29d8a7ac1f}} 
+DP {\bfseries NR\+::f1dim} (const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a828437d33b110b7b79516767e7df7b23}\label{nr_8h_a828437d33b110b7b79516767e7df7b23}} 
+DP {\bfseries NR\+::factln} (const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_ac76d8c81ea3f7dacb7bc39f8f2e67f0a}\label{nr_8h_ac76d8c81ea3f7dacb7bc39f8f2e67f0a}} 
+DP {\bfseries NR\+::factrl} (const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_a28ce9fba247ed103e2ffb545d671840e}\label{nr_8h_a28ce9fba247ed103e2ffb545d671840e}} 
+void {\bfseries NR\+::fasper} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, const DP ofac, const DP hifac, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&wk1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&wk2, int \&nout, int \&jmax, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_af8ad4af19ff3fab8ac42dea99a9ccfae}\label{nr_8h_af8ad4af19ff3fab8ac42dea99a9ccfae}} 
+void {\bfseries NR\+::fdjac} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&fvec, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&df, void vecfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a68c568aec5a9a2199de3c66ecc87c062}\label{nr_8h_a68c568aec5a9a2199de3c66ecc87c062}} 
+void {\bfseries NR\+::fgauss} (const DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&a, DP \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&dyda)
+\item 
+\mbox{\Hypertarget{nr_8h_aa9df2e2aa873647992817340091009dd}\label{nr_8h_aa9df2e2aa873647992817340091009dd}} 
+void {\bfseries NR\+::fit} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sig, const bool mwt, DP \&a, DP \&b, DP \&siga, DP \&sigb, DP \&chi2, DP \&q)
+\item 
+\mbox{\Hypertarget{nr_8h_acf4acd9066a65dc4408580a722f9d043}\label{nr_8h_acf4acd9066a65dc4408580a722f9d043}} 
+void {\bfseries NR\+::fitexy} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sigx, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sigy, DP \&a, DP \&b, DP \&siga, DP \&sigb, DP \&chi2, DP \&q)
+\item 
+\mbox{\Hypertarget{nr_8h_abd5e28d80b44e108348ecc80785afa7c}\label{nr_8h_abd5e28d80b44e108348ecc80785afa7c}} 
+void {\bfseries NR\+::fixrts} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&d)
+\item 
+\mbox{\Hypertarget{nr_8h_a069ca1a540d6d9637ab168a19fc6d86d}\label{nr_8h_a069ca1a540d6d9637ab168a19fc6d86d}} 
+void {\bfseries NR\+::fleg} (const DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&pl)
+\item 
+\mbox{\Hypertarget{nr_8h_afd394882e21b8378572c186fb66220af}\label{nr_8h_afd394882e21b8378572c186fb66220af}} 
+void {\bfseries NR\+::flmoon} (const int n, const int nph, int \&jd, DP \&frac)
+\item 
+\mbox{\Hypertarget{nr_8h_a570c7b20deac021db5e798650ceb157f}\label{nr_8h_a570c7b20deac021db5e798650ceb157f}} 
+DP {\bfseries NR\+::fmin} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x)
+\item 
+\mbox{\Hypertarget{nr_8h_aaff3ae4c060df78a4b5da02651af126d}\label{nr_8h_aaff3ae4c060df78a4b5da02651af126d}} 
+void {\bfseries NR\+::four1} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&data, const int isign)
+\item 
+\mbox{\Hypertarget{nr_8h_a8dd403b5378f2cc7dec76ae5b837f05d}\label{nr_8h_a8dd403b5378f2cc7dec76ae5b837f05d}} 
+void {\bfseries NR\+::fourew} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+FSTREAM\+\_\+p}} \&file, int \&na, int \&nb, int \&nc, int \&nd)
+\item 
+\mbox{\Hypertarget{nr_8h_a9d15130e265a84a6b1e78c63c1af4e34}\label{nr_8h_a9d15130e265a84a6b1e78c63c1af4e34}} 
+void {\bfseries NR\+::fourfs} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+FSTREAM\+\_\+p}} \&file, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&nn, const int isign)
+\item 
+\mbox{\Hypertarget{nr_8h_a71c761e2cf4f3d12a0b1043d5ead1b09}\label{nr_8h_a71c761e2cf4f3d12a0b1043d5ead1b09}} 
+void {\bfseries NR\+::fourn} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&data, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&nn, const int isign)
+\item 
+\mbox{\Hypertarget{nr_8h_ab4c354c01223108b1105a957320da065}\label{nr_8h_ab4c354c01223108b1105a957320da065}} 
+void {\bfseries NR\+::fpoly} (const DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&p)
+\item 
+\mbox{\Hypertarget{nr_8h_a3c797b9afe1ae3a3469ee3928f625a02}\label{nr_8h_a3c797b9afe1ae3a3469ee3928f625a02}} 
+void {\bfseries NR\+::fred2} (const DP a, const DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&t, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&f, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w, DP g(const DP), DP ak(const DP, const DP))
+\item 
+\mbox{\Hypertarget{nr_8h_a447051a2ce2f777db5fabc349d9d7904}\label{nr_8h_a447051a2ce2f777db5fabc349d9d7904}} 
+DP {\bfseries NR\+::fredin} (const DP x, const DP a, const DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&t, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&f, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&w, DP g(const DP), DP ak(const DP, const DP))
+\item 
+\mbox{\Hypertarget{nr_8h_ab068dc64940f5a4907725be35225d5c2}\label{nr_8h_ab068dc64940f5a4907725be35225d5c2}} 
+void {\bfseries NR\+::frenel} (const DP x, std\+::complex$<$ DP $>$ \&cs)
+\item 
+\mbox{\Hypertarget{nr_8h_a26147c3205dc588fd085cea57df864fe}\label{nr_8h_a26147c3205dc588fd085cea57df864fe}} 
+void {\bfseries NR\+::frprmn} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&p, const DP ftol, int \&iter, DP \&fret, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&), void dfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a4918e1edb5dcbabd728e268dc1502a6e}\label{nr_8h_a4918e1edb5dcbabd728e268dc1502a6e}} 
+void {\bfseries NR\+::ftest} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data2, DP \&f, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_af895f3a51bb42c0b1498571d5a93c807}\label{nr_8h_af895f3a51bb42c0b1498571d5a93c807}} 
+DP {\bfseries NR\+::gamdev} (const int ia, int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_aedefa334aaa11250391e7bb4867dc7d5}\label{nr_8h_aedefa334aaa11250391e7bb4867dc7d5}} 
+DP {\bfseries NR\+::gammln} (const DP xx)
+\item 
+\mbox{\Hypertarget{nr_8h_ad617f7290581d8abbf35fb5e8206ffc8}\label{nr_8h_ad617f7290581d8abbf35fb5e8206ffc8}} 
+DP {\bfseries NR\+::gammp} (const DP a, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_aae834b3eabbd4eb103d876551fe4a8bf}\label{nr_8h_aae834b3eabbd4eb103d876551fe4a8bf}} 
+DP {\bfseries NR\+::gammq} (const DP a, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a035bd09228723898ec5481668f55c979}\label{nr_8h_a035bd09228723898ec5481668f55c979}} 
+DP {\bfseries NR\+::gasdev} (int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_a8bd178e36c704700d52a5bcb56d25548}\label{nr_8h_a8bd178e36c704700d52a5bcb56d25548}} 
+void {\bfseries NR\+::gaucof} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&b, const DP amu0, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w)
+\item 
+\mbox{\Hypertarget{nr_8h_a3214b0481212ec7e5322d6952177aac6}\label{nr_8h_a3214b0481212ec7e5322d6952177aac6}} 
+void {\bfseries NR\+::gauher} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w)
+\item 
+\mbox{\Hypertarget{nr_8h_a95634e9b78b176caeec3321c0cfa6fbf}\label{nr_8h_a95634e9b78b176caeec3321c0cfa6fbf}} 
+void {\bfseries NR\+::gaujac} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w, const DP alf, const DP bet)
+\item 
+\mbox{\Hypertarget{nr_8h_abd073d049f60560546572cb5cf2210ef}\label{nr_8h_abd073d049f60560546572cb5cf2210ef}} 
+void {\bfseries NR\+::gaulag} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w, const DP alf)
+\item 
+\mbox{\Hypertarget{nr_8h_a722933d3ddfd7e76e9533892768ae542}\label{nr_8h_a722933d3ddfd7e76e9533892768ae542}} 
+void {\bfseries NR\+::gauleg} (const DP x1, const DP x2, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w)
+\item 
+\mbox{\Hypertarget{nr_8h_a1d6883edf9183e4e0a4b6be01655b057}\label{nr_8h_a1d6883edf9183e4e0a4b6be01655b057}} 
+void {\bfseries NR\+::gaussj} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&b)
+\item 
+\mbox{\Hypertarget{nr_8h_a54a09ab3536295080e52c4deb5cc42c5}\label{nr_8h_a54a09ab3536295080e52c4deb5cc42c5}} 
+void {\bfseries NR\+::gcf} (DP \&gammcf, const DP a, const DP x, DP \&gln)
+\item 
+\mbox{\Hypertarget{nr_8h_a0fb02a1e4932c1918d2a75bdcfec27cd}\label{nr_8h_a0fb02a1e4932c1918d2a75bdcfec27cd}} 
+DP {\bfseries NR\+::golden} (const DP ax, const DP bx, const DP cx, DP f(const DP), const DP tol, DP \&xmin)
+\item 
+\mbox{\Hypertarget{nr_8h_acf96c684ec4dc14593c22c45848ad511}\label{nr_8h_acf96c684ec4dc14593c22c45848ad511}} 
+void {\bfseries NR\+::gser} (DP \&gamser, const DP a, const DP x, DP \&gln)
+\item 
+\mbox{\Hypertarget{nr_8h_a5eaa00a5151ec180e13b5fd8824fd161}\label{nr_8h_a5eaa00a5151ec180e13b5fd8824fd161}} 
+void {\bfseries NR\+::hpsel} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&heap)
+\item 
+\mbox{\Hypertarget{nr_8h_a2d78b1ffd173d958219ab98bbcdcd3c4}\label{nr_8h_a2d78b1ffd173d958219ab98bbcdcd3c4}} 
+void {\bfseries NR\+::hpsort} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&ra)
+\item 
+\mbox{\Hypertarget{nr_8h_a78db7534f0991399c7f0d4a618175da7}\label{nr_8h_a78db7534f0991399c7f0d4a618175da7}} 
+void {\bfseries NR\+::hqr} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+CPLX\+\_\+\+DP}} \&wri)
+\item 
+\mbox{\Hypertarget{nr_8h_a55c1e21a90e38a4569ab763ec0a94515}\label{nr_8h_a55c1e21a90e38a4569ab763ec0a94515}} 
+void {\bfseries NR\+::hufapp} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+ULNG}} \&index, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+ULNG}} \&nprob, const unsigned long n, const unsigned long m)
+\item 
+\mbox{\Hypertarget{nr_8h_a2b3c3380b58a2d4cbf0c61f8bd444aec}\label{nr_8h_a2b3c3380b58a2d4cbf0c61f8bd444aec}} 
+void {\bfseries NR\+::hufdec} (unsigned long \&ich, std\+::string \&code, const unsigned long lcode, unsigned long \&nb, \mbox{\hyperlink{classhuffcode}{huffcode}} \&hcode)
+\item 
+\mbox{\Hypertarget{nr_8h_af74ccd5e55d8850e189e33cc374a6c5b}\label{nr_8h_af74ccd5e55d8850e189e33cc374a6c5b}} 
+void {\bfseries NR\+::hufenc} (const unsigned long ich, std\+::string \&code, unsigned long \&nb, \mbox{\hyperlink{classhuffcode}{huffcode}} \&hcode)
+\item 
+\mbox{\Hypertarget{nr_8h_ae3369986daacfe65a679f2334cb53267}\label{nr_8h_ae3369986daacfe65a679f2334cb53267}} 
+void {\bfseries NR\+::hufmak} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+ULNG}} \&nfreq, const unsigned long nchin, unsigned long \&ilong, unsigned long \&nlong, \mbox{\hyperlink{classhuffcode}{huffcode}} \&hcode)
+\item 
+\mbox{\Hypertarget{nr_8h_a6bbdb382ae25b5c8c0baba1d48d848e1}\label{nr_8h_a6bbdb382ae25b5c8c0baba1d48d848e1}} 
+void {\bfseries NR\+::hunt} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xx, const DP x, int \&jlo)
+\item 
+\mbox{\Hypertarget{nr_8h_a329631db0425541c0568938c22633e99}\label{nr_8h_a329631db0425541c0568938c22633e99}} 
+void {\bfseries NR\+::hypdrv} (const DP s, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&yy, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&dyyds)
+\item 
+\mbox{\Hypertarget{nr_8h_a8666a2088d3699fe0bc7f14f0b51b5ed}\label{nr_8h_a8666a2088d3699fe0bc7f14f0b51b5ed}} 
+std\+::complex$<$ DP $>$ {\bfseries NR\+::hypgeo} (const std\+::complex$<$ DP $>$ \&a, const std\+::complex$<$ DP $>$ \&b, const std\+::complex$<$ DP $>$ \&c, const std\+::complex$<$ DP $>$ \&z)
+\item 
+\mbox{\Hypertarget{nr_8h_a5464226b1eb7a8ab468acb9d8194a5cb}\label{nr_8h_a5464226b1eb7a8ab468acb9d8194a5cb}} 
+void {\bfseries NR\+::hypser} (const std\+::complex$<$ DP $>$ \&a, const std\+::complex$<$ DP $>$ \&b, const std\+::complex$<$ DP $>$ \&c, const std\+::complex$<$ DP $>$ \&z, std\+::complex$<$ DP $>$ \&series, std\+::complex$<$ DP $>$ \&deriv)
+\item 
+\mbox{\Hypertarget{nr_8h_a05984f00dc053f5191e68179570e42f0}\label{nr_8h_a05984f00dc053f5191e68179570e42f0}} 
+unsigned short {\bfseries NR\+::icrc} (const unsigned short crc, const std\+::string \&bufptr, const short jinit, const int jrev)
+\item 
+\mbox{\Hypertarget{nr_8h_a8eecd14f5dbacae9a1c719b3f8d5fe77}\label{nr_8h_a8eecd14f5dbacae9a1c719b3f8d5fe77}} 
+unsigned short {\bfseries NR\+::icrc1} (const unsigned short crc, const unsigned char onech)
+\item 
+\mbox{\Hypertarget{nr_8h_a4965006048ac8b1e627c9e21b9d6c1f8}\label{nr_8h_a4965006048ac8b1e627c9e21b9d6c1f8}} 
+unsigned long {\bfseries NR\+::igray} (const unsigned long n, const int is)
+\item 
+\mbox{\Hypertarget{nr_8h_a16cc62d4d994e6557e4d85d1b5de0ff9}\label{nr_8h_a16cc62d4d994e6557e4d85d1b5de0ff9}} 
+void {\bfseries NR\+::indexx} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&indx)
+\item 
+\mbox{\Hypertarget{nr_8h_ab3cd4fa2aeff189dee20cd3f87378212}\label{nr_8h_ab3cd4fa2aeff189dee20cd3f87378212}} 
+void {\bfseries NR\+::indexx} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&indx)
+\item 
+\mbox{\Hypertarget{nr_8h_af65d3c7d1b9eddb10dd001e6456ea45a}\label{nr_8h_af65d3c7d1b9eddb10dd001e6456ea45a}} 
+void {\bfseries NR\+::interp} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&uf, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&uc)
+\item 
+\mbox{\Hypertarget{nr_8h_a8847cb5906daead1ccf717166c61b0d7}\label{nr_8h_a8847cb5906daead1ccf717166c61b0d7}} 
+int {\bfseries NR\+::irbit1} (unsigned long \&iseed)
+\item 
+\mbox{\Hypertarget{nr_8h_a826f4788e674ad205145876a7ddd04e0}\label{nr_8h_a826f4788e674ad205145876a7ddd04e0}} 
+int {\bfseries NR\+::irbit2} (unsigned long \&iseed)
+\item 
+\mbox{\Hypertarget{nr_8h_ab9427d0f2503bbbc8a531c2e06f9369e}\label{nr_8h_ab9427d0f2503bbbc8a531c2e06f9369e}} 
+void {\bfseries NR\+::jacobi} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&d, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&v, int \&nrot)
+\item 
+\mbox{\Hypertarget{nr_8h_a98c0d038f8153db652155a23d8fca0c5}\label{nr_8h_a98c0d038f8153db652155a23d8fca0c5}} 
+void {\bfseries NR\+::jacobn\+\_\+s} (const DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&dfdx, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&dfdy)
+\item 
+\mbox{\Hypertarget{nr_8h_adcf22e2f352f18973efcc6a828196a69}\label{nr_8h_adcf22e2f352f18973efcc6a828196a69}} 
+int {\bfseries NR\+::julday} (const int mm, const int id, const int iyyy)
+\item 
+\mbox{\Hypertarget{nr_8h_a0cbcf6c9ade0e1df0bb132f18485ad14}\label{nr_8h_a0cbcf6c9ade0e1df0bb132f18485ad14}} 
+void {\bfseries NR\+::kendl1} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data2, DP \&tau, DP \&z, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_ad2ded25f5e4aef7460de829455ece1f2}\label{nr_8h_ad2ded25f5e4aef7460de829455ece1f2}} 
+void {\bfseries NR\+::kendl2} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&tab, DP \&tau, DP \&z, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_a0cbc2daad62a102dd3359715e4b1bc70}\label{nr_8h_a0cbc2daad62a102dd3359715e4b1bc70}} 
+void {\bfseries NR\+::kermom} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w, const DP y)
+\item 
+\mbox{\Hypertarget{nr_8h_a4ed85372a28396e39da6c7f899dd0c82}\label{nr_8h_a4ed85372a28396e39da6c7f899dd0c82}} 
+void {\bfseries NR\+::ks2d1s} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y1, void quadvl(const DP, const DP, DP \&, DP \&, DP \&, DP \&), DP \&d1, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_a2b2c455972d6a6fed97ba9b9abbcab3f}\label{nr_8h_a2b2c455972d6a6fed97ba9b9abbcab3f}} 
+void {\bfseries NR\+::ks2d2s} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x2, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y2, DP \&d, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_a3c53c1ee283bb33404deb730ff6a8d89}\label{nr_8h_a3c53c1ee283bb33404deb730ff6a8d89}} 
+void {\bfseries NR\+::ksone} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&data, DP func(const DP), DP \&d, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_a3ad9325c909f0cb757c462000c60a364}\label{nr_8h_a3ad9325c909f0cb757c462000c60a364}} 
+void {\bfseries NR\+::kstwo} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&data2, DP \&d, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_aa2ea67c46e74229112bf024cfb9f6181}\label{nr_8h_aa2ea67c46e74229112bf024cfb9f6181}} 
+void {\bfseries NR\+::laguer} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+CPLX\+\_\+\+DP}} \&a, std\+::complex$<$ DP $>$ \&x, int \&its)
+\item 
+\mbox{\Hypertarget{nr_8h_a0e8872f893cfdae1552954ed0ed82903}\label{nr_8h_a0e8872f893cfdae1552954ed0ed82903}} 
+void {\bfseries NR\+::lfit} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sig, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+BOOL}} \&ia, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&covar, DP \&chisq, void funcs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_af8b3348347ed7bf63c0554d522b33ee1}\label{nr_8h_af8b3348347ed7bf63c0554d522b33ee1}} 
+void {\bfseries NR\+::linbcg} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&x, const int itol, const DP tol, const int itmax, int \&iter, DP \&err)
+\item 
+\mbox{\Hypertarget{nr_8h_a4436a6bfba766ddda79e8cd4a8f1b977}\label{nr_8h_a4436a6bfba766ddda79e8cd4a8f1b977}} 
+void {\bfseries NR\+::linmin} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&xi, DP \&fret, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_adc216b076b35787786f44cc443e7533f}\label{nr_8h_adc216b076b35787786f44cc443e7533f}} 
+void {\bfseries NR\+::lnsrch} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xold, const DP fold, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&g, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&p, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x, DP \&f, const DP stpmax, bool \&check, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a219cd98096988ead11bcba867d300ebc}\label{nr_8h_a219cd98096988ead11bcba867d300ebc}} 
+void {\bfseries NR\+::locate} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xx, const DP x, int \&j)
+\item 
+\mbox{\Hypertarget{nr_8h_a13418bcc862bf5ed4c010126e8cf8028}\label{nr_8h_a13418bcc862bf5ed4c010126e8cf8028}} 
+void {\bfseries NR\+::lop} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&out, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&u)
+\item 
+\mbox{\Hypertarget{nr_8h_a1455a894979c7f2eaf3ef611a611cc42}\label{nr_8h_a1455a894979c7f2eaf3ef611a611cc42}} 
+void {\bfseries NR\+::lubksb} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&indx, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&b)
+\item 
+\mbox{\Hypertarget{nr_8h_a71e8f8aa20cd167f6379653f60ccaa1a}\label{nr_8h_a71e8f8aa20cd167f6379653f60ccaa1a}} 
+void {\bfseries NR\+::ludcmp} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&indx, DP \&d)
+\item 
+\mbox{\Hypertarget{nr_8h_ac38efbaed34a2e071711a215801215fd}\label{nr_8h_ac38efbaed34a2e071711a215801215fd}} 
+void {\bfseries NR\+::machar} (int \&ibeta, int \&it, int \&irnd, int \&ngrd, int \&machep, int \&negep, int \&iexp, int \&minexp, int \&maxexp, DP \&eps, DP \&epsneg, DP \&xmin, DP \&xmax)
+\item 
+\mbox{\Hypertarget{nr_8h_a3e83e821eb8a08def3eb745893d705f0}\label{nr_8h_a3e83e821eb8a08def3eb745893d705f0}} 
+void {\bfseries NR\+::matadd} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&c)
+\item 
+\mbox{\Hypertarget{nr_8h_a3813813f04cdd8f245c3aa44ff4f445d}\label{nr_8h_a3813813f04cdd8f245c3aa44ff4f445d}} 
+void {\bfseries NR\+::matsub} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&c)
+\item 
+\mbox{\Hypertarget{nr_8h_aab044381afb3d475fea1f56f27b43677}\label{nr_8h_aab044381afb3d475fea1f56f27b43677}} 
+void {\bfseries NR\+::medfit} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, DP \&a, DP \&b, DP \&abdev)
+\item 
+\mbox{\Hypertarget{nr_8h_a160cae226a21c3be206ce06f63125499}\label{nr_8h_a160cae226a21c3be206ce06f63125499}} 
+void {\bfseries NR\+::memcof} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data, DP \&xms, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&d)
+\item 
+\mbox{\Hypertarget{nr_8h_ad1c330f016bd9cbd3564f4be1f09d5db}\label{nr_8h_ad1c330f016bd9cbd3564f4be1f09d5db}} 
+bool {\bfseries NR\+::metrop} (const DP de, const DP t)
+\item 
+\mbox{\Hypertarget{nr_8h_ae5a8be9b136a41fa270bef965c7560bd}\label{nr_8h_ae5a8be9b136a41fa270bef965c7560bd}} 
+void {\bfseries NR\+::mgfas} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&u, const int maxcyc)
+\item 
+\mbox{\Hypertarget{nr_8h_a462e1290733dd6e89382065234a02f91}\label{nr_8h_a462e1290733dd6e89382065234a02f91}} 
+void {\bfseries NR\+::mglin} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&u, const int ncycle)
+\item 
+\mbox{\Hypertarget{nr_8h_ab0417b8e3403a5388e1335cf434a9f97}\label{nr_8h_ab0417b8e3403a5388e1335cf434a9f97}} 
+DP {\bfseries NR\+::midexp} (DP funk(const DP), const DP aa, const DP bb, const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_ab1e98fd1024d49b2e58d93057dd0a7f1}\label{nr_8h_ab1e98fd1024d49b2e58d93057dd0a7f1}} 
+DP {\bfseries NR\+::midinf} (DP funk(const DP), const DP aa, const DP bb, const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_a0d1a3671e190c043c51cc06aa203ff71}\label{nr_8h_a0d1a3671e190c043c51cc06aa203ff71}} 
+DP {\bfseries NR\+::midpnt} (DP func(const DP), const DP a, const DP b, const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_aacb9dcd500af4cc3a665337679bff722}\label{nr_8h_aacb9dcd500af4cc3a665337679bff722}} 
+DP {\bfseries NR\+::midsql} (DP funk(const DP), const DP aa, const DP bb, const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_a24075c7a2564a7ea0d150a535edc65c6}\label{nr_8h_a24075c7a2564a7ea0d150a535edc65c6}} 
+DP {\bfseries NR\+::midsqu} (DP funk(const DP), const DP aa, const DP bb, const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_a7633dcff9360f0d1b885d1ea40414046}\label{nr_8h_a7633dcff9360f0d1b885d1ea40414046}} 
+void {\bfseries NR\+::miser} (DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&), \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&regn, const int npts, const DP dith, DP \&ave, DP \&var)
+\item 
+\mbox{\Hypertarget{nr_8h_afc0314b689ffee95d1fdb24b9fd99e5a}\label{nr_8h_afc0314b689ffee95d1fdb24b9fd99e5a}} 
+void {\bfseries NR\+::mmid} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&dydx, const DP xs, const DP htot, const int nstep, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&yout, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a3fb2c9900887232361156bb23c4a3035}\label{nr_8h_a3fb2c9900887232361156bb23c4a3035}} 
+void {\bfseries NR\+::mnbrak} (DP \&ax, DP \&bx, DP \&cx, DP \&fa, DP \&fb, DP \&fc, DP func(const DP))
+\item 
+\mbox{\Hypertarget{nr_8h_afc9d96a4fea859ead6e69fd2bde37638}\label{nr_8h_afc9d96a4fea859ead6e69fd2bde37638}} 
+void {\bfseries NR\+::mnewt} (const int ntrial, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&x, const DP tolx, const DP tolf)
+\item 
+\mbox{\Hypertarget{nr_8h_aee3fc839b5ac653eb842a2799391942a}\label{nr_8h_aee3fc839b5ac653eb842a2799391942a}} 
+void {\bfseries NR\+::moment} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data, DP \&ave, DP \&adev, DP \&sdev, DP \&var, DP \&skew, DP \&curt)
+\item 
+\mbox{\Hypertarget{nr_8h_ad5e0bc1358051dfcd1c85d1602c4df5a}\label{nr_8h_ad5e0bc1358051dfcd1c85d1602c4df5a}} 
+void {\bfseries NR\+::mp2dfr} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+UCHR}} \&a, std\+::string \&s)
+\item 
+\mbox{\Hypertarget{nr_8h_a2a17c9eb096bee049e90717500cc1d44}\label{nr_8h_a2a17c9eb096bee049e90717500cc1d44}} 
+void {\bfseries NR\+::mpadd} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_a86e4bde392036558ab1428a568df4cc7}\label{nr_8h_a86e4bde392036558ab1428a568df4cc7}} 
+void {\bfseries NR\+::mpdiv} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&q, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_a03e217f2a6e318090794caf6745a6f64}\label{nr_8h_a03e217f2a6e318090794caf6745a6f64}} 
+void {\bfseries NR\+::mpinv} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_aa8a87e83f0ec64f91eddf8366337192b}\label{nr_8h_aa8a87e83f0ec64f91eddf8366337192b}} 
+void {\bfseries NR\+::mplsh} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+UCHR}} \&u)
+\item 
+\mbox{\Hypertarget{nr_8h_a5a70131bd7cd4d907087ac645f6d095e}\label{nr_8h_a5a70131bd7cd4d907087ac645f6d095e}} 
+void {\bfseries NR\+::mpmov} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_ac6e31aebeef74f402f91cfb7133ee633}\label{nr_8h_ac6e31aebeef74f402f91cfb7133ee633}} 
+void {\bfseries NR\+::mpmul} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_a685e7aacef1a2fa63acc2b0075848293}\label{nr_8h_a685e7aacef1a2fa63acc2b0075848293}} 
+void {\bfseries NR\+::mpneg} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+UCHR}} \&u)
+\item 
+\mbox{\Hypertarget{nr_8h_a994c170707a8aab5444d4d126e7a7d23}\label{nr_8h_a994c170707a8aab5444d4d126e7a7d23}} 
+void {\bfseries NR\+::mppi} (const int np)
+\item 
+\mbox{\Hypertarget{nr_8h_a0c4cae16b0250ecbf95693adf73c8bdc}\label{nr_8h_a0c4cae16b0250ecbf95693adf73c8bdc}} 
+void {\bfseries NR\+::mprove} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&alud, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&indx, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&x)
+\item 
+\mbox{\Hypertarget{nr_8h_a73ec9a62342ed00c7ed70bfedecf5947}\label{nr_8h_a73ec9a62342ed00c7ed70bfedecf5947}} 
+void {\bfseries NR\+::mpsad} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&u, const int iv)
+\item 
+\mbox{\Hypertarget{nr_8h_afb23bc7a9b2440c5a3db4da885920358}\label{nr_8h_afb23bc7a9b2440c5a3db4da885920358}} 
+void {\bfseries NR\+::mpsdv} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&u, const int iv, int \&ir)
+\item 
+\mbox{\Hypertarget{nr_8h_a7e4bcd285f6961beca936346cd63f092}\label{nr_8h_a7e4bcd285f6961beca936346cd63f092}} 
+void {\bfseries NR\+::mpsmu} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&u, const int iv)
+\item 
+\mbox{\Hypertarget{nr_8h_a73de1f888d26e631949996bd1e437659}\label{nr_8h_a73de1f888d26e631949996bd1e437659}} 
+void {\bfseries NR\+::mpsqrt} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_a6c829dc4c09a73a1c6f91c817b01bfd4}\label{nr_8h_a6c829dc4c09a73a1c6f91c817b01bfd4}} 
+void {\bfseries NR\+::mpsub} (int \&is, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+UCHR}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+UCHR}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_a03017a1caf19642fa6477f96dd20dbb3}\label{nr_8h_a03017a1caf19642fa6477f96dd20dbb3}} 
+void {\bfseries NR\+::mrqcof} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sig, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+BOOL}} \&ia, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&alpha, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&beta, DP \&chisq, void funcs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, DP \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a5e564c0d50dc1bbc161cbcee235b67bc}\label{nr_8h_a5e564c0d50dc1bbc161cbcee235b67bc}} 
+void {\bfseries NR\+::mrqmin} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sig, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+BOOL}} \&ia, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&covar, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&alpha, DP \&chisq, void funcs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, DP \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&), DP \&alamda)
+\item 
+\mbox{\Hypertarget{nr_8h_aa58f9fd3b532e550929b4ffa67b50e4d}\label{nr_8h_aa58f9fd3b532e550929b4ffa67b50e4d}} 
+void {\bfseries NR\+::newt} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&x, bool \&check, void vecfunc(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a1bf7da6f424d7a1aabeac96013b3beeb}\label{nr_8h_a1bf7da6f424d7a1aabeac96013b3beeb}} 
+void {\bfseries NR\+::odeint} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&ystart, const DP x1, const DP x2, const DP eps, const DP h1, const DP hmin, int \&nok, int \&nbad, int \&timecount, DP \&dxsav, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&, const DP), void rkqs(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, DP \&, const DP, const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, DP \&, DP \&, void($\ast$)(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&, const DP), const DP), const DP k\+\_\+comoving, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+DP}} $\ast$xp\+\_\+p, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+DP}} $\ast$yp\+\_\+p, const int timecount\+\_\+max\+\_\+zero)
+\item 
+\mbox{\Hypertarget{nr_8h_a701e125376b6731163ff0780a1e9f883}\label{nr_8h_a701e125376b6731163ff0780a1e9f883}} 
+void {\bfseries NR\+::odeint\+SCH} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&ystart, const DP x1, const DP x2, const DP eps, const DP h1, const DP hmin, int \&nok, int \&nbad, int \&timecount, DP \&dxsav, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&), void rkqs(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, DP \&, const DP, const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, DP \&, DP \&, void($\ast$)(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&)), const DP k\+\_\+comoving)
+\item 
+\mbox{\Hypertarget{nr_8h_a67d4df50c3532c7ffbffce8286c496df}\label{nr_8h_a67d4df50c3532c7ffbffce8286c496df}} 
+void {\bfseries NR\+::odeintpert} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&ystart, const DP x1, const DP x2, const DP eps, const DP h1, const DP hmin, int \&nok, int \&nbad, int \&timecount, DP \&dxsav, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&, const DP), void rkqs(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, DP \&, const DP, const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, DP \&, DP \&, void($\ast$)(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&, const DP), const DP), const DP k\+\_\+comoving, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+DP}} $\ast$xp2\+\_\+p, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+DP}} $\ast$delp\+\_\+p, const int timecount\+\_\+max\+\_\+pert)
+\item 
+\mbox{\Hypertarget{nr_8h_af84f9e409b7ba6096d1667db6e0e6a08}\label{nr_8h_af84f9e409b7ba6096d1667db6e0e6a08}} 
+void {\bfseries NR\+::odeint\+Mo} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&ystart, const DP x1, const DP x2, const DP eps, const DP h1, const DP hmin, int \&nok, int \&nbad, int \&timecount, DP \&dxsav, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&), void rkqs(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, DP \&, const DP, const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, DP \&, DP \&, void($\ast$)(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&)))
+\item 
+\mbox{\Hypertarget{nr_8h_a09eb4179b4158c839db9301f34122f40}\label{nr_8h_a09eb4179b4158c839db9301f34122f40}} 
+void {\bfseries NR\+::orthog} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&anu, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&alpha, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&beta, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&b)
+\item 
+\mbox{\Hypertarget{nr_8h_a8e789b4a9285a750bd28cbf9d1b57654}\label{nr_8h_a8e789b4a9285a750bd28cbf9d1b57654}} 
+void {\bfseries NR\+::pade} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&cof, DP \&resid)
+\item 
+\mbox{\Hypertarget{nr_8h_a986417223fa9ced15bc520606386a4db}\label{nr_8h_a986417223fa9ced15bc520606386a4db}} 
+void {\bfseries NR\+::pccheb} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&c)
+\item 
+\mbox{\Hypertarget{nr_8h_acbcb308d5c9adf2ac96084b61fff25be}\label{nr_8h_acbcb308d5c9adf2ac96084b61fff25be}} 
+void {\bfseries NR\+::pcshft} (const DP a, const DP b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&d)
+\item 
+\mbox{\Hypertarget{nr_8h_a08a1c52f699b77be9ca8b79dd29fc143}\label{nr_8h_a08a1c52f699b77be9ca8b79dd29fc143}} 
+void {\bfseries NR\+::pearsn} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, DP \&r, DP \&prob, DP \&z)
+\item 
+\mbox{\Hypertarget{nr_8h_aed0c7ecfa8b01342146d1d0dff6befca}\label{nr_8h_aed0c7ecfa8b01342146d1d0dff6befca}} 
+void {\bfseries NR\+::period} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, const DP ofac, const DP hifac, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&px, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&py, int \&nout, int \&jmax, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_ab0ef3238c95aeadb917a97ef14a41b29}\label{nr_8h_ab0ef3238c95aeadb917a97ef14a41b29}} 
+void {\bfseries NR\+::piksr2} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&brr)
+\item 
+\mbox{\Hypertarget{nr_8h_a11f36d67ab2adaed64b8f5dbfbbf2efc}\label{nr_8h_a11f36d67ab2adaed64b8f5dbfbbf2efc}} 
+void {\bfseries NR\+::piksrt} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&arr)
+\item 
+\mbox{\Hypertarget{nr_8h_a34209b0a9d44aa222a5f76c3c7bdeeaa}\label{nr_8h_a34209b0a9d44aa222a5f76c3c7bdeeaa}} 
+void {\bfseries NR\+::pinvs} (const int ie1, const int ie2, const int je1, const int jsf, const int jc1, const int k, \mbox{\hyperlink{class_n_r_mat3d}{Mat3\+D\+\_\+\+O\+\_\+\+DP}} \&c, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&s)
+\item 
+\mbox{\Hypertarget{nr_8h_a677f4e9cdd801b4a29b667ac6915ac26}\label{nr_8h_a677f4e9cdd801b4a29b667ac6915ac26}} 
+DP {\bfseries NR\+::plgndr} (const int l, const int m, const DP x)
+\item 
+\mbox{\Hypertarget{nr_8h_a0612378e73208e941cd53484771f52bb}\label{nr_8h_a0612378e73208e941cd53484771f52bb}} 
+DP {\bfseries NR\+::poidev} (const DP xm, int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_a404e4e04344a84403f08fcd906a91b2d}\label{nr_8h_a404e4e04344a84403f08fcd906a91b2d}} 
+void {\bfseries NR\+::polcoe} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&cof)
+\item 
+\mbox{\Hypertarget{nr_8h_af2c475d479fbaa639b53b606796608c6}\label{nr_8h_af2c475d479fbaa639b53b606796608c6}} 
+void {\bfseries NR\+::polcof} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&ya, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&cof)
+\item 
+\mbox{\Hypertarget{nr_8h_a2ec54779e5505f4a702196d44766e022}\label{nr_8h_a2ec54779e5505f4a702196d44766e022}} 
+void {\bfseries NR\+::poldiv} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&q, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&r)
+\item 
+\mbox{\Hypertarget{nr_8h_adfe1a6957b3044f86a5d9b2cb071edbf}\label{nr_8h_adfe1a6957b3044f86a5d9b2cb071edbf}} 
+void {\bfseries NR\+::polin2} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x1a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x2a, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&ya, const DP x1, const DP x2, DP \&y, DP \&dy)
+\item 
+\mbox{\Hypertarget{nr_8h_ab748a48a0cfdc9215829774ddf25ea90}\label{nr_8h_ab748a48a0cfdc9215829774ddf25ea90}} 
+void {\bfseries NR\+::polint} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&ya, const DP x, DP \&y, DP \&dy)
+\item 
+\mbox{\Hypertarget{nr_8h_a4fb8d09f0f222a20c3ff734627a5a760}\label{nr_8h_a4fb8d09f0f222a20c3ff734627a5a760}} 
+void {\bfseries NR\+::powell} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&p, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&xi, const DP ftol, int \&iter, DP \&fret, DP func(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a1e509a4abc2af770058b8ec1037f37ad}\label{nr_8h_a1e509a4abc2af770058b8ec1037f37ad}} 
+void {\bfseries NR\+::predic} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&future)
+\item 
+\mbox{\Hypertarget{nr_8h_a728a822ccbd90f47b7e83d9186ca631a}\label{nr_8h_a728a822ccbd90f47b7e83d9186ca631a}} 
+DP {\bfseries NR\+::probks} (const DP alam)
+\item 
+\mbox{\Hypertarget{nr_8h_a2d127644657046b9b67b8189fd79d51c}\label{nr_8h_a2d127644657046b9b67b8189fd79d51c}} 
+void {\bfseries NR\+::psdes} (unsigned long \&lword, unsigned long \&irword)
+\item 
+\mbox{\Hypertarget{nr_8h_a6e01211469ec1a14c97e90b2bfaa8667}\label{nr_8h_a6e01211469ec1a14c97e90b2bfaa8667}} 
+void {\bfseries NR\+::pwt} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&a, const int n, const int isign)
+\item 
+\mbox{\Hypertarget{nr_8h_afca49076efe7ccf7bf3d0512ba1c0117}\label{nr_8h_afca49076efe7ccf7bf3d0512ba1c0117}} 
+void {\bfseries NR\+::pwtset} (const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_a4794ff6d4eaeeedd85a91698287cd7ac}\label{nr_8h_a4794ff6d4eaeeedd85a91698287cd7ac}} 
+DP {\bfseries NR\+::pythag} (const DP a, const DP b)
+\item 
+\mbox{\Hypertarget{nr_8h_a583932239d9c539ae7d372295b01101a}\label{nr_8h_a583932239d9c539ae7d372295b01101a}} 
+void {\bfseries NR\+::pzextr} (const int iest, const DP xest, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&yest, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&yz, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&dy)
+\item 
+\mbox{\Hypertarget{nr_8h_aea2857e7dfc20dc9c53694f04e7742c6}\label{nr_8h_aea2857e7dfc20dc9c53694f04e7742c6}} 
+DP {\bfseries NR\+::qgaus} (DP func(const DP), const DP a, const DP b)
+\item 
+\mbox{\Hypertarget{nr_8h_a4bfa0581b100fdc8f3bb1a5b8236e084}\label{nr_8h_a4bfa0581b100fdc8f3bb1a5b8236e084}} 
+void {\bfseries NR\+::qrdcmp} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&d, bool \&sing)
+\item 
+\mbox{\Hypertarget{nr_8h_a1d9dac2ce9ca89306257ab81b44473da}\label{nr_8h_a1d9dac2ce9ca89306257ab81b44473da}} 
+DP {\bfseries NR\+::qromb} (DP func(const DP), DP a, DP b)
+\item 
+\mbox{\Hypertarget{nr_8h_aba7cc6d489fecfde29b519f866c70676}\label{nr_8h_aba7cc6d489fecfde29b519f866c70676}} 
+DP {\bfseries NR\+::qromo} (DP func(const DP), const DP a, const DP b, DP choose(DP($\ast$)(const DP), const DP, const DP, const int))
+\item 
+\mbox{\Hypertarget{nr_8h_afe717bad04398081c537d551740071ed}\label{nr_8h_afe717bad04398081c537d551740071ed}} 
+void {\bfseries NR\+::qroot} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&p, DP \&b, DP \&c, const DP eps)
+\item 
+\mbox{\Hypertarget{nr_8h_a71ded3feeaea4e325e6e0d0a88c0e47f}\label{nr_8h_a71ded3feeaea4e325e6e0d0a88c0e47f}} 
+void {\bfseries NR\+::qrsolv} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&b)
+\item 
+\mbox{\Hypertarget{nr_8h_aa3906cfa0a92338d1b32d6525fc47eaf}\label{nr_8h_aa3906cfa0a92338d1b32d6525fc47eaf}} 
+void {\bfseries NR\+::qrupdt} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&r, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&qt, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_a30afaca69c5b66b374852a7281bb9b88}\label{nr_8h_a30afaca69c5b66b374852a7281bb9b88}} 
+DP {\bfseries NR\+::qsimp} (DP func(const DP), const DP a, const DP b)
+\item 
+\mbox{\Hypertarget{nr_8h_acc25d32b53d9c38fb962ff11c7ed08be}\label{nr_8h_acc25d32b53d9c38fb962ff11c7ed08be}} 
+DP {\bfseries NR\+::qtrap} (DP func(const DP), const DP a, const DP b)
+\item 
+\mbox{\Hypertarget{nr_8h_ad9f85b329d999d83a6cf387bcd5fd9a1}\label{nr_8h_ad9f85b329d999d83a6cf387bcd5fd9a1}} 
+DP {\bfseries NR\+::quad3d} (DP func(const DP, const DP, const DP), const DP x1, const DP x2)
+\item 
+\mbox{\Hypertarget{nr_8h_ae233b6071785340e925720885bb72ebd}\label{nr_8h_ae233b6071785340e925720885bb72ebd}} 
+void {\bfseries NR\+::quadct} (const DP x, const DP y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xx, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&yy, DP \&fa, DP \&fb, DP \&fc, DP \&fd)
+\item 
+\mbox{\Hypertarget{nr_8h_a4fb019bb24b7e09bb9a1198ca1c679b4}\label{nr_8h_a4fb019bb24b7e09bb9a1198ca1c679b4}} 
+void {\bfseries NR\+::quadmx} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&a)
+\item 
+\mbox{\Hypertarget{nr_8h_a819df1d348b859d09568c5b871dc40e1}\label{nr_8h_a819df1d348b859d09568c5b871dc40e1}} 
+void {\bfseries NR\+::quadvl} (const DP x, const DP y, DP \&fa, DP \&fb, DP \&fc, DP \&fd)
+\item 
+\mbox{\Hypertarget{nr_8h_a51fab0252d34144103c74d4f947e86c1}\label{nr_8h_a51fab0252d34144103c74d4f947e86c1}} 
+DP {\bfseries NR\+::ran0} (int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_a6f5690957c136740f9dd29d51a3dc3fa}\label{nr_8h_a6f5690957c136740f9dd29d51a3dc3fa}} 
+DP {\bfseries NR\+::ran1} (int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_af14605dd4827bb94f49095d407b4fda7}\label{nr_8h_af14605dd4827bb94f49095d407b4fda7}} 
+DP {\bfseries NR\+::ran2} (int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_a0e43557267c69b10738a862f546a0b2b}\label{nr_8h_a0e43557267c69b10738a862f546a0b2b}} 
+DP {\bfseries NR\+::ran3} (int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_aa022fd357d369cb205d0dd59f0e2018a}\label{nr_8h_aa022fd357d369cb205d0dd59f0e2018a}} 
+DP {\bfseries NR\+::ran4} (int \&idum)
+\item 
+\mbox{\Hypertarget{nr_8h_af609478dc8d3d58e4d09f1f8f8553238}\label{nr_8h_af609478dc8d3d58e4d09f1f8f8553238}} 
+void {\bfseries NR\+::rank} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&indx, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&irank)
+\item 
+\mbox{\Hypertarget{nr_8h_a103ce563920343003034206a38ebdbb7}\label{nr_8h_a103ce563920343003034206a38ebdbb7}} 
+void {\bfseries NR\+::ranpt} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&pt, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&regn)
+\item 
+\mbox{\Hypertarget{nr_8h_acf23dccda6fe2ebd6630856bdb24a274}\label{nr_8h_acf23dccda6fe2ebd6630856bdb24a274}} 
+void {\bfseries NR\+::ratint} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&ya, const DP x, DP \&y, DP \&dy)
+\item 
+\mbox{\Hypertarget{nr_8h_a140701eacca3a2e031e077e8efc7794c}\label{nr_8h_a140701eacca3a2e031e077e8efc7794c}} 
+void {\bfseries NR\+::ratlsq} (DP fn(const DP), const DP a, const DP b, const int mm, const int kk, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&cof, DP \&dev)
+\item 
+\mbox{\Hypertarget{nr_8h_a3acd42aca134502c65fb52c385218e33}\label{nr_8h_a3acd42aca134502c65fb52c385218e33}} 
+DP {\bfseries NR\+::ratval} (const DP x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&cof, const int mm, const int kk)
+\item 
+\mbox{\Hypertarget{nr_8h_a7d42c86df6be02b1e38a5bf9a51884d8}\label{nr_8h_a7d42c86df6be02b1e38a5bf9a51884d8}} 
+DP {\bfseries NR\+::rc} (const DP x, const DP y)
+\item 
+\mbox{\Hypertarget{nr_8h_a06e58a52a06276e59cdd77e651547f2c}\label{nr_8h_a06e58a52a06276e59cdd77e651547f2c}} 
+DP {\bfseries NR\+::rd} (const DP x, const DP y, const DP z)
+\item 
+\mbox{\Hypertarget{nr_8h_a6e6be7f8710c23ce1bba137a8b15ed43}\label{nr_8h_a6e6be7f8710c23ce1bba137a8b15ed43}} 
+void {\bfseries NR\+::realft} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&data, const int isign)
+\item 
+\mbox{\Hypertarget{nr_8h_a057f6d96cc5618a7d3b0d1a44a946a56}\label{nr_8h_a057f6d96cc5618a7d3b0d1a44a946a56}} 
+void {\bfseries NR\+::rebin} (const DP rc, const int nd, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&xin, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&xi, const int j)
+\item 
+\mbox{\Hypertarget{nr_8h_a5d0fa7b2278cdceacefe8cd50705176f}\label{nr_8h_a5d0fa7b2278cdceacefe8cd50705176f}} 
+void {\bfseries NR\+::red} (const int iz1, const int iz2, const int jz1, const int jz2, const int jm1, const int jm2, const int jmf, const int ic1, const int jc1, const int jcf, const int kc, \mbox{\hyperlink{class_n_r_mat3d}{Mat3\+D\+\_\+\+I\+\_\+\+DP}} \&c, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&s)
+\item 
+\mbox{\Hypertarget{nr_8h_addb2b8e753b62caf1b43dd6f236c651a}\label{nr_8h_addb2b8e753b62caf1b43dd6f236c651a}} 
+void {\bfseries NR\+::relax} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&rhs)
+\item 
+\mbox{\Hypertarget{nr_8h_ab35ff057ba423e15b9661f578781f9fd}\label{nr_8h_ab35ff057ba423e15b9661f578781f9fd}} 
+void {\bfseries NR\+::relax2} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&rhs)
+\item 
+\mbox{\Hypertarget{nr_8h_adc048600ca2f348d4250703a28fc2a76}\label{nr_8h_adc048600ca2f348d4250703a28fc2a76}} 
+void {\bfseries NR\+::resid} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&res, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&rhs)
+\item 
+\mbox{\Hypertarget{nr_8h_a8d1d9cdfaa0537971775ebcbe41a56eb}\label{nr_8h_a8d1d9cdfaa0537971775ebcbe41a56eb}} 
+DP {\bfseries NR\+::revcst} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&iorder, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+INT}} \&n)
+\item 
+\mbox{\Hypertarget{nr_8h_a76ef747dae58b55d1fe6e2b48cd23af6}\label{nr_8h_a76ef747dae58b55d1fe6e2b48cd23af6}} 
+void {\bfseries NR\+::reverse} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+INT}} \&iorder, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&n)
+\item 
+\mbox{\Hypertarget{nr_8h_a2559b510aaa0c283f2031537b9f23176}\label{nr_8h_a2559b510aaa0c283f2031537b9f23176}} 
+DP {\bfseries NR\+::rf} (const DP x, const DP y, const DP z)
+\item 
+\mbox{\Hypertarget{nr_8h_ac238786569e5bffe3268ad64d2a45636}\label{nr_8h_ac238786569e5bffe3268ad64d2a45636}} 
+DP {\bfseries NR\+::rj} (const DP x, const DP y, const DP z, const DP p)
+\item 
+\mbox{\Hypertarget{nr_8h_ad17e1ed8ecc022b0b86a74b6b1e4488b}\label{nr_8h_ad17e1ed8ecc022b0b86a74b6b1e4488b}} 
+void {\bfseries NR\+::rk4} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&dydx, const DP x, const DP h, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&yout, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&, const DP k\+\_\+comoving), const DP k\+\_\+comoving)
+\item 
+\mbox{\Hypertarget{nr_8h_a2d87ad3c69c70f74de23766f4cfc7a2d}\label{nr_8h_a2d87ad3c69c70f74de23766f4cfc7a2d}} 
+void {\bfseries NR\+::rkck} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&dydx, const DP x, const DP h, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&yout, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&yerr, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&, const DP k\+\_\+comoving))
+\item 
+\mbox{\Hypertarget{nr_8h_a46a7b57fd403c001f40f08a0b71abc57}\label{nr_8h_a46a7b57fd403c001f40f08a0b71abc57}} 
+void {\bfseries NR\+::rkdumb} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&vstart, const DP x1, const DP x2, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a198d0ecaaf7f42916f2fa1aa09a34053}\label{nr_8h_a198d0ecaaf7f42916f2fa1aa09a34053}} 
+void {\bfseries NR\+::rkqs} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&dydx, DP \&x, const DP htry, const DP eps, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&yscal, DP \&hdid, DP \&hnext, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&, const DP), const DP k\+\_\+comoving)
+\item 
+\mbox{\Hypertarget{nr_8h_a7196d873664bc007122619a6c6ebe6f1}\label{nr_8h_a7196d873664bc007122619a6c6ebe6f1}} 
+void {\bfseries NR\+::rlft3} (\mbox{\hyperlink{class_n_r_mat3d}{Mat3\+D\+\_\+\+IO\+\_\+\+DP}} \&data, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&speq, const int isign)
+\item 
+\mbox{\Hypertarget{nr_8h_a07be599c4e1af3eabb72f2f9c63f8033}\label{nr_8h_a07be599c4e1af3eabb72f2f9c63f8033}} 
+DP {\bfseries NR\+::rofunc} (const DP b)
+\item 
+\mbox{\Hypertarget{nr_8h_a0e1ecebfe787d1724c128b16d547c709}\label{nr_8h_a0e1ecebfe787d1724c128b16d547c709}} 
+void {\bfseries NR\+::rotate} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&r, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&qt, const int i, const DP a, const DP b)
+\item 
+\mbox{\Hypertarget{nr_8h_a5bcb5bccdabdf66243c940ae37016e07}\label{nr_8h_a5bcb5bccdabdf66243c940ae37016e07}} 
+void {\bfseries NR\+::rsolv} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&b)
+\item 
+\mbox{\Hypertarget{nr_8h_aca06dba4235f41d5484914650537c0a3}\label{nr_8h_aca06dba4235f41d5484914650537c0a3}} 
+void {\bfseries NR\+::rstrct} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&uc, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&uf)
+\item 
+\mbox{\Hypertarget{nr_8h_a0ecfb6285a930173efe5515a12567cd4}\label{nr_8h_a0ecfb6285a930173efe5515a12567cd4}} 
+DP {\bfseries NR\+::rtbis} (DP func(const DP), const DP x1, const DP x2, const DP xacc)
+\item 
+\mbox{\Hypertarget{nr_8h_ab4085cd59aa4773f48fe033fb6be4418}\label{nr_8h_ab4085cd59aa4773f48fe033fb6be4418}} 
+DP {\bfseries NR\+::rtflsp} (DP func(const DP), const DP x1, const DP x2, const DP xacc)
+\item 
+\mbox{\Hypertarget{nr_8h_ae880eed2f01cf2dd35a36515f9ec1f8b}\label{nr_8h_ae880eed2f01cf2dd35a36515f9ec1f8b}} 
+DP {\bfseries NR\+::rtnewt} (void funcd(const DP, DP \&, DP \&), const DP x1, const DP x2, const DP xacc)
+\item 
+\mbox{\Hypertarget{nr_8h_a37b63f41a0f8b8da8b68076cfa194a1f}\label{nr_8h_a37b63f41a0f8b8da8b68076cfa194a1f}} 
+DP {\bfseries NR\+::rtsafe} (void funcd(const DP, DP \&, DP \&), const DP x1, const DP x2, const DP xacc)
+\item 
+\mbox{\Hypertarget{nr_8h_a605de556663dbd83b38d1ca358125af1}\label{nr_8h_a605de556663dbd83b38d1ca358125af1}} 
+DP {\bfseries NR\+::rtsec} (DP func(const DP), const DP x1, const DP x2, const DP xacc)
+\item 
+\mbox{\Hypertarget{nr_8h_a17af9084521630603977a8c9bd46bd40}\label{nr_8h_a17af9084521630603977a8c9bd46bd40}} 
+void {\bfseries NR\+::rzextr} (const int iest, const DP xest, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&yest, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&yz, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&dy)
+\item 
+\mbox{\Hypertarget{nr_8h_a8c8d71cc60561155b11e42e028ee3b8c}\label{nr_8h_a8c8d71cc60561155b11e42e028ee3b8c}} 
+void {\bfseries NR\+::savgol} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&c, const int np, const int nl, const int nr, const int ld, const int m)
+\item 
+\mbox{\Hypertarget{nr_8h_adc488f409f614650e59bd201350349ee}\label{nr_8h_adc488f409f614650e59bd201350349ee}} 
+void {\bfseries NR\+::scrsho} (DP fx(const DP))
+\item 
+\mbox{\Hypertarget{nr_8h_a0717290c06f42aa15e83108843ebe8e9}\label{nr_8h_a0717290c06f42aa15e83108843ebe8e9}} 
+DP {\bfseries NR\+::select} (const int k, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&arr)
+\item 
+\mbox{\Hypertarget{nr_8h_a9c893dc4317a41c90e5275f875f49514}\label{nr_8h_a9c893dc4317a41c90e5275f875f49514}} 
+DP {\bfseries NR\+::selip} (const int k, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&arr)
+\item 
+\mbox{\Hypertarget{nr_8h_a64047fe43a54a8a00d0311739cf7d0d2}\label{nr_8h_a64047fe43a54a8a00d0311739cf7d0d2}} 
+void {\bfseries NR\+::shell} (const int n, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&a)
+\item 
+\mbox{\Hypertarget{nr_8h_a3a4867f05151e5dd8b231be47dbd5523}\label{nr_8h_a3a4867f05151e5dd8b231be47dbd5523}} 
+void {\bfseries NR\+::shoot} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&f)
+\item 
+\mbox{\Hypertarget{nr_8h_a377b3f789f3b63d3472b288e5ee103cd}\label{nr_8h_a377b3f789f3b63d3472b288e5ee103cd}} 
+void {\bfseries NR\+::shootf} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&f)
+\item 
+\mbox{\Hypertarget{nr_8h_aabcc7bcebb2a9ffcefb8231216a3b2bf}\label{nr_8h_aabcc7bcebb2a9ffcefb8231216a3b2bf}} 
+void {\bfseries NR\+::simp1} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, const int mm, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&ll, const int nll, const int iabf, int \&kp, DP \&bmax)
+\item 
+\mbox{\Hypertarget{nr_8h_a7f8a4de14a8e48d4a3dd9a913b593f94}\label{nr_8h_a7f8a4de14a8e48d4a3dd9a913b593f94}} 
+void {\bfseries NR\+::simp2} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, const int m, const int n, int \&ip, const int kp)
+\item 
+\mbox{\Hypertarget{nr_8h_a534aa06bc7a2ffc101eb3606158d7292}\label{nr_8h_a534aa06bc7a2ffc101eb3606158d7292}} 
+void {\bfseries NR\+::simp3} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, const int i1, const int k1, const int ip, const int kp)
+\item 
+\mbox{\Hypertarget{nr_8h_aef5e28f4e523bd00d12f051bbaa68c26}\label{nr_8h_aef5e28f4e523bd00d12f051bbaa68c26}} 
+void {\bfseries NR\+::simplx} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, const int m1, const int m2, const int m3, int \&icase, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&izrov, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&iposv)
+\item 
+\mbox{\Hypertarget{nr_8h_ae748fa4c5f015f06df38e8bafc21840f}\label{nr_8h_ae748fa4c5f015f06df38e8bafc21840f}} 
+void {\bfseries NR\+::simpr} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&dydx, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&dfdx, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&dfdy, const DP xs, const DP htot, const int nstep, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&yout, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a889e9d27c3d64efbace8e4269ee49396}\label{nr_8h_a889e9d27c3d64efbace8e4269ee49396}} 
+void {\bfseries NR\+::sinft} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&y)
+\item 
+\mbox{\Hypertarget{nr_8h_acedae47de69f9d0402a28d9a716b2fa2}\label{nr_8h_acedae47de69f9d0402a28d9a716b2fa2}} 
+void {\bfseries NR\+::slvsm2} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&rhs)
+\item 
+\mbox{\Hypertarget{nr_8h_ae63f80a859ca5a86551c9b2f4b04fdef}\label{nr_8h_ae63f80a859ca5a86551c9b2f4b04fdef}} 
+void {\bfseries NR\+::slvsml} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&rhs)
+\item 
+\mbox{\Hypertarget{nr_8h_a047d02acf11afe02da3c1da8c748e208}\label{nr_8h_a047d02acf11afe02da3c1da8c748e208}} 
+void {\bfseries NR\+::sncndn} (const DP uu, const DP emmc, DP \&sn, DP \&cn, DP \&dn)
+\item 
+\mbox{\Hypertarget{nr_8h_ad2b7cce8e123dc0d8dc69bf32a719f94}\label{nr_8h_ad2b7cce8e123dc0d8dc69bf32a719f94}} 
+DP {\bfseries NR\+::snrm} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sx, const int itol)
+\item 
+\mbox{\Hypertarget{nr_8h_a1357ef8a6e9ec8dd977c9280119cb41b}\label{nr_8h_a1357ef8a6e9ec8dd977c9280119cb41b}} 
+void {\bfseries NR\+::sobseq} (const int n, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x)
+\item 
+\mbox{\Hypertarget{nr_8h_aed31ba4292a87797a7eef501659413d2}\label{nr_8h_aed31ba4292a87797a7eef501659413d2}} 
+void {\bfseries NR\+::solvde} (const int itmax, const DP conv, const DP slowc, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&scalv, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&indexv, const int nb, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&y)
+\item 
+\mbox{\Hypertarget{nr_8h_a20465364d77d93fb2f8ec0a0aca6f509}\label{nr_8h_a20465364d77d93fb2f8ec0a0aca6f509}} 
+void {\bfseries NR\+::sor} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&c, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&d, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&e, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&f, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&u, const DP rjac)
+\item 
+\mbox{\Hypertarget{nr_8h_a3cdf7710dd309ccdfedbf8a5cc6e3797}\label{nr_8h_a3cdf7710dd309ccdfedbf8a5cc6e3797}} 
+void {\bfseries NR\+::sort} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&arr)
+\item 
+\mbox{\Hypertarget{nr_8h_aac9ed2f59dae4ff79ef08dd3df8f3120}\label{nr_8h_aac9ed2f59dae4ff79ef08dd3df8f3120}} 
+void {\bfseries NR\+::sort2} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&arr, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&brr)
+\item 
+\mbox{\Hypertarget{nr_8h_aacbec42c43f9d847e5f0d00b9d978e99}\label{nr_8h_aacbec42c43f9d847e5f0d00b9d978e99}} 
+void {\bfseries NR\+::sort3} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&ra, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&rb, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&rc)
+\item 
+\mbox{\Hypertarget{nr_8h_ae38cea9c6129763058f4b5acebd61ef8}\label{nr_8h_ae38cea9c6129763058f4b5acebd61ef8}} 
+void {\bfseries NR\+::spctrm} (std\+::ifstream \&fp, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&p, const int k, const bool ovrlap)
+\item 
+\mbox{\Hypertarget{nr_8h_a6bc9d94a243840f52c5520b6e963b9c1}\label{nr_8h_a6bc9d94a243840f52c5520b6e963b9c1}} 
+void {\bfseries NR\+::spear} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data2, DP \&d, DP \&zd, DP \&probd, DP \&rs, DP \&probrs)
+\item 
+\mbox{\Hypertarget{nr_8h_ab729e0038cdadb95f6f51d2a3d2844a2}\label{nr_8h_ab729e0038cdadb95f6f51d2a3d2844a2}} 
+void {\bfseries NR\+::sphbes} (const int n, const DP x, DP \&sj, DP \&sy, DP \&sjp, DP \&syp)
+\item 
+\mbox{\Hypertarget{nr_8h_a670845ceadb2a0b3d7196a9fad1ca893}\label{nr_8h_a670845ceadb2a0b3d7196a9fad1ca893}} 
+void {\bfseries NR\+::splie2} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x1a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x2a, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&ya, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&y2a)
+\item 
+\mbox{\Hypertarget{nr_8h_a4021f8bd5baff21c01220d6fb12ddc63}\label{nr_8h_a4021f8bd5baff21c01220d6fb12ddc63}} 
+void {\bfseries NR\+::splin2} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x1a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x2a, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&ya, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&y2a, const DP x1, const DP x2, DP \&y)
+\item 
+\mbox{\Hypertarget{nr_8h_a5c106df532661250db9a1edaec21e355}\label{nr_8h_a5c106df532661250db9a1edaec21e355}} 
+void {\bfseries NR\+::spline} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, const DP yp1, const DP ypn, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&y2)
+\item 
+\mbox{\Hypertarget{nr_8h_af17868718dea0cf57360a9a84b1bf76f}\label{nr_8h_af17868718dea0cf57360a9a84b1bf76f}} 
+void {\bfseries NR\+::splint} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&xa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&ya, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y2a, const DP x, DP \&y)
+\item 
+\mbox{\Hypertarget{nr_8h_add2c8f2338d667862d2851438e2bbcd9}\label{nr_8h_add2c8f2338d667862d2851438e2bbcd9}} 
+void {\bfseries NR\+::spread} (const DP y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&yy, const DP x, const int m)
+\item 
+\mbox{\Hypertarget{nr_8h_a569952912ee7ce4678374a5ab9720728}\label{nr_8h_a569952912ee7ce4678374a5ab9720728}} 
+void {\bfseries NR\+::sprsax} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&b)
+\item 
+\mbox{\Hypertarget{nr_8h_ac6049ef83ac59033cd16008d6434dbd9}\label{nr_8h_ac6049ef83ac59033cd16008d6434dbd9}} 
+void {\bfseries NR\+::sprsin} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&a, const DP thresh, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&ija)
+\item 
+\mbox{\Hypertarget{nr_8h_a5e13fa9b150938fe86e025d574065cba}\label{nr_8h_a5e13fa9b150938fe86e025d574065cba}} 
+void {\bfseries NR\+::sprspm} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sb, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&ijb, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&sc, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&ijc)
+\item 
+\mbox{\Hypertarget{nr_8h_a8a8f5c184fd77f33204bf0529388c245}\label{nr_8h_a8a8f5c184fd77f33204bf0529388c245}} 
+void {\bfseries NR\+::sprstm} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sb, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&ijb, const DP thresh, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&sc, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&ijc)
+\item 
+\mbox{\Hypertarget{nr_8h_afda5189ac62139477b4017822d258544}\label{nr_8h_afda5189ac62139477b4017822d258544}} 
+void {\bfseries NR\+::sprstp} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&sb, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+INT}} \&ijb)
+\item 
+\mbox{\Hypertarget{nr_8h_aa3a3114b55f3fd188fccc24ab74a1906}\label{nr_8h_aa3a3114b55f3fd188fccc24ab74a1906}} 
+void {\bfseries NR\+::sprstx} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sa, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&ija, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&b)
+\item 
+\mbox{\Hypertarget{nr_8h_ad2ae3e12b7597c2a4702755e6a387786}\label{nr_8h_ad2ae3e12b7597c2a4702755e6a387786}} 
+void {\bfseries NR\+::stifbs} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&dydx, DP \&xx, const DP htry, const DP eps, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&yscal, DP \&hdid, DP \&hnext, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_afca47b534f9a096322597481b44a4ea6}\label{nr_8h_afca47b534f9a096322597481b44a4ea6}} 
+void {\bfseries NR\+::stiff} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&dydx, DP \&x, const DP htry, const DP eps, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&yscal, DP \&hdid, DP \&hnext, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a9a4beb20936c6e96b577a4f5e8c9d157}\label{nr_8h_a9a4beb20936c6e96b577a4f5e8c9d157}} 
+void {\bfseries NR\+::stoerm} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&d2y, const DP xs, const DP htot, const int nstep, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&yout, void derivs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a5ae2173a7b10fd0f4e35baaad45f16f8}\label{nr_8h_a5ae2173a7b10fd0f4e35baaad45f16f8}} 
+void {\bfseries NR\+::svbksb} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&u, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&w, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x)
+\item 
+\mbox{\Hypertarget{nr_8h_ad532389e2c426c3c38b860f4fd254103}\label{nr_8h_ad532389e2c426c3c38b860f4fd254103}} 
+void {\bfseries NR\+::svdcmp} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&v)
+\item 
+\mbox{\Hypertarget{nr_8h_afe44878304edad27239234f84f643943}\label{nr_8h_afe44878304edad27239234f84f643943}} 
+void {\bfseries NR\+::svdfit} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&sig, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&u, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w, DP \&chisq, void funcs(const DP, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&))
+\item 
+\mbox{\Hypertarget{nr_8h_a7718198c5af1e10344d7c8933fe579c5}\label{nr_8h_a7718198c5af1e10344d7c8933fe579c5}} 
+void {\bfseries NR\+::svdvar} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+I\+\_\+\+DP}} \&v, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&w, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&cvm)
+\item 
+\mbox{\Hypertarget{nr_8h_a708603e68ca30567cab74fb4141a67f1}\label{nr_8h_a708603e68ca30567cab74fb4141a67f1}} 
+void {\bfseries NR\+::toeplz} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y)
+\item 
+\mbox{\Hypertarget{nr_8h_a12aa30fe12a4e3fe8fb89f946499954f}\label{nr_8h_a12aa30fe12a4e3fe8fb89f946499954f}} 
+void {\bfseries NR\+::tptest} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data2, DP \&t, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_a569384a7d408b566462b85edbb04b7f7}\label{nr_8h_a569384a7d408b566462b85edbb04b7f7}} 
+void {\bfseries NR\+::tqli} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&e, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&z)
+\item 
+\mbox{\Hypertarget{nr_8h_a8bf97a9fcc7bc9cebca3838cde195acb}\label{nr_8h_a8bf97a9fcc7bc9cebca3838cde195acb}} 
+DP {\bfseries NR\+::trapzd} (DP func(const DP), const DP a, const DP b, const int n)
+\item 
+\mbox{\Hypertarget{nr_8h_a65685f36fb5e22017a14636bf55b9de0}\label{nr_8h_a65685f36fb5e22017a14636bf55b9de0}} 
+void {\bfseries NR\+::tred2} (\mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&d, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&e)
+\item 
+\mbox{\Hypertarget{nr_8h_a217a03f117a9bed3da0ab37c417e8dae}\label{nr_8h_a217a03f117a9bed3da0ab37c417e8dae}} 
+void {\bfseries NR\+::tridag} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&b, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&c, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&r, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&u)
+\item 
+\mbox{\Hypertarget{nr_8h_a8aa63035f06199a55106f0e6d1fa9e3f}\label{nr_8h_a8aa63035f06199a55106f0e6d1fa9e3f}} 
+DP {\bfseries NR\+::trncst} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&y, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&iorder, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+INT}} \&n)
+\item 
+\mbox{\Hypertarget{nr_8h_a36458f311bde4056fc362001e22b2570}\label{nr_8h_a36458f311bde4056fc362001e22b2570}} 
+void {\bfseries NR\+::trnspt} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+INT}} \&iorder, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&n)
+\item 
+\mbox{\Hypertarget{nr_8h_a586892538d6d03cea04d8c3fe1c6bb24}\label{nr_8h_a586892538d6d03cea04d8c3fe1c6bb24}} 
+void {\bfseries NR\+::ttest} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data2, DP \&t, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_abd90c424ce9176090408d69f51affa4f}\label{nr_8h_abd90c424ce9176090408d69f51affa4f}} 
+void {\bfseries NR\+::tutest} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data2, DP \&t, DP \&prob)
+\item 
+\mbox{\Hypertarget{nr_8h_aee6d9d1d627803bba537f37efaa5e68b}\label{nr_8h_aee6d9d1d627803bba537f37efaa5e68b}} 
+void {\bfseries NR\+::twofft} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&data2, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&fft1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&fft2)
+\item 
+\mbox{\Hypertarget{nr_8h_acd42c7b9c5541ac69c6fd5728e560c7f}\label{nr_8h_acd42c7b9c5541ac69c6fd5728e560c7f}} 
+void {\bfseries NR\+::vander} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&x, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&q)
+\item 
+\mbox{\Hypertarget{nr_8h_a95a3ea0afc3cb560bd8cd72cc112840c}\label{nr_8h_a95a3ea0afc3cb560bd8cd72cc112840c}} 
+void {\bfseries NR\+::vegas} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&regn, DP fxn(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&, const DP), const int init, const int ncall, const int itmx, const int nprn, DP \&tgral, DP \&sd, DP \&chi2a)
+\item 
+\mbox{\Hypertarget{nr_8h_a7a4c7656e6a76336fb4d33e46f9c556c}\label{nr_8h_a7a4c7656e6a76336fb4d33e46f9c556c}} 
+void {\bfseries NR\+::voltra} (const DP t0, const DP h, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&t, \mbox{\hyperlink{class_n_r_mat}{Mat\+\_\+\+O\+\_\+\+DP}} \&f, DP g(const int, const DP), DP ak(const int, const int, const DP, const DP))
+\item 
+\mbox{\Hypertarget{nr_8h_adf8819d18e13fefed2454ef15c091a5d}\label{nr_8h_adf8819d18e13fefed2454ef15c091a5d}} 
+void {\bfseries NR\+::wt1} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&a, const int isign, void wtstep(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, const int, const int))
+\item 
+\mbox{\Hypertarget{nr_8h_a2eeb46a9d50e58e09b864b3b8f21ab5b}\label{nr_8h_a2eeb46a9d50e58e09b864b3b8f21ab5b}} 
+void {\bfseries NR\+::wtn} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+INT}} \&nn, const int isign, void wtstep(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+IO\+\_\+\+DP}} \&, const int, const int))
+\item 
+\mbox{\Hypertarget{nr_8h_a58e63db23848e90d1a5db7af79dda323}\label{nr_8h_a58e63db23848e90d1a5db7af79dda323}} 
+void {\bfseries NR\+::wwghts} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&wghts, const DP h, void kermom(\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&w, const DP y))
+\item 
+\mbox{\Hypertarget{nr_8h_a4dbd7cac092f614af934413917fc22d4}\label{nr_8h_a4dbd7cac092f614af934413917fc22d4}} 
+bool {\bfseries NR\+::zbrac} (DP func(const DP), DP \&x1, DP \&x2)
+\item 
+\mbox{\Hypertarget{nr_8h_ac611c5e25767065397e735aab1a07bf8}\label{nr_8h_ac611c5e25767065397e735aab1a07bf8}} 
+void {\bfseries NR\+::zbrak} (DP fx(const DP), const DP x1, const DP x2, const int n, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&xb1, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+DP}} \&xb2, int \&nroot)
+\item 
+\mbox{\Hypertarget{nr_8h_a65e397db7c70abaac50b73cd18a8b8ae}\label{nr_8h_a65e397db7c70abaac50b73cd18a8b8ae}} 
+DP {\bfseries NR\+::zbrent} (DP func(const DP), const DP x1, const DP x2, const DP tol)
+\item 
+\mbox{\Hypertarget{nr_8h_a07f1329337e99d2666332950c702b2c7}\label{nr_8h_a07f1329337e99d2666332950c702b2c7}} 
+void {\bfseries NR\+::zrhqr} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+CPLX\+\_\+\+DP}} \&rt)
+\item 
+\mbox{\Hypertarget{nr_8h_a13232764cfbf0d7a5acabe727c7109bd}\label{nr_8h_a13232764cfbf0d7a5acabe727c7109bd}} 
+DP {\bfseries NR\+::zriddr} (DP func(const DP), const DP x1, const DP x2, const DP xacc)
+\item 
+\mbox{\Hypertarget{nr_8h_a7c019f6e455600b25e89123914373a23}\label{nr_8h_a7c019f6e455600b25e89123914373a23}} 
+void {\bfseries NR\+::zroots} (\mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+I\+\_\+\+CPLX\+\_\+\+DP}} \&a, \mbox{\hyperlink{class_n_r_vec}{Vec\+\_\+\+O\+\_\+\+CPLX\+\_\+\+DP}} \&roots, const bool \&polish)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Numerical Recipes header file. 
+
+\begin{DoxyAuthor}{Author}
+Francis Otani 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+
+\end{DoxyDate}

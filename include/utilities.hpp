@@ -1,3 +1,13 @@
+//Doxygen
+/**
+* @file   utilities.hpp
+* @brief    Utilities header file
+* @author   Francis Otani
+* @date
+* @details
+*/
+
+
 #ifndef _UTILITIES_H_
 #define _UTILITIES_H_
 

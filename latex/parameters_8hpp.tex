@@ -1,0 +1,344 @@
+\hypertarget{parameters_8hpp}{}\doxysection{include/parameters.hpp File Reference}
+\label{parameters_8hpp}\index{include/parameters.hpp@{include/parameters.hpp}}
+
+
+Parameters header file.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$omp.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}nr.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}equations.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}uc.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$json.\+hpp$>$}\newline
+Include dependency graph for parameters.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{parameters_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{parameters_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_aa3ae244f9af62cce899d874a4c4a5417}\label{parameters_8hpp_aa3ae244f9af62cce899d874a4c4a5417}} 
+\#define {\bfseries par\+\_\+set\+\_\+num\+\_\+rm}~1
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a6261e2b77f749cfe72cc049518fb0409}\label{parameters_8hpp_a6261e2b77f749cfe72cc049518fb0409}} 
+\#define {\bfseries par\+\_\+set\+\_\+num}~1
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a69ec212ed5eb07e7a24e5d652065e905}\label{parameters_8hpp_a69ec212ed5eb07e7a24e5d652065e905}} 
+\#define {\bfseries GNORMAL}~0.\+0
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ae8b5b16e5604338f5f4c9331f2ec14a9}\label{parameters_8hpp_ae8b5b16e5604338f5f4c9331f2ec14a9}} 
+\#define {\bfseries GLARGE}~1.\+0E-\/10
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a9a01fe41cdb4d6963456e3cf9a0acab1}\label{parameters_8hpp_a9a01fe41cdb4d6963456e3cf9a0acab1}} 
+\#define {\bfseries GLARGE2}~1.\+0E-\/10
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a2fc12d4ef436d28148768973458f06b4}\label{parameters_8hpp_a2fc12d4ef436d28148768973458f06b4}} 
+\#define {\bfseries CN\+\_\+par}~0.\+04
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ab2e7906a5b455f79e7f2989a1df32590}\label{parameters_8hpp_ab2e7906a5b455f79e7f2989a1df32590}} 
+\#define {\bfseries mu\+\_\+par}~2.\+04E-\/3
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a2bc8f8668012f7e6cb3e59b24624e39e}\label{parameters_8hpp_a2bc8f8668012f7e6cb3e59b24624e39e}} 
+\#define {\bfseries Cv\+\_\+par}~4.\+7E-\/4
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a0a844af67f9e7c3a611deffdec2c40da}\label{parameters_8hpp_a0a844af67f9e7c3a611deffdec2c40da}} 
+\#define {\bfseries M\+\_\+par}~1.\+17
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a5685a83c794b2f003462c17c90fa232b}\label{parameters_8hpp_a5685a83c794b2f003462c17c90fa232b}} 
+\#define {\bfseries m\+\_\+par}~2.\+0
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a34678a8e150fcfa472c615b78638f558}\label{parameters_8hpp_a34678a8e150fcfa472c615b78638f558}} 
+\#define {\bfseries n\+\_\+par}~4.\+0
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a5b08d73216dbd977d87dd7d125571475}\label{parameters_8hpp_a5b08d73216dbd977d87dd7d125571475}} 
+\#define {\bfseries g\+\_\+par}~2.\+0E-\/5
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a3886826c5f6dfa4f8f9d8fddb90eb495}\label{parameters_8hpp_a3886826c5f6dfa4f8f9d8fddb90eb495}} 
+\#define {\bfseries BEGIN\+\_\+\+EFOLD}~-\/136.\+75
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a9031b199ef8f86f0751f9e0f3d2f9039}\label{parameters_8hpp_a9031b199ef8f86f0751f9e0f3d2f9039}} 
+\#define {\bfseries UNPERT\+\_\+\+EFOLD}~-\/108.
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ac42081b5456ef9ff40bb7dd69b9a4942}\label{parameters_8hpp_ac42081b5456ef9ff40bb7dd69b9a4942}} 
+\#define {\bfseries NEWINF\+\_\+\+END\+\_\+\+EFOLD}~-\/61.\+5
+\item 
+\mbox{\Hypertarget{parameters_8hpp_acd9c75e178dcaf1fad5c21c6d43d05d6}\label{parameters_8hpp_acd9c75e178dcaf1fad5c21c6d43d05d6}} 
+\#define {\bfseries END\+\_\+\+EFOLD}~-\/57.
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a5fad0a0e5576bbbf622a94b357ad1197}\label{parameters_8hpp_a5fad0a0e5576bbbf622a94b357ad1197}} 
+\#define {\bfseries dla}~1.\+0E-\/5
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a687a288aa33e1ff92a72c9d009370ec3}\label{parameters_8hpp_a687a288aa33e1ff92a72c9d009370ec3}} 
+\#define {\bfseries itvl}~1000.
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ae6938caa6cd2a59f4fc58ced6bc0539f}\label{parameters_8hpp_ae6938caa6cd2a59f4fc58ced6bc0539f}} 
+\#define {\bfseries sigma\+\_\+init}~0.\+4
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a4bf6a1e750d841477978a43a04c4f062}\label{parameters_8hpp_a4bf6a1e750d841477978a43a04c4f062}} 
+\#define {\bfseries dim}~1
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ab701e3ac61a85b337ec5c1abaad6742d}\label{parameters_8hpp_ab701e3ac61a85b337ec5c1abaad6742d}} 
+using {\bfseries json} = \mbox{\hyperlink{namespacenlohmann_a2bfd99e845a2e5cd90aeaf1b1431f474}{nlohmann\+::json}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a4ea1c5b38331aa773be9beddb956727f}\label{parameters_8hpp_a4ea1c5b38331aa773be9beddb956727f}} 
+double {\bfseries pw2} (double x)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_aa8e240000518606170d734b1fb9a5851}\label{parameters_8hpp_aa8e240000518606170d734b1fb9a5851}} 
+std\+::string {\bfseries par\+\_\+set\+\_\+name}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a787d64040df4846231d4948213e2c0fa}\label{parameters_8hpp_a787d64040df4846231d4948213e2c0fa}} 
+std\+::string {\bfseries par\+\_\+set\+\_\+name\+\_\+rm}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a6567bdef69cdb0b8f9ff83b3c6873638}\label{parameters_8hpp_a6567bdef69cdb0b8f9ff83b3c6873638}} 
+bool {\bfseries exist\+\_\+par\+\_\+set\+\_\+rmall\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_abcb71b38e27d35be6e0c726a37b4bf15}\label{parameters_8hpp_abcb71b38e27d35be6e0c726a37b4bf15}} 
+std\+::string {\bfseries exist\+\_\+filename\+\_\+zero}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_acb176857ac274c6d5f1b8b799657edbf}\label{parameters_8hpp_acb176857ac274c6d5f1b8b799657edbf}} 
+std\+::string {\bfseries new\+\_\+filename\+\_\+zero}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a5f48a574d774ee68678950ff2a8745b4}\label{parameters_8hpp_a5f48a574d774ee68678950ff2a8745b4}} 
+std\+::string {\bfseries exist\+\_\+dirname\+\_\+k}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a50f91de24857ca8d814a591ea3972e8e}\label{parameters_8hpp_a50f91de24857ca8d814a591ea3972e8e}} 
+std\+::string {\bfseries new\+\_\+dirname\+\_\+k}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a6b4e53fa88a1a1630aff4803f12a17e4}\label{parameters_8hpp_a6b4e53fa88a1a1630aff4803f12a17e4}} 
+std\+::string {\bfseries filename\+\_\+k}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_adbf67d0f7854d93c2efd475f4217c4d9}\label{parameters_8hpp_adbf67d0f7854d93c2efd475f4217c4d9}} 
+std\+::string {\bfseries exist\+\_\+filename\+\_\+sp}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ab628840a8df2209a1b94069e501cb764}\label{parameters_8hpp_ab628840a8df2209a1b94069e501cb764}} 
+std\+::string {\bfseries new\+\_\+filename\+\_\+sp}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_abf0a18531934f2a944bfbcfaa5c0e4d0}\label{parameters_8hpp_abf0a18531934f2a944bfbcfaa5c0e4d0}} 
+std\+::string {\bfseries new\+\_\+filename\+\_\+spbfosc}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ad03c499bb88af39f589bc3957a3e23f9}\label{parameters_8hpp_ad03c499bb88af39f589bc3957a3e23f9}} 
+std\+::string {\bfseries exist\+\_\+filename\+\_\+spbfosc}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a7ca58379e3537359b4aa9cfc963cda73}\label{parameters_8hpp_a7ca58379e3537359b4aa9cfc963cda73}} 
+bool {\bfseries k\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ae9a01b9d1856f42d3f6fa3827e247f22}\label{parameters_8hpp_ae9a01b9d1856f42d3f6fa3827e247f22}} 
+bool {\bfseries zeromode\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_af594019f12a9f01a479639d9ef5021d1}\label{parameters_8hpp_af594019f12a9f01a479639d9ef5021d1}} 
+bool {\bfseries perturbation\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ab3e14303b2e47ce01eeedd73be92085d}\label{parameters_8hpp_ab3e14303b2e47ce01eeedd73be92085d}} 
+const int {\bfseries N\+\_\+zero}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_aaa6f254de54278bd761693915d6c626a}\label{parameters_8hpp_aaa6f254de54278bd761693915d6c626a}} 
+const int {\bfseries N\+\_\+pert}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_aec90dcf1d64d1ec370e58c80b8571ffa}\label{parameters_8hpp_aec90dcf1d64d1ec370e58c80b8571ffa}} 
+int {\bfseries k\+\_\+target}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a3b79977b3357389425aa2500860734c1}\label{parameters_8hpp_a3b79977b3357389425aa2500860734c1}} 
+DP {\bfseries sigma\+\_\+c}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a2fa1055b884057f02dc846f6ae833c34}\label{parameters_8hpp_a2fa1055b884057f02dc846f6ae833c34}} 
+DP {\bfseries FIXPHI}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a7f25928c8833dd85edf3ab42c3edfc81}\label{parameters_8hpp_a7f25928c8833dd85edf3ab42c3edfc81}} 
+DP {\bfseries FIXPSI}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_abb5c0a0e90f78dca22f56a9d5180f89d}\label{parameters_8hpp_abb5c0a0e90f78dca22f56a9d5180f89d}} 
+DP {\bfseries CNT}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_aba5d64614072d2d3896ac51e37b132d0}\label{parameters_8hpp_aba5d64614072d2d3896ac51e37b132d0}} 
+DP {\bfseries Gamma1}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_afd18c5eeacb4698192306ecad0aa89ea}\label{parameters_8hpp_afd18c5eeacb4698192306ecad0aa89ea}} 
+DP {\bfseries Gamma2}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a55feaeabccc51107c8c3f36f55771d6b}\label{parameters_8hpp_a55feaeabccc51107c8c3f36f55771d6b}} 
+DP {\bfseries Gamma3}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a7d52c13c6f7b5b069127160e7e5cdbfd}\label{parameters_8hpp_a7d52c13c6f7b5b069127160e7e5cdbfd}} 
+DP {\bfseries OSCSTART}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a37d814ebf3ed41b435f38682562de962}\label{parameters_8hpp_a37d814ebf3ed41b435f38682562de962}} 
+double {\bfseries msigma}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a523bd14b533af44e1aa4e2244fe7bb31}\label{parameters_8hpp_a523bd14b533af44e1aa4e2244fe7bb31}} 
+std\+::vector$<$ int $>$ {\bfseries knum\+\_\+zero}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_af8534973245d937b95cb376cd51ec813}\label{parameters_8hpp_af8534973245d937b95cb376cd51ec813}} 
+bool {\bfseries kanalyze\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_af00f0492c04eeb9880979251c8a4a796}\label{parameters_8hpp_af00f0492c04eeb9880979251c8a4a796}} 
+bool {\bfseries spectrum\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_aab61752863f20a4be9d4069f2b058727}\label{parameters_8hpp_aab61752863f20a4be9d4069f2b058727}} 
+bool {\bfseries spectrum\+\_\+bfosc\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ab4062c66e4aef192d3df4ba7c00b9310}\label{parameters_8hpp_ab4062c66e4aef192d3df4ba7c00b9310}} 
+DP {\bfseries kfrom\+\_\+\+Mpc}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_aa93e1103baa74f9187e828f6dc92fec0}\label{parameters_8hpp_aa93e1103baa74f9187e828f6dc92fec0}} 
+DP {\bfseries kto\+\_\+\+Mpc}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a863a4f252c97a1d866e6eef7edb225c2}\label{parameters_8hpp_a863a4f252c97a1d866e6eef7edb225c2}} 
+int {\bfseries kinterval\+\_\+knum}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_adb479bb0e29f4033a263182bdbcf148e}\label{parameters_8hpp_adb479bb0e29f4033a263182bdbcf148e}} 
+bool {\bfseries lattice\+\_\+kmodes\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a70325cd29b7e2e43fed5a7550d3c2d9d}\label{parameters_8hpp_a70325cd29b7e2e43fed5a7550d3c2d9d}} 
+std\+::string {\bfseries exist\+\_\+dirname\+\_\+ed}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a1dc9310ca063a024f56abf1c5b107db7}\label{parameters_8hpp_a1dc9310ca063a024f56abf1c5b107db7}} 
+std\+::string {\bfseries new\+\_\+dirname\+\_\+ed}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a06bcbacba6d232e077a7fb5cabe67c43}\label{parameters_8hpp_a06bcbacba6d232e077a7fb5cabe67c43}} 
+std\+::string {\bfseries exist\+\_\+dirname\+\_\+f}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a0bb4a87e8751f6f32d803964e917ea71}\label{parameters_8hpp_a0bb4a87e8751f6f32d803964e917ea71}} 
+std\+::string {\bfseries new\+\_\+dirname\+\_\+f}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_af20747d6869b16ac6a048e0f89e6c8d4}\label{parameters_8hpp_af20747d6869b16ac6a048e0f89e6c8d4}} 
+std\+::string {\bfseries exist\+\_\+filename\+\_\+status}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a3287ad36be036297aaa03aafe287a227}\label{parameters_8hpp_a3287ad36be036297aaa03aafe287a227}} 
+std\+::string {\bfseries new\+\_\+filename\+\_\+status}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a8e982c6134d099bb2c7bb9dbe682bade}\label{parameters_8hpp_a8e982c6134d099bb2c7bb9dbe682bade}} 
+std\+::string {\bfseries exist\+\_\+dirname\+\_\+k\+\_\+lattice}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a104a349f527cf030bf40bb1ad952b003}\label{parameters_8hpp_a104a349f527cf030bf40bb1ad952b003}} 
+std\+::string {\bfseries new\+\_\+dirname\+\_\+k\+\_\+lattice}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ae3cc341bb5a2faa8b3f8acce730d22a2}\label{parameters_8hpp_ae3cc341bb5a2faa8b3f8acce730d22a2}} 
+std\+::string {\bfseries filename\+\_\+k\+\_\+lattice}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a7722c8ecbb62d99aee7ce68b1752f337}\label{parameters_8hpp_a7722c8ecbb62d99aee7ce68b1752f337}} 
+int {\bfseries N}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a5cc4617edddced1219fd0af588bf90c9}\label{parameters_8hpp_a5cc4617edddced1219fd0af588bf90c9}} 
+bool {\bfseries k\+\_\+lattice\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a63440cf96b8392de0dde91290d7bceaa}\label{parameters_8hpp_a63440cf96b8392de0dde91290d7bceaa}} 
+bool {\bfseries k\+\_\+lattice\+\_\+startfromlattice\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ad7ee2983bcb23b0d70c6798363991f66}\label{parameters_8hpp_ad7ee2983bcb23b0d70c6798363991f66}} 
+bool {\bfseries latticerange\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a8f69c3023e8b554006cb8ea1c5898bb0}\label{parameters_8hpp_a8f69c3023e8b554006cb8ea1c5898bb0}} 
+bool {\bfseries initialize\+\_\+perturb\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a97d0d86136bd1762d5b157bcad3794ac}\label{parameters_8hpp_a97d0d86136bd1762d5b157bcad3794ac}} 
+int {\bfseries fluc\+\_\+calc\+\_\+switch}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a3e74fa80ee85a1bedd8bf09641a61801}\label{parameters_8hpp_a3e74fa80ee85a1bedd8bf09641a61801}} 
+double {\bfseries kfrom\+\_\+\+Mpc\+\_\+lattice}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_acbddf58646f1897629ab7f8a1dd022db}\label{parameters_8hpp_acbddf58646f1897629ab7f8a1dd022db}} 
+double {\bfseries kto\+\_\+\+Mpc\+\_\+lattice}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a2095e90fd7a2a978308e244bfadef745}\label{parameters_8hpp_a2095e90fd7a2a978308e244bfadef745}} 
+double {\bfseries kfrom\+\_\+\+MPl\+\_\+lattice}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a037b601a54df1dd4d052981f5dfae330}\label{parameters_8hpp_a037b601a54df1dd4d052981f5dfae330}} 
+double {\bfseries kto\+\_\+\+MPl\+\_\+lattice}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ac86bc95d05573e8c3c33700d967a0ee6}\label{parameters_8hpp_ac86bc95d05573e8c3c33700d967a0ee6}} 
+double {\bfseries k\+\_\+lattice\+\_\+grid\+\_\+min\+\_\+\+MPl}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a47be9ec5b289bd2ddcf8b9eedcb274ae}\label{parameters_8hpp_a47be9ec5b289bd2ddcf8b9eedcb274ae}} 
+double {\bfseries k\+\_\+lattice\+\_\+grid\+\_\+max\+\_\+\+MPl}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a884d73b7911b81ccd74ca8c28b779687}\label{parameters_8hpp_a884d73b7911b81ccd74ca8c28b779687}} 
+int {\bfseries outrange\+\_\+num}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a4b16e6a64c929dd9e47a3c5c310b4c82}\label{parameters_8hpp_a4b16e6a64c929dd9e47a3c5c310b4c82}} 
+int {\bfseries latticerange\+\_\+num}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a09b6a8d6828bf27a2194d8e4c6cc33a6}\label{parameters_8hpp_a09b6a8d6828bf27a2194d8e4c6cc33a6}} 
+int {\bfseries rnd}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ac0ae3334b9e17a8fd23ad6fd3a032034}\label{parameters_8hpp_ac0ae3334b9e17a8fd23ad6fd3a032034}} 
+int {\bfseries num\+\_\+fields}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a08963f7335eef295237ab460863bc3d5}\label{parameters_8hpp_a08963f7335eef295237ab460863bc3d5}} 
+int {\bfseries num\+\_\+threads}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a68d4a569f1ca6d7d2e267c0251974b64}\label{parameters_8hpp_a68d4a569f1ca6d7d2e267c0251974b64}} 
+const double {\bfseries initfield} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a4d4a85e206a928788836f747c0325d5d}\label{parameters_8hpp_a4d4a85e206a928788836f747c0325d5d}} 
+const double {\bfseries initderivs} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a6bcf1044276f25375fc0119b42428c97}\label{parameters_8hpp_a6bcf1044276f25375fc0119b42428c97}} 
+double {\bfseries Hinitial\+\_\+pr}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ab50ed4bd2c936265c82d528c75c9d89e}\label{parameters_8hpp_ab50ed4bd2c936265c82d528c75c9d89e}} 
+int {\bfseries output\+\_\+step}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_ae27569894e6c6b4fb3d4374255e073aa}\label{parameters_8hpp_ae27569894e6c6b4fb3d4374255e073aa}} 
+int {\bfseries total\+\_\+step}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a7159f4ef2915aa29a4f5462119edbf27}\label{parameters_8hpp_a7159f4ef2915aa29a4f5462119edbf27}} 
+int {\bfseries max\+\_\+loop}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a7e75fbbeb1b47abd322a90bf6b5b42ea}\label{parameters_8hpp_a7e75fbbeb1b47abd322a90bf6b5b42ea}} 
+int {\bfseries st\+\_\+output\+\_\+step}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a315ac4fb64466e57315ded00b1876557}\label{parameters_8hpp_a315ac4fb64466e57315ded00b1876557}} 
+int {\bfseries st\+\_\+max\+\_\+loop}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a2a6d90c736b9e880fad815952157136f}\label{parameters_8hpp_a2a6d90c736b9e880fad815952157136f}} 
+double {\bfseries t0}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_a03e28be41881b703c836edbfe9b51b17}\label{parameters_8hpp_a03e28be41881b703c836edbfe9b51b17}} 
+double {\bfseries dt}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_acbe2cad50d14232e9b3585177b04176e}\label{parameters_8hpp_acbe2cad50d14232e9b3585177b04176e}} 
+const int {\bfseries expansion}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_af5d6cb985ffb3bfead1239c709e39804}\label{parameters_8hpp_af5d6cb985ffb3bfead1239c709e39804}} 
+const int {\bfseries precision}
+\item 
+\mbox{\Hypertarget{parameters_8hpp_aaa9f7f4eca581d84cc78b7f09972ceda}\label{parameters_8hpp_aaa9f7f4eca581d84cc78b7f09972ceda}} 
+const int {\bfseries screen\+\_\+latticeloop\+\_\+number}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Parameters header file. 
+
+\begin{DoxyAuthor}{Author}
+Francis Otani 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+
+\end{DoxyDate}

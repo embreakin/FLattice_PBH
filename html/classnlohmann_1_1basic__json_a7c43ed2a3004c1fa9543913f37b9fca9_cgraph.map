@@ -1,0 +1,13 @@
+<map id="nlohmann::basic_json::merge_patch" name="nlohmann::basic_json::merge_patch">
+<area shape="rect" id="node1" title="applies a JSON Merge Patch" alt="" coords="5,152,153,192"/>
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#a0ff28dac23f2bdecee9564d07f51dcdc" title="returns an iterator to the first element" alt="" coords="201,5,349,45"/>
+<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#a13e032a02a7fd8a93fdddc2fcbc4763c" title="returns an iterator to one past the last element" alt="" coords="397,70,575,95"/>
+<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#a068a16e76be178e83da6a192916923ed" title="remove element given an iterator" alt="" coords="201,120,349,160"/>
+<area shape="rect" id="node7" href="$classnlohmann_1_1basic__json.html#af8f511af124e82e4579f444b4175787c" title="return whether value is an object" alt="" coords="201,184,349,224"/>
+<area shape="rect" id="node8" href="$classnlohmann_1_1basic__json.html#aaf509a7c029100d292187068f61c99b8" title="explicitly create an object from an initializer list" alt="" coords="201,248,349,288"/>
+<area shape="rect" id="node9" href="$classnlohmann_1_1basic__json.html#ac871e3b03fb2eeca9a8de4db2bea760f" title="access specified array element" alt="" coords="201,312,349,352"/>
+<area shape="rect" id="node5" href="$classnlohmann_1_1basic__json.html#a69b596a4a6683b362095c9a139637396" title="return whether value is a string" alt="" coords="412,120,560,160"/>
+<area shape="rect" id="node6" href="$classnlohmann_1_1basic__json.html#a521d4e91a5dfe4dc5de4629235ca2291" title="return the type as string" alt="" coords="412,200,560,240"/>
+<area shape="rect" id="node10" href="$classnlohmann_1_1basic__json.html#aef9ce5dd2381caee1f8ddcdb5bdd9c65" title="return whether value is an array" alt="" coords="412,296,560,336"/>
+<area shape="rect" id="node11" href="$classnlohmann_1_1basic__json.html#a8faa039ca82427ed29c486ffd00600c3" title="return whether value is null" alt="" coords="412,360,560,400"/>
+</map>

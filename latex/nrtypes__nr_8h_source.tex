@@ -1,0 +1,96 @@
+\hypertarget{nrtypes__nr_8h_source}{}\doxysection{nrtypes\+\_\+nr.\+h}
+\label{nrtypes__nr_8h_source}\index{include/nrtypes\_nr.h@{include/nrtypes\_nr.h}}
+\mbox{\hyperlink{nrtypes__nr_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//Doxygen}}
+\DoxyCodeLine{10 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef \_NR\_TYPES\_H\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_NR\_TYPES\_H\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{nrutil__nr_8h}{nrutil\_nr.h}}"{}}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{typedef} \textcolor{keywordtype}{double} DP;}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{comment}{// Vector Types}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<bool>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_BOOL}};}
+\DoxyCodeLine{20 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<bool>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_BOOL}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_BOOL}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_BOOL}};}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<char>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_CHR}};}
+\DoxyCodeLine{23 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<char>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_CHR}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_CHR}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_CHR}};}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned char>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UCHR}};}
+\DoxyCodeLine{26 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned char>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_UCHR}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UCHR}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_UCHR}};}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<int>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_INT}};}
+\DoxyCodeLine{29 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<int>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_INT}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_INT}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_INT}};}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned int>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_UINT}};}
+\DoxyCodeLine{32 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned int>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_UINT}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_UINT}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_UINT}};}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<long>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_LNG}};}
+\DoxyCodeLine{35 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<long>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_LNG}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_LNG}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_LNG}};}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_ULNG}};}
+\DoxyCodeLine{38 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_ULNG}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_ULNG}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_ULNG}};}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<float>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_SP}};}
+\DoxyCodeLine{41 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<float>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_SP}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_SP}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_SP}};}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<DP>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_DP}};}
+\DoxyCodeLine{44 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<DP>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_DP}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_DP}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_DP}};}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<std::complex<float>}} > \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_CPLX\_SP}};}
+\DoxyCodeLine{47 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<std::complex<float>}} > \mbox{\hyperlink{class_n_r_vec}{Vec\_CPLX\_SP}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_CPLX\_SP}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_CPLX\_SP}};}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<std::complex<DP>}} > \mbox{\hyperlink{class_n_r_vec}{Vec\_I\_CPLX\_DP}};}
+\DoxyCodeLine{50 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<std::complex<DP>}} > \mbox{\hyperlink{class_n_r_vec}{Vec\_CPLX\_DP}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_O\_CPLX\_DP}}, \mbox{\hyperlink{class_n_r_vec}{Vec\_IO\_CPLX\_DP}};}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{comment}{// Matrix Types}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<bool>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_BOOL}};}
+\DoxyCodeLine{55 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<bool>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_BOOL}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_BOOL}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_BOOL}};}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<char>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_CHR}};}
+\DoxyCodeLine{58 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<char>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_CHR}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_CHR}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_CHR}};}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<unsigned char>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_UCHR}};}
+\DoxyCodeLine{61 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<unsigned char>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_UCHR}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_UCHR}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_UCHR}};}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<int>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_INT}};}
+\DoxyCodeLine{64 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<int>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_INT}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_INT}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_INT}};}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<unsigned int>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_UINT}};}
+\DoxyCodeLine{67 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<unsigned int>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_UINT}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_UINT}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_UINT}};}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<long>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_LNG}};}
+\DoxyCodeLine{70 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<long>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_LNG}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_LNG}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_LNG}};}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long>}} \mbox{\hyperlink{class_n_r_vec}{Mat\_I\_ULNG}};}
+\DoxyCodeLine{73 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<unsigned long>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_ULNG}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_ULNG}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_ULNG}};}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<float>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_SP}};}
+\DoxyCodeLine{76 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<float>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_SP}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_SP}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_SP}};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<DP>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_DP}};}
+\DoxyCodeLine{79 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<DP>}} \mbox{\hyperlink{class_n_r_mat}{Mat\_DP}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_DP}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_DP}};}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<std::complex<float>}} > \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_CPLX\_SP}};}
+\DoxyCodeLine{82 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<std::complex<float>}} > \mbox{\hyperlink{class_n_r_mat}{Mat\_CPLX\_SP}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_CPLX\_SP}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_CPLX\_SP}};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat}{NRMat<std::complex<DP>}} > \mbox{\hyperlink{class_n_r_mat}{Mat\_I\_CPLX\_DP}};}
+\DoxyCodeLine{85 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat}{NRMat<std::complex<DP>}} > \mbox{\hyperlink{class_n_r_mat}{Mat\_CPLX\_DP}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_O\_CPLX\_DP}}, \mbox{\hyperlink{class_n_r_mat}{Mat\_IO\_CPLX\_DP}};}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87 \textcolor{comment}{// 3D Matrix Types}}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<DP>}} \mbox{\hyperlink{class_n_r_mat3d}{Mat3D\_I\_DP}};}
+\DoxyCodeLine{90 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_mat3d}{NRMat3d<DP>}} \mbox{\hyperlink{class_n_r_mat3d}{Mat3D\_DP}}, \mbox{\hyperlink{class_n_r_mat3d}{Mat3D\_O\_DP}}, \mbox{\hyperlink{class_n_r_mat3d}{Mat3D\_IO\_DP}};}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92 \textcolor{comment}{// Miscellaneous Types}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<unsigned long *>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_ULNG\_p}};}
+\DoxyCodeLine{95 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<NRMat<DP>}} *> \mbox{\hyperlink{class_n_r_vec}{Vec\_Mat\_DP\_p}};}
+\DoxyCodeLine{96 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_n_r_vec}{NRVec<std::fstream *>}} \mbox{\hyperlink{class_n_r_vec}{Vec\_FSTREAM\_p}};}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_NR\_TYPES\_H\_ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}
