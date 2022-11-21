@@ -1,15 +1,14 @@
 <map id="include/lattice_include/lattice.hpp" name="include/lattice_include/lattice.hpp">
-<area shape="rect" id="node1" title="Lattice header file." alt="" coords="552,5,703,45"/>
-<area shape="rect" id="node2" href="$lattice__evol_8hpp.html" title="Lattice evolution header file." alt="" coords="496,93,647,133"/>
-<area shape="rect" id="node5" href="$main_8cpp.html" title="Main source file." alt="" coords="797,453,871,478"/>
-<area shape="rect" id="node3" href="$lattice__calc_8hpp.html" title="Lattice calclulation header file." alt="" coords="428,269,579,309"/>
-<area shape="rect" id="node7" href="$lattice__evol_8cpp.html" title="Lattice evolution source file." alt="" coords="629,445,772,485"/>
-<area shape="rect" id="node12" href="$lattice__field_8hpp.html" title="Lattice field header file." alt="" coords="383,181,533,221"/>
-<area shape="rect" id="node4" href="$utilities_8hpp.html" title="Utilities header file." alt="" coords="466,365,599,390"/>
-<area shape="rect" id="node11" href="$lattice__calc_8cpp.html" title="Lattice calculation source file." alt="" coords="299,357,441,397"/>
-<area shape="rect" id="node6" href="$calculation_8cpp.html" title="Calculation source file." alt="" coords="474,453,605,478"/>
-<area shape="rect" id="node8" href="$lattice__field_8cpp.html" title="Lattice field source file." alt="" coords="5,445,148,485"/>
-<area shape="rect" id="node9" href="$lattice__initialize_8cpp.html" title="Lattice source file." alt="" coords="172,445,315,485"/>
-<area shape="rect" id="node10" href="$utilities_8cpp.html" title="Utilities source file." alt="" coords="339,453,449,478"/>
-<area shape="rect" id="node13" href="$lattice__initialize_8hpp.html" title="Lattice initialization header file." alt="" coords="204,269,355,309"/>
+<area shape="rect" id="node1" title="Lattice header file." alt="" coords="34,5,185,45"/>
+<area shape="rect" id="node2" href="$lattice__evol_8hpp.html" title="Lattice evolution header file." alt="" coords="187,93,338,133"/>
+<area shape="rect" id="node5" href="$main_8cpp.html" title="Main source file." alt="" coords="5,365,80,390"/>
+<area shape="rect" id="node3" href="$lattice__calc_8hpp.html" title="Lattice calclulation header file." alt="" coords="275,181,426,221"/>
+<area shape="rect" id="node7" href="$lattice__evol_8cpp.html" title="Lattice evolution source file." alt="" coords="729,357,871,397"/>
+<area shape="rect" id="node12" href="$lattice__initialize_8hpp.html" title="Lattice initialization header file." alt="" coords="101,181,251,221"/>
+<area shape="rect" id="node4" href="$utilities_8hpp.html" title="Utilities header file." alt="" coords="393,277,527,302"/>
+<area shape="rect" id="node11" href="$lattice__calc_8cpp.html" title="Lattice calculation source file." alt="" coords="226,269,369,309"/>
+<area shape="rect" id="node6" href="$calculation_8cpp.html" title="Calculation source file." alt="" coords="407,365,537,390"/>
+<area shape="rect" id="node8" href="$lattice__field_8cpp.html" title="Lattice field source file." alt="" coords="562,357,705,397"/>
+<area shape="rect" id="node9" href="$lattice__initialize_8cpp.html" title="Lattice source file." alt="" coords="105,357,247,397"/>
+<area shape="rect" id="node10" href="$utilities_8cpp.html" title="Utilities source file." alt="" coords="271,365,382,390"/>
 </map>

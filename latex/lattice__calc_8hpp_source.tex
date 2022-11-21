@@ -63,7 +63,7 @@
 \DoxyCodeLine{67     }
 \DoxyCodeLine{68 \textcolor{preprocessor}{       \#pragma omp declare simd}}
 \DoxyCodeLine{69         \textcolor{keywordtype}{double} kinetic\_energy\_eachpoint( \textcolor{keywordtype}{double}** f , \textcolor{keywordtype}{double}** df, \textcolor{keywordtype}{int} i, \textcolor{keywordtype}{int} idx, \textcolor{keywordtype}{double} a = 1, \textcolor{keywordtype}{double} da = 0 )}
-\DoxyCodeLine{70         \{   \textcolor{keywordflow}{return} pow(df[i][idx]*a -\/ f[i][idx]*da, 2)/(2*pow(a,2)); \}}
+\DoxyCodeLine{70         \{   \textcolor{keywordflow}{return} pow(df[i][idx]*a -\/ f[i][idx]*da, 2.0)/(2*pow(a,2.0)); \}}
 \DoxyCodeLine{71 }
 \DoxyCodeLine{72 \};}
 \DoxyCodeLine{73 }

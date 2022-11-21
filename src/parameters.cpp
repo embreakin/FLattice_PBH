@@ -25,7 +25,7 @@ bool exist_par_set_rmall_switch = true;//If this is true, the entire directory o
 //This is the name of the parameter set that you are about to simulate
 std::string par_set_name = par_set[par_set_num]["Name"].get<std::string>();
 
-//This is the name of the parameter set that you have simulated previously
+//This is the name of the parameter set that you have simulated previously and will be removed
 std::string par_set_name_rm = par_set[par_set_num_rm]["Name"].get<std::string>();
 
 

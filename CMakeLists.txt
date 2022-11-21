@@ -1,6 +1,6 @@
 cmake_minimum_required ( VERSION 3.14 )
 
-project( FLattice CXX )
+project( FLattice_PBH CXX )
 
 # using Intel C++
 if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
@@ -16,21 +16,23 @@ set ( CMAKE_CXX_FLAGS " -Ofast -Wall  -fopenmp" ) #
 
 # using Clang
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-# libompのインストール先パスをbrewコマンドを実行して取得する.
+
+#Get the path where libomp is installed by executring the following:
 execute_process(COMMAND brew --prefix libomp
                 OUTPUT_VARIABLE OpenMP_HOME
                 OUTPUT_STRIP_TRAILING_WHITESPACE)
 message(STATUS "OpenMP Root : ${OpenMP_HOME}")
-# OpenMPのインストールチェック
+
+# Check if OpenMP is installed
 set(OpenMP_CXX_LIB_NAMES "omp")
 set(OpenMP_omp_LIBRARY "${OpenMP_HOME}/lib/")
-# キャッシュ変数なのでFORCEオプションをつける
+
+# The FORCE option is appended since it is a cash variable
 set(OpenMP_CXX_FLAGS "-Xpreprocessor -fopenmp -Wno-unused-command-line-argument -I${OpenMP_HOME}/include -lomp -L${OpenMP_omp_LIBRARY}" CACHE STRING "" FORCE)
 
 
-# libompがインストールされているかどうか.
+# Look for the libomp package.
 find_package(OpenMP)
-# 見つかったか？
 message(STATUS "OpenMP_CXX_Found : ${OpenMP_CXX_FOUND}")
 
 set(CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS} -Ofast ")

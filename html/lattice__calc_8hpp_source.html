@@ -137,14 +137,14 @@ $(function() {
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    </div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">       #pragma omp declare simd</span></div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordtype">double</span> kinetic_energy_eachpoint( <span class="keywordtype">double</span>** f , <span class="keywordtype">double</span>** df, <span class="keywordtype">int</span> i, <span class="keywordtype">int</span> idx, <span class="keywordtype">double</span> a = 1, <span class="keywordtype">double</span> da = 0 )</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        {   <span class="keywordflow">return</span> pow(df[i][idx]*a - f[i][idx]*da, 2)/(2*pow(a,2)); }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        {   <span class="keywordflow">return</span> pow(df[i][idx]*a - f[i][idx]*da, 2.0)/(2*pow(a,2.0)); }</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>};</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclass_energy_html"><div class="ttname"><a href="class_energy.html">Energy</a></div><div class="ttdef"><b>Definition:</b> lattice_calc.hpp:20</div></div>
 <div class="ttc" id="aclass_field_html"><div class="ttname"><a href="class_field.html">Field</a></div><div class="ttdef"><b>Definition:</b> lattice_field.hpp:19</div></div>
-<div class="ttc" id="aclass_leap_frog_html"><div class="ttname"><a href="class_leap_frog.html">LeapFrog</a></div><div class="ttdef"><b>Definition:</b> lattice_evol.hpp:17</div></div>
+<div class="ttc" id="aclass_leap_frog_html"><div class="ttname"><a href="class_leap_frog.html">LeapFrog</a></div><div class="ttdef"><b>Definition:</b> lattice_evol.hpp:19</div></div>
 <div class="ttc" id="alattice__evol_8hpp_html"><div class="ttname"><a href="lattice__evol_8hpp.html">lattice_evol.hpp</a></div><div class="ttdoc">Lattice evolution header file.</div></div>
 <div class="ttc" id="alattice__field_8hpp_html"><div class="ttname"><a href="lattice__field_8hpp.html">lattice_field.hpp</a></div><div class="ttdoc">Lattice field header file.</div></div>
 </div><!-- fragment --></div><!-- contents -->
