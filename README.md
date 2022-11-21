@@ -25,7 +25,7 @@ The following items are necessary and must be installed in your computer to run 
    - GCC (g++) 
    - Clang (also AppleClang).  
    
-   When compiling using Clang, one must also install the `libomp` library in order to use OpenMP.
+   When compiling using Clang, one must install the `libomp` library in order to use OpenMP.
 - FFTW  
    The `fftw` library is used for computing discrete Fourier transforms (DFTs). `fftw` files are assumed to be installed in `/opt/fftw/`. If you have installed `fftw` in a different directory, change `include_directories` and `link_directories` in the cmake file.
 - Boost  
