@@ -71,7 +71,7 @@ void Zeromode::zeromode_calc(){
     
     Vec_DP unp(N_zero), tr(N_zero);
     
-    for(i = 0; i < knum_zero.size(); i++ ){
+    for(size_t i = 0; i < knum_zero.size(); i++ ){
         Logout("knum = %d, kMpc = %2.5e, kMPl = %2.5e \n\n",knum_zero[i], UC::knum_to_kMpc(knum_zero[i]), UC::knum_to_kMPl(knum_zero[i]));
     }
     
@@ -145,10 +145,10 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     Vec_DP zeta(6),dens(4),yout(N_zero),dydx(N_zero);
     
     static int nonlatticerange_count = 0;
-    int k_loopend;
+    int k_loopend = 0;
     double m_end;
-    double k_begin_lattice;
-    double k_loopend_lattice;
+    double k_begin_lattice = 0;
+    double k_loopend_lattice = 0;
     
     if(latticerange_switch && nonlatticerange_count == 0)
     {
@@ -608,8 +608,6 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
     
      Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e, k_lattice_grid_min_MPl = %2.5e, floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl) =  %2.5e\n", kfrom_MPl_lattice, kto_MPl_lattice, k_lattice_grid_min_MPl, floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl));
     
-    int latticerange_num;
-    int outrange_num;
     double k_comoving_start;
     
     if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)

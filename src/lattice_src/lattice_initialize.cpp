@@ -95,7 +95,9 @@ double dFk_log_int_calc(int k_int , double** lattice_var, int num_field)
 void fdf_calc(double distance, double** lattice_var, double *field, double *deriv, int num_field)
 {
     int l;
-    double log10_Fk, log10_Fk2, log10_dFk, log10_dFk2, omega;
+    double log10_Fk, log10_Fk2, log10_dFk, log10_dFk2;
+    log10_Fk = log10_Fk2 = log10_dFk = log10_dFk2 = 0;
+    
     l = floor(distance);
     
     if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
@@ -221,6 +223,9 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
     double re_f_left, im_f_left, re_f_right, im_f_right;
     double re_f_left_div, im_f_left_div, re_f_right_div, im_f_right_div, amplitude_div, norm_div;
 
+    phase = amplitude = norm = omega = 0;
+    re_f_left = im_f_left = re_f_right = im_f_right =0;
+    re_f_left_div = im_f_left_div = re_f_right_div = im_f_right_div = amplitude_div = norm_div =0;
     
     // std::cout << "field i = " << i << std::endl;
     
@@ -387,8 +392,7 @@ void initialize_perturb(double** f, double** df, double** lattice_var, double ma
     
     double p2;
     double dp2=pw2(2*M_PI/L);
-    double omega;
-    double distance;
+    double distance=0;
     
 #if  dim==1
     double pz;
@@ -443,10 +447,11 @@ void initialize_perturb(double** f, double** df, double** lattice_var, double ma
         for(int k = 1; k < N/2; k++ ){
             pz = k;
             p2 = dp2*pw2(pz);
+            distance = k;
             // std::cout << "k = " << k << ", f[i][" << 2*k << "] = " << f[i][2*k] << ", f[i][" << 2*k+1 << "] = " << f[i][2*k+1] << std::endl;
             // std::cout << "k = " << k << ", df[i][" << 2*k << "] = " << df[i][2*k] << ", df[i][" << 2*k+1 << "] = " << df[i][2*k+1] << std::endl;
             
-            fdf_calc( k , lattice_var, &f[i][2*k], &df[i][2*k], i);
+            fdf_calc( distance , lattice_var, &f[i][2*k], &df[i][2*k], i);
             
             //Set mode for lattice simulation
             set_mode(p2, mass_sq[i], &f[i][2*k], &df[i][2*k], i, 0);

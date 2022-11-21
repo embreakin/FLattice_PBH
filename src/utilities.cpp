@@ -138,7 +138,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
         zeromode_output.open(ss.str().c_str(),std::ios::app);
     }
     
-    DP H,la,rho,rhop,w,a,rho_rad,Kinetic, dda, pressure, epsilon;
+    DP H,la,rho,w,a,rho_rad,Kinetic, dda, pressure, epsilon;
     Vec_DP tr(N_zero);
     int i,j;
     double k_comoving = UC::knum_to_kMPl(k_target); //knum 200
@@ -148,7 +148,6 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     for (i=0;i<N_zero;i++) tr[i]=yp[i][j];
     la=xx[j];
     rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
-    rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
     H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
     w=log10(H);
     a=exp(la);
@@ -205,7 +204,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     << std::setw(10) << V_3(tr[0],tr[1],tr[2]) << " "
     << std::setw(10) << pressure/rho << " "
     << std::setw(10) << k_comoving/a << " ";
-        for(int loop = 0; loop < knum_zero.size(); loop++ ){
+        for(size_t loop = 0; loop < knum_zero.size(); loop++ ){
             if(loop ==  knum_zero.size()-1){
     zeromode_output << std::setw(10) << log10(UC::knum_to_kMPl(knum_zero[loop])/(a*H)) << "\n\n";
             }else{
@@ -428,7 +427,7 @@ void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, i
         sp_output.open(ss.str().c_str(),std::ios::app);
     }
     
-    DP H,a,la,rho,rhop,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi,PSTR;
+    DP H,a,la,rho,rhop,Pzeta,PPot,PSTR; //Pzeta_raw,,P_sigma,P_psi,P_phi,;
 
     Vec_DP zeta(6);
     Vec_DP tr(N_pert);
@@ -486,7 +485,7 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
         sp_output.open(ss.str().c_str(),std::ios::app);
     }
     
-    DP H,a,la,rho,rhop,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi,PSTR;
+    DP H,a,la,rho,rhop,Pzeta,PPot,PSTR; //Pzeta_raw,,P_sigma,P_psi,P_phi,;
     
     Vec_DP zeta(6);
     Vec_DP tr(N_pert);
@@ -1230,10 +1229,11 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 //const vector<vector<vector<double>>>&PS,
 void kanalyze_output_lattice(const std::string dir, std::string file, Field* field, LeapFrog* leapfrog, double** f){
     //output results
-    int knum, kMpc_int;
+    int  kMpc_int;//knum,
     double k_comoving, kMpc;
 
-    DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, Kinetic, dda, pressure, epsilon, a_bar;
+    DP H, la, w, a, a_bar;
+    //rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, Kinetic, dda, pressure, epsilon, a_bar;
     
      a_bar = leapfrog->a();
      a = a_bar*exp(OSCSTART);
@@ -1260,7 +1260,7 @@ void kanalyze_output_lattice(const std::string dir, std::string file, Field* fie
         {
             
             k_comoving = (2*M_PI/(L/rescale_B))*j;// [MPl]
-            knum = UC::kMPl_to_knum(k_comoving);
+            
            // std::cout << "knum = " << knum << std::endl;
             kMpc = UC::kMPl_to_kMpc(k_comoving);
             kMpc_int = (int)floor(100*kMpc); //Round down to the second decimal place and make it an integer by multiplying by 100

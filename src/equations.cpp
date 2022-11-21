@@ -358,7 +358,7 @@ void adiabaticity(Vec_I_DP &y, Vec_O_DP &adia){
 }
 
 void isocurvatureness(Vec_I_DP &y, Vec_O_DP &iso){
-        int i,j;
+        int i;
         for(i=0;i<3;i++) iso[i]=0;
         if (y[4]!=0){
                 for(i=0;i<3;i++){
@@ -380,7 +380,7 @@ void isocurvatureness(Vec_I_DP &y, Vec_O_DP &iso){
 }
 
 void density(Vec_I_DP &y, Vec_O_DP &dens){
-        int i,j;
+        int i;
         DP H,med;
         H = Fri(y[0],y[1],y[2],y[3],y[4],y[5],y[6]);
         for(i=0;i<4;i++) dens[i]=0;
@@ -411,7 +411,7 @@ void density(Vec_I_DP &y, Vec_O_DP &dens){
 }
 
 void numberdens(DP x, Vec_I_DP &y, Vec_O_DP &numdens,const DP k_comoving){
-        int i,j;
+        int i;
 		DP vala;
 		vala = k_comoving/exp(x);
 		vala = vala*vala;
@@ -436,7 +436,6 @@ void numberdens(DP x, Vec_I_DP &y, Vec_O_DP &numdens,const DP k_comoving){
 void unpert(const DP x, Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
-    int ii;
 	H = Fri(y[0],y[1],y[2],y[3],y[4],y[5],y[6]);
 	dydx[0] = y[3]/H;
 	dydx[1] = y[4]/H;
@@ -451,7 +450,6 @@ void unpert(const DP x, Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 void unpertfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
-    int ii;
 	H = Fri(y[0],y[1],y[2],y[3],y[4],y[5],y[6]);
 	dydx[0] = y[3]/H;
 	dydx[1] = 0;
@@ -466,7 +464,6 @@ void unpertfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 void unpertfixfix(const DP x, Vec_I_DP &y, Vec_O_DP &dydx,const DP k_comoving)
 {
     DP H;
-    int ii;
 	H = Fri(y[0],y[1],y[2],y[3],y[4],y[5],y[6]);
 	dydx[0] = 0;
 	dydx[1] = 0;

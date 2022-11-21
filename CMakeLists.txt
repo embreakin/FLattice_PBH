@@ -11,7 +11,7 @@ set ( CMAKE_CXX_FLAGS "-ipo -xhost -no-prec-div -qopenmp -parallel" )
 
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # using GCC
-set ( CMAKE_CXX_FLAGS " -Ofast   -fopenmp" ) #-Wall
+set ( CMAKE_CXX_FLAGS " -Ofast -Wall  -fopenmp" ) #
 
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 
