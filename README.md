@@ -41,9 +41,9 @@ The following items are necessary and must be installed in your computer to run 
 - Graphviz  
    If one wants to see diagrams in the document created using Doxygen, one must also install this tool.
 
-## How to Use the Program
+## How to Run the Program
 
-Here is a simple explanation on how to use the program.
+Here is a simple explanation on how to run the program.
 
 1. Create `Makefile` by `cmake`
 
@@ -69,7 +69,7 @@ Here is a simple explanation on how to use the program.
    in the `build` directory creates the executable file as `FLattice`. Then, run the code by
 
    ```bash
-   ./FLattice
+   ./FLattice_PBH
    ```
 3. Selecting Another C++ compiler (Optional)
 
@@ -86,12 +86,9 @@ Here is a simple explanation on how to use the program.
    rm -rf *
    cmake ..
    make
+   ./FLattice_PBH
    ```
-  
-3. Results
-
-   Data such as time, field averages, field variances, etc. will be written in `status.txt`. The field values in each time step are stored as `.vtk` files in the `data` directory when `dim` is 2 or 3. I recommend you use `Paraview.app` to visualize these files.
-
+   
 ## Contents
 
 - `main.cpp`
@@ -114,9 +111,9 @@ Here is a simple explanation on how to use the program.
 
      Functions in this file describes numerical methods used for evolving the linear perturbation equations in wave number space. They are implemented based on `Numerical Recipes`. Hence the file name `nr.cpp`.
 
-   - `parameter.cpp`
+   - `parameters.cpp`
 
-     Parameters necessary for the linear perturbation equations are stored in this file. Parameters necessary for lattice simulations are also stored in here.
+     Parameters necessary for the linear perturbation equations and lattice simulations are stored in this file. 
 
    - `uc.cpp`
 
@@ -148,4 +145,40 @@ Here is a simple explanation on how to use the program.
       - `lattice_calc.cpp`
 
         This file is in charge of calculating values regarding energy density. 
+ 
+## Results
+   - `<parameter set name>`
 
+      All the files will be stored in a single directory. It is recommended that the directory is named after the parameter set of the model that one wants to analyze.
+
+      - `<parameter set name>_unpWMAP5.txt`
+
+        Data regarding the evolution of zero mode of fields are stored here.
+        
+      - `<parameter set name>_spectrum_bfosc.txt`
+      
+         Power spectrum of curvature purerbation right before oscillation period starts is stored here.
+
+      - `<parameter set name>_spectrum.txt` 
+
+         The final power spectrum of curvature purerbation is stored here.
+
+      - `<parameter set name>_kAnalyze_nonlattice`
+
+         This directory contains data regarding the evolution of zero mode + perturbations when only the linear perturbation is calculated and lattice simulation is turned off.
+
+      - `<parameter set name>_kAnalyze_lattice`
+
+         This directory contains data regarding the evolution of zero mode + perturbations when lattice simulation is conducted. 
+        
+      - `<parameter set name>_status.txt`
+
+         Data during lattice simulation are written in here.  
+        
+      - `<parameter set name>_energy`
+
+         The energy density values for each time step during lattice simulation are stored as `.vtk` files in this directory when `dim` is 2 or 3. `Paraview.app` is necessary to visualize these files. 
+        
+      - `<parameter set name>_field`
+
+         The field values for each time step during lattice simulation are stored as `.vtk` files in this directory when `dim` is 2 or 3. `Paraview.app` is necessary to visualize these files.
