@@ -998,18 +998,18 @@ void write_VTK_f( const std::string dir_f, double* f, std::string str, int loop 
     
   	  	fout << "<?xml version=\"1.0\"?>" << std::endl;
   		fout << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\" header_type=\"UInt32\">" << std::endl <<std::endl;
-    	switch( dim ){
-    		case 2:
-				size = sizeof(double) * pow(N, 2);//8byte*pow(N,2)
-				fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
-				fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\">" << std::endl;
-    			break;
-			case 3:
-				size = sizeof(double) * pow(N, 3);
-				fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 <<" 0 " << N-1 << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
-				fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << N-1 << "\">" << std::endl;
-				break;
-    	}
+        if(dim == 2){
+            size = sizeof(double) * pow(N, 2);//8byte*pow(N,2)
+            fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
+            fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\">" << std::endl;
+        }else if(dim == 3){
+            size = sizeof(double) * pow(N, 3);
+            fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 <<" 0 " << N-1 << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
+            fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << N-1 << "\">" << std::endl;
+        }else{
+            std::cout << "dim must be 1~3" << std::endl;
+            exit(1);
+        }
     	fout << "<PointData Scalars=\"field\">" << std::endl;
     	fout << "<DataArray type=\"Float64\" Name=\"field\" format=\"appended\" offset=\"0\" />" << std::endl;
     	fout << "</PointData>" << std::endl;
@@ -1059,17 +1059,17 @@ void write_VTK_ed( const std::string dir_ed, double* f, std::string str, int loo
         
         fout << "<?xml version=\"1.0\"?>" << std::endl;
         fout << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\" header_type=\"UInt32\">" << std::endl <<std::endl;
-        switch( dim ){
-            case 2:
-                size = sizeof(double) * pow(N, 2);//8byte*pow(N,2)
-                fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
-                fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\">" << std::endl;
-                break;
-            case 3:
-                size = sizeof(double) * pow(N, 3);
-                fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 <<" 0 " << N-1 << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
-                fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << N-1 << "\">" << std::endl;
-                break;
+        if(dim == 2){
+            size = sizeof(double) * pow(N, 2);//8byte*pow(N,2)
+            fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
+            fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << " 0 " << "\">" << std::endl;
+        }else if(dim == 3){
+            size = sizeof(double) * pow(N, 3);
+            fout << "<ImageData WholeExtent=\"0 " << N-1 << " 0 " << N-1 <<" 0 " << N-1 << "\" Origin=\"0 0 0\" Spacing=\"" << dx_Kpc << " " << dx_Kpc << " " << dx_Kpc << "\">" << std::endl;
+            fout << "<Piece Extent=\"0 " << N-1 << " 0 " << N-1 << " 0 " << N-1 << "\">" << std::endl;
+        }else{
+            std::cout << "dim must be 1~3" << std::endl;
+            exit(1);
         }
         fout << "<PointData Scalars=\"energy\">" << std::endl;
         fout << "<DataArray type=\"Float64\" Name=\"energy density\" format=\"appended\" offset=\"0\" />" << std::endl;

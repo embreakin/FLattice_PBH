@@ -2,19 +2,38 @@ cmake_minimum_required ( VERSION 3.14 )
 
 project( FLattice CXX )
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
 # using Intel C++
-
+if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
 # -parallel is for automatic parallelization
 # -qopenmp is for OpenMP parallelization
-set ( CMAKE_CXX_FLAGS "-ipo -xhost -no-prec-div -qopenmp -parallel" )
+set(CMAKE_CXX_FLAGS "-ipo -xhost -no-prec-div -qopenmp -parallel")
 
+
+# using GCC
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-  # using GCC
 set ( CMAKE_CXX_FLAGS " -Ofast -Wall  -fopenmp" ) #
 
-elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 
+# using Clang
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+# libompのインストール先パスをbrewコマンドを実行して取得する.
+execute_process(COMMAND brew --prefix libomp
+                OUTPUT_VARIABLE OpenMP_HOME
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
+message(STATUS "OpenMP Root : ${OpenMP_HOME}")
+# OpenMPのインストールチェック
+set(OpenMP_CXX_LIB_NAMES "omp")
+set(OpenMP_omp_LIBRARY "${OpenMP_HOME}/lib/")
+# キャッシュ変数なのでFORCEオプションをつける
+set(OpenMP_CXX_FLAGS "-Xpreprocessor -fopenmp -Wno-unused-command-line-argument -I${OpenMP_HOME}/include -lomp -L${OpenMP_omp_LIBRARY}" CACHE STRING "" FORCE)
+
+
+# libompがインストールされているかどうか.
+find_package(OpenMP)
+# 見つかったか？
+message(STATUS "OpenMP_CXX_Found : ${OpenMP_CXX_FOUND}")
+
+set(CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS} -Ofast ")
 
 else ()
 

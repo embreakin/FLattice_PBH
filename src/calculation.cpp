@@ -239,23 +239,26 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             //Calculation for first order perturbation begins slightly before the horizon crossing.
             //Runge-Kutta method with constant step size is used.
 //     std::cout << "la2 = " << la2 << "\n";
-            for (la2=xbegin;k_comoving/(a*H)>5000;la2=la2) {    //Here, zero-mode is solved until k=a*H*5000.
-                if (p==itvl){
-                    rho=rho_tot(unp2[0],unp2[1],unp2[2],unp2[3],unp2[4],unp2[5],unp2[6]);
-                    w=log10(H);
-                    p=0;
-                };
-                p++;
-                H=Fri(unp2[0],unp2[1],unp2[2],unp2[3],unp2[4],unp2[5],unp2[6]);
-                unpert(la2,unp2,dydx,k_comoving);
-                NR::rk4(unp2,dydx,la2,dla,yout,unpert,k_comoving);
-                for (j=0;j<N_zero;j++){
-                    unp2[j]=yout[j];
-                };
-                la2=la2+dla;
-                a=exp(la2);
+        la2=xbegin;
+        while (k_comoving/(a*H)>5000)
+        {
+            //Here, zero-mode is solved until k=a*H*5000.
+             if (p==itvl){
+                 rho=rho_tot(unp2[0],unp2[1],unp2[2],unp2[3],unp2[4],unp2[5],unp2[6]);
+                 w=log10(H);
+                 p=0;
+             };
+             p++;
+             H=Fri(unp2[0],unp2[1],unp2[2],unp2[3],unp2[4],unp2[5],unp2[6]);
+             unpert(la2,unp2,dydx,k_comoving);
+             NR::rk4(unp2,dydx,la2,dla,yout,unpert,k_comoving);
+             for (j=0;j<N_zero;j++){
+                 unp2[j]=yout[j];
+             };
+             la2=la2+dla;
+             a=exp(la2);
 //                std::cout << "2 la2 = " << la2 << "\n";
-            };
+        }
 //         std::cout << "a = " << a << "\n";
 //        std::cout << "2' la2 = " << la2 << "\n";
 //            std::cout << "xmid = " << xmid << "\n";
@@ -485,7 +488,10 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
             //Calculation for first order perturbation begins slightly before the horizon crossing.
             //Runge-Kutta method with constant step size is used.
             
-            for (la2=xbegin;k_comoving/(a*H)>5000;la2=la2) {    //Here, zero-mode is solved until k=a*H*5000.
+            la2=xbegin;
+            while(k_comoving/(a*H)>5000)
+            {
+                //Here, zero-mode is solved until k=a*H*5000.
                 if (p==itvl){
                     rho=rho_tot(unp2[0],unp2[1],unp2[2],unp2[3],unp2[4],unp2[5],unp2[6]);
                     w=log10(H);
@@ -501,7 +507,8 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
                 la2=la2+dla;
                 a=exp(la2);
                 
-            };
+            }
+            
          //    Logout("1:unp2[0] = %2.5e \n", unp2[0] );
               //  std::cout << "a = " << a << "\n";
             //Hereafter, evolution of perturbation is solved.
