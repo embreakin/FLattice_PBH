@@ -792,6 +792,9 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
     
     m_end = N/2;
     
+    double Rescale_var;
+    double Rescale_var_D3 = (1/(rescale_A*a)*sqrt(pow(dx,6.0)/(rescale_B*pow(L,3))));
+    
     for (int i = 0; i < num_fields; i++){
         
 #if  dim==1
@@ -956,8 +959,22 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                 
             }
             
-        }
-    }
+        }//Besides Nyquist frequency
+        
+        
+        //Rescale program variables back to their original variables
+        
+        Rescale_var = Rescale_var_D3*sqrt(2*M_PI)*L/(pow(dx,2.0)*(2*M_PI*m)/L);
+        
+        std::for_each(lattice_var[m].begin(), lattice_var[m].end(), [Rescale_var](double &element){ element *= Rescale_var; });
+        
+        
+        
+    }//for (int m = m_start; m < m_end + 1; ++m  )
+        
+        
+        
+    
         
 #elif  dim==2
         
