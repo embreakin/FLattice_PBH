@@ -746,6 +746,8 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
     double a = leapfrog->a();
     double da = leapfrog->da();
     
+    a_lattice_end = a;
+    
     //Zero modes
     for (int i = 0; i< num_fields - 1; i++){
         
@@ -793,7 +795,13 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
     m_end = N/2;
     
     double Rescale_var;
-    double Rescale_var_D3 = (1/(rescale_A*a)*sqrt(pow(dx,6.0)/(rescale_B*pow(L,3))));
+    double Rescale_var_D3 =sqrt(pow(dx,6.0)/(rescale_B*pow(L,3.0)));
+    
+    double Re_scalar_pert_pr, Im_scalar_pert_pr;
+    double Re_scalar_pert_deriv_pr, Im_scalar_pert_deriv_pr;
+    double Re_metric_pert_pr, Im_metric_pert_pr;
+    double Re_metric_pert_deriv_pr, Im_metric_pert_deriv_pr;
+
     
     for (int i = 0; i < num_fields; i++){
         
@@ -838,13 +846,18 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                 {
                     if(num == 2)
                     {
+                        
+                        Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
+                                          
+                        Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
+                        
                         //27
-                        lattice_var[m][25+num] = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
+                        lattice_var[m][25+num] = Re_metric_pert_pr/(pow(a,2.0));
                         //51
                         lattice_var[m][49+num] = 0;
                         
                         //30
-                        lattice_var[m][28+num] = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
+                        lattice_var[m][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
                         //54
                         lattice_var[m][52+num] = 0;
                         
@@ -868,13 +881,16 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                 {
                     if(num == i)
                     {
+                        Re_scalar_pert_pr = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
+                        
+                        Re_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
                         //7,11,15
-                        lattice_var[m][7 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
+                        lattice_var[m][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
                         //31,35,39
                         lattice_var[m][31 + 3*i + num] = 0;
                         
                         //16,20,24
-                        lattice_var[m][16 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
+                        lattice_var[m][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
                         //40,44,48
                         lattice_var[m][40 + 3*i + num] = 0;
                     }else
@@ -903,15 +919,22 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                 {
                     if(num == 2)
                     {
+                        
+                        Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
+                        Im_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                                          
+                        Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
+                        Im_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                        
                         //27
-                        lattice_var[m][25+num] = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
+                        lattice_var[m][25+num] = Re_metric_pert_pr/(pow(a,2.0));
                         //51
-                        lattice_var[m][49+num] = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                        lattice_var[m][49+num] = Im_metric_pert_pr/(pow(a,2.0)) ;
                         
                         //30
-                        lattice_var[m][28+num] = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
+                        lattice_var[m][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
                         //54
-                        lattice_var[m][52+num] = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                        lattice_var[m][52+num] = rescale_B*(Im_metric_pert_deriv_pr - 2*Im_metric_pert_pr*da/a)/(pow(a,3.0));
                     }else{
                         //25,26
                         lattice_var[m][25+num] = 0;
@@ -932,15 +955,22 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                 {
                     if(num == i)
                     {
+                        
+                        Re_scalar_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
+                        Im_scalar_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                        
+                        Re_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
+                        Im_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                        
                         //7,11,15
-                        lattice_var[m][7 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
+                        lattice_var[m][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
                         //31,35,39
-                        lattice_var[m][31 + 3*i + num] = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                        lattice_var[m][31 + 3*i + num] = Im_scalar_pert_pr/(rescale_A*a);
                         
                         //16,20,24
-                        lattice_var[m][16 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
+                        lattice_var[m][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
                         //40,44,48
-                        lattice_var[m][40 + 3*i + num] = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                        lattice_var[m][40 + 3*i + num] = rescale_B*(Im_scalar_pert_deriv_pr - Im_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
                         
                     }else
                     {
@@ -963,11 +993,13 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
         
         
         //Rescale program variables back to their original variables
-        
+        //1D case
         Rescale_var = Rescale_var_D3*sqrt(2*M_PI)*L/(pow(dx,2.0)*(2*M_PI*m)/L);
         
-        std::for_each(lattice_var[m].begin(), lattice_var[m].end(), [Rescale_var](double &element){ element *= Rescale_var; });
-        
+        for(int q = 0; q < N_pert; q++)
+        {
+            lattice_var[m][q] *= Rescale_var;
+        }
         
         
     }//for (int m = m_start; m < m_end + 1; ++m  )

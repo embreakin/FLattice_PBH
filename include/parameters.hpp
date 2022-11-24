@@ -258,6 +258,8 @@ extern int num_threads;
 extern const double initfield[];
 extern const double initderivs[];
 extern double Hinitial_pr;
+extern double a_lattice_end;
+
 
 extern int output_step;
 extern int total_step;

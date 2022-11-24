@@ -596,7 +596,7 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
                 }
                 else
                 {
-//                    For perturbations of the outrange wave modes, we set it to zero.
+//                    For perturbations of the outrange wave modes, we temporarily set them to zero.
                     latticep[outrange][i] = 0;
                 }
             }
@@ -646,12 +646,30 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             Logout("k_comoving =  %2.5e ", k_comoving);
            // for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",lattice_loop,i,latticep[lattice_loop][i] );
              
+             //set delstart
              if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
              {
                  for (i=0;i<N_pert;i++) delstart[i]  =  latticep[outrange_num+latticerange_loop][i];
              }else{
             for (i=0;i<N_pert;i++) delstart[i]  = latticep[latticerange_loop][i];
              }
+             
+             //set efold
+             xmid = log(a_lattice_end);
+             
+             if(xmid < UNPERT_EFOLD){
+                 NR::odeintpert(delstart,xmid,UNPERT_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
+         //         std::cout << "timecount = " << timecount << std::endl;
+                 
+                 if(kanalyze_switch){
+                 kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum,k_comoving);
+                 }
+                 xmid=xp2[timecount-1];
+                 a=exp(xmid);
+                 for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
+             };
+             
+             
             //Fixing sigma = psi = 0, in order to avoid solving oscillation of these two fields which are negligible.
             delstart[0]=0;
             delstart[3]=0;

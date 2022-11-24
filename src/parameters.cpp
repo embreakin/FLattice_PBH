@@ -177,7 +177,6 @@ double k_lattice_grid_max_MPl = kto_MPl_lattice;
 int outrange_num; //the number of wave modes that are not in the lattice range
 int latticerange_num;//the number of wave modes that are in the lattice range
 
-
 int rnd = 1;
 int num_fields  = 4; //0:sigma 1:psi 2:phi 3:metric perturbation
 
@@ -186,9 +185,7 @@ int num_threads = omp_get_num_procs()/2;
 
 double Hinitial_pr;
 //const double m = sqrt(5.67402574831172*pow(10,-10));//rescale_B, sqrt(V''(phi))
-
-//const double initfield[] = {2.2105};//{sqrt(2)*1.49652/(sqrt(8*M_PI))};
-//const double initderivs[] = {(1*Hinitial*initfield[0])/rescale_B};//{(1*Hinitial*initfield[0])/m}; //no expansion -> 0, expansion -> rescale_r*Hinitial*f_pr/rescale_B -> (1*Hinitial*initfield[0])/m
+double a_lattice_end;
 
 int output_step = 2.0e+1;
 int total_step  = 8.2e+4;//1.75e+4;//8.75e+3;

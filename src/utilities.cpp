@@ -1179,8 +1179,8 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 //                if( i == 1){
 //                    ofs << std::showpos << std::scientific << std::setprecision(4) <<
 //                    -(rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Field psi in Reduced Plank units
-////                    std::cout << "( field->average(df[i], i)  - (da/a)*field->average(f[i], i) ) = " << ( field->average(df[i], i)  - (da/a)*field->average(f[i], i) ) << std::endl;
-////                     std::cout << "-(rescale_B/rescale_A)/pow(a,2) = " << -(rescale_B/rescale_A)/pow(a,2) << std::endl;
+//                   std::cout << "( field->average(df[i], i)  - (da/a)*field->average(f[i], i) ) = " << ( field->average(df[i], i)  - (da/a)*field->average(f[i], i) ) << std::endl;
+//                   std::cout << "-(rescale_B/rescale_A)/pow(a,2) = " << -(rescale_B/rescale_A)/pow(a,2) << std::endl;
 //
 //                }else{
 //                    ofs << std::showpos << std::scientific << std::setprecision(4) <<
