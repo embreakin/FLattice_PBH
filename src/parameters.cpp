@@ -112,7 +112,7 @@ const int  N_pert=55;
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a)
 DP kfrom_Mpc = 1.0e-4;//[Mpc^-1] Calculate from this k (Must be greater than 0)
 DP kto_Mpc = 1.0e+4;//[Mpc^-1] Calculate to this k
-int kinterval_knum = 1;// [knum units] Calculate with this interval of knum
+int kinterval_knum = 100;// [knum units] Calculate with this interval of knum
 
 
 
@@ -152,7 +152,7 @@ bool k_lattice_startfromlattice_switch = false; //If this is true, data output o
 //Variables for calculating lattice range
 //-------------------------------------------------
 
-bool latticerange_switch = false; // true:Set lattice range and calculate, false:Don't set lattice range and calculate
+bool latticerange_switch = true; // true:Set lattice range and calculate, false:Don't set lattice range and calculate
 bool initialize_perturb_switch = true; // true:Initialize fluctuation, false:Don't initialize fluctuation (only calculate zeromode for lattice)
 
 int fluc_calc_switch  = 1;//Choose type of fluctuation initialization for scalar fields (for gravitational fluctuation, it is set to 2 regardless) 0:LatticeEasy case (when amplitudes of fluctuations are not predetermined) 1:when we use the amplitudes of predetermined fluctuations 2:gravitational perturbation
@@ -188,13 +188,13 @@ double Hinitial_pr;
 double a_lattice_end;
 
 int output_step = 2.0e+1;
-int total_step  = 8.2e+4;//1.75e+4;//8.75e+3;
+int total_step  = 8.2e+3;//1.75e+4;//8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
 
 double t0 = 0;
-double dt = 1.e-4;//5.0e-4;//1.e-3; //dt_pr
+double dt = 1.e-3;//5.0e-4;//1.e-3; //dt_pr
 
 
 const int expansion = 1; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant

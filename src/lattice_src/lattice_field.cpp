@@ -746,7 +746,8 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
     double a = leapfrog->a();
     double da = leapfrog->da();
     
-    a_lattice_end = a;
+    a_lattice_end = exp(OSCSTART)*a;
+    
     
     //Zero modes
     for (int i = 0; i< num_fields - 1; i++){
@@ -762,8 +763,8 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
             
             lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( average(df[i], i)  - (da/a)*average(f[i], i) )/pow(a,2.0);//3,4,5
             
-            Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
-            Logout(" lattice_var[%d][%d] = %2.5e \n",lattice_loop,j,lattice_var[lattice_loop][j] );
+//            Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
+//            Logout(" lattice_var[%d][%d] = %2.5e \n",lattice_loop,j,lattice_var[lattice_loop][j] );
             
         }
         
@@ -795,7 +796,7 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
     m_end = N/2;
     
     double Rescale_var;
-    double Rescale_var_D3 =sqrt(pow(dx,6.0)/(rescale_B*pow(L,3.0)));
+    double Rescale_var_D3 =sqrt(pow(dx,6.0)/(pow(rescale_B*L,3.0)));
     
     double Re_scalar_pert_pr, Im_scalar_pert_pr;
     double Re_scalar_pert_deriv_pr, Im_scalar_pert_deriv_pr;
@@ -837,6 +838,8 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
     {
         int j=m;
         
+        std::cout << "i = " << i << ", m = " << m  << std::endl;
+        
         if(m == N/2)
         {//Nyquist frequency
             
@@ -852,25 +855,25 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                         Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
                         
                         //27
-                        lattice_var[m][25+num] = Re_metric_pert_pr/(pow(a,2.0));
+                        lattice_var[m-1][25+num] = Re_metric_pert_pr/(pow(a,2.0));
                         //51
-                        lattice_var[m][49+num] = 0;
+                        lattice_var[m-1][49+num] = 0;
                         
                         //30
-                        lattice_var[m][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
+                        lattice_var[m-1][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
                         //54
-                        lattice_var[m][52+num] = 0;
+                        lattice_var[m-1][52+num] = 0;
                         
                     }else{
                         //25,26
-                        lattice_var[m][25+num] = 0;
+                        lattice_var[m-1][25+num] = 0;
                         //49,50
-                        lattice_var[m][49+num] = 0;
+                        lattice_var[m-1][49+num] = 0;
                         
                         //28,29
-                        lattice_var[m][28+num] = 0;
+                        lattice_var[m-1][28+num] = 0;
                         //52,53
-                        lattice_var[m][52+num] = 0;
+                        lattice_var[m-1][52+num] = 0;
                     }
                 }
                 
@@ -885,25 +888,25 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                         
                         Re_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
                         //7,11,15
-                        lattice_var[m][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
+                        lattice_var[m-1][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
                         //31,35,39
-                        lattice_var[m][31 + 3*i + num] = 0;
+                        lattice_var[m-1][31 + 3*i + num] = 0;
                         
                         //16,20,24
-                        lattice_var[m][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
+                        lattice_var[m-1][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
                         //40,44,48
-                        lattice_var[m][40 + 3*i + num] = 0;
+                        lattice_var[m-1][40 + 3*i + num] = 0;
                     }else
                     {
                         //8,9,10,12,13,14
-                        lattice_var[m][7 + 3*i + num] = 0;
+                        lattice_var[m-1][7 + 3*i + num] = 0;
                         //32,33,34,36,37,38
-                        lattice_var[m][31 + 3*i + num] = 0;
+                        lattice_var[m-1][31 + 3*i + num] = 0;
                         
                         //17,18,19,21,22,23
-                        lattice_var[m][16 + 3*i + num] = 0;
+                        lattice_var[m-1][16 + 3*i + num] = 0;
                         //41,42,43,45,46,47
-                        lattice_var[m][40 + 3*i + num] = 0;
+                        lattice_var[m-1][40 + 3*i + num] = 0;
                     }
                 }
                 
@@ -927,24 +930,24 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                         Im_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
                         
                         //27
-                        lattice_var[m][25+num] = Re_metric_pert_pr/(pow(a,2.0));
+                        lattice_var[m-1][25+num] = Re_metric_pert_pr/(pow(a,2.0));
                         //51
-                        lattice_var[m][49+num] = Im_metric_pert_pr/(pow(a,2.0)) ;
+                        lattice_var[m-1][49+num] = Im_metric_pert_pr/(pow(a,2.0)) ;
                         
                         //30
-                        lattice_var[m][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
+                        lattice_var[m-1][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
                         //54
-                        lattice_var[m][52+num] = rescale_B*(Im_metric_pert_deriv_pr - 2*Im_metric_pert_pr*da/a)/(pow(a,3.0));
+                        lattice_var[m-1][52+num] = rescale_B*(Im_metric_pert_deriv_pr - 2*Im_metric_pert_pr*da/a)/(pow(a,3.0));
                     }else{
                         //25,26
-                        lattice_var[m][25+num] = 0;
+                        lattice_var[m-1][25+num] = 0;
                         //49,50
-                        lattice_var[m][49+num] = 0;
+                        lattice_var[m-1][49+num] = 0;
                         
                         //28,29
-                        lattice_var[m][28+num] = 0;
+                        lattice_var[m-1][28+num] = 0;
                         //52,53
-                        lattice_var[m][52+num] = 0;
+                        lattice_var[m-1][52+num] = 0;
                     }
                 }
                 
@@ -963,26 +966,31 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                         Im_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
                         
                         //7,11,15
-                        lattice_var[m][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
+                        lattice_var[m-1][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
+                        
+                        if(m==m_start)
+                        {
+                        std::cout << "i = " << i << ": lattice_var[" << m_start-1 << "][" << 7 + 3*i + num << "] = " <<  lattice_var[m-1][7 + 3*i + num] << std::endl;
+                        }
                         //31,35,39
-                        lattice_var[m][31 + 3*i + num] = Im_scalar_pert_pr/(rescale_A*a);
+                        lattice_var[m-1][31 + 3*i + num] = Im_scalar_pert_pr/(rescale_A*a);
                         
                         //16,20,24
-                        lattice_var[m][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
+                        lattice_var[m-1][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
                         //40,44,48
-                        lattice_var[m][40 + 3*i + num] = rescale_B*(Im_scalar_pert_deriv_pr - Im_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
+                        lattice_var[m-1][40 + 3*i + num] = rescale_B*(Im_scalar_pert_deriv_pr - Im_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
                         
                     }else
                     {
                         //8,9,10,12,13,14
-                        lattice_var[m][7 + 3*i + num] = 0;
+                        lattice_var[m-1][7 + 3*i + num] = 0;
                         //32,33,34,36,37,38
-                        lattice_var[m][31 + 3*i + num] = 0;
+                        lattice_var[m-1][31 + 3*i + num] = 0;
                         
                         //17,18,19,21,22,23
-                        lattice_var[m][16 + 3*i + num] = 0;
+                        lattice_var[m-1][16 + 3*i + num] = 0;
                         //41,42,43,45,46,47
-                        lattice_var[m][40 + 3*i + num] = 0;
+                        lattice_var[m-1][40 + 3*i + num] = 0;
                     }
                     
                 }
@@ -994,13 +1002,27 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
         
         //Rescale program variables back to their original variables
         //1D case
-        Rescale_var = Rescale_var_D3*sqrt(2*M_PI)*L/(pow(dx,2.0)*(2*M_PI*m)/L);
+        Rescale_var = Rescale_var_D3*sqrt(2*M_PI)*L/(pow(dx,2.0)*(2*M_PI*m/L));
         
-        for(int q = 0; q < N_pert; q++)
-        {
-            lattice_var[m][q] *= Rescale_var;
+        if(m == m_start){
+       for (int z=0;z<N_pert;z++) Logout("lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
         }
         
+        for(int q = N_zero; q < N_pert; q++)
+        {
+            lattice_var[m-1][q] *= Rescale_var;
+        }
+        
+        if(m==m_start)
+        {
+        std::cout << "Rescale_var = " <<  Rescale_var << std::endl;
+        std::cout << "Rescale_var_D3 = " <<  Rescale_var_D3 << std::endl;
+        }
+        
+        
+        if(m == m_start){
+       for (int z=0;z<N_pert;z++) Logout("lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
+        }
         
     }//for (int m = m_start; m < m_end + 1; ++m  )
         

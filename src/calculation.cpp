@@ -643,8 +643,10 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
     
              k_comoving = k_comoving_start + k_lattice_grid_min_MPl*latticerange_loop;
              
-            Logout("k_comoving =  %2.5e ", k_comoving);
-           // for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",lattice_loop,i,latticep[lattice_loop][i] );
+            Logout("k_comoving =  %2.5e \n", k_comoving);
+             if(latticerange_loop==0){
+            for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",latticerange_loop,i,latticep[latticerange_loop][i] );
+             }
              
              //set delstart
              if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
@@ -657,6 +659,12 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
              //set efold
              xmid = log(a_lattice_end);
              
+             if(latticerange_loop==0)
+             {
+             Logout("xmid = %2.5e \n", xmid);
+             Logout("UNPERT_EFOLD = %2.5e \n", UNPERT_EFOLD);
+             }
+                 
              if(xmid < UNPERT_EFOLD){
                  NR::odeintpert(delstart,xmid,UNPERT_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
          //         std::cout << "timecount = " << timecount << std::endl;
@@ -703,8 +711,8 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             //until the amplitude of oscillation of phi becomes sufficiently small at ln(a)=xend.
             //xend is set by hand according to the result for zero-mode.
             //(if perturbations of sigma and psi are not solved, superhorizon parturbations begin to decrease)
-           Logout("Can you see this?"); NR::odeintpert(delstart,xmid,xend,epslast,h2,hmin,nok,nbad,timecount,dxsav,fixfix,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
-             Logout("Can you see this?");
+             NR::odeintpert(delstart,xmid,xend,epslast,h2,hmin,nok,nbad,timecount,dxsav,fixfix,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
+           
             //         std::cout << "timecount = " << timecount << std::endl;
             if(kanalyze_switch){
                 kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum, k_comoving);

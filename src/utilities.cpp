@@ -257,6 +257,7 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
     double k_horizoncrossing;
     double k_horizoncrossing2;
     static int epsilon_count=0;
+    static int OSCSTART_count=0;
     double kMpc_max;
     static double OSCSTART_MAX = OSCSTART;
     static int kMpc_static = UC::kMPl_to_kMpc(k_comoving);
@@ -328,7 +329,7 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         
 
             //Set oscillation start to the ln(a) when epsilon=1
-        if (epsilon > 1){
+        if (epsilon > 1 && OSCSTART_count==0){
 
             if(kMpc_static == (int)UC::kMPl_to_kMpc(k_comoving)){
                 ++epsilon_count;
@@ -367,6 +368,8 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
                 std::cout << "Horizon crosing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
                 std::cout << "k = 0.7aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
                 Logout("-----------------------------------------------------\n\n");
+                
+                OSCSTART_count++;
                 
             }
             
