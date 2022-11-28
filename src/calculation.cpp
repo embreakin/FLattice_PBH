@@ -322,7 +322,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
 //        Logout("delstart[0] = %2.5e \n",delstart[i] );
         
         if(spectrum_bfosc_switch){
-            spectrum_bfosc_output(new_filename_spbfosc, xp2, delp, timecount, knum, k_comoving);
+            spectrum_output(new_filename_spbfosc, xp2, delp, timecount, knum, k_comoving);
         };
 
 

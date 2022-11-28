@@ -434,9 +434,23 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
 
 }
 
-//subroutine for spectrum output before oscillation period
-void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving){
-    static int output_timecount = 0; ++output_timecount;
+//subroutine for spectrum output
+void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving){
+    
+    static int output_timecount = 0;
+    static int knum_static = knum;
+    
+    if(knum_static <= knum )
+    {
+        ++output_timecount;
+    }
+    else//corresponeds to setting a new spectrum at different efold
+    {
+        output_timecount = 1;
+    }
+    
+    knum_static = knum;
+    
     std::stringstream ss;
     std::ofstream sp_output;
     ss << "../" << par_set_name << "/" << file;
@@ -492,50 +506,7 @@ void spectrum_bfosc_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, i
     }
 }
 
-//subroutine for spectrum output
-void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving){
-    static int output_timecount = 0; ++output_timecount;
-    std::stringstream ss;
-    std::ofstream sp_output;
-    ss << "../" << par_set_name << "/" << file;
 
-    if( output_timecount == 1 )
-    {
-        sp_output.open(ss.str().c_str(),std::ios::out);
-    }else{
-        sp_output.open(ss.str().c_str(),std::ios::app);
-    }
-    
-    DP H,a,la,rho,rhop,Pzeta,PPot,PSTR; //Pzeta_raw,,P_sigma,P_psi,P_phi,;
-    
-    Vec_DP zeta(6);
-    Vec_DP tr(N_pert);
-    int i;
-    
-    la=xx[timecount-1];
-    a=exp(la);
-    
-    for (i=0;i<N_pert;i++) tr[i] = yp[i][timecount-1];
-
-    rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
-    rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
-    H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
-    
-    for (i=0;i<3;i++) zeta[i]=2*rho*(tr[i+25] + tr[i+28]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+25];
-    for (i=0;i<3;i++) zeta[i+3]=2*rho*(tr[i+49] + tr[i+52]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+49];
-    Pzeta=0;
-    for (i=0;i<6;i++) Pzeta = Pzeta + zeta[i]*zeta[i];
-    Pzeta = Pzeta/(2*M_PI*M_PI*9);
-    Pzeta = log10(Pzeta) + 3*log10(k_comoving);
-    PPot = 0;
-    for (i=0;i<3;i++) PPot = PPot + tr[i+25]*tr[i+25];
-    for (i=0;i<3;i++) PPot = PPot + tr[i+49]*tr[i+49];
-    PSTR = PPot;
-    PPot = PPot/(2*M_PI*M_PI);
-    PPot = log10(PPot) + 3*log10(k_comoving);
-    //output log(Gravitational Potential) and log(Zeta), along with k and knum.
-    sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " " << std::setw(5) << knum << " " << std::setw(10) << UC::knum_to_kMpc(knum) << " " << std::setw(10) << PPot << " " << std::setw(10) << Pzeta <<  " " << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << "\n" << std::flush;
-}
 //--------------------------------
 // Lattice Simulation Subroutines
 //--------------------------------
