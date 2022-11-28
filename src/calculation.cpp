@@ -146,7 +146,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     
     static int nonlatticerange_count = 0;
     int k_loopend = 0;
-    double m_end;
+    int m_end;
     double k_begin_lattice = 0;
     double k_loopend_lattice = 0;
     
@@ -194,6 +194,8 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             
         m_end = (k_loopend - k_begin)/kinterval_knum;
             
+           // Logout("k_end = %d, k_loopend = %d, m_end = %d \n\n",  k_end, k_loopend, m_end);
+            
         }
     }
     
@@ -212,14 +214,14 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             
             knum = UC::kMPl_to_knum(k_comoving);
             
-            percentage =   ( (k_comoving - k_begin_lattice)/k_lattice_grid_min_MPl + 1) / ( floor((k_loopend_lattice - k_begin_lattice)/k_lattice_grid_min_MPl) + 1 )*100;
+            percentage =   ( (k_comoving - k_begin_lattice)/k_lattice_grid_min_MPl + 1) / ( floor((k_loopend_lattice - k_begin_lattice)/k_lattice_grid_min_MPl) )*100;
 
            
         }
         else{
         knum = k_begin + m*kinterval_knum;
         
-        percentage =   ( (knum - k_begin)/kinterval_knum + 1) / ( floor((k_loopend - k_begin)/kinterval_knum) + 1 )*100;
+        percentage =   ( (knum - k_begin)/kinterval_knum + 1) / ( floor((k_loopend - k_begin)/kinterval_knum)  )*100;
         
         k_comoving = UC::knum_to_kMPl(knum);
         
@@ -227,7 +229,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
 
         }
         
-         Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n\n", m+1, (int)floor(m_end) ,knum, UC::knum_to_kMpc(knum), k_comoving);
+         Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n", m+1, (int)floor(m_end) ,knum, UC::knum_to_kMpc(knum), k_comoving);
         
          p=itvl;
         
@@ -294,7 +296,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
             };
         
-        if(m==0){
+        if(m==0 && nonlatticerange_count == 0){
         time_OSCSTART_pert = std::chrono::system_clock::now();
         time_calc(time_BEGIN_pert,time_OSCSTART_pert,"Perturbation BEGIN~OSCSTART");
         }
@@ -347,7 +349,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             for (i=0;i<6;i++) delstart[31+i]=0;
             for (i=0;i<6;i++) delstart[40+i]=0;
         
-        if(m==0){
+        if(m==0 && nonlatticerange_count == 0){
         time_UNPERT_pert = std::chrono::system_clock::now();
         time_calc(time_OSCSTART_pert, time_UNPERT_pert,"Perturbation OSCSTART~UNPERT");
         }
@@ -374,7 +376,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             for (i=0;i<6;i++) delstart[31+i]=0;
             for (i=0;i<6;i++) delstart[40+i]=0;
         
-        if(m==0){
+        if(m==0 && nonlatticerange_count == 0){
         time_NEWINF_END_pert = std::chrono::system_clock::now();
         time_calc(time_UNPERT_pert, time_NEWINF_END_pert,"Perturbation UNPERT~NEWINF_END");
         }
@@ -397,10 +399,11 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 spectrum_output(new_filename_sp, xp2, delp, timecount, knum, k_comoving);
                 }
         
-        if(m==0){
+        if(m==0 && nonlatticerange_count == 0){
         time_END_pert = std::chrono::system_clock::now();
         time_calc(time_NEWINF_END_pert,time_END_pert,"Perturbation NEWINF_END~END");
         time_calc(time_BEGIN_pert,time_END_pert,"Perturbation BEGIN~END");
+            Logout( "\n" );
         }
         
         Logout( "Calculation %d%% Complete\n\n",percentage);
@@ -626,27 +629,29 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
         k_comoving_start = (outrange_num+1)*k_lattice_grid_min_MPl;
         
         Logout("k_lattice_grid_min_MPl < kfrom_MPl_lattice\n");
-        Logout("outrange_num = %d, latticerange_num = %d \n",outrange_num, latticerange_num);
+        Logout("outrange_num = %d, latticerange_num = %d \n\n",outrange_num, latticerange_num);
 
     }
     else{
         latticerange_num = N/2;
         k_comoving_start = k_lattice_grid_min_MPl;
         
-        Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n");
+        Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n\n");
          
     }
     
-         for (int latticerange_loop = 0; latticerange_loop < latticerange_num; latticerange_loop++){
+     for (int latticerange_loop = 0; latticerange_loop < latticerange_num; latticerange_loop++){
     
              percentage =  round( ( latticerange_loop + 1 )*100 / ( latticerange_num ) );
     
              k_comoving = k_comoving_start + k_lattice_grid_min_MPl*latticerange_loop;
              
-            Logout("k_comoving =  %2.5e \n", k_comoving);
-             if(latticerange_loop==0){
-            for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",latticerange_loop,i,latticep[latticerange_loop][i] );
-             }
+//             if(latticerange_loop==0){
+//            for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",latticerange_loop,i,latticep[latticerange_loop][i] );
+//             }
+             
+             knum = UC::kMPl_to_knum(k_comoving);
+             Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: ", latticerange_loop+1, latticerange_num, knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
              
              //set delstart
              if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
@@ -659,11 +664,11 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
              //set efold
              xmid = log(a_lattice_end);
              
-             if(latticerange_loop==0)
-             {
-             Logout("xmid = %2.5e \n", xmid);
-             Logout("UNPERT_EFOLD = %2.5e \n", UNPERT_EFOLD);
-             }
+//             if(latticerange_loop==0)
+//             {
+//             Logout("xmid = %2.5e \n", xmid);
+//             Logout("UNPERT_EFOLD = %2.5e \n", UNPERT_EFOLD);
+//             }
                  
              if(xmid < UNPERT_EFOLD){
                  NR::odeintpert(delstart,xmid,UNPERT_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);

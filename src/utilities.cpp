@@ -42,10 +42,11 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
         }
         catch (fs::filesystem_error& ex) {
             std::cout << ex.what() << std::endl;
+            std::cout << "failed to remove existing parameter set directory" << std::endl;
             throw;
         }
     }
-    
+    else{
     
     //Path of the existing data directory
     const fs::path existpath("../" + par_set_name_rm + "/" + exist_dir );
@@ -56,9 +57,10 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     }
     catch (fs::filesystem_error& ex) {
         std::cout << ex.what() << std::endl;
+        std::cout << "failed to remove existing data directory in existing parameter set directory" << std::endl;
         throw;
     }
-    
+    }
     
     
     
@@ -115,9 +117,9 @@ void time_calc(std::chrono::system_clock::time_point time_start, std::chrono::sy
     
     time_hours = time_hours % 24;
     
-    Logout("=====================================================\n\n");
+    Logout("-----------------------------------------------------\n\n");
     Logout( "%s: %d d %d h %d m %d s\n\n",time_name.c_str(),time_days,time_hours,time_minutes,time_seconds);
-    Logout("=====================================================\n");
+    Logout("-----------------------------------------------------\n");
 }
 
 //--------------------------------
@@ -219,12 +221,28 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
 void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k_comoving ){
     //output results
     static int output_timecount = 0;
+    static int latticerange_secondhalf_calc_count = 0;
     static int knum_static = knum;
     if(knum_static == knum){
         ++output_timecount;
     }else{
-        knum_static = knum;
-        output_timecount = 1;
+
+        if(knum > knum_static && latticerange_secondhalf_calc_count==0)
+        {
+            knum_static = knum;
+            output_timecount = 1;
+        }
+        else
+        {//This corresponds to the kanalyze output for latticerange_secondhalf_calc
+            knum_static = knum;
+            latticerange_secondhalf_calc_count++;
+            if(latticerange_secondhalf_calc_count == N/2)
+            {
+                //This enables the function to output the upper range
+                latticerange_secondhalf_calc_count=0;
+            }
+        }
+        
     };
     
 //    std::cout << knum_static << "\n";

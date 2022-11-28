@@ -140,7 +140,7 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
           lattice(latticep);
       
           Logout("-----------------------------------------------------\n\n");
-          Logout("Start loop calculation from THRUNP\n\n");
+          Logout("Start loop calculation after Lattice Simulation\n\n");
           Logout("-----------------------------------------------------\n\n");
       
 //      for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
@@ -190,7 +190,10 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
 //     Logout("=====================================================\n\n");
 //     Logout( "Total Computation Time: %d d %d h %d m %d s\n\n",time_days,time_hours,time_minutes,time_seconds);
 //     Logout("=====================================================\n");
+   
+    Logout("=====================================================\n");
     time_calc(time_start, time_end, "Total Computation Time");
+    Logout("=====================================================\n");
 //
 //
 //

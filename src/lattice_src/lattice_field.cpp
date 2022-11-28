@@ -803,12 +803,11 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
     double Re_metric_pert_pr, Im_metric_pert_pr;
     double Re_metric_pert_deriv_pr, Im_metric_pert_deriv_pr;
 
-    
-    for (int i = 0; i < num_fields; i++){
+   
         
 #if  dim==1
         
-        
+    for (int i = 0; i < num_fields; i++){
         //subtract zero mode
         for( int j = 0; j < N; ++j ){
             int idx_fluc = j;
@@ -821,6 +820,8 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
         DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
         DFT_r2cD1( df_fluc[i], df_fluc_k[i] );
         
+    }
+        
         //f[][0] corresponds to Re(f_{i=0})
         //f[][2],f[][3] corresponds to the Re and Im of f_{i=1}
         // ...
@@ -831,14 +832,17 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
         //    }
         
         int N_m = 2; //number of fields in the range where m-1 < |m| <= m
-        
     
-    
-    for (int m = m_start; m < m_end + 1; ++m  )
-    {
+        for (int m = m_start; m < m_end + 1; ++m  )
+        {
+            
+        for (int i = 0; i < num_fields; i++)
+        {
+            
+            
         int j=m;
         
-        std::cout << "i = " << i << ", m = " << m  << std::endl;
+//        std::cout << "i = " << i << ", m = " << m  << std::endl;
         
         if(m == N/2)
         {//Nyquist frequency
@@ -968,10 +972,10 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
                         //7,11,15
                         lattice_var[m-1][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
                         
-                        if(m==m_start)
-                        {
-                        std::cout << "i = " << i << ": lattice_var[" << m_start-1 << "][" << 7 + 3*i + num << "] = " <<  lattice_var[m-1][7 + 3*i + num] << std::endl;
-                        }
+//                        if(m==m_start)
+//                        {
+//                        std::cout << "i = " << i << ": lattice_var[" << m_start-1 << "][" << 7 + 3*i + num << "] = " <<  lattice_var[m-1][7 + 3*i + num] << std::endl;
+//                        }
                         //31,35,39
                         lattice_var[m-1][31 + 3*i + num] = Im_scalar_pert_pr/(rescale_A*a);
                         
@@ -999,34 +1003,29 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
             
         }//Besides Nyquist frequency
         
+            
+    }//for (int i = 0; i < num_fields; i++)
         
-        //Rescale program variables back to their original variables
-        //1D case
-        Rescale_var = Rescale_var_D3*sqrt(2*M_PI)*L/(pow(dx,2.0)*(2*M_PI*m/L));
-        
-        if(m == m_start){
-       for (int z=0;z<N_pert;z++) Logout("lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
-        }
-        
-        for(int q = N_zero; q < N_pert; q++)
-        {
-            lattice_var[m-1][q] *= Rescale_var;
-        }
-        
-        if(m==m_start)
-        {
-        std::cout << "Rescale_var = " <<  Rescale_var << std::endl;
-        std::cout << "Rescale_var_D3 = " <<  Rescale_var_D3 << std::endl;
-        }
-        
-        
-        if(m == m_start){
-       for (int z=0;z<N_pert;z++) Logout("lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
-        }
-        
+            
+//           for (int z=0;z<N_pert;z++) Logout("m == m_start end: lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
+//
+            
+            
+    //Set rescale variables (1D case)
+    Rescale_var = Rescale_var_D3*sqrt(2*M_PI)*L/(pow(dx,2.0)*(2*M_PI*m/L));
+            
+            //Rescale program variables back to their original variables
+            for(int q = N_zero; q < N_pert; q++)
+            {
+                lattice_var[m-1][q] *= Rescale_var;
+            }
+            
+//            for (int z=0;z<N_pert;z++) Logout("m == m_start end: lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
+            
     }//for (int m = m_start; m < m_end + 1; ++m  )
         
-        
+    
+    
         
     
         
@@ -1072,10 +1071,6 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
         
 #endif
         
-    }//for (int i = 0; i < num_fields; i++){
-    
-    
-    
     delete [] f[0];
     delete [] df[0];
     delete [] f;
