@@ -44,7 +44,7 @@ The following items are necessary and must be installed in your computer to run 
     ```bash
    brew install fftw
    ```
-   `fftw` files are assumed to be installed in `/opt/fftw/`. If you have already installed `fftw` in a different directory, change `include_directories` and `link_directories` in the cmake file.
+   `fftw` files are assumed to be installed in `/opt/fftw/`. If you have installed `fftw` in a different directory, change `include_directories` and `link_directories` in the cmake file.
 - Boost  
    The `boost` library is used to manage output files and direcotries.  
    If you are using Intel C++ Compiler or Clang, then 
@@ -53,7 +53,7 @@ The following items are necessary and must be installed in your computer to run 
    ```
    will install the library. However for GCC, this doesn't work.  
    For GCC, do the following:  
-1. First, make sure that you don't have boost installed. If you have installed boost using Homebrew, then make sure you uninstall it by
+1. First, make sure that you don't have boost installed. If you have already installed boost using Homebrew, then make sure you uninstall it by
    ```bash
    brew uninstall --ignore-dependencies boost
    ```
