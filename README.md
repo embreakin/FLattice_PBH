@@ -15,32 +15,102 @@ Some notable features are...
 
 ## Requirements
 
-The following items are necessary and must be installed in your computer to run the program.
+The following items are necessary and must be installed in your computer to run the program.   
+(I also assume that you are using Mac and Homebrew is already installed).
 
 - Cmake  
-   Cmake is used to control the software compilation process. 
+   Cmake is used to control the software compilation process. Install it by
+   
+   ```bash
+   brew install cmake
+   ```
 - C++ Compiler  
    The program can be compiled in one of the following three compiliers: 
    - Intel C++ Compiler
    - GCC (g++) 
    - Clang (also AppleClang).  
    
-   When compiling using Clang, one must install the `libomp` library in order to use OpenMP.
+   Clang is installed in MacOS by default. Intel and GCC are not and must be installed manually.
+ 
+ - OpenMP  
+   OpenMP parallelization is implemented to speed up the computation process. For Intel and GCC, OpenMP can be used by default.
+   However for Clang, you must install the `libomp` library in order to use OpenMP.
+  
+   ```bash
+   brew install libomp
+   ```
 - FFTW  
-   The `fftw` library is used for computing discrete Fourier transforms (DFTs). `fftw` files are assumed to be installed in `/opt/fftw/`. If you have installed `fftw` in a different directory, change `include_directories` and `link_directories` in the cmake file.
+   The `fftw` library is used for computing discrete Fourier transforms (DFTs). Install it by
+    ```bash
+   brew install fftw
+   ```
+   `fftw` files are assumed to be installed in `/opt/fftw/`. If you have already installed `fftw` in a different directory, change `include_directories` and `link_directories` in the cmake file.
 - Boost  
-   The `boost` library is used to manage output files and direcotries.
+   The `boost` library is used to manage output files and direcotries.  
+   If you are using Intel C++ Compiler or Clang, then 
+   ```bash
+   brew install boost
+   ```
+   will install the library. However for GCC, this doesn't work.  
+   For GCC, do the following:  
+1. First, make sure that you don't have boost installed. If you have installed boost using Homebrew, then make sure you uninstall it by
+   ```bash
+   brew uninstall --ignore-dependencies boost
+   ```
+1. Download boost from [Boost Download page](https://www.boost.org/users/download/) and unzip it.
+1. Go to where it was downloaded by
+   ```bash
+   cd ~/Downloads/boost_1_80_0/
+   ```
+   The number of boost depends on the version you have downloaded (I have downloaded `boost_1_80_0`).
+1. Start by bootstrapping the installer:
+    ```bash
+   ./bootstrap.sh
+   ```
+1. Once the above is finished, open project-config.jam in a text editor and comment out these lines:
+   ```bash
+    #if ! clang in [ feature.values <toolset> ]
+    #{
+    #    using clang ;
+    #}
+   
+   #project : default-build <toolset>clang ;
+   ```
+1. Now, specify the version of GCC you want to use by adding an extra line to project-config.jam:
+   ```bash
+   #project : default-build <toolset>clang ;
+   
+   using gcc : 12 : g++-12 ;
+   ```
+   Again, the number depends on the gcc version you have installed (Mine is version 12).
+1. At this point, you are ready to build and install Boost by GCC:
+    ```bash
+   sudo ./b2 --toolset=gcc install
+   ```
+1. You might also need to add the Boost libraries to the dynamic libraries path with:
+   ```bash
+   export DYLD_LIBRARY_PATH=/usr/local/boost-1.80.0/lib:$DYLD_LIBRARY_PATH
+   ```
+1. You are now ready to run the program using GCC (detail of this is explained below).
 - Doxygen   
-   This must be installed to generate the document for the program. To generate the document,
+   This must be installed to generate the document for the program. Install it by
+   ```bash
+   brew install doxygen
+   ```
+   To generate the document,
    
    ```bash
    cd [PATH to the downloaded directory]
    doxygen
    open html/index.html
    ```
+   
 - Graphviz  
-   If one wants to see diagrams in the document created using Doxygen, one must also install this tool.
-
+   If one wants to see diagrams in the document created using Doxygen, one must also install this tool. Install it by
+   ```bash
+   brew install graphviz
+   ```
+   
 ## How to Run the Program
 
 Here is a simple explanation on how to run the program.
@@ -66,19 +136,23 @@ Here is a simple explanation on how to run the program.
    make
    ```
 
-   in the `build` directory creates the executable file as `FLattice`. Then, run the code by
+   in the `build` directory creates the executable file as `FLattice_PBH`. Then, run the code by
 
    ```bash
    ./FLattice_PBH
    ```
 3. Selecting Another C++ compiler (Optional)
 
-   If necessary, one can switch to a different C++ compiler. CMake stores the path of the selected compiler inside a variable called
+   If necessary, one can switch to a different C++ compiler (assuming of course that multiple compilers are installed in your computer). CMake stores the path of the selected compiler inside a variable called
    `CMAKE_CXX_COMPILER`. This can be set for example by using an environment variable:
    ```bash
    export CXX=<compiler name>
    ```
    Compiler names for Intel C++ Compiler, GCC and Clang are `icpc`, `g++` and `clang++`, respectively.  
+   Check to see if the compiler has been successfully switched by doing
+    ```bash
+   echo $CXX
+   ```
    Then, you can rerun the program by
    
    ```bash
