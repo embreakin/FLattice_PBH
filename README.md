@@ -62,7 +62,7 @@ The following items are necessary and must be installed in your computer to run 
    ```bash
    cd ~/Downloads/boost_1_80_0/
    ```
-   The number of boost depends on the version you have downloaded (I have downloaded `boost_1_80_0`).
+   The number for boost depends on the version you have downloaded (I have downloaded `boost_1_80_0`).
 1. Start by bootstrapping the installer:
     ```bash
    ./bootstrap.sh
