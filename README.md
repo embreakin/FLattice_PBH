@@ -70,7 +70,7 @@ The following items are necessary and must be installed in your computer to run 
 1. Once the above is finished, open project-config.jam in a text editor and comment out these lines:
    ```bash
     #if ! clang in [ feature.values <toolset> ]
-    #{
+    # {
     #    using clang ;
     #}
    
@@ -91,7 +91,7 @@ The following items are necessary and must be installed in your computer to run 
    ```bash
    export DYLD_LIBRARY_PATH=/usr/local/boost-1.80.0/lib:$DYLD_LIBRARY_PATH
    ```
-1. You are now ready to run the program using GCC (detail of this is explained below).
+1. You are now ready to run the program using GCC (detail explained below).
 - Doxygen   
    This must be installed to generate the document for the program. Install it by
    ```bash
