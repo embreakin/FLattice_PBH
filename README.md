@@ -1,7 +1,7 @@
 # FLattice_PBH
 ## Features
 
-This is a modified version of [FLattice](https://github.com/Axion243/FLattice) (though it appears that FLattice itself has been updated and improved in its independent path since I have started using it for my own use.), written predominantly in C++. This program is focused on solving and simulating the behavior of fields of double inflation type models. For the two inflationary periods of double inflation, the program solves first-order perturbation equations using the Quality-Controlled Runge-Kutta method in the momentum space. For the oscillatory period between the two inflationary periods, the program conducts lattice simulation in real space so that it captures non-linear effects of scalar fields.
+This is a modified version of [FLattice](https://github.com/Axion243/FLattice), written predominantly in C++. This program is focused on solving and simulating the behavior of fields of double inflation type models. For the two inflationary periods of double inflation, the program solves first-order perturbation equations using the Quality-Controlled Runge-Kutta method in the momentum space. For the oscillatory period between the two inflationary periods, the program conducts lattice simulation in real space so that it captures non-linear effects of scalar fields.
 
 Some notable features are...
 
@@ -16,7 +16,7 @@ Some notable features are...
 ## Requirements
 
 The following items are necessary and must be installed in your computer to run the program.   
-(I also assume that you are using Mac and Homebrew is already installed).
+(I also assume that you are using MacOS and Homebrew is already installed).
 
 - Cmake  
    Cmake is used to control the software compilation process. Install it by
