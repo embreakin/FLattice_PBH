@@ -27,22 +27,29 @@
 
 namespace fs = boost::filesystem;
 
+
 void dir_manage(const std::string exist_dir, const std::string new_dir )
 {
     static int par_set = 0; par_set++;
-    
+    std::cout << "aaa" <<std::endl;
+    fs::path p = fs::current_path();
+    std::cout << "bbb" <<std::endl;
+    std::cout << "Current path is " << p << std::endl;
     if (exist_par_set_rmall_switch)
     {
+        
         //Path of the existing parameter set directory
         const fs::path existpath_par_set("../" + par_set_name_rm );
-        
         //Tries to remove all files in there. If it fails, it throws an error.
         try {
             fs::remove_all(existpath_par_set);
+            std::cout << "Removing existing parameter set directory " << par_set_name_rm << " ..." << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(20));
+            std::cout << "Existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl;
         }
         catch (fs::filesystem_error& ex) {
             std::cout << ex.what() << std::endl;
-            std::cout << "failed to remove existing parameter set directory" << std::endl;
+            std::cout << "Failed to remove existing parameter set directory " << par_set_name_rm << std::endl;
             throw;
         }
     }
@@ -54,17 +61,20 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     //Tries to remove all files in there. If it fails, it throws an error.
     try {
         fs::remove_all(existpath);
+        std::cout << "Removing existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " ..." << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(20));
+        std::cout << "Existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl;
     }
     catch (fs::filesystem_error& ex) {
         std::cout << ex.what() << std::endl;
-        std::cout << "failed to remove existing data directory in existing parameter set directory" << std::endl;
+        std::cout << "Failed to remove existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << std::endl;
         throw;
     }
     }
     
     
-    
-    if(par_set==1)//This only needs to be done once
+    //Creating Parameter Set Directory
+    if(par_set==1)//This process only needs to be done once
         {
     //Path of the new parameter set directory
     const fs::path newpath_par_set("../" + par_set_name );
@@ -72,8 +82,28 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     //Tries to create the directory. If it fails, it throws an error.
     boost::system::error_code error_par_set;
     const bool result_par_set = fs::create_directory(newpath_par_set, error_par_set);
+            
+    int result_par_set_time = 0;
+    std::cout << "Creating parameter set directory " << par_set_name << " ..." << std::endl;
+           
+         std::cout << "1:" << std::boolalpha << result_par_set << std::endl;
+        //Give it some time to create the directory (max 30s)
+        while(!result_par_set){
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+            result_par_set_time++;
+            std::cout << "2:" << std::boolalpha << result_par_set << " " << result_par_set_time << "[s]" << std::endl;
+            if(result_par_set_time >= 30)
+            {
+                break;
+            }
+        }
+     
     if (!result_par_set || error_par_set) {
-        std::cout << "failed to create parameter set directory" << std::endl;
+        std::cout << "Failed to create parameter set directory " << par_set_name << std::endl;
+            }else
+            {
+                std::cout << "Parameter set directory " << par_set_name << " created successfully " << std::endl;
+                std::cout << "Elapsed Time: " << result_par_set_time  << std::endl;
             }
         }
     
@@ -83,8 +113,26 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     //Tries to create the directory. If it fails, it throws an error.
     boost::system::error_code error;
     const bool result = fs::create_directory(newpath, error);
+
+    int result_time = 0;
+    std::cout << "Creating directory " << new_dir << " in the newly created parameter set directory " << par_set_name << " ..." << std::endl;
+    
+    //Give it some time to create the directory (max 30s)
+    while(!result){
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+        result_time++;
+        if(result_time >= 30)
+        {
+            break;
+        }
+    }
+                
     if (!result || error) {
-        std::cout << "failed to create directory" << std::endl;
+        std::cout << "Failed to create directory " << new_dir << " in the newly created parameter set directory " << par_set_name << std::endl;
+    }else
+    {
+        std::cout << "Directory " << new_dir << " in parameter set directory " << par_set_name << " created successfully " << std::endl;
+        std::cout << "Elapsed Time: " << result_time  << std::endl;
     }
     
 }
