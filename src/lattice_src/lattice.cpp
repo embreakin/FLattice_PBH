@@ -35,7 +35,7 @@ void lattice(double** lattice_var)
     dir_manage(exist_dirname_ed, new_dirname_ed);
     dir_manage(exist_dirname_f, new_dirname_f);
     file_manage(exist_filename_status);
-    
+    Logout( "\n----------------------------------------------\n" );
      
     double sigma_initial = 0;
     
@@ -58,12 +58,15 @@ void lattice(double** lattice_var)
     dx = 1.* L/N;
     
     
-    Logout("sigma_initial = %2.5e \n", sigma_initial);
-    Logout("rescale_A = %2.5e \n", rescale_A);
-    Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e, k_lattice_grid_min_MPl =  %2.5e \n\n",kfrom_MPl_lattice, kto_MPl_lattice, k_lattice_grid_min_MPl);
-    Logout("kfrom_pr_lattice =  %2.5e, kto_pr_lattice =  %2.5e, k_lattice_grid_min_pr =  %2.5e \n\n",kfrom_MPl_lattice/rescale_B, kto_MPl_lattice/rescale_B, k_lattice_grid_min_pr);
-    Logout("rescale_B = %2.5e, L_pr = %2.5e, N = %d \n\n",rescale_B, L, N);
+    Logout("kfrom_lattice =  %2.5e [MPl], kto_lattice =  %2.5e [MPl], k_lattice_grid_min [MPl] =  %2.5e \n\n",kfrom_MPl_lattice, kto_MPl_lattice, k_lattice_grid_min_MPl);
     
+    
+    Logout("kfrom_lattice =  %2.5e [Mpc^-1], kto_lattice =  %2.5e [Mpc^-1], k_lattice_grid_min =  %2.5e [Mpc^-1] \n\n",kfrom_Mpc_lattice, kto_Mpc_lattice, kto_Mpc_lattice/(N/2));
+    
+    Logout("kfrom_lattice_pr =  %2.5e, kto_lattice_pr =  %2.5e, k_lattice_grid_min_pr =  %2.5e \n\n",kfrom_MPl_lattice/rescale_B, kto_MPl_lattice/rescale_B, k_lattice_grid_min_pr);
+    
+    
+    Logout("sigma_initial = %2.5e \n\n", sigma_initial);
     Logout("L = %2.5e [Mpc], dx = %2.5e [Mpc] \n\n", UC::xMPl_to_xMpc(L/rescale_B), UC::xMPl_to_xMpc(dx/rescale_B));
     Logout("Range of k_pr in lattice: %2.5e <= |k_pr| <= %2.5e \n\n", k_lattice_grid_min_pr, k_lattice_grid_max_pr);
     
@@ -79,10 +82,11 @@ void lattice(double** lattice_var)
     Logout( " dt_pr     =  %2.2e\n", dt );
     Logout( " dx_pr     =  %2.2e\n", dx );
     if(dt/dx <  1/sqrt(dim)){
-    Logout( " dt/dx     =  %2.2e < 1/sqrt(%d) =  %2.2e \n", dt/dx ,dim, 1/sqrt(dim));}
+    Logout( " dt_pr/dx_pr     =  %2.2e < 1/sqrt(%d) =  %2.2e \n", dt/dx ,dim, 1/sqrt(dim));}
     Logout( " Number of fields   =  %d\n", num_fields );
-    Logout( " Number of threads  =  %d\n\n", num_threads );
-
+    Logout( " Number of threads  =  %d\n", num_threads );
+    Logout("  rescale_A = %2.2e \n", rescale_A);
+    Logout("  rescale_B = %2.2e \n\n", rescale_B);
 
     //--------------------------------------------------
     //       SETTING INITIAL CONDITIONS

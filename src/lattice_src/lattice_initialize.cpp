@@ -323,11 +323,6 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
             amplitude = norm*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.)/sqrt(2);
             amplitude_div = norm_div*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.)/sqrt(2);
             
-               std::cout << "norm = " << norm << std::endl;
-               std::cout << "norm_div = " << norm_div << std::endl;
-               std::cout << "amplitude = " << amplitude << std::endl;
-            std::cout << "amplitude_div = " << amplitude_div << std::endl;
-            
             break;
         default:
             Logout( "Parameter 'fluc_calc_switch' must be 0 ~ 2. \n" );
@@ -364,8 +359,8 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
     {
         deriv[0] =  re_f_left_div + re_f_right_div;
         deriv[1] = im_f_left_div + im_f_right_div;
-        std::cout << "field[0] = " << field[0] << std::endl;
-        std::cout << "deriv[0] = " << deriv[0] << std::endl;
+//        std::cout << "field[0] = " << field[0] << std::endl;
+//        std::cout << "deriv[0] = " << deriv[0] << std::endl;
         
     }else{
     deriv[0] = (omega/exp(OSCSTART))*(im_f_left - im_f_right);
@@ -780,9 +775,9 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
             
         }
         
-        Logout(" initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
-        Logout(" initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
-        
+//        Logout(" initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
+//        Logout(" initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
+//
     }
     
     //Calculate effective mass
@@ -808,8 +803,8 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
         initial_field_derivs[i] = (rescale_A/rescale_B)*initial_field_derivs[i] + hubble_parameter*initial_field_values[i]/rescale_B;
         
         
-        Logout("pr initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
-        Logout("pr initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
+//        Logout("pr initial_field_values[%d] = %2.5e \n",i,initial_field_values[i]);
+//        Logout("pr initial_field_derivs[%d] = %2.5e \n",i,initial_field_derivs[i]);
     }
     
     Logout("FIXPSI = %2.5e \n",FIXPSI);

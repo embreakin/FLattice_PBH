@@ -165,7 +165,7 @@ int fluc_calc_switch  = 1;//Choose type of fluctuation initialization for scalar
 double kfrom_Mpc_lattice = 1;//[Mpc^-1] Calculate from this k for lattice range
 double kto_Mpc_lattice = 3000;//[Mpc^-1] Calculate to this k for lattice range
 
-int N = 64;//512; //Should be 2^n
+int N = 512;//512; //Should be 2^n
 
 double kfrom_MPl_lattice = UC::kMpc_to_kMPl(kfrom_Mpc_lattice); //convert to MPl units
 double kto_MPl_lattice = UC::kMpc_to_kMPl(kto_Mpc_lattice); //convert to MPl units

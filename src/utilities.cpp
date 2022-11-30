@@ -31,25 +31,24 @@ namespace fs = boost::filesystem;
 void dir_manage(const std::string exist_dir, const std::string new_dir )
 {
     static int par_set = 0; par_set++;
-    std::cout << "aaa" <<std::endl;
-    fs::path p = fs::current_path();
-    std::cout << "bbb" <<std::endl;
-    std::cout << "Current path is " << p << std::endl;
-    if (exist_par_set_rmall_switch)
+    
+    if (exist_par_set_rmall_switch && par_set==1)//This process only needs to be done once
     {
+        fs::path p = fs::current_path();
+        std::cout << "Current path is " << p << std::endl<< std::endl;
         
         //Path of the existing parameter set directory
         const fs::path existpath_par_set("../" + par_set_name_rm );
         //Tries to remove all files in there. If it fails, it throws an error.
         try {
             fs::remove_all(existpath_par_set);
-            std::cout << "Removing existing parameter set directory " << par_set_name_rm << " ..." << std::endl;
-            std::this_thread::sleep_for(std::chrono::seconds(20));
-            std::cout << "Existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl;
+            std::cout << "Removing existing parameter set directory " << par_set_name_rm << " ..." << std::endl << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            std::cout << "Existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl<< std::endl;
         }
         catch (fs::filesystem_error& ex) {
             std::cout << ex.what() << std::endl;
-            std::cout << "Failed to remove existing parameter set directory " << par_set_name_rm << std::endl;
+            std::cout << "Failed to remove existing parameter set directory " << par_set_name_rm << std::endl<< std::endl;
             throw;
         }
     }
@@ -61,13 +60,13 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     //Tries to remove all files in there. If it fails, it throws an error.
     try {
         fs::remove_all(existpath);
-        std::cout << "Removing existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " ..." << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(20));
-        std::cout << "Existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl;
+        std::cout << "Removing existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " ..." << std::endl<< std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::cout << "Existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl<< std::endl;
     }
     catch (fs::filesystem_error& ex) {
         std::cout << ex.what() << std::endl;
-        std::cout << "Failed to remove existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << std::endl;
+        std::cout << "Failed to remove existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << std::endl<< std::endl;
         throw;
     }
     }
@@ -84,14 +83,13 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     const bool result_par_set = fs::create_directory(newpath_par_set, error_par_set);
             
     int result_par_set_time = 0;
-    std::cout << "Creating parameter set directory " << par_set_name << " ..." << std::endl;
+    std::cout << "Creating parameter set directory " << par_set_name << " ..." << std::endl<< std::endl;
            
-         std::cout << "1:" << std::boolalpha << result_par_set << std::endl;
         //Give it some time to create the directory (max 30s)
         while(!result_par_set){
         std::this_thread::sleep_for(std::chrono::seconds(1));
             result_par_set_time++;
-            std::cout << "2:" << std::boolalpha << result_par_set << " " << result_par_set_time << "[s]" << std::endl;
+            
             if(result_par_set_time >= 30)
             {
                 break;
@@ -99,11 +97,11 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
         }
      
     if (!result_par_set || error_par_set) {
-        std::cout << "Failed to create parameter set directory " << par_set_name << std::endl;
+        std::cout << "Failed to create parameter set directory " << par_set_name << std::endl<< std::endl;
             }else
             {
-                std::cout << "Parameter set directory " << par_set_name << " created successfully " << std::endl;
-                std::cout << "Elapsed Time: " << result_par_set_time  << std::endl;
+                std::cout << "Parameter set directory " << par_set_name << " created successfully " << std::endl<< std::endl;
+                std::cout << "Elapsed Time: " << result_par_set_time  << std::endl<< std::endl;
             }
         }
     
@@ -115,7 +113,7 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     const bool result = fs::create_directory(newpath, error);
 
     int result_time = 0;
-    std::cout << "Creating directory " << new_dir << " in the newly created parameter set directory " << par_set_name << " ..." << std::endl;
+    std::cout << "Creating directory " << new_dir << " in the newly created parameter set directory " << par_set_name << " ..." << std::endl<< std::endl;
     
     //Give it some time to create the directory (max 30s)
     while(!result){
@@ -128,11 +126,11 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     }
                 
     if (!result || error) {
-        std::cout << "Failed to create directory " << new_dir << " in the newly created parameter set directory " << par_set_name << std::endl;
+        std::cout << "Failed to create directory " << new_dir << " in the newly created parameter set directory " << par_set_name << std::endl<< std::endl;
     }else
     {
-        std::cout << "Directory " << new_dir << " in parameter set directory " << par_set_name << " created successfully " << std::endl;
-        std::cout << "Elapsed Time: " << result_time  << std::endl;
+        std::cout << "Directory " << new_dir << " in parameter set directory " << par_set_name << " created successfully " << std::endl<< std::endl;
+        std::cout << "Elapsed Time: " << result_time  << std::endl<< std::endl;
     }
     
 }
@@ -425,7 +423,7 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
                 k_horizoncrossing2 = 0.7*a*H;
                 
                 Logout("\n\n-----------------------------------------------------\n\n");
-                std::cout << "OSCSTART (Perturbation) = " << std::setw(20) << std::setprecision(20)  << OSCSTART  << std::endl ;
+                std::cout << "OSCSTART (Perturbation) = " << OSCSTART  << std::endl ;
                 std::cout << "Variable values at OSCSTART (Perturbation class)" << std::endl ;
                 std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
                 std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;

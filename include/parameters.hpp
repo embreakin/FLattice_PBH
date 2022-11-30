@@ -72,7 +72,7 @@ extern int kinterval_knum;
 extern bool lattice_kmodes_switch;
 
 //Select existing parameter set to remove related directories and files
-#define par_set_num_rm 0
+#define par_set_num_rm 1
 
 //Choose Parameter Set
 #define par_set_num 1

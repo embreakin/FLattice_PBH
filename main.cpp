@@ -42,6 +42,7 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     std::chrono::system_clock::time_point  time_start, time_end;
     time_start = std::chrono::system_clock::now(); // Start measuring elapsed time
     
+    Logout("=====================================================\n");
     //Output Data File/Directory Management
     if(k_switch){
     dir_manage(exist_dirname_k, new_dirname_k);
