@@ -31,7 +31,7 @@ std::string par_set_name_rm = par_set[par_set_num_rm]["Name"].get<std::string>()
 
 
 ////====================================
-////The following only holds for m=2
+//The following only holds for m=2
 ////====================================
 double msigma = sqrt(8*pow(mu_par,3.0)/M_par);//effective mass of sigma
 
@@ -54,12 +54,14 @@ std::string filename_k = par_set_name + "_kAnalyze"; // Head of the file name fo
 
 bool k_switch = false; //If this is true, the existing dir and files for kAnalyze are deleted and new dir and files are created. If false, the dir and files remain as it is.
 
-std::string exist_filename_sp  = par_set_name_rm + "_spectrum.txt";// remove this existing spectrum file
-std::string new_filename_sp  = par_set_name + "_spectrum.txt"; // create this new spectrum file
+std::string exist_filename_sp_final  = par_set_name_rm + "_spectrum_final.txt";// remove this existing spectrum file
+std::string new_filename_sp_final  = par_set_name + "_spectrum_final.txt"; // create this new spectrum file
 
-std::string exist_filename_spbfosc  = par_set_name_rm + "_spectrum_bfosc.txt";// remove this existing spectrum file
-std::string new_filename_spbfosc  = par_set_name + "_spectrum_bfosc.txt"; // create this new spectrum file
+std::string exist_filename_sp_bfosc  = par_set_name_rm + "_spectrum_bfosc.txt";// remove this existing spectrum file
+std::string new_filename_sp_bfosc  = par_set_name + "_spectrum_bfosc.txt"; // create this new spectrum file
 
+std::string exist_filename_sp_afosc  = par_set_name_rm + "_spectrum_afosc.txt";// remove this existing spectrum file
+std::string new_filename_sp_afosc = par_set_name + "_spectrum_afosc.txt"; // create this new spectrum file
 
 //----------------------------------
 //Variables for zeromode calculation
@@ -97,7 +99,10 @@ bool lattice_kmodes_switch = false; //If this is true, it will use the modes cal
 //Outputs
 bool kanalyze_switch = true;// true:Calculate k-analyze, false:Don't calculate k-analyze
 bool spectrum_switch = true;// true:Calculate final spectrum, false:Don't calculate final spectrum
-bool spectrum_bfosc_switch = true; // true:Calculate spectrum before oscillation starts, false:Don't calculate
+bool spectrum_bfosc_switch = true; // true:Calculate spectrum right before oscillation period starts, false:Don't calculate
+bool spectrum_afosc_switch = true;
+// true:Calculate spectrum right after oscillation period ends, false:Don't calculate
+std::vector<std::string> sp_file_vec;
 
 //Array elements
 const int  N_pert=55;
@@ -110,9 +115,9 @@ const int  N_pert=55;
 //int kinterval_knum = 10;// [knum units] Calculate with this interval of knum
 
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a)
-DP kfrom_Mpc = 1.0e-4;//[Mpc^-1] Calculate from this k (Must be greater than 0)
-DP kto_Mpc = 1.0e+4;//[Mpc^-1] Calculate to this k
-int kinterval_knum = 100;// [knum units] Calculate with this interval of knum
+DP kfrom_Mpc = par_set[par_set_num]["kfrom_Mpc"];//1.0e-4;//[Mpc^-1] Calculate from this k (Must be greater than 0)
+DP kto_Mpc = par_set[par_set_num]["kto_Mpc"];//1.0e+4;//[Mpc^-1] Calculate to this k
+int kinterval_knum = par_set[par_set_num]["kinterval_knum"];//100;// [knum units] Calculate with this interval of knum
 
 
 
@@ -144,7 +149,7 @@ std::string exist_dirname_k_lattice = par_set_name_rm + "_kAnalyze_lattice"; //r
 std::string new_dirname_k_lattice = par_set_name + "_kAnalyze_lattice"; //create a new directory for k-analyze txt files
 std::string filename_k_lattice = par_set_name + "_kAnalyze"; // Head of the file name for k-analyze txt files
 
-bool k_lattice_switch = true; //If this is true, the existing dir and files for kAnalyze using lattice simulation are deleted and new dir and files are created. If false, the dir and files remain as it is.
+bool k_lattice_switch = false; //If this is true, the existing dir and files for kAnalyze using lattice simulation are deleted and new dir and files are created. If false, the dir and files remain as it is.
 
 bool k_lattice_startfromlattice_switch = false; //If this is true, data output of kAnalyze_lattice starts from the time when lattice simulation starts. If false, then data output starts from the beginning (the beginning of hybrid inflation)
 
@@ -162,10 +167,10 @@ int fluc_calc_switch  = 1;//Choose type of fluctuation initialization for scalar
 //double kto_Mpc_lattice = 400;//[Mpc^-1] Calculate to this k for lattice range
 
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a)
-double kfrom_Mpc_lattice = 1;//[Mpc^-1] Calculate from this k for lattice range
-double kto_Mpc_lattice = 3000;//[Mpc^-1] Calculate to this k for lattice range
+double kfrom_Mpc_lattice = par_set[par_set_num]["kfrom_Mpc_lattice"];//1;//[Mpc^-1] Calculate from this k for lattice range
+double kto_Mpc_lattice = par_set[par_set_num]["kto_Mpc_lattice"];//3000;//[Mpc^-1] Calculate to this k for lattice range
 
-int N = 512;//512; //Should be 2^n
+int N = par_set[par_set_num]["N"];//512; //Should be 2^n
 
 double kfrom_MPl_lattice = UC::kMpc_to_kMPl(kfrom_Mpc_lattice); //convert to MPl units
 double kto_MPl_lattice = UC::kMpc_to_kMPl(kto_Mpc_lattice); //convert to MPl units

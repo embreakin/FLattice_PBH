@@ -322,7 +322,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
 //        Logout("delstart[0] = %2.5e \n",delstart[i] );
         
         if(spectrum_bfosc_switch){
-            spectrum_output(new_filename_spbfosc, xp2, delp, timecount, knum, k_comoving);
+            spectrum_output(new_filename_sp_bfosc, xp2, delp, timecount, knum, k_comoving);
         };
 
 
@@ -396,7 +396,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 //     cout << "Final Result delstart[2] = " << tr2[2] << " delp[2][" << timecount-1 << "] = " << delp[2][timecount-1] << endl;
                 //   for (i=0;i<N_pert;i++) cout << "Final Result tr2[" << i << "]" << tr2[i] << endl;
                 if(spectrum_switch){
-                spectrum_output(new_filename_sp, xp2, delp, timecount, knum, k_comoving);
+                spectrum_output(new_filename_sp_final, xp2, delp, timecount, knum, k_comoving);
                 }
         
         if(m==0 && nonlatticerange_count == 0){
@@ -568,6 +568,10 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
             //THRUNP is set by hand, estimeted from the result of zero-mode evolution.
             //If horizon entering is later, this step is skipped.
         
+        if(spectrum_bfosc_switch){
+            spectrum_output(new_filename_sp_bfosc, xp2, delp, timecount, knum, k_comoving);
+        };
+        
         if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
         {
             for (i=0;i<N_pert;i++){ latticep[outrange_num+latticerange_loop][i] = delstart[i];
@@ -670,6 +674,10 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
 //             Logout("UNPERT_EFOLD = %2.5e \n", UNPERT_EFOLD);
 //             }
                  
+         if(spectrum_afosc_switch){
+             spectrum_output(new_filename_sp_afosc, xp2, delp, timecount, knum, k_comoving);
+         };
+         
              if(xmid < UNPERT_EFOLD){
                  NR::odeintpert(delstart,xmid,UNPERT_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
          //         std::cout << "timecount = " << timecount << std::endl;
@@ -727,7 +735,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             //     cout << "Final Result delstart[2] = " << tr2[2] << " delp[2][" << timecount-1 << "] = " << delp[2][timecount-1] << endl;
             //   for (i=0;i<N1;i++) cout << "Final Result tr2[" << i << "]" << tr2[i] << endl;
             if(spectrum_switch){
-                spectrum_output(new_filename_sp, xp2, delp, timecount, knum, k_comoving);
+                spectrum_output(new_filename_sp_final, xp2, delp, timecount, knum, k_comoving);
             }
     
             Logout( "Calculation %d%% Complete\n\n",percentage);

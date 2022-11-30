@@ -44,14 +44,16 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     
     Logout("=====================================================\n");
     //Output Data File/Directory Management
-    if(k_switch){
+    if(k_switch || exist_par_set_rmall_switch){
     dir_manage(exist_dirname_k, new_dirname_k);
     }
     if(k_lattice_switch){
     dir_manage(exist_dirname_k_lattice, new_dirname_k_lattice);
     }
     
-    file_manage(exist_filename_sp);
+    file_manage(exist_filename_sp_final);
+    file_manage(exist_filename_sp_bfosc);
+    file_manage(exist_filename_sp_afosc);
     file_manage(exist_filename_zero);
     
     //------------------------

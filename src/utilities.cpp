@@ -484,23 +484,44 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
 void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving){
     
     static int output_timecount = 0;
-    static int knum_static = knum;
     
-    if(knum_static <= knum )
-    {
+//    std::cout << "1: output_timecount = " << output_timecount <<
+//    " File Name: " << file << std::endl << std::endl;
+    
+    if(output_timecount == 0){
+    sp_file_vec.push_back(file);
         ++output_timecount;
-    }
-    else//corresponeds to setting a new spectrum at different efold
+    }else
     {
-        output_timecount = 1;
+        for (int fnum = 0; fnum < (int)sp_file_vec.size(); fnum++ )
+                {
+                    if(sp_file_vec[fnum] == file)//Already encountered this spectrum file
+                    {
+                        ++output_timecount;
+                        break;
+                    }else
+                    {
+                        if(fnum == (int)sp_file_vec.size() - 1 )//First time encountering this spectrum file
+                        {
+                            sp_file_vec.push_back(file);
+                            output_timecount = 1;
+                            break;
+                        }
+                        
+                        
+                    }
+                        
+                        
+                    
+                    
+                }
     }
-    
-    knum_static = knum;
     
     std::stringstream ss;
     std::ofstream sp_output;
     ss << "../" << par_set_name << "/" << file;
 
+//    std::cout << "2: output_timecount = " << output_timecount << " File Name: " << file << std::endl << std::endl;
     if( output_timecount == 1 )
     {
         sp_output.open(ss.str().c_str(),std::ios::out);
@@ -538,7 +559,7 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     //output log(Gravitational Potential) and log(Zeta), along with k and knum.
     sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " "
     << std::setw(5) << knum << " "
-    << std::setw(10) << UC::knum_to_kMpc(knum) << " "
+    << std::setw(10) << UC::kMPl_to_kMpc(k_comoving) << " "
     << std::setw(10) << PPot << " "
     << std::setw(10) << Pzeta <<  " "
     << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << " ";

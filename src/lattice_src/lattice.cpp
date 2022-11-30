@@ -35,6 +35,7 @@ void lattice(double** lattice_var)
     dir_manage(exist_dirname_ed, new_dirname_ed);
     dir_manage(exist_dirname_f, new_dirname_f);
     file_manage(exist_filename_status);
+    
     Logout( "\n----------------------------------------------\n" );
      
     double sigma_initial = 0;
