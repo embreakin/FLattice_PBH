@@ -51,7 +51,7 @@ The following items are necessary and must be installed in your computer to run 
    ```bash
    brew install boost
    ```
-   will install the library. However for GCC, this doesn't work.  
+   will install the library and it will work just fine. However for GCC, this method doesn't work.  
    For GCC, do the following:  
 1. First, make sure that you don't have boost installed. If you have already installed boost using Homebrew, then make sure you uninstall it by
    ```bash
