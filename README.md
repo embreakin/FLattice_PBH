@@ -141,6 +141,11 @@ Here is a simple explanation on how to run the program.
    ```bash
    ./FLattice_PBH
    ```
+   To also save terminal output to a file, run the code for instance by
+   ```bash
+   ./FLattice_PBH |& tee Terminal_Output.txt
+   ```
+   See [here](https://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file) for instance for further detail.
 3. Selecting Another C++ compiler (Optional)
 
    If necessary, one can switch to a different C++ compiler (assuming of course that multiple compilers are installed in your computer). CMake stores the path of the selected compiler inside a variable called
