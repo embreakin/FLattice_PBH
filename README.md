@@ -28,7 +28,7 @@ The following items are necessary and must be installed in your computer to run 
    The program can be compiled in one of the following three compiliers: 
    - Intel C++ Compiler
    - GCC (g++) 
-   - Clang (also AppleClang).  
+   - Clang (or AppleClang).  
    
    Clang is installed in MacOS by default. Intel and GCC are not and must be installed manually.
  
