@@ -298,7 +298,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         
         if(m==0 && nonlatticerange_count == 0){
         time_OSCSTART_pert = std::chrono::system_clock::now();
-        time_calc(time_BEGIN_pert,time_OSCSTART_pert,"Perturbation BEGIN~OSCSTART");
+        time_calc(time_BEGIN_pert,time_OSCSTART_pert,"Perturbation BEGIN~OSCSTART (Non-lattice Range)");
         }
         
             Gamma1 = GLARGE2;
@@ -351,7 +351,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         
         if(m==0 && nonlatticerange_count == 0){
         time_UNPERT_pert = std::chrono::system_clock::now();
-        time_calc(time_OSCSTART_pert, time_UNPERT_pert,"Perturbation OSCSTART~UNPERT");
+        time_calc(time_OSCSTART_pert, time_UNPERT_pert,"Perturbation OSCSTART~UNPERT (Non-lattice Range)");
         }
         
             //Evolution equations for phi and its perturbations are solved, with zero-modes of sigma and psi are gixed to minimum
@@ -378,7 +378,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         
         if(m==0 && nonlatticerange_count == 0){
         time_NEWINF_END_pert = std::chrono::system_clock::now();
-        time_calc(time_UNPERT_pert, time_NEWINF_END_pert,"Perturbation UNPERT~NEWINF_END");
+        time_calc(time_UNPERT_pert, time_NEWINF_END_pert,"Perturbation UNPERT~NEWINF_END (Non-lattice Range)");
         }
         
             //Evolution equations for phi and all perturbations are solved, with zero-modes of sigma and psi are fixed to minimum.
@@ -401,8 +401,8 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         
         if(m==0 && nonlatticerange_count == 0){
         time_END_pert = std::chrono::system_clock::now();
-        time_calc(time_NEWINF_END_pert,time_END_pert,"Perturbation NEWINF_END~END");
-        time_calc(time_BEGIN_pert,time_END_pert,"Perturbation BEGIN~END");
+        time_calc(time_NEWINF_END_pert,time_END_pert,"Perturbation NEWINF_END~END (Non-lattice Range)");
+        time_calc(time_BEGIN_pert,time_END_pert,"Perturbation BEGIN~END (Non-lattice Range)");
             Logout( "\n" );
         }
         
@@ -472,13 +472,19 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
     
      Logout("-----------------------------------------------------\n\n");
     
+    std::chrono::system_clock::time_point  time_BEGIN_pert, time_OSCSTART_pert;
+    
     for (int latticerange_loop = 0; latticerange_loop < latticerange_num; latticerange_loop++){
 
+        if(latticerange_loop==0){
+        time_BEGIN_pert = std::chrono::system_clock::now();
+        }
+        
            percentage =  round( ( latticerange_loop + 1 )*100 / ( latticerange_num ) );
 
            k_comoving = k_comoving_start + k_lattice_grid_min_MPl*latticerange_loop;
             knum = UC::kMPl_to_knum(k_comoving);
-            Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: ", latticerange_loop+1, latticerange_num, knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
+            Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n", latticerange_loop+1, latticerange_num, knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
         
            p=itvl;
             
@@ -550,6 +556,14 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
                 a=exp(xmid);
                 for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
             };
+        
+        
+            if(latticerange_loop==0){
+            time_OSCSTART_pert = std::chrono::system_clock::now();
+            time_calc(time_BEGIN_pert,time_OSCSTART_pert,"Perturbation BEGIN~OSCSTART (Lattice Range)");
+            }
+        
+        
             Gamma1 = GLARGE2;
             Gamma2 = GLARGE2;
             //        for (i=0;i<N1;i++) std::cout << "delstart[" << i << "] = " << delstart[i] << std::endl;
@@ -618,6 +632,8 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
 
 void Perturbation::latticerange_secondhalf_calc( double** latticep ){
     
+    
+    
     Vec_DP delstart(N_pert);
     
      Logout("kfrom_MPl_lattice =  %2.5e, kto_MPl_lattice =  %2.5e, k_lattice_grid_min_MPl = %2.5e, floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl) =  %2.5e\n", kfrom_MPl_lattice, kto_MPl_lattice, k_lattice_grid_min_MPl, floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl));
@@ -644,7 +660,14 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
          
     }
     
+    Logout("-----------------------------------------------------\n\n");
+    std::chrono::system_clock::time_point time_OSCEND_pert, time_UNPERT_pert, time_NEWINF_END_pert, time_END_pert;
+
+    //LOOP
      for (int latticerange_loop = 0; latticerange_loop < latticerange_num; latticerange_loop++){
+         
+         
+         
     
              percentage =  round( ( latticerange_loop + 1 )*100 / ( latticerange_num ) );
     
@@ -655,7 +678,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
 //             }
              
              knum = UC::kMPl_to_knum(k_comoving);
-             Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: ", latticerange_loop+1, latticerange_num, knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
+             Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n", latticerange_loop+1, latticerange_num, knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
              
              //set delstart
              if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
@@ -677,6 +700,11 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
          if(spectrum_afosc_switch){
              spectrum_output(new_filename_sp_afosc, xp2, delp, timecount, knum, k_comoving);
          };
+         
+         
+         if(latticerange_loop==0){
+            time_OSCEND_pert = std::chrono::system_clock::now();
+         }
          
              if(xmid < UNPERT_EFOLD){
                  NR::odeintpert(delstart,xmid,UNPERT_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
@@ -702,7 +730,14 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             for (i=0;i<6;i++) delstart[40+i]=0;
             //Evolution equations for phi and its perturbations are solved, with zero-modes of sigma and psi are fixed to minimum
             //until phi begins oscillation at ln(a)=THRLAST.
-            //THRLAST is set by hand according to the result for zero-mode.
+            //UNPERT_EFOLD is set by hand according to the result for zero-mode.
+         
+         
+         if(latticerange_loop==0){
+         time_UNPERT_pert = std::chrono::system_clock::now();
+         time_calc(time_OSCEND_pert, time_UNPERT_pert, "Perturbation OSCEND~UNPERT (Lattice Range)");
+         }
+         
             NR::odeintpert(delstart,UNPERT_EFOLD,NEWINF_END_EFOLD,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
             //         std::cout << "timecount = " << timecount << std::endl;
              
@@ -724,6 +759,12 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             //until the amplitude of oscillation of phi becomes sufficiently small at ln(a)=xend.
             //xend is set by hand according to the result for zero-mode.
             //(if perturbations of sigma and psi are not solved, superhorizon parturbations begin to decrease)
+         
+         if(latticerange_loop==0 ){
+         time_NEWINF_END_pert = std::chrono::system_clock::now();
+         time_calc(time_UNPERT_pert, time_NEWINF_END_pert,"Perturbation UNPERT~NEWINF_END (Lattice Range)");
+         }
+         
              NR::odeintpert(delstart,xmid,xend,epslast,h2,hmin,nok,nbad,timecount,dxsav,fixfix,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
            
             //         std::cout << "timecount = " << timecount << std::endl;
@@ -737,6 +778,12 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             if(spectrum_switch){
                 spectrum_output(new_filename_sp_final, xp2, delp, timecount, knum, k_comoving);
             }
+         
+         if(latticerange_loop==0 ){
+         time_END_pert = std::chrono::system_clock::now();
+         time_calc(time_NEWINF_END_pert,time_END_pert,"Perturbation NEWINF_END~END (Lattice Range)");
+             Logout( "\n" );
+         }
     
             Logout( "Calculation %d%% Complete\n\n",percentage);
         }; //End 2nd for loop of k

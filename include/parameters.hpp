@@ -73,11 +73,11 @@ extern DP kto_Mpc;
 extern int kinterval_knum;
 extern bool lattice_kmodes_switch;
 
-//Select existing parameter set to remove related directories and files
-#define par_set_num_rm 1
+//Select existing parameter set to remove its directories and files
+#define par_set_num_rm 0
 
 //Choose Parameter Set
-#define par_set_num 1
+#define par_set_num 0
 //Takayama's Master Thesis: 0
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a): 1
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (b): 2

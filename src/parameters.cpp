@@ -84,7 +84,7 @@ DP CNT = (-1)*Vbare(0.0,FIXPSI,FIXPHI);
 DP Gamma1,Gamma2,Gamma3;
 DP OSCSTART;
 
-std::vector<int> knum_zero = {200, 400, 634, 700};//knum for calculating zeromode
+std::vector<int> knum_zero = {200, 400, 634, 700};//knum for calculating k/aH
 
 int k_target = knum_zero[3]; //target wave mode actually used for zeromode calculation
 

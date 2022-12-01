@@ -159,12 +159,15 @@ void time_calc(std::chrono::system_clock::time_point time_start, std::chrono::sy
     int time_hours = std::chrono::duration_cast<std::chrono::hours>(time_end - time_start).count();
     int time_minutes = std::chrono::duration_cast<std::chrono::minutes>(time_end - time_start).count() - time_hours*60;
     int time_seconds = std::chrono::duration_cast<std::chrono::seconds>(time_end - time_start).count() - time_hours*60*60 - time_minutes*60;
+    int time_milliseconds =
+    std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count() - time_hours*60*60*1000 - time_minutes*60*1000 - time_seconds*1000;
+    
     int time_days = time_hours / 24;
     
     time_hours = time_hours % 24;
     
     Logout("-----------------------------------------------------\n\n");
-    Logout( "%s: %d d %d h %d m %d s\n\n",time_name.c_str(),time_days,time_hours,time_minutes,time_seconds);
+    Logout( "%s: %d d %d h %d m %d s %d ms\n\n",time_name.c_str(),time_days,time_hours,time_minutes,time_seconds,time_milliseconds);
     Logout("-----------------------------------------------------\n");
 }
 
