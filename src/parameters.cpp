@@ -52,8 +52,6 @@ std::string exist_dirname_k = par_set_name_rm + "_kAnalyze_nonlattice"; //remove
 std::string new_dirname_k = par_set_name + "_kAnalyze_nonlattice"; //create a new directory for k-analyze txt files
 std::string filename_k = par_set_name + "_kAnalyze"; // Head of the file name for k-analyze txt files
 
-bool k_switch = false; //If this is true, the existing dir and files for kAnalyze are deleted and new dir and files are created. If false, the dir and files remain as it is.
-
 std::string exist_filename_sp_final  = par_set_name_rm + "_spectrum_final.txt";// remove this existing spectrum file
 std::string new_filename_sp_final  = par_set_name + "_spectrum_final.txt"; // create this new spectrum file
 
@@ -96,6 +94,7 @@ bool perturbation_switch = true;//This needs to be true for perturbation calcula
 
 bool lattice_kmodes_switch = false; //If this is true, it will use the modes calculated in lattice simulation for non lattice zeromode w/ perturb calculation
 
+bool k_switch_rm = false; // If this is true, the existing dir and files for kAnalyze from non-lattice simulation are deleted and new dir and files are created. If false, the dir and files remain as it is (note that it is assumed that exist_par_set_rmall_switch is false).
 //Outputs
 bool kanalyze_switch = true;// true:Calculate k-analyze, false:Don't calculate k-analyze
 bool spectrum_switch = true;// true:Calculate final spectrum, false:Don't calculate final spectrum
@@ -117,7 +116,12 @@ const int  N_pert=55;
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a)
 DP kfrom_Mpc = par_set[par_set_num]["kfrom_Mpc"];//1.0e-4;//[Mpc^-1] Calculate from this k (Must be greater than 0)
 DP kto_Mpc = par_set[par_set_num]["kto_Mpc"];//1.0e+4;//[Mpc^-1] Calculate to this k
+int kfrom_knum = UC::kMpc_to_knum(kfrom_Mpc);
+int kto_knum = UC::kMpc_to_knum(kto_Mpc);
+
 int kinterval_knum = par_set[par_set_num]["kinterval_knum"];//100;// [knum units] Calculate with this interval of knum
+
+
 
 
 
@@ -149,10 +153,6 @@ std::string exist_dirname_k_lattice = par_set_name_rm + "_kAnalyze_lattice"; //r
 std::string new_dirname_k_lattice = par_set_name + "_kAnalyze_lattice"; //create a new directory for k-analyze txt files
 std::string filename_k_lattice = par_set_name + "_kAnalyze"; // Head of the file name for k-analyze txt files
 
-bool k_lattice_switch = false; //If this is true, the existing dir and files for kAnalyze using lattice simulation are deleted and new dir and files are created. If false, the dir and files remain as it is.
-
-bool k_lattice_startfromlattice_switch = false; //If this is true, data output of kAnalyze_lattice starts from the time when lattice simulation starts. If false, then data output starts from the beginning (the beginning of hybrid inflation)
-
 //-------------------------------------------------
 //Variables for calculating lattice range
 //-------------------------------------------------
@@ -162,6 +162,11 @@ bool initialize_perturb_switch = true; // true:Initialize fluctuation, false:Don
 
 int fluc_calc_switch  = 1;//Choose type of fluctuation initialization for scalar fields (for gravitational fluctuation, it is set to 2 regardless) 0:LatticeEasy case (when amplitudes of fluctuations are not predetermined) 1:when we use the amplitudes of predetermined fluctuations 2:gravitational perturbation
 
+
+bool k_lattice_switch_rm = false; //If this is true, the existing dir and files for kAnalyze using lattice simulation are deleted and new dir and files are created. If false, the dir and files remain as it is  (note that it is assumed that exist_par_set_rmall_switch is false).
+
+bool k_lattice_startfromlattice_switch = false; //If this is true, data output of kAnalyze_lattice starts from the time when lattice simulation starts. If false, then data output starts from the beginning (the beginning of hybrid inflation)
+
 //Takayama Master Thesis
 //double kfrom_Mpc_lattice = 3;//[Mpc^-1] Calculate from this k for lattice range
 //double kto_Mpc_lattice = 400;//[Mpc^-1] Calculate to this k for lattice range
@@ -169,6 +174,13 @@ int fluc_calc_switch  = 1;//Choose type of fluctuation initialization for scalar
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a)
 double kfrom_Mpc_lattice = par_set[par_set_num]["kfrom_Mpc_lattice"];//1;//[Mpc^-1] Calculate from this k for lattice range
 double kto_Mpc_lattice = par_set[par_set_num]["kto_Mpc_lattice"];//3000;//[Mpc^-1] Calculate to this k for lattice range
+int kfrom_knum_lattice = UC::kMpc_to_knum(kfrom_Mpc_lattice);
+int kto_knum_lattice = UC::kMpc_to_knum(kto_Mpc_lattice);
+int kres_knum = (kto_knum_lattice - kfrom_knum) % kinterval_knum;
+//This corresponds to the first mode in the upper range
+int kstart_knum = kto_knum_lattice + ( kinterval_knum - kres_knum );
+
+
 
 int N = par_set[par_set_num]["N"];//512; //Should be 2^n
 

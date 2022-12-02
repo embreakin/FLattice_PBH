@@ -138,7 +138,7 @@ void Perturbation::perturbation_initial(Vec_DP &tr2, DP &k_comoving, DP &a, DP &
 
 //Zeromode with perturbation calculation (no lattice range)
 void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zeromode){
-
+        
     Vec_DP delstart(N_pert);
     Vec_DP unp2(N_zero), tr2(N_pert);
     Vec_DP adia(3),iso(3),fields(3),numdens(3),term(6);
@@ -159,7 +159,6 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     else{
         
         if(lattice_kmodes_switch){
-            
             
             
             if(k_lattice_grid_min_MPl < kfrom_MPl_lattice)
@@ -200,6 +199,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     }
     
    std::chrono::system_clock::time_point  time_BEGIN_pert, time_OSCSTART_pert, time_UNPERT_pert,time_NEWINF_END_pert, time_END_pert;
+    
     
     for (int m = 0; m < m_end; m++)
     //for (knum = k_begin; knum < k_loopend; knum = knum + kinterval_knum)
@@ -711,7 +711,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
          //         std::cout << "timecount = " << timecount << std::endl;
                  
                  if(kanalyze_switch){
-                 kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum,k_comoving);
+                 kanalyze_output(new_dirname_k_lattice, filename_k_lattice, xp2, delp, timecount, knum,k_comoving);
                  }
                  xmid=xp2[timecount-1];
                  a=exp(xmid);
@@ -742,7 +742,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             //         std::cout << "timecount = " << timecount << std::endl;
              
             if(kanalyze_switch){
-                kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum,k_comoving);
+                kanalyze_output(new_dirname_k_lattice, filename_k_lattice, xp2, delp, timecount, knum,k_comoving);
             }
             xmid=xp2[timecount-1];
             a=exp(xmid);
@@ -769,7 +769,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
            
             //         std::cout << "timecount = " << timecount << std::endl;
             if(kanalyze_switch){
-                kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum, k_comoving);
+                kanalyze_output(new_dirname_k_lattice, filename_k_lattice, xp2, delp, timecount, knum, k_comoving);
             }
     
     

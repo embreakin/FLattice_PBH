@@ -32,46 +32,78 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
 {
     static int par_set = 0; par_set++;
     
-    if (exist_par_set_rmall_switch && par_set==1)//This process only needs to be done once
-    {
-        fs::path p = fs::current_path();
-        std::cout << "Current path is " << p << std::endl<< std::endl;
+    if (par_set==1){
+    const fs::path p = fs::current_path();
+    std::cout << "Current path is " << p << std::endl<< std::endl;
+    }
+    
+    //Path of the existing parameter set directory
+    const fs::path existpath_par_set("../" + par_set_name_rm );
+    
+    //Check if the existing parameter set directory exists
+    
+    boost::system::error_code error;
+        const bool result = fs::exists(existpath_par_set, error);
+        if (!result || error) {
+            
+            if(par_set==1){
+            std::cout << "Parameter set directory that you want to remove doesn't exist." << std::endl;
+            std::cout << "Skip removing process..." << std::endl << std::endl;
+            }
+        }
+        else
+        {
+            if(par_set==1){
+            std::cout << "Parameter set directory that you want to remove exists." << std::endl << std::endl;
+            }
+                
+                if (exist_par_set_rmall_switch && par_set==1)//This process only needs to be done once
+                {
+                   
+                    
+                    //Tries to remove all files in there. If it fails, it throws an error.
+                    try {
+                        fs::remove_all(existpath_par_set);
+                        std::cout << "Removing existing parameter set directory " << par_set_name_rm << " ..." << std::endl << std::endl;
+                        std::this_thread::sleep_for(std::chrono::seconds(1));
+                        std::cout << "Existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl<< std::endl;
+                    }
+                    catch (fs::filesystem_error& ex) {
+                        std::cout << ex.what() << std::endl;
+                        std::cout << "Failed to remove existing parameter set directory " << par_set_name_rm << std::endl<< std::endl;
+                        throw;
+                    }
+                }
+                else
+                {
+                    if ( (k_switch_rm && exist_dir == exist_dirname_k) ||
+                    (k_lattice_switch_rm && exist_dir == exist_dirname_k_lattice) )
+                    {
+                        
+                        //Path of the existing data directory
+                        const fs::path existpath("../" + par_set_name_rm + "/" + exist_dir );
+                        
+                        //Tries to remove all files in there. If it fails, it throws an error.
+                        try {
+                            fs::remove_all(existpath);
+                            std::cout << "Removing existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " ..." << std::endl<< std::endl;
+                            std::this_thread::sleep_for(std::chrono::seconds(1));
+                            std::cout << "Existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl<< std::endl;
+                        }
+                        catch (fs::filesystem_error& ex) {
+                            std::cout << ex.what() << std::endl;
+                            std::cout << "Failed to remove existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << std::endl<< std::endl;
+                            throw;
+                        }
+                    }
+                }
+        }
+    
+    
+    
         
-        //Path of the existing parameter set directory
-        const fs::path existpath_par_set("../" + par_set_name_rm );
-        //Tries to remove all files in there. If it fails, it throws an error.
-        try {
-            fs::remove_all(existpath_par_set);
-            std::cout << "Removing existing parameter set directory " << par_set_name_rm << " ..." << std::endl << std::endl;
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            std::cout << "Existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl<< std::endl;
-        }
-        catch (fs::filesystem_error& ex) {
-            std::cout << ex.what() << std::endl;
-            std::cout << "Failed to remove existing parameter set directory " << par_set_name_rm << std::endl<< std::endl;
-            throw;
-        }
-    }
-    else{
-    
-    //Path of the existing data directory
-    const fs::path existpath("../" + par_set_name_rm + "/" + exist_dir );
-    
-    //Tries to remove all files in there. If it fails, it throws an error.
-    try {
-        fs::remove_all(existpath);
-        std::cout << "Removing existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " ..." << std::endl<< std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        std::cout << "Existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl<< std::endl;
-    }
-    catch (fs::filesystem_error& ex) {
-        std::cout << ex.what() << std::endl;
-        std::cout << "Failed to remove existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << std::endl<< std::endl;
-        throw;
-    }
-    }
-    
-    
+        
+        
     //Creating Parameter Set Directory
     if(par_set==1)//This process only needs to be done once
         {
@@ -105,33 +137,53 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
             }
         }
     
-    //Path of the newly set directory in the new parameter set directory
-    const fs::path newpath("../" + par_set_name + "/"  + new_dir );
-    
-    //Tries to create the directory. If it fails, it throws an error.
-    boost::system::error_code error;
-    const bool result = fs::create_directory(newpath, error);
-
-    int result_time = 0;
-    std::cout << "Creating directory " << new_dir << " in the newly created parameter set directory " << par_set_name << " ..." << std::endl<< std::endl;
-    
-    //Give it some time to create the directory (max 30s)
-    while(!result){
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-        result_time++;
-        if(result_time >= 30)
-        {
-            break;
-        }
-    }
-                
-    if (!result || error) {
-        std::cout << "Failed to create directory " << new_dir << " in the newly created parameter set directory " << par_set_name << std::endl<< std::endl;
-    }else
+    std::cout << "Directory::: " << new_dir << std::endl << std::endl << std::endl;
+    //Creating Directories in Parameter Set Directory
+    // perturbation_switch must be turned on
+    if(perturbation_switch)
     {
-        std::cout << "Directory " << new_dir << " in parameter set directory " << par_set_name << " created successfully " << std::endl<< std::endl;
-        std::cout << "Elapsed Time: " << result_time  << std::endl<< std::endl;
-    }
+        
+    if((!latticerange_switch && new_dir == new_dirname_k)//non-lattice simulation case
+        ||(latticerange_switch && ((kfrom_knum < kfrom_knum_lattice) || (kstart_knum < kto_knum))
+           ) // lattice simulation case
+       //if ((kfrom_knum < kfrom_knum_lattice) || (kstart_knum < kto_knum)) holds then output all four directories
+        ||(latticerange_switch && !((kfrom_knum < kfrom_knum_lattice) || (kstart_knum < kto_knum)) && !(new_dir == new_dirname_k)
+       )//lattice simulation case
+       // if ((kfrom_knum < kfrom_knum_lattice) && (kstart_knum < kto_knum)) doesn't hold then output all directories expect for new_dirname_k
+       )
+        {
+            
+            std::cout << "Directory:::::: " << new_dir << std::endl<< std::endl<< std::endl;
+       
+            //Path of the newly set directory in the new parameter set directory
+            const fs::path newpath("../" + par_set_name + "/"  + new_dir );
+            
+            //Tries to create the directory. If it fails, it throws an error.
+            boost::system::error_code error;
+            const bool result = fs::create_directory(newpath, error);
+
+            int result_time = 0;
+            std::cout << "Creating directory " << new_dir << " in the newly created parameter set directory " << par_set_name << " ..." << std::endl<< std::endl;
+            
+            //Give it some time to create the directory (max 30s)
+            while(!result){
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+                result_time++;
+                if(result_time >= 30)
+                {
+                    break;
+                }
+            }
+                        
+            if (!result || error) {
+                std::cout << "Failed to create directory " << new_dir << " in the newly created parameter set directory " << par_set_name << std::endl<< std::endl;
+            }else
+            {
+                std::cout << "Directory " << new_dir << " in parameter set directory " << par_set_name << " created successfully " << std::endl<< std::endl;
+                std::cout << "Elapsed Time: " << result_time  << std::endl<< std::endl;
+            }
+        }
+       }
     
 }
 

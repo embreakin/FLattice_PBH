@@ -43,13 +43,11 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     time_start = std::chrono::system_clock::now(); // Start measuring elapsed time
     
     Logout("=====================================================\n");
+    
+   
     //Output Data File/Directory Management
-    if(k_switch || exist_par_set_rmall_switch){
     dir_manage(exist_dirname_k, new_dirname_k);
-    }
-    if(k_lattice_switch){
     dir_manage(exist_dirname_k_lattice, new_dirname_k_lattice);
-    }
     
     file_manage(exist_filename_sp_final);
     file_manage(exist_filename_sp_bfosc);
@@ -71,7 +69,7 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     if(zeromode_switch){
     Logout("=====================================================\n\n");
      
-    Logout( "Calculating Zeromode...\n\n");
+    Logout( "Calculating Zero mode...\n\n");
     
     //Instantiate zeromode
     Zeromode Zero;
@@ -80,7 +78,7 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     Zero.zeromode_calc();
     
 
-    Logout( "\nZeromode Calculation Complete\n\n");
+    Logout( "\nZero mode Calculation Complete\n\n");
    
     }
     
@@ -94,7 +92,7 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
          
     Logout("=====================================================\n");
     Logout("=====================================================\n\n");
-    Logout( "Calculating Zeromode with Perturbation...\n\n");
+    Logout( "Calculating Zero mode with Perturbation...\n\n");
     Logout("=====================================================\n");
     Logout("=====================================================\n\n");
 
@@ -102,9 +100,7 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
      Zeromode Zero2;
     //Instantiate perturbabtion
      Perturbation Perturb;
-    
-    int kfrom_knum = UC::kMpc_to_knum(kfrom_Mpc);  // convert to original knum units
-    int kto_knum = UC::kMpc_to_knum(kto_Mpc); // convert to original knum units
+
     
     //Calculate with perturbation
   if(latticerange_switch){ // When there is lattice range
@@ -112,7 +108,7 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
          Logout("Start knum lower range\n\n");
          Logout("-----------------------------------------------------\n\n");
 
-          int kfrom_knum_lattice = UC::kMpc_to_knum(kfrom_Mpc_lattice); // convert to knum units
+          // convert to knum units
 
           Logout("Range: kfrom_knum = %d, kfrom_knum_lattice = %d, kinterval_knum = %d \n\n",kfrom_knum, kfrom_knum_lattice,kinterval_knum);
     //
@@ -158,9 +154,6 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
           Logout("Start knum upper range\n\n");
           Logout("-----------------------------------------------------\n\n");
 
-          int kto_knum_lattice = UC::kMpc_to_knum(kto_Mpc_lattice); // convert to knum units
-          int kres_knum = (kto_knum_lattice - kfrom_knum) % kinterval_knum;
-          int kstart_knum = kto_knum_lattice + ( kinterval_knum - kres_knum );
 
           Logout("Range: kstart_knum = %d, kto_knum = %d, kinterval_knum = %d \n\n",kstart_knum, kto_knum, kinterval_knum);
 

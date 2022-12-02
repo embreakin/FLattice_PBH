@@ -43,7 +43,7 @@ extern bool exist_par_set_rmall_switch;
 
 extern std::string exist_filename_zero, new_filename_zero, exist_dirname_k, new_dirname_k, filename_k, exist_filename_sp_final, new_filename_sp_final, new_filename_sp_bfosc, exist_filename_sp_bfosc, new_filename_sp_afosc, exist_filename_sp_afosc;
 
-extern bool k_switch;
+extern bool k_switch_rm;
 
 extern bool zeromode_switch;
 extern bool perturbation_switch;
@@ -70,6 +70,8 @@ extern std::vector<std::string> sp_file_vec;
 
 extern DP kfrom_Mpc;
 extern DP kto_Mpc;
+extern int kfrom_knum;
+extern int kto_knum;
 extern int kinterval_knum;
 extern bool lattice_kmodes_switch;
 
@@ -226,7 +228,7 @@ inline double pw2(double x) { return (x*x);}
 
 extern int N;
 
-extern bool k_lattice_switch;
+extern bool k_lattice_switch_rm;
 extern bool k_lattice_startfromlattice_switch;
 
 extern bool latticerange_switch;
@@ -235,6 +237,11 @@ extern int fluc_calc_switch;
 
 extern double kfrom_Mpc_lattice;//[Mpc] Calculate from this k for lattice range
 extern double kto_Mpc_lattice;//[Mpc] Calculate to this k for lattice range
+extern int kfrom_knum_lattice;
+extern int kto_knum_lattice;
+extern int kres_knum;
+//This corresponds to the first mode in the upper range
+extern int kstart_knum;
 
 extern double kfrom_MPl_lattice; //convert to MPl units
 extern double kto_MPl_lattice; //convert to MPl units
