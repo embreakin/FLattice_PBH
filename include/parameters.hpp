@@ -33,6 +33,7 @@ using json = nlohmann::json;
 
 extern std::string par_set_name;
 extern std::string par_set_name_rm;
+extern std::string condition_name;
 
 extern bool exist_par_set_rmall_switch;
 
@@ -219,13 +220,14 @@ extern bool lattice_kmodes_switch;
 //==================================
 
 
-#define dim 1
+
 
 extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f, exist_filename_status, new_filename_status, exist_dirname_k_lattice, new_dirname_k_lattice, filename_k_lattice;
 
 
 inline double pw2(double x) { return (x*x);}
 
+extern int dim;
 extern int N;
 
 extern bool k_lattice_switch_rm;

@@ -136,7 +136,7 @@ void Perturbation::perturbation_initial(Vec_DP &tr2, DP &k_comoving, DP &a, DP &
     for (i=0;i<3;i++) tr2[i+52]=(-1)*H*tr2[i+49] - 0.5*(tr2[3]*tr2[i+31] + tr2[4]*tr2[i+34] + tr2[5]*tr2[i+37]);
 }
 
-//Zeromode with perturbation calculation (no lattice range)
+//Zero mode with perturbation calculation (non lattice range)
 void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zeromode){
         
     Vec_DP delstart(N_pert);
@@ -150,8 +150,70 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     double k_begin_lattice = 0;
     double k_loopend_lattice = 0;
     
+    if(latticerange_switch)
+    {
+        if(nonlatticerange_count == 0)
+        {
+            //When there is a lattice range, we don't want kend of the lower range to be included in the non-lattice range, but rather included in the lattice range
+            k_loopend = k_end;
+            
+            m_end = (k_loopend - k_begin)/kinterval_knum;
+        }
+        else
+        {
+            //When there is a lattice range, we want kend of the upper range to be included in the non-lattice range.
+            k_loopend = k_end + kinterval_knum;
+                
+            m_end = (k_loopend - k_begin)/kinterval_knum;
+        }
+    }
+    else//no lattice range
+    {
+        //This corresponds to the case when there is no lattice range and lattice_kmodes_switch is on.
+        if(lattice_kmodes_switch){
+            
+            //In this case, we start calculating from the mode that is just one mode aboce kfrom_MPl_lattice
+            if(k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+            {
+                
+                outrange_num = floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl);
+                
+                latticerange_num = (N/2) - outrange_num;
+                
+                k_begin_lattice = (outrange_num+1)*k_lattice_grid_min_MPl;
+                k_loopend_lattice = k_lattice_grid_max_MPl;
+                
+                m_end = latticerange_num;
+
+                Logout("k_lattice_grid_min_MPl < kfrom_MPl_lattice\n\n");
+                Logout("outrange_num = %d, latticerange_num = %d \n\n",outrange_num, latticerange_num);
+                
+            }else{
+                //In this case, we simply start calculating from k_lattice_grid_min_MPl
+                k_begin_lattice = k_lattice_grid_min_MPl;
+                k_loopend_lattice = k_lattice_grid_max_MPl;
+                m_end = N/2;
+                latticerange_num = N/2;
+                Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n\n");
+                Logout("latticerange_num = %d \n\n", latticerange_num);
+                
+            }
+            
+        }else
+        {
+            //This corresponds to the case when there is no lattice range and lattice_kmodes_switch is off.
+                //In this case, kend is included in the range.
+            k_loopend = k_end + kinterval_knum;
+                
+            m_end = (k_loopend - k_begin)/kinterval_knum;
+        }
+    }
+    
+    
+    
     if(latticerange_switch && nonlatticerange_count == 0)
     {
+        //When there is a lattice range, we don't want kend of the lower range to be included in the non-lattice range, but rather included in the lattice range
         k_loopend = k_end;
         
         m_end = (k_loopend - k_begin)/kinterval_knum;
@@ -188,7 +250,8 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             }
             
         }else{
-        
+        //This corresponds to the case of the upper range when there is a lattice range, or the case when there isn't a lattice range and lattice_kmodes_switch is off.
+            
         k_loopend = k_end + kinterval_knum;
             
         m_end = (k_loopend - k_begin)/kinterval_knum;
