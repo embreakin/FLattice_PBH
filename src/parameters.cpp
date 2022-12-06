@@ -43,9 +43,9 @@ std::string condition_name = "zs_" + par_set[par_set_num]["zeromode_switch"].get
 + "dim" + par_set[par_set_num]["dim"].get<std::string>();
 
 
-////====================================
+//====================================
 //The following only holds for m=2
-////====================================
+//====================================
 double msigma = sqrt(8*pow(mu_par,3.0)/M_par);//effective mass of sigma
 
 
