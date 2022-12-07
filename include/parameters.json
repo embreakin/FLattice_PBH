@@ -1,7 +1,7 @@
 [
         {
             "Name": "TakayamaMasterThesis",
-            "kfrom_Mpc": 1.0e-4,
+            "kfrom_Mpc": 3,
             "kto_Mpc": 1.0e+4,
             "kinterval_knum": 10,
             "kfrom_Mpc_lattice": 3,
@@ -12,7 +12,6 @@
             "perturbation_switch": true,
             "latticerange_switch": true,
             "lattice_kmodes_switch": false
-            
         },
         {
         "Name": "TakayamaJournalPaperFIG1a",

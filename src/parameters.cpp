@@ -17,7 +17,7 @@
 std::ifstream jsonfile("../include/parameters.json");
 json par_set = json::parse(jsonfile);
 
-bool exist_par_set_rmall_switch = false;//If this is true, the entire directory of the previously calculated parameter set will be deleted.
+bool exist_par_set_rmall_switch = true;//If this is true, the entire directory of the previously calculated parameter set will be deleted.
 
 //Name of the parameter set
 
@@ -29,18 +29,18 @@ std::string par_set_name_rm = par_set[par_set_num_rm]["Name"].get<std::string>()
 
 //This is the name of the condition you are about to simulate
 
-std::string condition_name = "zs_" + par_set[par_set_num]["zeromode_switch"].get<std::string>()+
-"_ps_" + par_set[par_set_num]["perturbation_switch"].get<std::string>() +
-"_ls_" + par_set[par_set_num]["latticerange_switch"].get<std::string>() +
-"_lks_" +  par_set[par_set_num]["lattice_kmodes_switch"].get<std::string>() +
-    "kfrom" +
-        par_set[par_set_num]["kfrom_Mpc"].get<std::string>()
-        + "kto" + par_set[par_set_num]["kto_Mpc"].get<std::string>()
-        + "iknum" + par_set[par_set_num]["kinterval_knum"].get<std::string>()
-        + "kfrom_l" + par_set[par_set_num]["kfrom_Mpc_lattice"].get<std::string>()
-        + "kto_l" + par_set[par_set_num]["kto_Mpc_l"].get<std::string>()
-        + "N" + par_set[par_set_num]["N"].get<std::string>()
-+ "dim" + par_set[par_set_num]["dim"].get<std::string>();
+//std::string condition_name = "zs_" + par_set[par_set_num]["zeromode_switch"].get<std::string>()+
+//"_ps_" + par_set[par_set_num]["perturbation_switch"].get<std::string>() +
+//"_ls_" + par_set[par_set_num]["latticerange_switch"].get<std::string>() +
+//"_lks_" +  par_set[par_set_num]["lattice_kmodes_switch"].get<std::string>() +
+//    "kfrom" +
+//        par_set[par_set_num]["kfrom_Mpc"].get<std::string>()
+//        + "kto" + par_set[par_set_num]["kto_Mpc"].get<std::string>()
+//        + "iknum" + par_set[par_set_num]["kinterval_knum"].get<std::string>()
+//        + "kfrom_l" + par_set[par_set_num]["kfrom_Mpc_lattice"].get<std::string>()
+//        + "kto_l" + par_set[par_set_num]["kto_Mpc_l"].get<std::string>()
+//        + "N" + par_set[par_set_num]["N"].get<std::string>()
+//+ "dim" + par_set[par_set_num]["dim"].get<std::string>();
 
 
 //====================================
@@ -103,7 +103,7 @@ int k_target = knum_zero[3]; //target wave mode actually used for zeromode calcu
 //-------------------------------------------------
 bool perturbation_switch = par_set[par_set_num]["perturbation_switch"];//This needs to be true for perturbation calculation including lattice simulation calculation
 
-bool lattice_kmodes_switch = par_set[par_set_num]["lattice_kmodes_switch"]; //If this is true, it will use the modes calculated in lattice simulation for non lattice zeromode w/ perturb calculation
+bool lattice_kmodes_switch =  par_set[par_set_num]["lattice_kmodes_switch"]; //If this is true, it will use the modes calculated in lattice simulation for non lattice zeromode w/ perturb calculation
 
 bool k_switch_rm = false; // If this is true, the existing dir and files for kAnalyze from non-lattice simulation are deleted and new dir and files are created. If false, the dir and files remain as it is. Note however that this assumes exist_par_set_rmall_switch to be false).
 //Outputs
@@ -240,3 +240,6 @@ const int screen_latticeloop_number = 100; //This many times loop will be displa
  A = 1/M_p (Therefore 1 in Planck units.), B = m, r = 1, s = -1,
  
  */
+
+
+

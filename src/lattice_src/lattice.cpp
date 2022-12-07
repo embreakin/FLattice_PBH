@@ -146,17 +146,19 @@ void lattice(double** lattice_var)
     Logout("radiation4 = %2.5e \n", radiation);
     // Output vti files for the energy density of the field
     write_VTK_ed( new_dirname_ed, energy.value, "energy", -1  );
-
+    Logout("write_status \n");
     // Write data to status.txt
     write_status( new_filename_status, &field, &leapfrog, &energy, f, df, t0 );
-    
+    Logout("kanalyze_output_lattice \n");
     // add data to kanalyze files (power spectrum)
     kanalyze_output_lattice(new_dirname_k_lattice, filename_k_lattice, &field, &leapfrog, f);
     
-
+    Logout("Calculate Initialization Time \n");
     //Calculate Initialization Time
     current = std::chrono::high_resolution_clock::now();
+    Logout("init_elapsed \n");
     init_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - start );
+    Logout("hourresidue \n");
     double hourresidue = fmod(init_elapsed.count()*1.e-3, 3600);
     Logout( " Initialization Time: %d h %d m %2.3f s \n", int(init_elapsed.count()*1.e-3)/3600,int(hourresidue)/60, fmod(hourresidue, 60.0));
 ////    //--------------------------------------------------
