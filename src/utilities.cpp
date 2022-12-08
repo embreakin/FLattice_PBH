@@ -353,14 +353,17 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
     std::stringstream ss;
     std::ofstream k_output;
     
-    if(lattice_kmodes_switch){
+    if(lattice_kmodes_switch ||
+       (
+        latticerange_switch &&  kfrom_knum_lattice <= knum &&  knum <= kto_knum_lattice)
+        ){
         
         double kMpc, kMpc_int;
         kMpc = UC::kMPl_to_kMpc(k_comoving);
-        kMpc_int = (int)floor(100*kMpc); //Round down to the second decimal place and make it an integer by multiplying by 100
-        ss << "../" << par_set_name << "/" << dir << "/" << file << "_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
+        kMpc_int = (int)round(100*kMpc); //Round to the second decimal place and make it an integer by multiplying by 100
+        ss << "../" << par_set_name << "/" << dir << "/" << file << "_kMpc_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
     }else{
-        ss << "../" << par_set_name << "/" << dir << "/" << file << "_" << std::setw(4) << std::setfill('0') << knum <<".txt";
+        ss << "../" << par_set_name << "/" << dir << "/" << file << "_knum_" << std::setw(4) << std::setfill('0') << knum <<".txt";
     }
     
     
@@ -1377,12 +1380,12 @@ void kanalyze_output_lattice(const std::string dir, std::string file, Field* fie
             
            // std::cout << "knum = " << knum << std::endl;
             kMpc = UC::kMPl_to_kMpc(k_comoving);
-            kMpc_int = (int)floor(100*kMpc); //Round down to the second decimal place and make it an integer by multiplying by 100
+            kMpc_int = (int)round(100*kMpc); //Round to the second decimal place and make it an integer by multiplying by 100
             std::stringstream ss;
             std::ofstream k_output;
             
             
-                 ss << "../" << par_set_name << "/" << dir << "/" << file << "_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
+                 ss << "../" << par_set_name << "/" << dir << "/" << file << "_kMpc_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
                  
             
             

@@ -1,7 +1,7 @@
 [
         {
             "Name": "TakayamaMasterThesis",
-            "kfrom_Mpc": 3,
+            "kfrom_Mpc": 1.0e-4,
             "kto_Mpc": 1.0e+4,
             "kinterval_knum": 10,
             "kfrom_Mpc_lattice": 3,

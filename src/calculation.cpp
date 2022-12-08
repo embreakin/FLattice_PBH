@@ -292,7 +292,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
 
         }
         
-         Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n", m+1, (int)floor(m_end) ,knum, UC::knum_to_kMpc(knum), k_comoving);
+         Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n", m+1, (int)floor(m_end) ,knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
         
          p=itvl;
         
