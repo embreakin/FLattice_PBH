@@ -37,6 +37,8 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     std::cout << "Current path is " << p << std::endl<< std::endl;
     }
     
+    if (exist_par_set_rmall_switch)
+    {
     //Path of the existing parameter set directory
     const fs::path existpath_par_set("../" + par_set_name_rm );
     
@@ -57,7 +59,7 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
             std::cout << "Parameter set directory that you want to remove exists." << std::endl << std::endl;
             }
                 
-                if (exist_par_set_rmall_switch && par_set==1)//This process only needs to be done once
+                if (par_set==1)//This process only needs to be done once
                 {
                    
                     
@@ -74,31 +76,31 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
                         throw;
                     }
                 }
-                else
-                {
-                    if ( (k_switch_rm && exist_dir == exist_dirname_k) ||
-                    (k_lattice_switch_rm && exist_dir == exist_dirname_k_lattice) )
-                    {
-                        
-                        //Path of the existing data directory
-                        const fs::path existpath("../" + par_set_name_rm + "/" + exist_dir );
-                        
-                        //Tries to remove all files in there. If it fails, it throws an error.
-                        try {
-                            fs::remove_all(existpath);
-                            std::cout << "Removing existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " ..." << std::endl<< std::endl;
-                            std::this_thread::sleep_for(std::chrono::seconds(1));
-                            std::cout << "Existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl<< std::endl;
-                        }
-                        catch (fs::filesystem_error& ex) {
-                            std::cout << ex.what() << std::endl;
-                            std::cout << "Failed to remove existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << std::endl<< std::endl;
-                            throw;
-                        }
-                    }
-                }
+//                else
+//                {
+//                    if ( (k_switch_rm && exist_dir == exist_dirname_k) ||
+//                    (k_lattice_switch_rm && exist_dir == exist_dirname_k_lattice) )
+//                    {
+//
+//                        //Path of the existing data directory
+//                        const fs::path existpath("../" + par_set_name_rm + "/" + exist_dir );
+//
+//                        //Tries to remove all files in there. If it fails, it throws an error.
+//                        try {
+//                            fs::remove_all(existpath);
+//                            std::cout << "Removing existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " ..." << std::endl<< std::endl;
+//                            std::this_thread::sleep_for(std::chrono::seconds(1));
+//                            std::cout << "Existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << " removed successfully" << std::endl<< std::endl;
+//                        }
+//                        catch (fs::filesystem_error& ex) {
+//                            std::cout << ex.what() << std::endl;
+//                            std::cout << "Failed to remove existing data directory " << exist_dir << " in existing parameter set directory " << par_set_name_rm << std::endl<< std::endl;
+//                            throw;
+//                        }
+//                    }
+//                }
         }
-    
+    }
     
     
         
@@ -136,8 +138,42 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
                 std::cout << "Elapsed Time: " << result_par_set_time  << std::endl<< std::endl;
             }
         }
+        
+    //Creating Condition Directory in Parameter Set Directory
+    if(par_set==1)//This process only needs to be done once
+        {
+    //Path of the new parameter set directory
+    const fs::path newpath_condition("../" + par_set_name + "/" + condition_name );
     
-    std::cout << "Directory::: " << new_dir << std::endl << std::endl << std::endl;
+    //Tries to create the directory. If it fails, it throws an error.
+    boost::system::error_code error_condition;
+    const bool result_condition = fs::create_directory(newpath_condition, error_condition);
+            
+    int result_condition_time = 0;
+    std::cout << "Creating condition directory " << condition_name << " ..." << std::endl<< std::endl;
+           
+        //Give it some time to create the directory (max 30s)
+        while(!result_condition){
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+            result_condition_time++;
+            
+            if(result_condition_time >= 30)
+            {
+                break;
+            }
+        }
+     
+    if (!result_condition || error_condition) {
+        std::cout << "Failed to create condition directory " << condition_name << std::endl<< std::endl;
+            }else
+            {
+                std::cout << "Condition directory " << condition_name << " created successfully " << std::endl<< std::endl;
+                std::cout << "Elapsed Time: " << result_condition_time  << std::endl<< std::endl;
+            }
+        }
+        
+    
+    
     //Creating Directories in Parameter Set Directory
     // perturbation_switch must be turned on
     if(perturbation_switch)
@@ -156,7 +192,7 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
             std::cout << "Directory:::::: " << new_dir << std::endl<< std::endl<< std::endl;
        
             //Path of the newly set directory in the new parameter set directory
-            const fs::path newpath("../" + par_set_name + "/"  + new_dir );
+            const fs::path newpath("../" + par_set_name + "/" + condition_name + "/"  + new_dir );
             
             //Tries to create the directory. If it fails, it throws an error.
             boost::system::error_code error;
@@ -1378,7 +1414,6 @@ void kanalyze_output_lattice(const std::string dir, std::string file, Field* fie
             
             k_comoving = (2*M_PI/(L/rescale_B))*j;// [MPl]
             
-           // std::cout << "knum = " << knum << std::endl;
             kMpc = UC::kMPl_to_kMpc(k_comoving);
             kMpc_int = (int)round(100*kMpc); //Round to the second decimal place and make it an integer by multiplying by 100
             std::stringstream ss;
@@ -1388,14 +1423,17 @@ void kanalyze_output_lattice(const std::string dir, std::string file, Field* fie
                  ss << "../" << par_set_name << "/" << dir << "/" << file << "_kMpc_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
                  
             
-            
             if(k_lattice_startfromlattice_switch && time_count == 0){
                  k_output.open(ss.str().c_str(),std::ios::out);
+               
             }else{
                 k_output.open(ss.str().c_str(),std::ios::app);
+                
             }
             
-                 k_output <<  std::setw(20) << std::setprecision(20) << la << " "               //log(a)
+            k_output << log10(field->power_spectrum(f, 3, j)) << "\n\n";
+
+            k_output<<std::setw(20) << std::setprecision(20) << la << " "             //log(a)
                  << std::setw(10) << w << " "                        //log(H)
                  << std::setw(10) << 0 << " "//Pzeta << " "                    //log(Zeta)
             << std::setw(10) << log10(field->power_spectrum(f, 3, j)
@@ -1432,8 +1470,10 @@ void kanalyze_output_lattice(const std::string dir, std::string file, Field* fie
                          << std::setw(10) << 0 << " "//epsilon << " "
                         << "\n\n";
             
+            
         }
     
+
     time_count++;
 //    exit(1);
 }

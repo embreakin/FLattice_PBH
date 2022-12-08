@@ -29,18 +29,18 @@ std::string par_set_name_rm = par_set[par_set_num_rm]["Name"].get<std::string>()
 
 //This is the name of the condition you are about to simulate
 
-//std::string condition_name = "zs_" + par_set[par_set_num]["zeromode_switch"].get<std::string>()+
-//"_ps_" + par_set[par_set_num]["perturbation_switch"].get<std::string>() +
-//"_ls_" + par_set[par_set_num]["latticerange_switch"].get<std::string>() +
-//"_lks_" +  par_set[par_set_num]["lattice_kmodes_switch"].get<std::string>() +
-//    "kfrom" +
-//        par_set[par_set_num]["kfrom_Mpc"].get<std::string>()
-//        + "kto" + par_set[par_set_num]["kto_Mpc"].get<std::string>()
-//        + "iknum" + par_set[par_set_num]["kinterval_knum"].get<std::string>()
-//        + "kfrom_l" + par_set[par_set_num]["kfrom_Mpc_lattice"].get<std::string>()
-//        + "kto_l" + par_set[par_set_num]["kto_Mpc_l"].get<std::string>()
-//        + "N" + par_set[par_set_num]["N"].get<std::string>()
-//+ "dim" + par_set[par_set_num]["dim"].get<std::string>();
+std::string condition_name = "zs_" + par_set[par_set_num]["zeromode_switch"].get<std::string>()+
+"_ps_" + par_set[par_set_num]["perturbation_switch"].get<std::string>() +
+"_ls_" + par_set[par_set_num]["latticerange_switch"].get<std::string>() +
+"_lks_" +  par_set[par_set_num]["lattice_kmodes_switch"].get<std::string>() +
+    "kfrom" +
+        par_set[par_set_num]["kfrom_Mpc"].get<std::string>()
+        + "kto" + par_set[par_set_num]["kto_Mpc"].get<std::string>()
+        + "iknum" + par_set[par_set_num]["kinterval_knum"].get<std::string>()
+        + "kfrom_l" + par_set[par_set_num]["kfrom_Mpc_lattice"].get<std::string>()
+        + "kto_l" + par_set[par_set_num]["kto_Mpc_l"].get<std::string>()
+        + "N" + par_set[par_set_num]["N"].get<std::string>()
++ "dim" + par_set[par_set_num]["dim"].get<std::string>();
 
 
 //====================================
@@ -195,7 +195,7 @@ int kres_knum = (kto_knum_lattice - kfrom_knum) % kinterval_knum;
 int kstart_knum = kto_knum_lattice + ( kinterval_knum - kres_knum );
 
 
-int dim = par_set[par_set_num]["dim"];
+int dim =  par_set[par_set_num]["dim"];
 int N = par_set[par_set_num]["N"];//512; //Should be 2^n
 
 double kfrom_MPl_lattice = UC::kMpc_to_kMPl(kfrom_Mpc_lattice); //convert to MPl units
