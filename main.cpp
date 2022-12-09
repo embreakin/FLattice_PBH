@@ -46,13 +46,9 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     
    
     //Output Data File/Directory Management
-    dir_manage(exist_dirname_k, new_dirname_k);
-    dir_manage(exist_dirname_k_lattice, new_dirname_k_lattice);
+    dir_manage(new_dirname_k);
+    dir_manage(new_dirname_k_lattice);
     
-    file_manage(exist_filename_sp_final);
-    file_manage(exist_filename_sp_bfosc);
-    file_manage(exist_filename_sp_afosc);
-    file_manage(exist_filename_zero);
     
     //------------------------
     //Name of Parameter Set

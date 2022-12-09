@@ -11,13 +11,14 @@
 #include "parameters.hpp"
 
 
+
 //====================================
 //         General Parameters
 //====================================
 std::ifstream jsonfile("../include/parameters.json");
 json par_set = json::parse(jsonfile);
 
-bool exist_par_set_rmall_switch = true;//If this is true, the entire directory of the previously calculated parameter set will be deleted.
+bool exist_par_set_rmall_switch = false;//If this is true, the entire directory of the previously calculated parameter set will be deleted.
 
 //Name of the parameter set
 
@@ -28,19 +29,55 @@ std::string par_set_name = par_set[par_set_num]["Name"].get<std::string>();
 std::string par_set_name_rm = par_set[par_set_num_rm]["Name"].get<std::string>();
 
 //This is the name of the condition you are about to simulate
+std::string condition_name;
 
-std::string condition_name = "zs_" + par_set[par_set_num]["zeromode_switch"].get<std::string>()+
-"_ps_" + par_set[par_set_num]["perturbation_switch"].get<std::string>() +
-"_ls_" + par_set[par_set_num]["latticerange_switch"].get<std::string>() +
-"_lks_" +  par_set[par_set_num]["lattice_kmodes_switch"].get<std::string>() +
-    "kfrom" +
-        par_set[par_set_num]["kfrom_Mpc"].get<std::string>()
-        + "kto" + par_set[par_set_num]["kto_Mpc"].get<std::string>()
-        + "iknum" + par_set[par_set_num]["kinterval_knum"].get<std::string>()
-        + "kfrom_l" + par_set[par_set_num]["kfrom_Mpc_lattice"].get<std::string>()
-        + "kto_l" + par_set[par_set_num]["kto_Mpc_l"].get<std::string>()
-        + "N" + par_set[par_set_num]["N"].get<std::string>()
-+ "dim" + par_set[par_set_num]["dim"].get<std::string>();
+void condition_name_set()
+{
+    
+    condition_name = "zs_" + boost::lexical_cast<std::string>(par_set[par_set_num]["zeromode_switch"]);
+    
+    
+    if(par_set[par_set_num]["perturbation_switch"])
+    {
+        condition_name += "-ps_" + boost::lexical_cast<std::string>(par_set[par_set_num]["perturbation_switch"])
+        + "-ls_" + boost::lexical_cast<std::string>(par_set[par_set_num]["latticerange_switch"]);
+        
+        if(par_set[par_set_num]["latticerange_switch"])
+        {
+            
+            condition_name +=
+            "-kfrom_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kfrom_Mpc"])
+           + "-kto_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kto_Mpc"])
+            + "-iknum_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kinterval_knum"])
+            +
+            "-kfroml_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kfrom_Mpc_lattice"])
+           + "-ktol_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kto_Mpc_lattice"])
+           + "-N_" + boost::lexical_cast<std::string>(par_set[par_set_num]["N"])
+           + "-dim_" + boost::lexical_cast<std::string>(par_set[par_set_num]["dim"]);
+        }else
+        {
+            condition_name += "-lks_" +  boost::lexical_cast<std::string>(par_set[par_set_num]["lattice_kmodes_switch"]);
+            
+        if(par_set[par_set_num]["lattice_kmodes_switch"])
+           {
+            condition_name += "-kfroml_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kfrom_Mpc_lattice"])
+            + "-ktol_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kto_Mpc_lattice"])
+            + "-N_" + boost::lexical_cast<std::string>(par_set[par_set_num]["N"]);
+            }
+        else
+           {
+            condition_name +=
+            "-kfrom_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kfrom_Mpc"])
+           + "-kto_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kto_Mpc"])
+            + "-iknum_" + boost::lexical_cast<std::string>(par_set[par_set_num]["kinterval_knum"]);
+        
+            }
+        }
+    }
+
+}
+
+
 
 
 //====================================
@@ -58,18 +95,13 @@ double msigma = sqrt(8*pow(mu_par,3.0)/M_par);//effective mass of sigma
 //-----------
 //File names
 //-----------
-std::string exist_filename_zero = par_set_name_rm + "_unpWMAP5.txt";
-std::string new_filename_zero = par_set_name + "_unpWMAP5.txt";
+std::string new_filename_zero = "zeromode.txt";
 
-std::string exist_dirname_k = par_set_name_rm + "_kAnalyze_nonlattice"; //remove this existing directory for k-analyze txt files
-std::string new_dirname_k = par_set_name + "_kAnalyze_nonlattice"; //create a new directory for k-analyze txt files
-std::string filename_k = par_set_name + "_kAnalyze"; // Head of the file name for k-analyze txt files
+std::string new_dirname_k = "k-analyze_nonlattice"; //create a new directory for k-analyze txt files
 
-std::string exist_filename_sp_final  = par_set_name_rm + "_spectrum_final.txt";// remove this existing spectrum file
-std::string new_filename_sp_final  = par_set_name + "_spectrum_final.txt"; // create this new spectrum file
+std::string new_filename_sp_final  = "spectrum_final.txt"; // create this new spectrum file
 
-std::string exist_filename_sp_bfosc  = par_set_name_rm + "_spectrum_bfosc.txt";// remove this existing spectrum file
-std::string new_filename_sp_bfosc  = par_set_name + "_spectrum_bfosc.txt"; // create this new spectrum file
+std::string new_filename_sp_bfosc  = "spectrum_bfosc.txt"; // create this new spectrum file
 
 
 //----------------------------------
@@ -149,23 +181,16 @@ int kinterval_knum = par_set[par_set_num]["kinterval_knum"];//100;// [knum units
 //-----------
 
 
-std::string exist_dirname_ed = par_set_name_rm + "_energy"; //remove this existing directory for energy vti files
-std::string new_dirname_ed = par_set_name + "_energy"; //create a new directory for energy vti files
+std::string new_dirname_ed = "energy"; //create a new directory for energy vti files
 
-std::string exist_dirname_f = par_set_name_rm + "_field"; //remove this existing directory for field vti files
-std::string new_dirname_f = par_set_name + "_field"; //create a new directory for field vti files
+std::string new_dirname_f = "field"; //create a new directory for field vti files
 
-
-std::string exist_filename_status = par_set_name_rm + "_status.txt"; // remove this existing status file
-std::string new_filename_status = par_set_name + "_status.txt";// create this new status file
+std::string new_filename_lattice = "lattice.txt";// create this new status file
 
 //lattice simulation version of kAnalyze
-std::string exist_dirname_k_lattice = par_set_name_rm + "_kAnalyze_lattice"; //remove this existing directory for k-analyze txt files
-std::string new_dirname_k_lattice = par_set_name + "_kAnalyze_lattice"; //create a new directory for k-analyze txt files
-std::string filename_k_lattice = par_set_name + "_kAnalyze"; // Head of the file name for k-analyze txt files
+std::string new_dirname_k_lattice = "k-analyze_lattice"; //create a new directory for k-analyze txt files
 
-std::string exist_filename_sp_afosc  = par_set_name_rm + "_spectrum_afosc.txt";// remove this existing spectrum file
-std::string new_filename_sp_afosc = par_set_name + "_spectrum_afosc.txt"; // create this new spectrum file
+std::string new_filename_sp_afosc = "spectrum_afosc.txt"; // create this new spectrum file
 
 //-------------------------------------------------
 //Variables for calculating lattice range

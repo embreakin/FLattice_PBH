@@ -25,9 +25,7 @@
 // Directory & File Management
 //--------------------------------
 
-void dir_manage(const std::string exist_dir, const std::string new_dir);
-
-void file_manage(const std::string exist_file);
+void dir_manage(const std::string new_dir);
 
 //--------------------------------
 // Elapsed Time Calculation
@@ -40,7 +38,7 @@ void time_calc(std::chrono::system_clock::time_point time_start, std::chrono::sy
 //--------------------------------
 void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount);
 
-void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k_comoving);
+void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k_comoving);
 
 void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, const DP k_comoving);
 
@@ -64,6 +62,6 @@ void write_VTK_ed  (const std::string dir_ed,  double* f, std::string str, int l
 
 void write_status ( const std::string status_file, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double** df, double t );
 
-void kanalyze_output_lattice(const std::string dir, std::string file, Field* field, LeapFrog* leapfrog, double** f);
+void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leapfrog, double** f);
 
 #endif

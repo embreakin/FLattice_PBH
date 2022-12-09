@@ -25,6 +25,8 @@
 //Libraries for using JSON
 #include <fstream>
 #include <json.hpp>
+#include <boost/lexical_cast.hpp>
+
 using json = nlohmann::json;
 
 //====================================
@@ -35,6 +37,8 @@ extern std::string par_set_name;
 extern std::string par_set_name_rm;
 extern std::string condition_name;
 
+void condition_name_set();
+
 extern bool exist_par_set_rmall_switch;
 
 
@@ -42,7 +46,7 @@ extern bool exist_par_set_rmall_switch;
 //Parameters in Non-lattice Range
 //==================================
 
-extern std::string exist_filename_zero, new_filename_zero, exist_dirname_k, new_dirname_k, filename_k, exist_filename_sp_final, new_filename_sp_final, new_filename_sp_bfosc, exist_filename_sp_bfosc, new_filename_sp_afosc, exist_filename_sp_afosc;
+extern std::string new_filename_zero, new_dirname_k,  new_filename_sp_final, new_filename_sp_bfosc;
 
 extern bool k_switch_rm;
 
@@ -222,7 +226,7 @@ extern bool lattice_kmodes_switch;
 
 
 
-extern std::string exist_dirname_ed, new_dirname_ed, exist_dirname_f, new_dirname_f, exist_filename_status, new_filename_status, exist_dirname_k_lattice, new_dirname_k_lattice, filename_k_lattice;
+extern std::string new_dirname_ed, new_dirname_f, new_filename_lattice, new_dirname_k_lattice, new_filename_sp_afosc;
 
 
 inline double pw2(double x) { return (x*x);}

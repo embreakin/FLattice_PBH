@@ -28,16 +28,17 @@
 namespace fs = boost::filesystem;
 
 
-void dir_manage(const std::string exist_dir, const std::string new_dir )
+void dir_manage(const std::string new_dir )
 {
-    static int par_set = 0; par_set++;
+    static int count = 0; count++;
     
-    if (par_set==1){
+    if (count==1){
     const fs::path p = fs::current_path();
     std::cout << "Current path is " << p << std::endl<< std::endl;
+  
     }
     
-    if (exist_par_set_rmall_switch)
+    if (exist_par_set_rmall_switch && count==1)//This process only needs to be done once
     {
     //Path of the existing parameter set directory
     const fs::path existpath_par_set("../" + par_set_name_rm );
@@ -46,23 +47,19 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     
     boost::system::error_code error;
         const bool result = fs::exists(existpath_par_set, error);
+        
         if (!result || error) {
             
-            if(par_set==1){
+            
             std::cout << "Parameter set directory that you want to remove doesn't exist." << std::endl;
             std::cout << "Skip removing process..." << std::endl << std::endl;
-            }
+            
         }
         else
         {
-            if(par_set==1){
+           
             std::cout << "Parameter set directory that you want to remove exists." << std::endl << std::endl;
-            }
-                
-                if (par_set==1)//This process only needs to be done once
-                {
-                   
-                    
+            
                     //Tries to remove all files in there. If it fails, it throws an error.
                     try {
                         fs::remove_all(existpath_par_set);
@@ -75,7 +72,7 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
                         std::cout << "Failed to remove existing parameter set directory " << par_set_name_rm << std::endl<< std::endl;
                         throw;
                     }
-                }
+                
 //                else
 //                {
 //                    if ( (k_switch_rm && exist_dir == exist_dirname_k) ||
@@ -103,45 +100,62 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     }
     
     
-        
-        
-        
     //Creating Parameter Set Directory
-    if(par_set==1)//This process only needs to be done once
+    if(count==1)//This process only needs to be done once
         {
     //Path of the new parameter set directory
     const fs::path newpath_par_set("../" + par_set_name );
+            
+            
+    //Check if the existing parameter set directory exists
+            
+    boost::system::error_code error;
+    const bool result = fs::exists(newpath_par_set, error);
+                
+    if (!result || error) {
+        
+        std::cout << "Parameter set directory that you want to create doesn't exists." << std::endl << std::endl;
+        
+        //Tries to create the directory. If it fails, it throws an error.
+        boost::system::error_code error_par_set;
+        const bool result_par_set = fs::create_directory(newpath_par_set, error_par_set);
+                
+        int result_par_set_time = 0;
+        std::cout << "Creating parameter set directory " << par_set_name << " ..." << std::endl<< std::endl;
+               
+            //Give it some time to create the directory (max 30s)
+            while(!result_par_set){
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+                result_par_set_time++;
+                
+                if(result_par_set_time >= 30)
+                {
+                    break;
+                }
+            }
+         
+        if (!result_par_set || error_par_set) {
+            std::cout << "Failed to create parameter set directory " << par_set_name << std::endl<< std::endl;
+                }else
+                {
+                    std::cout << "Parameter set directory " << par_set_name << " created successfully " << std::endl<< std::endl;
+                    std::cout << "Elapsed Time: " << result_par_set_time  << std::endl<< std::endl;
+                }
+            }
+    else
+    {
+        std::cout << "Parameter set directory that you want to create already exists." << std::endl;
+        std::cout << "Skip creating process..." << std::endl << std::endl;
+    }
     
-    //Tries to create the directory. If it fails, it throws an error.
-    boost::system::error_code error_par_set;
-    const bool result_par_set = fs::create_directory(newpath_par_set, error_par_set);
-            
-    int result_par_set_time = 0;
-    std::cout << "Creating parameter set directory " << par_set_name << " ..." << std::endl<< std::endl;
-           
-        //Give it some time to create the directory (max 30s)
-        while(!result_par_set){
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-            result_par_set_time++;
-            
-            if(result_par_set_time >= 30)
-            {
-                break;
-            }
-        }
-     
-    if (!result_par_set || error_par_set) {
-        std::cout << "Failed to create parameter set directory " << par_set_name << std::endl<< std::endl;
-            }else
-            {
-                std::cout << "Parameter set directory " << par_set_name << " created successfully " << std::endl<< std::endl;
-                std::cout << "Elapsed Time: " << result_par_set_time  << std::endl<< std::endl;
-            }
-        }
+   
         
     //Creating Condition Directory in Parameter Set Directory
-    if(par_set==1)//This process only needs to be done once
-        {
+   
+    //Set conidtion directory name
+            condition_name_set();
+            std::cout << "Condition directory name set." << std::endl << std::endl;
+            
     //Path of the new parameter set directory
     const fs::path newpath_condition("../" + par_set_name + "/" + condition_name );
     
@@ -174,7 +188,7 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
         
     
     
-    //Creating Directories in Parameter Set Directory
+    //Creating Directories in Condition Directory
     // perturbation_switch must be turned on
     if(perturbation_switch)
     {
@@ -188,9 +202,7 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
        // if ((kfrom_knum < kfrom_knum_lattice) && (kstart_knum < kto_knum)) doesn't hold then output all directories expect for new_dirname_k
        )
         {
-            
-            std::cout << "Directory:::::: " << new_dir << std::endl<< std::endl<< std::endl;
-       
+                   
             //Path of the newly set directory in the new parameter set directory
             const fs::path newpath("../" + par_set_name + "/" + condition_name + "/"  + new_dir );
             
@@ -199,7 +211,7 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
             const bool result = fs::create_directory(newpath, error);
 
             int result_time = 0;
-            std::cout << "Creating directory " << new_dir << " in the newly created parameter set directory " << par_set_name << " ..." << std::endl<< std::endl;
+            std::cout << "Creating directory " << new_dir << " in the newly created condition directory " << condition_name << " ..." << std::endl<< std::endl;
             
             //Give it some time to create the directory (max 30s)
             while(!result){
@@ -212,10 +224,10 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
             }
                         
             if (!result || error) {
-                std::cout << "Failed to create directory " << new_dir << " in the newly created parameter set directory " << par_set_name << std::endl<< std::endl;
+                std::cout << "Failed to create directory " << new_dir << " in the newly created condition directory " << condition_name << std::endl<< std::endl;
             }else
             {
-                std::cout << "Directory " << new_dir << " in parameter set directory " << par_set_name << " created successfully " << std::endl<< std::endl;
+                std::cout << "Directory " << new_dir << " in condition directory " << condition_name << " created successfully " << std::endl<< std::endl;
                 std::cout << "Elapsed Time: " << result_time  << std::endl<< std::endl;
             }
         }
@@ -223,21 +235,21 @@ void dir_manage(const std::string exist_dir, const std::string new_dir )
     
 }
 
-void file_manage(const std::string exist_file)
-{
-    //Path of the existing status file
-    const fs::path statuspath("../" + par_set_name_rm + "/" + exist_file);
-    
-    //Tries to remove the file. If it fails, it throws an error.
-    try {
-        fs::remove(statuspath);
-    }
-    catch (fs::filesystem_error& ex) {
-        std::cout << ex.what() << std::endl;
-        throw;
-    }
-    
-}
+//void file_manage(const std::string exist_file)
+//{
+//    //Path of the existing status file
+//    const fs::path statuspath("../" + par_set_name_rm + "/" + exist_file);
+//
+//    //Tries to remove the file. If it fails, it throws an error.
+//    try {
+//        fs::remove(statuspath);
+//    }
+//    catch (fs::filesystem_error& ex) {
+//        std::cout << ex.what() << std::endl;
+//        throw;
+//    }
+//
+//}
 
 //--------------------------------
 // Elapsed Time Calculation
@@ -268,8 +280,8 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     static int output_timecount = 0; ++output_timecount;
     std::stringstream ss;
     std::ofstream zeromode_output;
-    ss << "../" << par_set_name << "/" << file;
-    
+    ss << "../" << par_set_name << "/" << condition_name << "/" << file;
+
     if( output_timecount == 1 )
     {
         zeromode_output.open(ss.str().c_str(),std::ios::out);
@@ -355,7 +367,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
 }
 
 //subroutine for k-analyze output
-void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k_comoving ){
+void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int timecount, int knum, DP k_comoving ){
     //output results
     static int output_timecount = 0;
     static int latticerange_secondhalf_calc_count = 0;
@@ -397,9 +409,9 @@ void kanalyze_output(const std::string dir, std::string file, Vec_I_DP &xx, Mat_
         double kMpc, kMpc_int;
         kMpc = UC::kMPl_to_kMpc(k_comoving);
         kMpc_int = (int)round(100*kMpc); //Round to the second decimal place and make it an integer by multiplying by 100
-        ss << "../" << par_set_name << "/" << dir << "/" << file << "_kMpc_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
+        ss << "../" << par_set_name << "/" << condition_name << "/" << dir << "/" << "kMpc_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
     }else{
-        ss << "../" << par_set_name << "/" << dir << "/" << file << "_knum_" << std::setw(4) << std::setfill('0') << knum <<".txt";
+        ss << "../" << par_set_name  << "/" << condition_name << "/" << dir << "/" << "knum_" << std::setw(4) << std::setfill('0') << knum <<".txt";
     }
     
     
@@ -613,7 +625,7 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     
     std::stringstream ss;
     std::ofstream sp_output;
-    ss << "../" << par_set_name << "/" << file;
+    ss << "../" << par_set_name << "/" << condition_name << "/" << file;
 
 //    std::cout << "2: output_timecount = " << output_timecount << " File Name: " << file << std::endl << std::endl;
     if( output_timecount == 1 )
@@ -1138,7 +1150,7 @@ void write_VTK_f( const std::string dir_f, double* f, std::string str, int loop 
 	
     if( dim == 1 ){
 
-		ss << "../" << par_set_name << "/" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
+		ss << "../" << par_set_name << "/" << condition_name << "/" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
     	fout.open( ss.str().c_str() );	
  
     	for( int j = 0; j < N; j++ ){
@@ -1146,7 +1158,7 @@ void write_VTK_f( const std::string dir_f, double* f, std::string str, int loop 
 			fout << idx*dx_Kpc << " " << f[idx] << std::endl;
 		}
     }else{
-    	ss << "../" << par_set_name << "/" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
+    	ss << "../" << par_set_name << "/" << condition_name << "/" << dir_f << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
     	fout.open( ss.str().c_str() );
     
   	  	fout << "<?xml version=\"1.0\"?>" << std::endl;
@@ -1199,7 +1211,7 @@ void write_VTK_ed( const std::string dir_ed, double* f, std::string str, int loo
     dx_Kpc = 1000*UC::xMPl_to_xMpc(dx/rescale_B);
     
     if( dim == 1 ){
-        ss << "../" << par_set_name << "/" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
+        ss << "../" << par_set_name << "/" << condition_name << "/" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".txt";
         fout.open( ss.str().c_str() );
         
         for( int j = 0; j < N; j++ ){
@@ -1207,7 +1219,7 @@ void write_VTK_ed( const std::string dir_ed, double* f, std::string str, int loo
             fout << idx*dx_Kpc << " " << f[idx] << std::endl;
         }
     }else{
-        ss << "../" << par_set_name << "/" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
+        ss << "../" << par_set_name << "/"  << condition_name << "/" << dir_ed << "/" << str << "." << std::setw(4) << std::setfill('0') << loop+1 <<".vti";
         fout.open( ss.str().c_str() );
         
         fout << "<?xml version=\"1.0\"?>" << std::endl;
@@ -1260,7 +1272,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 	
 	if( t == t0 )
 	{
-		ofs.open( "../" + par_set_name +  "/" + status_file, std::ios::trunc );
+		ofs.open( "../" + par_set_name +  "/" + condition_name + "/" + status_file, std::ios::trunc );
 		ofs << std::setw(3) << std::right << "  t_pr ";
         if( expansion ) {
             ofs << "  a ";
@@ -1288,7 +1300,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
         ofs << "dV_psi ";
         ofs << "dV_phi "<< std::endl;
 	}
-	else ofs.open( "../" + par_set_name + "/" + status_file, std::ios::app );
+	else ofs.open( "../" + par_set_name + "/" + condition_name + "/" + status_file, std::ios::app );
 	 
 	ofs << std::setw(3) << std::right << t << " ";
 	if( expansion )
@@ -1380,7 +1392,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 }
 
 //const vector<vector<vector<double>>>&PS,
-void kanalyze_output_lattice(const std::string dir, std::string file, Field* field, LeapFrog* leapfrog, double** f){
+void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leapfrog, double** f){
     //output results
     int  kMpc_int;//knum,
     double k_comoving, kMpc;
@@ -1420,7 +1432,7 @@ void kanalyze_output_lattice(const std::string dir, std::string file, Field* fie
             std::ofstream k_output;
             
             
-                 ss << "../" << par_set_name << "/" << dir << "/" << file << "_kMpc_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
+                 ss << "../" << par_set_name << "/" << condition_name << "/" << dir << "/" << "kMpc_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
                  
             
             if(k_lattice_startfromlattice_switch && time_count == 0){

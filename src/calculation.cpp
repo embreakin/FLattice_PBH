@@ -351,7 +351,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                NR::odeintpert(delstart,xmid,OSCSTART,epsSHI,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
                
                 if(kanalyze_switch){
-                kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum,k_comoving);
+                kanalyze_output(new_dirname_k, xp2, delp, timecount, knum,k_comoving);
                 }
                 xmid=xp2[timecount-1];
                 a=exp(xmid);
@@ -394,7 +394,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         //         std::cout << "timecount = " << timecount << std::endl;
                 
                 if(kanalyze_switch){
-                kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum,k_comoving);
+                kanalyze_output(new_dirname_k, xp2, delp, timecount, knum,k_comoving);
                 }
                 xmid=xp2[timecount-1];
                 a=exp(xmid);
@@ -424,7 +424,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         //         std::cout << "timecount = " << timecount << std::endl;
         
                 if(kanalyze_switch){
-            kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum, k_comoving);
+            kanalyze_output(new_dirname_k, xp2, delp, timecount, knum, k_comoving);
                 }
             xmid=xp2[timecount-1];
             a=exp(xmid);
@@ -452,7 +452,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         //         std::cout << "timecount = " << timecount << std::endl;
         
                 if(kanalyze_switch){
-            kanalyze_output(new_dirname_k, filename_k, xp2, delp, timecount, knum, k_comoving);
+            kanalyze_output(new_dirname_k, xp2, delp, timecount, knum, k_comoving);
                 }
 
 
@@ -613,7 +613,7 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
                 NR::odeintpert(delstart,xmid,OSCSTART,epsSHI,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
                 //         std::cout << "timecount = " << timecount << std::endl;
                 if(kanalyze_switch){
-                    kanalyze_output(new_dirname_k_lattice, filename_k_lattice, xp2, delp, timecount, knum, k_comoving);
+                    kanalyze_output(new_dirname_k_lattice, xp2, delp, timecount, knum, k_comoving);
                 }
                 xmid=xp2[timecount-1];
                 a=exp(xmid);
@@ -774,7 +774,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
          //         std::cout << "timecount = " << timecount << std::endl;
                  
                  if(kanalyze_switch){
-                 kanalyze_output(new_dirname_k_lattice, filename_k_lattice, xp2, delp, timecount, knum,k_comoving);
+                 kanalyze_output(new_dirname_k_lattice, xp2, delp, timecount, knum,k_comoving);
                  }
                  xmid=xp2[timecount-1];
                  a=exp(xmid);
@@ -805,7 +805,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             //         std::cout << "timecount = " << timecount << std::endl;
              
             if(kanalyze_switch){
-                kanalyze_output(new_dirname_k_lattice, filename_k_lattice, xp2, delp, timecount, knum,k_comoving);
+                kanalyze_output(new_dirname_k_lattice, xp2, delp, timecount, knum,k_comoving);
             }
             xmid=xp2[timecount-1];
             a=exp(xmid);
@@ -832,7 +832,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
            
             //         std::cout << "timecount = " << timecount << std::endl;
             if(kanalyze_switch){
-                kanalyze_output(new_dirname_k_lattice, filename_k_lattice, xp2, delp, timecount, knum, k_comoving);
+                kanalyze_output(new_dirname_k_lattice, xp2, delp, timecount, knum, k_comoving);
             }
     
     

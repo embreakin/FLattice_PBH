@@ -32,9 +32,8 @@ void lattice(double** lattice_var)
 
 
     //Output Data File/Directory Management
-    dir_manage(exist_dirname_ed, new_dirname_ed);
-    dir_manage(exist_dirname_f, new_dirname_f);
-    file_manage(exist_filename_status);
+    dir_manage(new_dirname_ed);
+    dir_manage(new_dirname_f);
     
     Logout( "\n----------------------------------------------\n" );
      
@@ -148,17 +147,13 @@ void lattice(double** lattice_var)
     write_VTK_ed( new_dirname_ed, energy.value, "energy", -1  );
     Logout("write_status \n");
     // Write data to status.txt
-    write_status( new_filename_status, &field, &leapfrog, &energy, f, df, t0 );
-    Logout("kanalyze_output_lattice \n");
+    write_status( new_filename_lattice, &field, &leapfrog, &energy, f, df, t0 );
     // add data to kanalyze files (power spectrum)
-    kanalyze_output_lattice(new_dirname_k_lattice, filename_k_lattice, &field, &leapfrog, f);
+    kanalyze_output_lattice(new_dirname_k_lattice, &field, &leapfrog, f);
     
-    Logout("Calculate Initialization Time \n");
     //Calculate Initialization Time
     current = std::chrono::high_resolution_clock::now();
-    Logout("init_elapsed \n");
     init_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - start );
-    Logout("hourresidue \n");
     double hourresidue = fmod(init_elapsed.count()*1.e-3, 3600);
     Logout( " Initialization Time: %d h %d m %2.3f s \n", int(init_elapsed.count()*1.e-3)/3600,int(hourresidue)/60, fmod(hourresidue, 60.0));
 ////    //--------------------------------------------------
@@ -199,7 +194,7 @@ void lattice(double** lattice_var)
             //  std::cout << "t1 = " << t << std::endl;
 
             // Add data to status.txt
-            write_status( new_filename_status, &field, &leapfrog, &energy, f, df,  t+st_output_step*dt );
+            write_status( new_filename_lattice, &field, &leapfrog, &energy, f, df,  t+st_output_step*dt );
             //  std::cout << "t2 = " << t << std::endl;
 
             // Evolve time
@@ -219,7 +214,7 @@ void lattice(double** lattice_var)
         write_VTK_ed( new_dirname_ed, energy.value, "energy", loop );
         
         // add data to kanalyze files (power spectrum)
-        kanalyze_output_lattice(new_dirname_k_lattice, filename_k_lattice, &field, &leapfrog, f);
+        kanalyze_output_lattice(new_dirname_k_lattice, &field, &leapfrog, f);
         
         current = std::chrono::high_resolution_clock::now();
         elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - loop_start );
