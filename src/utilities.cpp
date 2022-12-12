@@ -1468,8 +1468,6 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
                 k_output.open(ss.str().c_str(),std::ios::app);
                 
             }
-            
-            k_output << log10(field->power_spectrum(f, 3, j)) << "\n\n";
 
             k_output<<std::setw(20) << std::setprecision(20) << la << " "             //log(a)
                  << std::setw(10) << w << " "                        //log(H)

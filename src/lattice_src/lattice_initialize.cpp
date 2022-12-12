@@ -260,7 +260,7 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
                  }
                 case 2:
                  {
-                     norm =  rescale_A*rescale_B*pow(L/(dx*dx),1)/(exp(OSCSTART)*sqrt(2*M_PI*omega));
+                     norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.0)/(exp(OSCSTART)*sqrt(2*M_PI*omega));
                 break;
                  }
                 case 3:
