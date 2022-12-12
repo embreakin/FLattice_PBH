@@ -754,11 +754,11 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
              //set efold
              xmid = log(a_lattice_end);
              
-//             if(latticerange_loop==0)
-//             {
-//             Logout("xmid = %2.5e \n", xmid);
-//             Logout("UNPERT_EFOLD = %2.5e \n", UNPERT_EFOLD);
-//             }
+             if(latticerange_loop==0)
+             {
+             Logout("AFOSC_EFOLD = %2.5e \n", xmid);
+             Logout("UNPERT_EFOLD = %2.5e \n", UNPERT_EFOLD);
+             }
                  
          if(spectrum_afosc_switch){
              spectrum_output(new_filename_sp_afosc, xp2, delp, timecount, knum, k_comoving);
