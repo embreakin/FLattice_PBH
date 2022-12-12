@@ -21,35 +21,19 @@ double Field::laplacian( double* f, int j, int k, int l )
 {	
     int jp1 = (j == N-1)?     0: j+1;
 	int jp2 = (j >= N-2)? j-N+2: j+2;
-	#ifdef SPHERICAL_SYM
-	if( dim != 1 ){
-		Logout( "Error: Dimension must be 1 when you define SPHERICAL_SYM with ABC. \n" );
-		exit(1);
-	}
-	int jm1 = abs( j-1 );
-	int jm2 = abs( j-2 );
-	#else
+
 	int jm1 = (j == 0)?   N-1: j-1;
 	int jm2 = (j <  2)? j+N-2: j-2;
-	#endif
 	
-	#if dim == 1
-	    int idx = j;
-		#ifdef SPHERICAL_SYM
-            if( idx == 0 ){  //1/r*df/dr = 0 when r = 0
-                return (- f[jp2] + 16*f[jp1] - 30*f[idx] + 16*f[jm1] - f[jm2]) / (12*dx*dx);
-            }else if( idx == N-2 ){ // Calculated  by 2nd order  central  difference  scheme  at onestep  before  the  boundary
-                return (f[jp1] - 2*f[idx] + f[jm1]) / (dx*dx) + 2*gradient(f, 0, i, idx, 0, 0) / (idx*dx);
-            }else if( idx == N-1 ){ //Calculated  by 2nd order  backward  difference  scheme  at the  boundary
-                return (df[jm2] - 4*df[jm1] + 3*df[idx]) / (2*dx) + df[idx] / (idx*dx);
-            }else{
-                return (- f[jp2] + 16*f[jp1] - 30*f[idx] + 16*f[jm1] - f[jm2]) / (12*dx*dx) + 2*gradient(f, 0, i, idx, 0, 0) / (idx*dx);
-            }
-		#else
-		    return (- f[jp2] + 16*f[jp1] - 30*f[idx] + 16*f[jm1] - f[jm2]) / (12*dx*dx);
-		#endif
-	#elif dim == 2
-		int kp1 = (k == N-1)?     0: k+1;
+    switch (dim){
+    case 1:
+    {
+    int idx = j;
+    return (- f[jp2] + 16*f[jp1] - 30*f[idx] + 16*f[jm1] - f[jm2]) / (12*dx*dx);
+    }
+    case 2:
+    {
+    int kp1 = (k == N-1)?     0: k+1;
 		int kp2 = (k >= N-2)? k-N+2: k+2;
 		int km1 = (k ==   0)?   N-1: k-1;
 		int km2 = (k <    2)? k+N-2: k-2;
@@ -57,10 +41,12 @@ double Field::laplacian( double* f, int j, int k, int l )
         int idx = j*N + k;
          return ( (- f[jp2*N+k] + 16*f[jp1*N+k] - 30*f[idx] + 16*f[jm1*N+k] - f[jm2*N+k])
                + (- f[j*N+kp2] + 16*f[j*N+kp1] - 30*f[idx] + 16*f[j*N+km1] - f[j*N+km2]) ) / (12*dx*dx);
+    }
 //     return ( (f[jp1*N+k] - 2*f[idx] + f[jm1*N+k])
 //      + (f[j*N+kp1] - 2*f[idx] + f[j*N+km1]) ) / (dx*dx);
-	#elif dim == 3
-		int kp1 = (k == N-1)?     0: k+1;
+    case 3:
+    {
+    int kp1 = (k == N-1)?     0: k+1;
 		int kp2 = (k >= N-2)? k-N+2: k+2;
 		int km1 = (k ==   0)?   N-1: k-1;
 		int km2 = (k <    2)? k+N-2: k-2;
@@ -75,14 +61,22 @@ double Field::laplacian( double* f, int j, int k, int l )
         return ( (- f[(jp2*N+k)*N+l] + 16*f[(jp1*N+k)*N+l] - 30*f[idx] + 16*f[(jm1*N+k)*N+l] - f[(jm2*N+k)*N+l])
                + (- f[(j*N+kp2)*N+l] + 16*f[(j*N+kp1)*N+l] - 30*f[idx] + 16*f[(j*N+km1)*N+l] - f[(j*N+km2)*N+l])
                + (- f[(j*N+k)*N+lp2] + 16*f[(j*N+k)*N+lp1] - 30*f[idx] + 16*f[(j*N+k)*N+lm1] - f[(j*N+k)*N+lm2]) ) / (12*dx*dx);
-	#endif
+    }
+default:
+    std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+    exit(1);
+    
+    }
+    
 }
 
 #pragma omp declare simd
 double Field::gradient_energy_eachpoint( double** f ,int i, int idx )
 {
     
-#if dim == 1
+    switch (dim){
+    case 1:
+    {
     int j= idx;
     int jp1 = (j == N-1)?     0: j+1;
     int jp2 = (j >= N-2)? j-N+2: j+2;
@@ -91,8 +85,9 @@ double Field::gradient_energy_eachpoint( double** f ,int i, int idx )
     int jm2 = (j <  2)? j+N-2: j-2;
     
     return  pow( ( - f[i][jp2]  + 8*f[i][jp1]  - 8*f[i][jm1] + f[i][jm2] ) / (12*dx), 2.0 )/2;
-    
-#elif dim == 2
+    }
+    case 2:
+    {
     int j = idx / N;
     int jp1 = (j == N-1)?     0: j+1;
     int jp2 = (j >= N-2)? j-N+2: j+2;
@@ -108,8 +103,9 @@ double Field::gradient_energy_eachpoint( double** f ,int i, int idx )
     //            + pow( (f[i][j*N+kp1] - f[i][j*N+km1]) / (2*dx), 2 ))/2;
     return (pow( (- f[i][jp2*N+k] + 8*f[i][jp1*N+k] - 8*f[i][jm1*N+k] + f[i][jm2*N+k]) / (12*dx), 2 )
             + pow( (- f[i][j*N+kp2] + 8*f[i][j*N+kp1] - 8*f[i][j*N+km1] + f[i][j*N+km2]) / (12*dx), 2 ))/2;
-    
-#elif dim == 3
+    }
+case 3:
+    {
     int j = idx /(N*N);
     int jp1 = (j == N-1)?     0: j+1;
     int jp2 = (j >= N-2)? j-N+2: j+2;
@@ -125,13 +121,15 @@ double Field::gradient_energy_eachpoint( double** f ,int i, int idx )
     int lp2 = (l >= N-2)? l-N+2: l+2;
     int lm1 = (l ==   0)?   N-1: l-1;
     int lm2 = (l <    2)? l+N-2: l-2;
+    
     return  (pow( (- f[i][(jp2*N+k)*N+l] + 8*f[i][(jp1*N+k)*N+l] - 8*f[i][(jm1*N+k)*N+l] + f[i][(jm2*N+k)*N+l]) / (12*dx), 2 )
              + pow( (- f[i][(j*N+kp2)*N+l] + 8*f[i][(j*N+kp1)*N+l] - 8*f[i][(j*N+km1)*N+l] + f[i][(j*N+km2)*N+l]) / (12*dx), 2 )
              + pow( (- f[i][(j*N+k)*N+lp2] + 8*f[i][(j*N+k)*N+lp1] - 8*f[i][(j*N+k)*N+lm1] + f[i][(j*N+k)*N+lm2]) / (12*dx), 2 ))/2;
-    
-#endif
-    
-    
+    }
+default:
+    std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+    exit(1);
+    }
 }
 
 
@@ -143,57 +141,56 @@ double Field::gradient_energy( double* f )
     for( int j = 0; j < N; ++j ){
         int jp1 = (j == N-1)?     0: j+1;
         int jp2 = (j >= N-2)? j-N+2: j+2;
-        #ifdef SPHERICAL_SYM
-        int jm1 = abs( j-1 );
-        int jm2 = abs( j-2 );
-        #else
+        
         int jm1 = (j ==   0)?   N-1: j-1;
         int jm2 = (j <    2)? j+N-2: j-2;
-        #endif
-        #if dim == 1
-		    #ifdef SPHERICAL_SYM
-            int idx = j;
-            if( idx == 0 ){
-                grad[0] = 0;
-            }else if( idx == N-2 ){
-                grad[0] = ( f[jp1] - f[jm1] ) / (2*dx);
-            }else if( idx == N-1 ){
-                grad[0] = ( f[jm2] - 4*f[jm2] + 3*f[idx]  ) / (2*dx);
-            }else{
-                grad[0] = ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx);
-            }
-            #else
-            gradient_energy +=  pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2.0 );
-//            std::cout << "pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) = " << pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) << "f["<< jp2 << "] = " << f[jp2] << "f["<< jp1 << "] = " << f[jp1] << "f["<< jm1 << "] = " << f[jm1]<< "f["<< jm2 << "] = " << f[jm2] << std::endl;
-		    #endif
-	    #elif dim == 2
-            for( int k = 0; k < N; ++k ){
-                int kp1 = (k == N-1)?     0: k+1;
-                int kp2 = (k >= N-2)? k-N+2: k+2;
-                int km1 = (k ==   0)?   N-1: k-1;
-                int km2 = (k <    2)? k+N-2: k-2;
+        
+        switch (dim)
+        {
+        case 1:
+         {
+             gradient_energy +=  pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2.0 );
+ //            std::cout << "pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) = " << pow( ( - f[jp2]  + 8*f[jp1]  - 8*f[jm1] + f[jm2] ) / (12*dx), 2 ) << "f["<< jp2 << "] = " << f[jp2] << "f["<< jp1 << "] = " << f[jp1] << "f["<< jm1 << "] = " << f[jm1]<< "f["<< jm2 << "] = " << f[jm2] << std::endl;
+        break;
+         }
+        case 2:
+         {
+    for( int k = 0; k < N; ++k ){
+        int kp1 = (k == N-1)?     0: k+1;
+        int kp2 = (k >= N-2)? k-N+2: k+2;
+        int km1 = (k ==   0)?   N-1: k-1;
+        int km2 = (k <    2)? k+N-2: k-2;
 //                gradient_energy +=  pow( (f[jp1*N+k] - f[jm1*N+k]) / (2*dx), 2 );
 //                 gradient_energy += pow( ( f[j*N+kp1]  - f[j*N+km1] ) /(2*dx), 2 );
-              gradient_energy += pow( ( - f[jp2*N+k] + 8*f[jp1*N+k] - 8*f[jm1*N+k] + f[jm2*N+k] ) / (12*dx), 2.0 );
-                gradient_energy += pow( ( - f[j*N+kp2] + 8*f[j*N+kp1] - 8*f[j*N+km1] + f[j*N+km2] ) / (12*dx), 2.0 );
-            }
-        #elif dim == 3
-            for( int k = 0; k < N; ++k ){
-                int kp1 = (k == N-1)?     0: k+1;
-                int kp2 = (k >= N-2)? k-N+2: k+2;
-                int km1 = (k ==   0)?   N-1: k-1;
-                int km2 = (k <    2)? k+N-2: k-2;
-                for( int l = 0; l < N; ++l ){
-                    int lp1 = (l == N-1) ?     0: l+1;
-                    int lp2 = (l >= N-2) ? l-N+2: l+2;
-                    int lm1 = (l ==   0) ?   N-1: l-1;
-                    int lm2 = (l <    2) ? l+N-2: l-2;                        
-                    gradient_energy += pow( ( - f[(jp2*N+k)*N+l] + 8*f[(jp1*N+k)*N+l] - 8*f[(jm1*N+k)*N+l] + f[(jm2*N+k)*N+l] ) / (12*dx), 2.0 );
-                    gradient_energy += pow( ( - f[(j*N+kp2)*N+l] + 8*f[(j*N+kp1)*N+l] - 8*f[(j*N+km1)*N+l] + f[(j*N+km2)*N+l] ) / (12*dx), 2.0 );
-                    gradient_energy += pow( ( - f[(j*N+k)*N+lp2] + 8*f[(j*N+k)*N+lp1] - 8*f[(j*N+k)*N+lm1] + f[(j*N+k)*N+lm2] ) / (12*dx), 2.0 );
-                }
-            }
-        #endif
+      gradient_energy += pow( ( - f[jp2*N+k] + 8*f[jp1*N+k] - 8*f[jm1*N+k] + f[jm2*N+k] ) / (12*dx), 2.0 );
+        gradient_energy += pow( ( - f[j*N+kp2] + 8*f[j*N+kp1] - 8*f[j*N+km1] + f[j*N+km2] ) / (12*dx), 2.0 );
+    }
+        break;
+         }
+        case 3:
+         {
+             for( int k = 0; k < N; ++k ){
+                 int kp1 = (k == N-1)?     0: k+1;
+                 int kp2 = (k >= N-2)? k-N+2: k+2;
+                 int km1 = (k ==   0)?   N-1: k-1;
+                 int km2 = (k <    2)? k+N-2: k-2;
+                 for( int l = 0; l < N; ++l ){
+                     int lp1 = (l == N-1) ?     0: l+1;
+                     int lp2 = (l >= N-2) ? l-N+2: l+2;
+                     int lm1 = (l ==   0) ?   N-1: l-1;
+                     int lm2 = (l <    2) ? l+N-2: l-2;
+                     gradient_energy += pow( ( - f[(jp2*N+k)*N+l] + 8*f[(jp1*N+k)*N+l] - 8*f[(jm1*N+k)*N+l] + f[(jm2*N+k)*N+l] ) / (12*dx), 2.0 );
+                     gradient_energy += pow( ( - f[(j*N+kp2)*N+l] + 8*f[(j*N+kp1)*N+l] - 8*f[(j*N+km1)*N+l] + f[(j*N+km2)*N+l] ) / (12*dx), 2.0 );
+                     gradient_energy += pow( ( - f[(j*N+k)*N+lp2] + 8*f[(j*N+k)*N+lp1] - 8*f[(j*N+k)*N+lm1] + f[(j*N+k)*N+lm2] ) / (12*dx), 2.0 );
+                 }
+             }
+        break;
+         }
+        default:
+           std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                    exit(1);
+        }//switch
+                
     }
 
     for( int i = 0; i < dim; ++i ) gradient_energy /= N;
@@ -212,27 +209,43 @@ double Field::potential_energy( double** f, double a )
 //#pragma omp parallel for reduction(+:potential_energy) schedule(static) num_threads(num_threads)
 //#endif
 	for( int j = 0; j < N; ++j ){
-        #if dim == 1
-            int idx = j;
-             potential_energy += V_lattice( f, idx, a );
-       // std::cout << "V_lattice( f, idx, a ) = " << V_lattice( f, idx, a ) << std::endl;
-	    #elif dim == 2
+        switch (dim)
+        {
+        case 1:
+         {
+        int idx = j;
+         potential_energy += V_lattice( f, idx, a );
+    // std::cout << "V_lattice( f, idx, a ) = " << V_lattice( f, idx, a ) << std::endl;
+        break;
+         }
+        case 2:
+         {
 //        #pragma omp simd reduction(+:potential_energy)
-            for( int k = 0; k < N; ++k )
-			{
-				int idx = j*N + k;
-                potential_energy += V_lattice( f, idx, a );
-            }
-        #elif dim == 3
-            for( int k = 0; k < N; ++k ){
+    for( int k = 0; k < N; ++k )
+    {
+        int idx = j*N + k;
+        potential_energy += V_lattice( f, idx, a );
+    }
+        break;
+         }
+        case 3:
+         {
+    for( int k = 0; k < N; ++k ){
 //        #pragma omp simd reduction(+:potential_energy)
-                for( int l = 0; l < N; ++l ){
-					int idx = ( j*N + k)*N + l;
-					potential_energy += V_lattice( f, idx, a );
-				}
-            }
-        #endif
+        for( int l = 0; l < N; ++l ){
+            int idx = ( j*N + k)*N + l;
+            potential_energy += V_lattice( f, idx, a );
+        }
+    }
+        break;
+         }
+        default:
+           std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                    exit(1);
+        }//switch
+       
 	}
+    
     for( int i = 0; i < dim; ++i ) potential_energy /= N;
     
 	return potential_energy;
@@ -485,10 +498,10 @@ double Field::power_spectrum( double** f, int i, int m)
         PS[i][m] *= 2; //  the conjugate part needs to be taken into account as well, so double the value
     
 
-        }
+        
 //     std::cout << " PS[" << i << "][" << idx << "] = " << PS[i][idx] << std::endl;
         return PS[i][m];
- 
+        }
         case 2:
         {
     if(m == m_start)
@@ -612,10 +625,10 @@ double Field::power_spectrum( double** f, int i, int m)
     }
     
     //std::cout << "7: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
-        }
+        
          return PS[i][m];
     
-    
+        }
   case 3:
         {
     if(m == m_start)
@@ -737,9 +750,12 @@ double Field::power_spectrum( double** f, int i, int m)
     }
     
 //    std::cout << "7: PS[" << i << "][" << m << "] = " << PS[i][m] << std::endl;
-        }
+        
     return PS[i][m];
-    
+        }
+        default:
+            std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+            exit(1);
     }//switch
     
 
@@ -811,271 +827,288 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
 
    
         
-#if  dim==1
-        
-    for (int i = 0; i < num_fields; i++){
-        //subtract zero mode
-        for( int j = 0; j < N; ++j ){
-            int idx_fluc = j;
-            f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
-            df_fluc[i][idx_fluc] = df[i][idx_fluc] - average(df[i], i);
-            
-        }
-        
-        //Fourier Transform
-        DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
-        DFT_r2cD1( df_fluc[i], df_fluc_k[i] );
-        
-    }
-        
-        //f[][0] corresponds to Re(f_{i=0})
-        //f[][2],f[][3] corresponds to the Re and Im of f_{i=1}
-        // ...
-        //f[][1] corresponds to Re(f_{i=N/2})
-        
-        //    for( int m = 0; m < N; ++m ){
-        //        std::cout << "2: f_fluc_k[" << i << "][" << m << "]" << f_fluc_k[i][m] << std::endl;
-        //    }
-        
-        int N_m = 2; //number of fields in the range where m-1 < |m| <= m
+    switch (dim)
+    {
+    case 1:
+     {
+         for (int i = 0; i < num_fields; i++){
+             //subtract zero mode
+             for( int j = 0; j < N; ++j ){
+                 int idx_fluc = j;
+                 f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                 df_fluc[i][idx_fluc] = df[i][idx_fluc] - average(df[i], i);
+                 
+             }
+             
+             //Fourier Transform
+             DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
+             DFT_r2cD1( df_fluc[i], df_fluc_k[i] );
+             
+         }
+             
+             //f[][0] corresponds to Re(f_{i=0})
+             //f[][2],f[][3] corresponds to the Re and Im of f_{i=1}
+             // ...
+             //f[][1] corresponds to Re(f_{i=N/2})
+             
+             //    for( int m = 0; m < N; ++m ){
+             //        std::cout << "2: f_fluc_k[" << i << "][" << m << "]" << f_fluc_k[i][m] << std::endl;
+             //    }
+             
+             int N_m = 2; //number of fields in the range where m-1 < |m| <= m
+         
+             for (int m = m_start; m < m_end + 1; ++m  )
+             {
+                 
+             for (int i = 0; i < num_fields; i++)
+             {
+                 
+                 
+             int j=m;
+             
+     //        std::cout << "i = " << i << ", m = " << m  << std::endl;
+             
+             if(m == N/2)
+             {//Nyquist frequency
+                 
+                 if(i == 3)//Metric Peturbation
+                 {
+                     for(int num = 0 ; num < 3; num++ )
+                     {
+                         if(num == 2)
+                         {
+                             
+                             Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
+                                               
+                             Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
+                             
+                             //27
+                             lattice_var[m-1][25+num] = Re_metric_pert_pr/(pow(a,2.0));
+                             //51
+                             lattice_var[m-1][49+num] = 0;
+                             
+                             //30
+                             lattice_var[m-1][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
+                             //54
+                             lattice_var[m-1][52+num] = 0;
+                             
+                         }else{
+                             //25,26
+                             lattice_var[m-1][25+num] = 0;
+                             //49,50
+                             lattice_var[m-1][49+num] = 0;
+                             
+                             //28,29
+                             lattice_var[m-1][28+num] = 0;
+                             //52,53
+                             lattice_var[m-1][52+num] = 0;
+                         }
+                     }
+                     
+                 }else//Scalar Peturbation
+                 {
+                     
+                     for(int num = 0 ; num < 3; num++ )
+                     {
+                         if(num == i)
+                         {
+                             Re_scalar_pert_pr = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
+                             
+                             Re_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
+                             //7,11,15
+                             lattice_var[m-1][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
+                             //31,35,39
+                             lattice_var[m-1][31 + 3*i + num] = 0;
+                             
+                             //16,20,24
+                             lattice_var[m-1][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
+                             //40,44,48
+                             lattice_var[m-1][40 + 3*i + num] = 0;
+                         }else
+                         {
+                             //8,9,10,12,13,14
+                             lattice_var[m-1][7 + 3*i + num] = 0;
+                             //32,33,34,36,37,38
+                             lattice_var[m-1][31 + 3*i + num] = 0;
+                             
+                             //17,18,19,21,22,23
+                             lattice_var[m-1][16 + 3*i + num] = 0;
+                             //41,42,43,45,46,47
+                             lattice_var[m-1][40 + 3*i + num] = 0;
+                         }
+                     }
+                     
+                 }
+                 
+                 
+                 
+             }else{//Besides Nyquist frequency
+                 
+                 if(i == 3)//Metric Peturbation
+                 {
+                     for(int num = 0 ; num < 3; num++ )
+                     {
+                         if(num == 2)
+                         {
+                             
+                             Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
+                             Im_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                                               
+                             Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
+                             Im_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                             
+                             //27
+                             lattice_var[m-1][25+num] = Re_metric_pert_pr/(pow(a,2.0));
+                             //51
+                             lattice_var[m-1][49+num] = Im_metric_pert_pr/(pow(a,2.0)) ;
+                             
+                             //30
+                             lattice_var[m-1][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
+                             //54
+                             lattice_var[m-1][52+num] = rescale_B*(Im_metric_pert_deriv_pr - 2*Im_metric_pert_pr*da/a)/(pow(a,3.0));
+                         }else{
+                             //25,26
+                             lattice_var[m-1][25+num] = 0;
+                             //49,50
+                             lattice_var[m-1][49+num] = 0;
+                             
+                             //28,29
+                             lattice_var[m-1][28+num] = 0;
+                             //52,53
+                             lattice_var[m-1][52+num] = 0;
+                         }
+                     }
+                     
+                 }else//Scalar Peturbation
+                 {
+                     
+                     for(int num = 0 ; num < 3; num++ )
+                     {
+                         if(num == i)
+                         {
+                             
+                             Re_scalar_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
+                             Im_scalar_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                             
+                             Re_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
+                             Im_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                             
+                             //7,11,15
+                             lattice_var[m-1][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
+                             
+     //                        if(m==m_start)
+     //                        {
+     //                        std::cout << "i = " << i << ": lattice_var[" << m_start-1 << "][" << 7 + 3*i + num << "] = " <<  lattice_var[m-1][7 + 3*i + num] << std::endl;
+     //                        }
+                             //31,35,39
+                             lattice_var[m-1][31 + 3*i + num] = Im_scalar_pert_pr/(rescale_A*a);
+                             
+                             //16,20,24
+                             lattice_var[m-1][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
+                             //40,44,48
+                             lattice_var[m-1][40 + 3*i + num] = rescale_B*(Im_scalar_pert_deriv_pr - Im_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
+                             
+                         }else
+                         {
+                             //8,9,10,12,13,14
+                             lattice_var[m-1][7 + 3*i + num] = 0;
+                             //32,33,34,36,37,38
+                             lattice_var[m-1][31 + 3*i + num] = 0;
+                             
+                             //17,18,19,21,22,23
+                             lattice_var[m-1][16 + 3*i + num] = 0;
+                             //41,42,43,45,46,47
+                             lattice_var[m-1][40 + 3*i + num] = 0;
+                         }
+                         
+                     }
+                     
+                 }
+                 
+             }//Besides Nyquist frequency
+             
+                 
+         }//for (int i = 0; i < num_fields; i++)
+             
+                 
+     //           for (int z=0;z<N_pert;z++) Logout("m == m_start end: lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
+     //
+                 
+                 
+         //Set rescale variables (1D case)
+         Rescale_var = Rescale_var_D3*sqrt(2*M_PI)*L/(pow(dx,2.0)*(2*M_PI*m/L));
+                 
+                 //Rescale program variables back to their original variables
+                 for(int q = N_zero; q < N_pert; q++)
+                 {
+                     lattice_var[m-1][q] *= Rescale_var;
+                 }
+                 
+     //            for (int z=0;z<N_pert;z++) Logout("m == m_start end: lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
+                 
+         }//for (int m = m_start; m < m_end + 1; ++m  )
+             
+         
+         
+             
+    break;
+     }
+    case 2:
+     {
+         for (int i = 0; i < num_fields; i++){
+
+         for( int j = 0; j < N; ++j )
+         {
+             for( int k = 0; k < N; ++k )
+             {
+                 int idx_fluc = j*N + k;
+                 f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                 
+                 //         std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
+                 //                std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
+                 
+             }
+         }
+         
+         
+         //                        std::cout << "bf f_fluc[" << i << "][20]" << f_fluc[i][20] << std::endl;
+         //                        std::cout << "bf f[" << i << "][20]" << f[i][20] << std::endl;
+         //    std::cout << "bf _average[" << i << "]" << _average[i] << std::endl;
+         
+         DFT_r2cD2( f_fluc[i], f_fluc_k[i], f_fluc_k_nyquist_2d[i] );
+             
+         }
+         
+         
+    break;
+     }
+    case 3:
+     {
+         for (int i = 0; i < num_fields; i++){
+
+         for( int j = 0; j < N; ++j ){
+             for( int k = 0; k < N; ++k ){
+                 for( int l = 0; l < N; ++l ){
+                     int idx_fluc = (j*N + k)*N + l;
+                     f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                     
+                     //                             std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
+                     //                                    std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
+                 }
+             }
+         }
+         
+         DFT_r2cD3( f_fluc[i], f_fluc_k[i], f_fluc_k_nyquist_3d[i] );
+             
+         }
+         
+    break;
+     }
+    default:
+       std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                exit(1);
+    }//switch
     
-        for (int m = m_start; m < m_end + 1; ++m  )
-        {
-            
-        for (int i = 0; i < num_fields; i++)
-        {
-            
-            
-        int j=m;
-        
-//        std::cout << "i = " << i << ", m = " << m  << std::endl;
-        
-        if(m == N/2)
-        {//Nyquist frequency
-            
-            if(i == 3)//Metric Peturbation
-            {
-                for(int num = 0 ; num < 3; num++ )
-                {
-                    if(num == 2)
-                    {
-                        
-                        Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
-                                          
-                        Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
-                        
-                        //27
-                        lattice_var[m-1][25+num] = Re_metric_pert_pr/(pow(a,2.0));
-                        //51
-                        lattice_var[m-1][49+num] = 0;
-                        
-                        //30
-                        lattice_var[m-1][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
-                        //54
-                        lattice_var[m-1][52+num] = 0;
-                        
-                    }else{
-                        //25,26
-                        lattice_var[m-1][25+num] = 0;
-                        //49,50
-                        lattice_var[m-1][49+num] = 0;
-                        
-                        //28,29
-                        lattice_var[m-1][28+num] = 0;
-                        //52,53
-                        lattice_var[m-1][52+num] = 0;
-                    }
-                }
-                
-            }else//Scalar Peturbation
-            {
-                
-                for(int num = 0 ; num < 3; num++ )
-                {
-                    if(num == i)
-                    {
-                        Re_scalar_pert_pr = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
-                        
-                        Re_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
-                        //7,11,15
-                        lattice_var[m-1][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
-                        //31,35,39
-                        lattice_var[m-1][31 + 3*i + num] = 0;
-                        
-                        //16,20,24
-                        lattice_var[m-1][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
-                        //40,44,48
-                        lattice_var[m-1][40 + 3*i + num] = 0;
-                    }else
-                    {
-                        //8,9,10,12,13,14
-                        lattice_var[m-1][7 + 3*i + num] = 0;
-                        //32,33,34,36,37,38
-                        lattice_var[m-1][31 + 3*i + num] = 0;
-                        
-                        //17,18,19,21,22,23
-                        lattice_var[m-1][16 + 3*i + num] = 0;
-                        //41,42,43,45,46,47
-                        lattice_var[m-1][40 + 3*i + num] = 0;
-                    }
-                }
-                
-            }
-            
-            
-            
-        }else{//Besides Nyquist frequency
-            
-            if(i == 3)//Metric Peturbation
-            {
-                for(int num = 0 ; num < 3; num++ )
-                {
-                    if(num == 2)
-                    {
-                        
-                        Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
-                        Im_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
-                                          
-                        Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
-                        Im_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
-                        
-                        //27
-                        lattice_var[m-1][25+num] = Re_metric_pert_pr/(pow(a,2.0));
-                        //51
-                        lattice_var[m-1][49+num] = Im_metric_pert_pr/(pow(a,2.0)) ;
-                        
-                        //30
-                        lattice_var[m-1][28+num] = rescale_B*(Re_metric_pert_deriv_pr - 2*Re_metric_pert_pr*da/a)/(pow(a,3.0));
-                        //54
-                        lattice_var[m-1][52+num] = rescale_B*(Im_metric_pert_deriv_pr - 2*Im_metric_pert_pr*da/a)/(pow(a,3.0));
-                    }else{
-                        //25,26
-                        lattice_var[m-1][25+num] = 0;
-                        //49,50
-                        lattice_var[m-1][49+num] = 0;
-                        
-                        //28,29
-                        lattice_var[m-1][28+num] = 0;
-                        //52,53
-                        lattice_var[m-1][52+num] = 0;
-                    }
-                }
-                
-            }else//Scalar Peturbation
-            {
-                
-                for(int num = 0 ; num < 3; num++ )
-                {
-                    if(num == i)
-                    {
-                        
-                        Re_scalar_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
-                        Im_scalar_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
-                        
-                        Re_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
-                        Im_scalar_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
-                        
-                        //7,11,15
-                        lattice_var[m-1][7 + 3*i + num] = Re_scalar_pert_pr/(rescale_A*a);
-                        
-//                        if(m==m_start)
-//                        {
-//                        std::cout << "i = " << i << ": lattice_var[" << m_start-1 << "][" << 7 + 3*i + num << "] = " <<  lattice_var[m-1][7 + 3*i + num] << std::endl;
-//                        }
-                        //31,35,39
-                        lattice_var[m-1][31 + 3*i + num] = Im_scalar_pert_pr/(rescale_A*a);
-                        
-                        //16,20,24
-                        lattice_var[m-1][16 + 3*i + num] = rescale_B*(Re_scalar_pert_deriv_pr - Re_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
-                        //40,44,48
-                        lattice_var[m-1][40 + 3*i + num] = rescale_B*(Im_scalar_pert_deriv_pr - Im_scalar_pert_pr*da/a)/(rescale_A*pow(a,2.0));
-                        
-                    }else
-                    {
-                        //8,9,10,12,13,14
-                        lattice_var[m-1][7 + 3*i + num] = 0;
-                        //32,33,34,36,37,38
-                        lattice_var[m-1][31 + 3*i + num] = 0;
-                        
-                        //17,18,19,21,22,23
-                        lattice_var[m-1][16 + 3*i + num] = 0;
-                        //41,42,43,45,46,47
-                        lattice_var[m-1][40 + 3*i + num] = 0;
-                    }
-                    
-                }
-                
-            }
-            
-        }//Besides Nyquist frequency
-        
-            
-    }//for (int i = 0; i < num_fields; i++)
-        
-            
-//           for (int z=0;z<N_pert;z++) Logout("m == m_start end: lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
-//
-            
-            
-    //Set rescale variables (1D case)
-    Rescale_var = Rescale_var_D3*sqrt(2*M_PI)*L/(pow(dx,2.0)*(2*M_PI*m/L));
-            
-            //Rescale program variables back to their original variables
-            for(int q = N_zero; q < N_pert; q++)
-            {
-                lattice_var[m-1][q] *= Rescale_var;
-            }
-            
-//            for (int z=0;z<N_pert;z++) Logout("m == m_start end: lattice_var[%d][%d] = %2.5e \n",m-1,z,lattice_var[m-1][z] );
-            
-    }//for (int m = m_start; m < m_end + 1; ++m  )
-        
-    
-    
-        
-    
-        
-#elif  dim==2
-        
-        for( int j = 0; j < N; ++j )
-        {
-            for( int k = 0; k < N; ++k )
-            {
-                int idx_fluc = j*N + k;
-                f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
-                
-                //         std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
-                //                std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
-                
-            }
-        }
-        
-        //                        std::cout << "bf f_fluc[" << i << "][20]" << f_fluc[i][20] << std::endl;
-        //                        std::cout << "bf f[" << i << "][20]" << f[i][20] << std::endl;
-        //    std::cout << "bf _average[" << i << "]" << _average[i] << std::endl;
-        
-        DFT_r2cD2( f_fluc[i], f_fluc_k[i], f_fluc_k_nyquist_2d[i] );
-        
-        
-        
-#elif  dim==3
-        
-        
-        for( int j = 0; j < N; ++j ){
-            for( int k = 0; k < N; ++k ){
-                for( int l = 0; l < N; ++l ){
-                    int idx_fluc = (j*N + k)*N + l;
-                    f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
-                    
-                    //                             std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
-                    //                                    std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
-                }
-            }
-        }
-        
-        DFT_r2cD3( f_fluc[i], f_fluc_k[i], f_fluc_k_nyquist_3d[i] );
-        
-#endif
         
     delete [] f[0];
     delete [] df[0];

@@ -197,7 +197,7 @@ std::string new_filename_sp_afosc = "spectrum_afosc.txt"; // create this new spe
 //-------------------------------------------------
 
 bool latticerange_switch = par_set[par_set_num]["latticerange_switch"]; // true:Set lattice range and calculate, false:Don't set lattice range and calculate
-bool initialize_perturb_switch = true; // true:Initialize fluctuation, false:Don't initialize fluctuation (only calculate zeromode for lattice)
+bool initialize_perturb_switch = true; // true:Initialize fluctuation, false:Don't initialize fluctuation (only calculate zeromode for lattice simulation)
 
 int fluc_calc_switch  = 1;//Choose type of fluctuation initialization for scalar fields (for gravitational fluctuation, it is set to 2 regardless) 0:LatticeEasy case (when amplitudes of fluctuations are not predetermined) 1:when we use the amplitudes of predetermined fluctuations 2:gravitational perturbation
 
@@ -220,7 +220,7 @@ int kres_knum = (kto_knum_lattice - kfrom_knum) % kinterval_knum;
 int kstart_knum = kto_knum_lattice + ( kinterval_knum - kres_knum );
 
 
-int dim =  par_set[par_set_num]["dim"];
+int dim = par_set[par_set_num]["dim"];
 int N = par_set[par_set_num]["N"];//512; //Should be 2^n
 
 double kfrom_MPl_lattice = UC::kMpc_to_kMPl(kfrom_Mpc_lattice); //convert to MPl units
@@ -244,13 +244,13 @@ double Hinitial_pr;
 double a_lattice_end;
 
 int output_step = 2.0e+1;
-int total_step  = 8.2e+3;//1.75e+4;//8.75e+3;
+int total_step  = 8.2e+4;//1.75e+4;//8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
 
 double t0 = 0;
-double dt = 1.e-3;//5.0e-4;//1.e-3; //dt_pr
+double dt = 1.e-4;//5.0e-4;//1.e-3; //dt_pr
 
 
 const int expansion = 1; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant

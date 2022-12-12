@@ -156,10 +156,35 @@ void dir_manage(const std::string new_dir )
             condition_name_set();
             std::cout << "Condition directory name set." << std::endl << std::endl;
             
-    //Path of the new parameter set directory
+    //Path of the new condition directory
     const fs::path newpath_condition("../" + par_set_name + "/" + condition_name );
-    
-    //Tries to create the directory. If it fails, it throws an error.
+            
+    //Check if the new condition directory already exists
+    boost::system::error_code error_condition_exist;
+    const bool result_condition_exist = fs::exists(newpath_condition, error_condition_exist);
+            
+    if (!result_condition_exist || error_condition_exist) {
+        std::cout << "Condition directory that you want to create doesn't exist." << std::endl << std::endl;
+    }else
+        {
+            std::cout << "Condition directory that you want to create already exists." << std::endl << std::endl;
+            //Tries to remove all files in there. If it fails, it throws an error.
+            try {
+                fs::remove_all(newpath_condition);
+                std::cout << "Removing existing condition directory " << condition_name << " ..." << std::endl << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+                std::cout << "Existing condition directory " << condition_name << " removed successfully" << std::endl<< std::endl;
+            }
+            catch (fs::filesystem_error& ex) {
+                std::cout << ex.what() << std::endl;
+                std::cout << "Failed to remove existing condition directory " << condition_name << std::endl<< std::endl;
+                throw;
+            }
+            
+        }
+                
+                
+    //Tries to create condition directory. If it fails, it throws an error.
     boost::system::error_code error_condition;
     const bool result_condition = fs::create_directory(newpath_condition, error_condition);
             
@@ -184,8 +209,9 @@ void dir_manage(const std::string new_dir )
                 std::cout << "Condition directory " << condition_name << " created successfully " << std::endl<< std::endl;
                 std::cout << "Elapsed Time: " << result_condition_time  << std::endl<< std::endl;
             }
-        }
         
+   }//if(count==1)//This process only needs to be done once
+
     
     
     //Creating Directories in Condition Directory

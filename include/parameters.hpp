@@ -108,7 +108,7 @@ extern bool lattice_kmodes_switch;
     #define BEGIN_EFOLD -135.6            //initial ln(a)
     #define UNPERT_EFOLD -110.815                //ln(a) at which sigma and psi are fixed to the minimum
     #define NEWINF_END_EFOLD -90.0                //ln(a) at the beginning of oscillation of phi.-61.5
-    #define END_EFOLD -70.0                //ln(a) at the end of calculation
+    #define END_EFOLD -71.0                //ln(a) at the end of calculation
     #define dla 1.0E-1                //stepsize for fixed step RQ-method
     #define itvl 1000.                //interval for output in fixed RQ-method
     #define sigma_init 0.8                //initial value of sigma
@@ -223,8 +223,7 @@ extern bool lattice_kmodes_switch;
 //Parameters in Lattice Range
 //==================================
 
-
-
+//#define dim  1
 
 extern std::string new_dirname_ed, new_dirname_f, new_filename_lattice, new_dirname_k_lattice, new_filename_sp_afosc;
 

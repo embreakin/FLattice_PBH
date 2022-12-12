@@ -149,24 +149,39 @@ LeapFrog::LeapFrog( Field* field, double** f, double** df, double& rad_pr )
 void LeapFrog::evol_fields( double** f_tilde_from, double** f_tilde_to, double** df_tilde, double h )
 {	
     for( int i = 0; i < num_fields-1; ++i ){
+       
     #if   dim == 1
     #pragma omp parallel for simd schedule(static) num_threads(num_threads)
     #elif dim >= 2
     #pragma omp parallel for schedule( static ) num_threads( num_threads )
+        }
     #endif
         for( int j = 0; j < N; ++j ){
-            #if dim == 1
-                int idx = j;
-        
-                f_tilde_to[i][idx] = f_tilde_from[i][idx] + df_tilde[i][idx]*h*dt;
-//            std::cout << " f_tilde[" << i << "][" << idx << "] = " << f_tilde[i][idx] << std::endl;
-            #elif dim == 2
-            #pragma omp simd
-                for( int k = 0; k < N; ++k ){
-                    int idx = j*N + k;
-                     f_tilde_to[i][idx] = f_tilde_from[i][idx] + df_tilde[i][idx]*h*dt;
-                }
-            #elif dim == 3
+            switch (dim)
+            {
+        // #if dim == 1
+            case 1:
+             {
+                 int idx = j;
+         
+                 f_tilde_to[i][idx] = f_tilde_from[i][idx] + df_tilde[i][idx]*h*dt;
+ //            std::cout << " f_tilde[" << i << "][" << idx << "] = " << f_tilde[i][idx] << std::endl;
+                 break;
+             }
+            case 2:
+             {
+                //#elif dim == 2
+                #pragma omp simd
+                    for( int k = 0; k < N; ++k ){
+                        int idx = j*N + k;
+                         f_tilde_to[i][idx] = f_tilde_from[i][idx] + df_tilde[i][idx]*h*dt;
+                    }
+                 break;
+
+             }
+            case 3:
+             {
+           // #elif dim == 3
                 for( int k = 0; k < N; ++k ){
                     #pragma omp simd
                     for( int l = 0; l < N; ++l ){
@@ -174,7 +189,13 @@ void LeapFrog::evol_fields( double** f_tilde_from, double** f_tilde_to, double**
                        f_tilde_to[i][idx] = f_tilde_from[i][idx] + df_tilde[i][idx]*h*dt;
                     }
                 }
-            #endif
+                 break;
+             }
+            default:
+               std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                        exit(1);
+            }//switch
+            //#endif
         }
     }
 }
@@ -186,38 +207,48 @@ void LeapFrog::evol_field_derivs_expansion(double** df_tilde_from, double** df_t
     
     for( int i = 0; i < num_fields - 1; ++i ){
         
-        #if   dim == 1
+     //   #if   dim == 1
+        if(dim==1){
 //        #pragma omp parallel for simd schedule(static) num_threads(num_threads)
-        #elif dim >= 2
+        }else{
+      //  #elif dim >= 2
    //     #pragma omp parallel for schedule( static ) num_threads( num_threads )
-        #endif
+     //   #endif
+        }
                     for( int j = 0; j < N; ++j ){
-        #if dim == 1
-                        int idx = j;
+//        #if dim == 1
+        switch (dim)
+        {
+        case 1:
+         {
+             int idx = j;
 
 
-                        df_tilde_to[i][idx] = df_tilde_from[i][idx] +
-                        (
-                         
-                         //Laplacian
-                         (
-                          field->laplacian(f_tilde[i], j)
-                          )/pw2(exp(OSCSTART))
-                         +//a terms
-                         (
-                          //- field->mass(i,_a)
-                          + _dda/_a + _da*Gamma_pr[i]
-                          + pow(Gamma_pr[i]*_a,2.0)/4
-                          ) *f_tilde[i][idx]
-                         //dV term
-                         - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*_sfint/2)
-                         
-                         )* h*dt;
-                        
-        #elif dim == 2
-                          //  #pragma omp simd
-                        for( int k = 0; k < N; ++k ){
-                            int idx = j*N + k;
+             df_tilde_to[i][idx] = df_tilde_from[i][idx] +
+             (
+              
+              //Laplacian
+              (
+               field->laplacian(f_tilde[i], j)
+               )/pw2(exp(OSCSTART))
+              +//a terms
+              (
+               //- field->mass(i,_a)
+               + _dda/_a + _da*Gamma_pr[i]
+               + pow(Gamma_pr[i]*_a,2.0)/4
+               ) *f_tilde[i][idx]
+              //dV term
+              - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*_sfint/2)
+              
+              )* h*dt;
+        break;
+         }
+        case 2:
+         {
+//#elif dim == 2
+                  //  #pragma omp simd
+                for( int k = 0; k < N; ++k ){
+                    int idx = j*N + k;
 
 //                        if(i==2 && idx==0){
 //        Logout( "laplacian = %2.5e \n", field->laplacian(f_tilde[i], j, k));
@@ -254,54 +285,63 @@ void LeapFrog::evol_field_derivs_expansion(double** df_tilde_from, double** df_t
 ////                            exit(1);
 //                        }
 //
-                        
-                            df_tilde_to[i][idx] = df_tilde_from[i][idx] +
-                            (
-                             
-                             //Laplacian
-                             (
-                              field->laplacian(f_tilde[i], j, k)
-                              )/pw2(exp(OSCSTART))
-                             +//a terms
-                             (
-                              //- field->mass(i,_a)
-                              + _dda/_a + _da*Gamma_pr[i]
-                              + pow(Gamma_pr[i]*_a,2)/4
-                              ) *f_tilde[i][idx]
-                             //dV term
-                             - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*_sfint/2)
-                             
-                             )* h*dt;
-                            
-                        }
-                        
-        #elif dim == 3
-                        
-                        for( int k = 0; k < N; ++k ){
-        //#pragma omp simd
-                            for( int l = 0; l < N; ++l ){
-                                int idx = (j*N + k)*N + l;
-                                
-                                df_tilde_to[i][idx] = df_tilde_from[i][idx] +
-                                (
-                                 //Laplacian
-                                 (
-                                  field->laplacian(f_tilde[i], j, k, l)
-                                  )/pw2(exp(OSCSTART))
-                                 +//a terms
-                                 (
-                                  //- field->mass(i,_a)
-                                  + _dda/_a + _da*Gamma_pr[i]
-                                  + pow(Gamma_pr[i]*_a,2)/4
-                                  ) *f_tilde[i][idx]
-                                 //dV term
-                                 - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*_sfint/2)
-                                 
-                                 )* h*dt;
-                                
-                            }
-                        }
-        #endif
+                
+                    df_tilde_to[i][idx] = df_tilde_from[i][idx] +
+                    (
+                     
+                     //Laplacian
+                     (
+                      field->laplacian(f_tilde[i], j, k)
+                      )/pw2(exp(OSCSTART))
+                     +//a terms
+                     (
+                      //- field->mass(i,_a)
+                      + _dda/_a + _da*Gamma_pr[i]
+                      + pow(Gamma_pr[i]*_a,2)/4
+                      ) *f_tilde[i][idx]
+                     //dV term
+                     - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*_sfint/2)
+                     
+                     )* h*dt;
+                    
+                }
+        break;
+         }
+        case 3:
+         {
+//#elif dim == 3
+             for( int k = 0; k < N; ++k ){
+//#pragma omp simd
+                 for( int l = 0; l < N; ++l ){
+                     int idx = (j*N + k)*N + l;
+                     
+                     df_tilde_to[i][idx] = df_tilde_from[i][idx] +
+                     (
+                      //Laplacian
+                      (
+                       field->laplacian(f_tilde[i], j, k, l)
+                       )/pw2(exp(OSCSTART))
+                      +//a terms
+                      (
+                       //- field->mass(i,_a)
+                       + _dda/_a + _da*Gamma_pr[i]
+                       + pow(Gamma_pr[i]*_a,2)/4
+                       ) *f_tilde[i][idx]
+                      //dV term
+                      - field->dV_lattice(f, i, idx ,_a)*exp(Gamma_pr[i]*_sfint/2)
+                      
+                      )* h*dt;
+                     
+                 }
+             }
+        break;
+         }
+                //        #endif
+        default:
+           std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                    exit(1);
+        }//switch
+                       
                     }
         
     }
@@ -423,28 +463,43 @@ void LeapFrog::evol_gravpot( double** f, double** df, double h )
     #pragma omp parallel for schedule( static ) num_threads( num_threads )
     #endif
             for( int j = 0; j < N; ++j ){
-    #if dim == 1
-                int idx = j;
-                f[3][idx] += df[3][idx] * h*dt;
-//                 if(idx==3){
-//                Logout( "f[3][idx] = %2.5e \n", f[3][idx]);
-//                Logout( "df[3][idx] = %2.5e \n", df[3][idx] );
-//                 }
-    #elif dim == 2
-    #pragma omp simd
-                for( int k = 0; k < N; ++k ){
-                    int idx = j*N + k;
-                    f[3][idx] += df[3][idx] * h*dt;
-                }
-    #elif dim == 3
-                for( int k = 0; k < N; ++k ){
-    #pragma omp simd
-                    for( int l = 0; l < N; ++l ){
-                        int idx = (j*N + k)*N + l;
-                        f[3][idx] += df[3][idx] * h*dt;
-                    }
-                }
-    #endif
+                switch (dim)
+                {
+                case 1:
+                 {
+                     int idx = j;
+                     f[3][idx] += df[3][idx] * h*dt;
+     //                 if(idx==3){
+     //                Logout( "f[3][idx] = %2.5e \n", f[3][idx]);
+     //                Logout( "df[3][idx] = %2.5e \n", df[3][idx] );
+     //                 }
+                break;
+                 }
+                case 2:
+                 {
+                    #pragma omp simd
+                                for( int k = 0; k < N; ++k ){
+                                    int idx = j*N + k;
+                                    f[3][idx] += df[3][idx] * h*dt;
+                                }
+                break;
+                 }
+                case 3:
+                 {
+                     for( int k = 0; k < N; ++k ){
+                                #pragma omp simd
+                         for( int l = 0; l < N; ++l ){
+                             int idx = (j*N + k)*N + l;
+                             f[3][idx] += df[3][idx] * h*dt;
+                         }
+                     }
+                break;
+                 }
+                default:
+                   std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                            exit(1);
+                }//switch
+              
             }
     
 }
@@ -462,147 +517,159 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
     #pragma omp parallel for schedule( static ) num_threads( num_threads )
     #endif
             for( int j = 0; j < N; ++j ){
-    #if dim == 1
-                int idx = j;
-                
-//                                        if(idx==3){
-//                    Logout( "h*dt = %2.5e \n", h*dt);
-//                    Logout( "_dda*f[3][idx]/_a = %2.5e \n", _dda*f[3][idx]/_a);
-//                    Logout( " -(_a + 2*f[3][idx])*(_dda/_a -pow(_da,2)/pow(_a,2)) = %2.5e \n", -(_a + 2*f[3][idx])*(_dda/_a -pow(_da,2)/pow(_a,2)));
-//
-//                    Logout( "- field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART))) = %2.5e \n", - field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART))));
-//
-//                                            Logout( " term4 = %2.5e \n",-(rho_rad -field->V_lattice(f, idx ,_a))/(3*rescale_A*rescale_A*_a));
-//                                            Logout( "term5 = %2.5e \n",   - ( _a + 2*f[3][idx] )*(
-//                                                                                                  pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
-//                                                                                                  +
-//                                                                                                  pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
-//                                                                                                  +
-//                                                                                                  pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
-//                                                                                                  )
-//                                                   /(3*rescale_A*rescale_A));
-//                                            Logout( "term6 = %2.5e \n",  - ( _a - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
-//                                                                                                   +
-//                                                                                                   field->gradient_energy_eachpoint(f , 1, idx)
-//                                                                                                   +
-//                                                                                                   field->gradient_energy_eachpoint(f , 2, idx)
-//
-//                                                                                                   )/(3*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a)));
-//
-//                                            Logout( " addition = %2.5e \n\n",   (
-//                                                                                 _dda*f[3][idx]/_a
-//                                                                                 -(_a + 2*f[3][idx])*(_dda/_a -pow(_da,2)/pow(_a,2))
-//                                                                                 - field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART)))
-//                                                                                 -
-//                                                                                 (rho_rad -field->V_lattice(f, idx ,_a))/(3*rescale_A*rescale_A*_a)
-//                                                                                 - ( _a + 2*f[3][idx] )*(
-//                                                                                                         pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
-//                                                                                                         +
-//                                                                                                         pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
-//                                                                                                         +
-//                                                                                                         pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
-//                                                                                                         )
-//                                                                                 /(3*rescale_A*rescale_A)
-//                                                                                 - ( _a - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
-//                                                                                                           +
-//                                                                                                           field->gradient_energy_eachpoint(f , 1, idx)
-//                                                                                                           +
-//                                                                                                           field->gradient_energy_eachpoint(f , 2, idx)
-//
-//                                                                                                           )/(3*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
-//                                                                                 ) * h*dt);
-//
-//                                        }
-//
-                
-                
-                df[3][idx] += (
-                              2*(pow(_da,2.0)/pow(_a,2.0)+_dda/_a)*f[3][idx]
-                               -_a*_dda
-                               + field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART)))
-                               +
-                               2*field->V_lattice(f, idx ,_a)/(3*rescale_A*rescale_A)
-                               - ( pow(_a,2.0) + 2*f[3][idx] )*(
-                                            pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2.0),2.0)
+                switch (dim)
+                {
+                case 1:
+                 {
+                     int idx = j;
+                     
+     //                                        if(idx==3){
+     //                    Logout( "h*dt = %2.5e \n", h*dt);
+     //                    Logout( "_dda*f[3][idx]/_a = %2.5e \n", _dda*f[3][idx]/_a);
+     //                    Logout( " -(_a + 2*f[3][idx])*(_dda/_a -pow(_da,2)/pow(_a,2)) = %2.5e \n", -(_a + 2*f[3][idx])*(_dda/_a -pow(_da,2)/pow(_a,2)));
+     //
+     //                    Logout( "- field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART))) = %2.5e \n", - field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART))));
+     //
+     //                                            Logout( " term4 = %2.5e \n",-(rho_rad -field->V_lattice(f, idx ,_a))/(3*rescale_A*rescale_A*_a));
+     //                                            Logout( "term5 = %2.5e \n",   - ( _a + 2*f[3][idx] )*(
+     //                                                                                                  pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
+     //                                                                                                  +
+     //                                                                                                  pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
+     //                                                                                                  +
+     //                                                                                                  pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
+     //                                                                                                  )
+     //                                                   /(3*rescale_A*rescale_A));
+     //                                            Logout( "term6 = %2.5e \n",  - ( _a - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+     //                                                                                                   +
+     //                                                                                                   field->gradient_energy_eachpoint(f , 1, idx)
+     //                                                                                                   +
+     //                                                                                                   field->gradient_energy_eachpoint(f , 2, idx)
+     //
+     //                                                                                                   )/(3*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a)));
+     //
+     //                                            Logout( " addition = %2.5e \n\n",   (
+     //                                                                                 _dda*f[3][idx]/_a
+     //                                                                                 -(_a + 2*f[3][idx])*(_dda/_a -pow(_da,2)/pow(_a,2))
+     //                                                                                 - field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART)))
+     //                                                                                 -
+     //                                                                                 (rho_rad -field->V_lattice(f, idx ,_a))/(3*rescale_A*rescale_A*_a)
+     //                                                                                 - ( _a + 2*f[3][idx] )*(
+     //                                                                                                         pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2),2)
+     //                                                                                                         +
+     //                                                                                                         pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2),2)
+     //                                                                                                         +
+     //                                                                                                         pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2),2)
+     //                                                                                                         )
+     //                                                                                 /(3*rescale_A*rescale_A)
+     //                                                                                 - ( _a - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+     //                                                                                                           +
+     //                                                                                                           field->gradient_energy_eachpoint(f , 1, idx)
+     //                                                                                                           +
+     //                                                                                                           field->gradient_energy_eachpoint(f , 2, idx)
+     //
+     //                                                                                                           )/(3*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
+     //                                                                                 ) * h*dt);
+     //
+     //                                        }
+     //
+                     
+                     
+                     df[3][idx] += (
+                                   2*(pow(_da,2.0)/pow(_a,2.0)+_dda/_a)*f[3][idx]
+                                    -_a*_dda
+                                    + field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART)))
+                                    +
+                                    2*field->V_lattice(f, idx ,_a)/(3*rescale_A*rescale_A)
+                                    - ( pow(_a,2.0) + 2*f[3][idx] )*(
+                                                 pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2.0),2.0)
+                                                 +
+                                                 pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2.0),2.0)
+                                                 +
+                                                 pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2.0),2.0)
+                                                 )
+                                                 /(6*rescale_A*rescale_A)
+                                    - ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+                                                          +
+                                                          field->gradient_energy_eachpoint(f , 1, idx)
+                                                          +
+                                                          field->gradient_energy_eachpoint(f , 2, idx)
+                                                          
+                                                          )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
+                                    ) * h*dt;
+                     
+                break;
+                 }
+                case 2:
+                 {
+                     //#pragma omp simd
+                                 for( int k = 0; k < N; ++k ){
+                                     int idx = j*N + k;
+                                     df[3][idx] += (
+                                                    2*(pow(_da,2)/pow(_a,2)+_dda/_a)*f[3][idx]
+                                                    -_a*_dda
+                                                    + field->laplacian(f[3], j, k)/(3*pw2(exp(OSCSTART)))
+                                                    +
+                                                    2*field->V_lattice(f, idx ,_a)/(3*rescale_A*rescale_A)
+                                                    - ( pow(_a,2) + 2*f[3][idx] )*(
+                                                                                   pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2.0),2.0)
+                                                                                   +
+                                                                                   pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2.0),2.0)
+                                                                                   +
+                                                                                   pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2.0),2.0)
+                                                                                   )
+                                                    /(6*rescale_A*rescale_A)
+                                                    - ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+                                                                                     +
+                                                                                     field->gradient_energy_eachpoint(f , 1, idx)
+                                                                                     +
+                                                                                     field->gradient_energy_eachpoint(f , 2, idx)
+                                                                                     
+                                                                                     )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
+                                                    ) * h*dt;
+                                 }
+                                 
+                break;
+                 }
+                case 3:
+                 {
+                     for( int k = 0; k < N; ++k ){
+        // #pragma omp simd
+                         for( int l = 0; l < N; ++l ){
+                             int idx = (j*N + k)*N + l;
+                             df[3][idx] += (
+                                            2*(pow(_da,2.0)/pow(_a,2.0)+_dda/_a)*f[3][idx]
+                                            -_a*_dda
+                                            + field->laplacian(f[3], j, k, l)/(3*pw2(exp(OSCSTART)))
                                             +
-                                            pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2.0),2.0)
-                                            +
-                                            pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2.0),2.0)
-                                            )
+                                            2*field->V_lattice(f, idx ,_a)/(3*rescale_A*rescale_A)
+                                            - ( pow(_a,2) + 2*f[3][idx] )*(
+                                                                           pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2.0),2.0)
+                                                                           +
+                                                                           pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2.0),2.0)
+                                                                           +
+                                                                           pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2.0),2.0)
+                                                                           )
                                             /(6*rescale_A*rescale_A)
-                               - ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
-                                                     +
-                                                     field->gradient_energy_eachpoint(f , 1, idx)
-                                                     +
-                                                     field->gradient_energy_eachpoint(f , 2, idx)
-                                                     
-                                                     )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
-                               ) * h*dt;
-                
-    #elif dim == 2
-    //#pragma omp simd
-                for( int k = 0; k < N; ++k ){
-                    int idx = j*N + k;
-                    df[3][idx] += (
-                                   2*(pow(_da,2)/pow(_a,2)+_dda/_a)*f[3][idx]
-                                   -_a*_dda
-                                   + field->laplacian(f[3], j, k)/(3*pw2(exp(OSCSTART)))
-                                   +
-                                   2*field->V_lattice(f, idx ,_a)/(3*rescale_A*rescale_A)
-                                   - ( pow(_a,2) + 2*f[3][idx] )*(
-                                                                  pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2.0),2.0)
-                                                                  +
-                                                                  pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2.0),2.0)
-                                                                  +
-                                                                  pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2.0),2.0)
-                                                                  )
-                                   /(6*rescale_A*rescale_A)
-                                   - ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
-                                                                    +
-                                                                    field->gradient_energy_eachpoint(f , 1, idx)
-                                                                    +
-                                                                    field->gradient_energy_eachpoint(f , 2, idx)
-                                                                    
-                                                                    )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
-                                   ) * h*dt;
-                }
-                
-    #elif dim == 3
-                
-                for( int k = 0; k < N; ++k ){
-   // #pragma omp simd
-                    for( int l = 0; l < N; ++l ){
-                        int idx = (j*N + k)*N + l;
-                        df[3][idx] += (
-                                       2*(pow(_da,2.0)/pow(_a,2.0)+_dda/_a)*f[3][idx]
-                                       -_a*_dda
-                                       + field->laplacian(f[3], j, k, l)/(3*pw2(exp(OSCSTART)))
-                                       +
-                                       2*field->V_lattice(f, idx ,_a)/(3*rescale_A*rescale_A)
-                                       - ( pow(_a,2) + 2*f[3][idx] )*(
-                                                                      pow(df[0][idx]/_a - _da*f[0][idx]/pow(_a,2.0),2.0)
-                                                                      +
-                                                                      pow(df[1][idx]/_a - _da*f[1][idx]/pow(_a,2.0),2.0)
-                                                                      +
-                                                                      pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2.0),2.0)
-                                                                      )
-                                       /(6*rescale_A*rescale_A)
-                                       - ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
-                                                                        +
-                                                                        field->gradient_energy_eachpoint(f , 1, idx)
-                                                                        +
-                                                                        field->gradient_energy_eachpoint(f , 2, idx)
-                                                                        
-                                                                        )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
-                                       ) * h*dt;
-                    }
-                        
-                    }
-                
-    #endif
+                                            - ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+                                                                             +
+                                                                             field->gradient_energy_eachpoint(f , 1, idx)
+                                                                             +
+                                                                             field->gradient_energy_eachpoint(f , 2, idx)
+                                                                             
+                                                                             )/(6*rescale_A*rescale_A*pw2(exp(OSCSTART)*_a))
+                                            ) * h*dt;
+                         }
+                             
+                         }
+                     
+                break;
+                 }
+                default:
+                   std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                            exit(1);
+                }//switch
             }
             
-    
 }
 
 void LeapFrog::fields_copy( double** f_from, double** f_to){
@@ -615,24 +682,38 @@ void LeapFrog::fields_copy( double** f_from, double** f_to){
         #pragma omp parallel for schedule( static ) num_threads( num_threads )
         #endif
                         for( int j = 0; j < N; ++j ){
-        #if dim == 1
-                            int idx = j;
-                            f_to[i][idx] = f_from[i][idx];
-        #elif dim == 2
-        #pragma omp simd
-                            for( int k = 0; k < N; ++k ){
-                                int idx = j*N + k;
-                                f_to[i][idx] = f_from[i][idx];
-                            }
-        #elif dim == 3
-                            for( int k = 0; k < N; ++k ){
-        #pragma omp simd
-                                for( int l = 0; l < N; ++l ){
-                                    int idx = (j*N + k)*N + l;
-                                    f_to[i][idx] = f_from[i][idx];
-                                }
-                            }
-        #endif
+                            switch (dim)
+                            {
+                            case 1:
+                             {
+                                 int idx = j;
+                                 f_to[i][idx] = f_from[i][idx];
+                            break;
+                             }
+                            case 2:
+                             {
+                    #pragma omp simd
+                    for( int k = 0; k < N; ++k ){
+                        int idx = j*N + k;
+                        f_to[i][idx] = f_from[i][idx];
+                    }
+                            break;
+                             }
+                            case 3:
+                             {
+                                 for( int k = 0; k < N; ++k ){
+                                        #pragma omp simd
+                                     for( int l = 0; l < N; ++l ){
+                                         int idx = (j*N + k)*N + l;
+                                         f_to[i][idx] = f_from[i][idx];
+                                     }
+                                 }
+                            break;
+                             }
+                            default:
+                               std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                                        exit(1);
+                            }//switch
                         }
                     }
     
@@ -654,28 +735,41 @@ void LeapFrog::fields_convert( double** f, double** f_tilde, int convert_switch)
 #pragma omp parallel for schedule( static ) num_threads( num_threads )
 #endif
                 for( int j = 0; j < N; ++j ){
-#if dim == 1
-                    int idx = j;
-                    f_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*f[i][idx];
-
-#elif dim == 2
-#pragma omp simd
+                    switch (dim)
+                    {
+                    case 1:
+                     {
+                         int idx = j;
+                         f_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*f[i][idx];
+                    break;
+                     }
+                    case 2:
+                     {
+                    #pragma omp simd
                     for( int k = 0; k < N; ++k ){
                         int idx = j*N + k;
                         
                         f_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*f[i][idx];
                       
                     }
-#elif dim == 3
-                    for( int k = 0; k < N; ++k ){
-#pragma omp simd
-                        for( int l = 0; l < N; ++l ){
-                            int idx = (j*N + k)*N + l;
-                            f_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*f[i][idx];
+                    break;
+                     }
+                    case 3:
+                     {
+                         for( int k = 0; k < N; ++k ){
+                                #pragma omp simd
+                             for( int l = 0; l < N; ++l ){
+                                 int idx = (j*N + k)*N + l;
+                                 f_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*f[i][idx];
 
-                        }
-                    }
-#endif
+                             }
+                         }
+                    break;
+                     }
+                    default:
+                       std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                                exit(1);
+                    }//switch
                 }
             }
 
@@ -690,27 +784,42 @@ void LeapFrog::fields_convert( double** f, double** f_tilde, int convert_switch)
 #pragma omp parallel for schedule( static ) num_threads( num_threads )
 #endif
                 for( int j = 0; j < N; ++j ){
-#if dim == 1
-                    int idx = j;
-                    f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*_sfint/2);
-                
-#elif dim == 2
-#pragma omp simd
+                    switch (dim)
+                    {
+                    case 1:
+                     {
+                         int idx = j;
+                         f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*_sfint/2);
+                     
+                    break;
+                     }
+                    case 2:
+                     {
+                        #pragma omp simd
                     for( int k = 0; k < N; ++k ){
                         int idx = j*N + k;
                         f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*_sfint/2);
                        
                     }
-#elif dim == 3
-                    for( int k = 0; k < N; ++k ){
-#pragma omp simd
-                        for( int l = 0; l < N; ++l ){
-                            int idx = (j*N + k)*N + l;
-                            f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*_sfint/2);
-                            
-                        }
-                    }
-#endif
+
+                    break;
+                     }
+                    case 3:
+                     {
+                         for( int k = 0; k < N; ++k ){
+                                #pragma omp simd
+                             for( int l = 0; l < N; ++l ){
+                                 int idx = (j*N + k)*N + l;
+                                 f[i][idx] = f_tilde[i][idx]*exp(-Gamma_pr[i]*_sfint/2);
+                                 
+                             }
+                         }
+                    break;
+                     }
+                    default:
+                       std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                                exit(1);
+                    }//switch
                 }
             }
             break;
@@ -734,28 +843,43 @@ void LeapFrog::fields_deriv_convert( double** f, double** df, double** f_tilde, 
 #pragma omp parallel for schedule( static ) num_threads( num_threads )
 #endif
                 for( int j = 0; j < N; ++j ){
-#if dim == 1
-                    int idx = j;
-//                    std::cout << "1: df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-//                    std::cout << "1: f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
-                    df_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]*_a/2);
-//                    std::cout << "2: df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-//                    std::cout << "2: f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
-#elif dim == 2
-#pragma omp simd
+                    switch (dim)
+                    {
+                    case 1:
+                     {
+                         int idx = j;
+     //                    std::cout << "1: df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+     //                    std::cout << "1: f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+                         df_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]*_a/2);
+     //                    std::cout << "2: df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+     //                    std::cout << "2: f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+                    break;
+                     }
+                    case 2:
+                     {
+                        #pragma omp simd
                     for( int k = 0; k < N; ++k ){
                         int idx = j*N + k;
                         df_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]*_a/2);
                     }
-#elif dim == 3
-                    for( int k = 0; k < N; ++k ){
-#pragma omp simd
-                        for( int l = 0; l < N; ++l ){
-                            int idx = (j*N + k)*N + l;
-                             df_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]*_a/2);
-                        }
-                    }
-#endif
+                    break;
+                     }
+                    case 3:
+                     {
+                         for( int k = 0; k < N; ++k ){
+                                #pragma omp simd
+                             for( int l = 0; l < N; ++l ){
+                                 int idx = (j*N + k)*N + l;
+                                  df_tilde[i][idx] = exp(Gamma_pr[i]*_sfint/2)*(df[i][idx] +f[i][idx]*Gamma_pr[i]*_a/2);
+                             }
+                         }
+                    break;
+                     }
+                    default:
+                       std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                                exit(1);
+                    }//switch
+ 
                 }
             }
             
@@ -770,24 +894,39 @@ void LeapFrog::fields_deriv_convert( double** f, double** df, double** f_tilde, 
 #pragma omp parallel for schedule( static ) num_threads( num_threads )
 #endif
                 for( int j = 0; j < N; ++j ){
-#if dim == 1
-                    int idx = j;
-                    df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]*_a/2)*exp(-Gamma_pr[i]*_sfint/2);
-#elif dim == 2
-#pragma omp simd
+                    
+                    switch (dim)
+                    {
+                    case 1:
+                     {
+                         int idx = j;
+                         df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]*_a/2)*exp(-Gamma_pr[i]*_sfint/2);
+                    break;
+                     }
+                    case 2:
+                     {
+                        #pragma omp simd
                     for( int k = 0; k < N; ++k ){
                         int idx = j*N + k;
                         df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]*_a/2)*exp(-Gamma_pr[i]*_sfint/2);
                     }
-#elif dim == 3
-                    for( int k = 0; k < N; ++k ){
-#pragma omp simd
-                        for( int l = 0; l < N; ++l ){
-                            int idx = (j*N + k)*N + l;
-                            df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]*_a/2)*exp(-Gamma_pr[i]*_sfint/2);
-                        }
-                    }
-#endif
+                    break;
+                     }
+                    case 3:
+                     {
+                         for( int k = 0; k < N; ++k ){
+                                #pragma omp simd
+                             for( int l = 0; l < N; ++l ){
+                                 int idx = (j*N + k)*N + l;
+                                 df[i][idx] = (df_tilde[i][idx] - Gamma_pr[i]*f_tilde[i][idx]*_a/2)*exp(-Gamma_pr[i]*_sfint/2);
+                             }
+                         }
+                    break;
+                     }
+                    default:
+                       std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                                exit(1);
+                    }//switch
                 }
             }
             break;

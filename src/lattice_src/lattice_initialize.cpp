@@ -251,13 +251,29 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
             }
             
             if(omega>0.) {// Avoid dividing by zero
-#if  dim==1
-                norm = rescale_A*rescale_B*pow(L/(dx*dx),.5)/(exp(OSCSTART)*sqrt(4*M_PI*omega));
-#elif  dim==2
-                norm =  rescale_A*rescale_B*pow(L/(dx*dx),1)/(exp(OSCSTART)*sqrt(2*M_PI*omega));
-#elif  dim==3
-                norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.5)/(exp(OSCSTART)*sqrt(2*omega));
-#endif
+                switch (dim)
+                {
+                case 1:
+                 {
+                     norm = rescale_A*rescale_B*pow(L/(dx*dx),.5)/(exp(OSCSTART)*sqrt(4*M_PI*omega));
+                break;
+                 }
+                case 2:
+                 {
+                     norm =  rescale_A*rescale_B*pow(L/(dx*dx),1)/(exp(OSCSTART)*sqrt(2*M_PI*omega));
+                break;
+                 }
+                case 3:
+                 {
+                     norm =  rescale_A*rescale_B*pow(L/(dx*dx),1.5)/(exp(OSCSTART)*sqrt(2*omega));
+
+                break;
+                 }
+                default:
+                   std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                            exit(1);
+                }//switch
+
             }else{
                 norm = 0.0;
             }
@@ -279,15 +295,27 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
         case 1: //when amplitudes of fluctuations are predetermined
             
             omega = abs(deriv[0]/(field[0]*rescale_B))*exp(OSCSTART);
-            
-#if  dim==1
-            norm = (dx*dx/(L*sqrt(2*M_PI)))*field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0));
-#elif  dim==2
-            norm = (dx/sqrt(L*M_PI))*field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0));
-#elif  dim==3
-            
-            norm =  field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0));
-#endif
+            switch (dim)
+            {
+            case 1:
+             {
+                 norm = (dx*dx/(L*sqrt(2*M_PI)))*field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0));
+            break;
+             }
+            case 2:
+             {
+                 norm = (dx/sqrt(L*M_PI))*field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0));
+            break;
+             }
+            case 3:
+             {
+                 norm =  field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0));
+            break;
+             }
+            default:
+               std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                        exit(1);
+            }//switch
             
             // std::cout << "dx*dx/(L*sqrt(2*M_PI)) = " << dx*dx/(L*sqrt(2*M_PI)) << std::endl;
             //  std::cout << "field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0)) = " << field[0]*rescale_A*sqrt(pow(rescale_B*L/(dx*dx),3.0)) << std::endl;
@@ -307,18 +335,30 @@ void set_mode(double p2, double m2, double *field, double *deriv, int i, int rea
             
             case 2: //Gravitational perturbation
             
-            
-#if  dim==1
-            norm = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx*dx/(L*sqrt(2*M_PI)))*field[0];
-            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx*dx/(L*sqrt(2*M_PI)))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
-#elif  dim==2
-            norm = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx/sqrt(L*M_PI))*field[0];
-            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx/sqrt(L*M_PI))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
-#elif  dim==3
-            
-            norm =  sqrt(pow(rescale_B*L/(dx*dx),3.0))*field[0];
-            norm_div = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
-#endif
+            switch (dim)
+            {
+            case 1:
+             {
+                 norm = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx*dx/(L*sqrt(2*M_PI)))*field[0];
+                 norm_div = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx*dx/(L*sqrt(2*M_PI)))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
+            break;
+             }
+            case 2:
+             {
+                 norm = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx/sqrt(L*M_PI))*field[0];
+                 norm_div = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(dx/sqrt(L*M_PI))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
+            break;
+             }
+            case 3:
+             {
+                 norm =  sqrt(pow(rescale_B*L/(dx*dx),3.0))*field[0];
+                 norm_div = sqrt(pow(rescale_B*L/(dx*dx),3.0))*(deriv[0] + 2*Hinitial_pr*rescale_B*field[0])/rescale_B;
+            break;
+             }
+            default:
+               std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                        exit(1);
+            }//switch
             
             amplitude = norm*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.)/sqrt(2);
             amplitude_div = norm_div*sqrt(log(1./rand_uniform()))*pow(p2,.75-(double)dim/4.)/sqrt(2);
@@ -388,31 +428,9 @@ void initialize_perturb(double** f, double** df, double** lattice_var, double ma
     double p2;
     double dp2=pw2(2*M_PI/L);
     double distance=0;
-    
-#if  dim==1
-    double pz;
-#elif dim==2
-    int jconj;
-    double py,pz;
-    
-    double* fnyquist = new double [2*N];
-    double* fdnyquist = new double [2*N];
-    
-#elif dim==3
-    int kconj, jconj;
-    double px,py,pz;
-    
-    double** fnyquist = new double* [N];
-    double** fdnyquist = new double* [N];
-    fnyquist[0] = new double [N*2*N];
-    fdnyquist[0] = new double [N*2*N];
-    for( int i = 0; i < N; ++i )
-    {
-        fnyquist[i] = fnyquist[0] + i*2*N;
-        fdnyquist[i] = fdnyquist[0] + i*2*N;
-    }
-#endif
-    
+    double pz,py,px;
+    int jconj,kconj;
+        
     // Courant condition
     if(dt>dx/sqrt(dim)){
         std::cout <<  "Time step too large. The ratio dt/dx is currently" << dt/dx <<
@@ -421,231 +439,258 @@ void initialize_perturb(double** f, double** df, double** lattice_var, double ma
     }
     
     
+    
+    switch (dim)
+    {
+    case 1:
+     {
+         
     for( int i = 0; i < num_fields; ++i ){
         
         // std::cout << "mass_sq[ " << i <<  "] = " << mass_sq[i] << std::endl;
         
-        
-#if  dim==1
-        
-        //k=N/2
-        p2 = dp2*pw2(N/2);
-        
-        // std::cout << "k = " << N/2 << ", f[i][1] = "<< f[i][1] << std::endl;
-        
-        fdf_calc( N/2 , lattice_var, &f[i][1], &df[i][1], i);
-        
-        //Set mode for lattice simulation
-        set_mode(p2, mass_sq[i], &f[i][1], &df[i][1], i, 1);
-        
-        //Loop over gridpoints.
-        for(int k = 1; k < N/2; k++ ){
-            pz = k;
-            p2 = dp2*pw2(pz);
-            distance = k;
-            // std::cout << "k = " << k << ", f[i][" << 2*k << "] = " << f[i][2*k] << ", f[i][" << 2*k+1 << "] = " << f[i][2*k+1] << std::endl;
-            // std::cout << "k = " << k << ", df[i][" << 2*k << "] = " << df[i][2*k] << ", df[i][" << 2*k+1 << "] = " << df[i][2*k+1] << std::endl;
-            
-            fdf_calc( distance , lattice_var, &f[i][2*k], &df[i][2*k], i);
-            
-            //Set mode for lattice simulation
-            set_mode(p2, mass_sq[i], &f[i][2*k], &df[i][2*k], i, 0);
+             //k=N/2
+             p2 = dp2*pw2(N/2);
+             
+             // std::cout << "k = " << N/2 << ", f[i][1] = "<< f[i][1] << std::endl;
+             
+             fdf_calc( N/2 , lattice_var, &f[i][1], &df[i][1], i);
+             
+             //Set mode for lattice simulation
+             set_mode(p2, mass_sq[i], &f[i][1], &df[i][1], i, 1);
+             
+             //Loop over gridpoints.
+             for(int k = 1; k < N/2; k++ ){
+                 pz = k;
+                 p2 = dp2*pw2(pz);
+                 distance = k;
+                 // std::cout << "k = " << k << ", f[i][" << 2*k << "] = " << f[i][2*k] << ", f[i][" << 2*k+1 << "] = " << f[i][2*k+1] << std::endl;
+                 // std::cout << "k = " << k << ", df[i][" << 2*k << "] = " << df[i][2*k] << ", df[i][" << 2*k+1 << "] = " << df[i][2*k+1] << std::endl;
+                 
+                 fdf_calc( distance , lattice_var, &f[i][2*k], &df[i][2*k], i);
+                 
+                 //Set mode for lattice simulation
+                 set_mode(p2, mass_sq[i], &f[i][2*k], &df[i][2*k], i, 0);
+             }
+             // std::cout << "k = " << 0 << std::endl;
+             //k=0
+             f[i][0] = 0.;
+             df[i][0] = 0.;
+             
+             std::cout << "before fourier transform" << std::endl;
+             std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+             std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+             std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+             std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
+             
+             //transform from phase space to real space
+             DFT_c2rD1( f[i] );
+             DFT_c2rD1( df[i] );
+             
+             std::cout << "after fourier transform" << std::endl;
+             std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+             std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+             std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+             std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
+             
         }
-        // std::cout << "k = " << 0 << std::endl;
-        //k=0
-        f[i][0] = 0.;
-        df[i][0] = 0.;
-        
-        std::cout << "before fourier transform" << std::endl;
-        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
-        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
-        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
-        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
-        
-        //transform from phase space to real space
-        DFT_c2rD1( f[i] );
-        DFT_c2rD1( df[i] );
-        
-        std::cout << "after fourier transform" << std::endl;
-        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
-        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
-        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
-        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
-        
-#elif dim==2
-        for(int j = 0; j < N; j++ ){
-            py = (j <= N/2 ? j : j-N);
-            
-            for(int k = 1; k < N/2; k++ ){
-                pz = k;
-                p2=dp2*(pw2(py)+pw2(pz));
-                distance = sqrt(pw2(py)+pw2(pz));
-                
-                fdf_calc( distance , lattice_var, &f[i][j*N+2*k], &df[i][j*N+2*k], i);
-                
-                //Set mode for lattice simulation
-                set_mode(p2, mass_sq[i], &f[i][j*N+2*k], &df[i][j*N+2*k], i, 0);
-                
-            }
-            
-            if(j > N/2)
-                
-            {
-                jconj = N-j;
-                
-                //k=0
-                p2 = dp2*pw2(py);
-                fdf_calc( jconj , lattice_var, &f[i][j*N], &df[i][j*N], i);
-                set_mode(p2, mass_sq[i], &f[i][j*N], &df[i][j*N], i, 0);
-                f[i][jconj*N] = f[i][j*N];
-                f[i][jconj*N+1] = -f[i][j*N+1];
-                df[i][jconj*N] = df[i][j*N];
-                df[i][jconj*N+1] = -df[i][j*N+1];
-                //k=N/2
-                distance = sqrt(pw2(py)+pw2(N/2));
-                fdf_calc( distance , lattice_var, &fnyquist[2*j], &fdnyquist[2*j], i);
-                p2 = dp2*(pw2(py)+pw2(N/2));
-                set_mode(p2, mass_sq[i], &fnyquist[2*j], &fdnyquist[2*j], i, 0);
-                fnyquist[2*jconj] = fnyquist[2*j];
-                fnyquist[2*jconj+1] = -fnyquist[2*j+1];
-                fdnyquist[2*jconj] = fdnyquist[2*j];
-                fdnyquist[2*jconj+1] = -fdnyquist[2*j+1];
-                
-            }
-            // The  "corners" of the lattice are set to real values
-            else if(j == 0 || j == N/2){
-                
-                p2 = dp2*pw2(py); //k = 0
-                if(p2 > 0.){
-                    fdf_calc( N/2 , lattice_var, &f[i][j*N], &df[i][j*N], i);
-                    set_mode(p2, mass_sq[i], &f[i][j*N], &df[i][j*N], i, 1);
-                    
-                }
-                
-                p2 = dp2*(pw2(py)+pw2(N/2));  //k = N/2
-                distance = sqrt(pw2(py)+pw2(N/2));
-                fdf_calc(distance, lattice_var, &fnyquist[2*j], &fdnyquist[2*j], i);
-                set_mode(p2, mass_sq[i], &fnyquist[2*j], &fdnyquist[2*j], i, 1);
-                
-            }
-        } //k = 0, j = 0
-        f[i][0] = 0.;
-        f[i][1] = 0.;
-        df[i][0] = 0.;
-        df[i][1] = 0.;
-        
-        std::cout << "before fourier transform" << std::endl;
-        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
-        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
-        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
-        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
-        
-        //transform from phase space to real space
-        DFT_c2rD2( f[i] , fnyquist );
-        DFT_c2rD2( df[i], fdnyquist);
-        
-        std::cout << "after fourier transform" << std::endl;
-        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
-        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
-        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
-        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
-        
-        
-        
-#elif dim==3
-        for(int j = 0; j < N; j++){
-            px = (j <= N/2 ? j : j-N);
-            jconj = (j==0 ? 0 : N-j);
-            
-            for(int k = 0; k < N; k++)
-            {
-                py = (k <= N/2 ? k : k-N);
-                
-                //0<l<N/2
-                for(int l = 1; l < N/2; l++){
-                    pz = l;
-                    p2 = dp2*(pw2(px)+pw2(py)+pw2(pz));
-                    distance = sqrt(pw2(px)+pw2(py)+pw2(pz));
-                    fdf_calc(distance, lattice_var, &f[i][(j*N + k)*N + 2*l], &df[i][(j*N + k)*N + 2*l], i);
-                    
-                    set_mode(p2,mass_sq[i], &f[i][(j*N + k)*N + 2*l], &df[i][(j*N + k)*N + 2*l], i, 0);
-                }
-                
-                if(k > N/2 || (j > N/2 && (k == 0 || k == N/2))){
-                    kconj = (k == 0 ? 0 : N-k);
-                    //l=0
-                    p2 = dp2*(pw2(px)+pw2(py));
-                    distance = sqrt(pw2(px)+pw2(py));
-                    fdf_calc(distance, lattice_var, &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], i);
-                    set_mode(p2,mass_sq[i], &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], i, 0);
-                    f[i][(jconj*N + kconj)*N] = f[i][(j*N + k)*N];
-                    f[i][(jconj*N + kconj)*N+1] = -f[i][(j*N + k)*N+1];
-                    df[i][(jconj*N + kconj)*N] = df[i][(j*N + k)*N];
-                    df[i][(jconj*N + kconj)*N+1] = -df[i][(j*N + k)*N+1];
-                    //l=N/2
-                    p2 = dp2*(pw2(px)+pw2(py)+pw2(N/2));
-                    distance = sqrt(pw2(px)+pw2(py)+pw2(N/2));
-                    fdf_calc(distance, lattice_var, &fnyquist[j][2*k], &fdnyquist[j][2*k], i);
-                    set_mode(p2, mass_sq[i], &fnyquist[j][2*k], &fdnyquist[j][2*k], i, 0);
-                    fnyquist[jconj][2*kconj] = fnyquist[j][2*k];
-                    fnyquist[jconj][2*kconj+1] = -fnyquist[j][2*k+1];
-                    fdnyquist[jconj][2*kconj] = fdnyquist[j][2*k];
-                    fdnyquist[jconj][2*kconj+1] = -fdnyquist[j][2*k+1];
-                }
-                else if((j == 0 || j == N/2) && (k == 0 || k == N/2))
-                {
-                    p2 = dp2*(pw2(px)+pw2(py)); //l=0
-                    if(p2 > 0.){
-                        distance = sqrt(pw2(px)+pw2(py));
-                        fdf_calc(distance, lattice_var, &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], i);
-                        set_mode(p2, mass_sq[i], &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], i, 1);
-                    }
-                    
-                    p2=dp2*(pw2(px)+pw2(py)+pw2(N/2)); //l=N/2
-                    distance = sqrt(pw2(px)+pw2(py)+pw2(N/2));
-                    fdf_calc(distance, lattice_var, &fnyquist[j][2*k], &fdnyquist[j][2*k], i);
-                    set_mode(p2, mass_sq[i], &fnyquist[j][2*k], &fdnyquist[j][2*k], i, 1);
-                }
-            }
+        break;
         }
-        f[i][0] = 0.;
-        f[i][1] = 0.;
-        df[i][0] = 0.;
-        df[i][1] = 0.;
-        
-        std::cout << "before fourier transform" << std::endl;
-        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
-        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
-        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
-        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
-        
-        //transform from phase space to real space
-        DFT_c2rD3( f[i] , fnyquist );
-        DFT_c2rD3( df[i], fdnyquist);
-        
-        std::cout << "after fourier transform" << std::endl;
-        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
-        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
-        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
-        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
-        
-        
-        
-#endif
-        
-    } //for( int i = 0; i < num_fields; ++i ){
-    
-#if  dim==1
-#elif dim==2
-    delete [] fnyquist;
-    delete [] fdnyquist;
-#elif dim==3
-    delete [] fnyquist[0];
-    delete [] fdnyquist[0];
-    delete [] fnyquist;
-    delete [] fdnyquist;
-#endif
-    
+        case 2:
+         {
+             double* fnyquist = new double [2*N];
+             double* fdnyquist = new double [2*N];
+             
+             for( int i = 0; i < num_fields; ++i ){
+
+             for(int j = 0; j < N; j++ ){
+                 py = (j <= N/2 ? j : j-N);
+                 
+                 for(int k = 1; k < N/2; k++ ){
+                     pz = k;
+                     p2=dp2*(pw2(py)+pw2(pz));
+                     distance = sqrt(pw2(py)+pw2(pz));
+                     
+                     fdf_calc( distance , lattice_var, &f[i][j*N+2*k], &df[i][j*N+2*k], i);
+                     
+                     //Set mode for lattice simulation
+                     set_mode(p2, mass_sq[i], &f[i][j*N+2*k], &df[i][j*N+2*k], i, 0);
+                     
+                 }
+                 
+                 if(j > N/2)
+                     
+                 {
+                     jconj = N-j;
+                     
+                     //k=0
+                     p2 = dp2*pw2(py);
+                     fdf_calc( jconj , lattice_var, &f[i][j*N], &df[i][j*N], i);
+                     set_mode(p2, mass_sq[i], &f[i][j*N], &df[i][j*N], i, 0);
+                     f[i][jconj*N] = f[i][j*N];
+                     f[i][jconj*N+1] = -f[i][j*N+1];
+                     df[i][jconj*N] = df[i][j*N];
+                     df[i][jconj*N+1] = -df[i][j*N+1];
+                     //k=N/2
+                     distance = sqrt(pw2(py)+pw2(N/2));
+                     fdf_calc( distance , lattice_var, &fnyquist[2*j], &fdnyquist[2*j], i);
+                     p2 = dp2*(pw2(py)+pw2(N/2));
+                     set_mode(p2, mass_sq[i], &fnyquist[2*j], &fdnyquist[2*j], i, 0);
+                     fnyquist[2*jconj] = fnyquist[2*j];
+                     fnyquist[2*jconj+1] = -fnyquist[2*j+1];
+                     fdnyquist[2*jconj] = fdnyquist[2*j];
+                     fdnyquist[2*jconj+1] = -fdnyquist[2*j+1];
+                     
+                 }
+                 // The  "corners" of the lattice are set to real values
+                 else if(j == 0 || j == N/2){
+                     
+                     p2 = dp2*pw2(py); //k = 0
+                     if(p2 > 0.){
+                         fdf_calc( N/2 , lattice_var, &f[i][j*N], &df[i][j*N], i);
+                         set_mode(p2, mass_sq[i], &f[i][j*N], &df[i][j*N], i, 1);
+                         
+                     }
+                     
+                     p2 = dp2*(pw2(py)+pw2(N/2));  //k = N/2
+                     distance = sqrt(pw2(py)+pw2(N/2));
+                     fdf_calc(distance, lattice_var, &fnyquist[2*j], &fdnyquist[2*j], i);
+                     set_mode(p2, mass_sq[i], &fnyquist[2*j], &fdnyquist[2*j], i, 1);
+                     
+                 }
+             } //k = 0, j = 0
+             f[i][0] = 0.;
+             f[i][1] = 0.;
+             df[i][0] = 0.;
+             df[i][1] = 0.;
+             
+             std::cout << "before fourier transform" << std::endl;
+             std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+             std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+             std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+             std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
+             
+             //transform from phase space to real space
+             DFT_c2rD2( f[i] , fnyquist );
+             DFT_c2rD2( df[i], fdnyquist);
+             
+             std::cout << "after fourier transform" << std::endl;
+             std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+             std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+             std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+             std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
+             
+             }
+             
+             delete [] fnyquist;
+             delete [] fdnyquist;
+             
+        break;
+         }
+        case 3:
+         {
+             double** fnyquist = new double* [N];
+             double** fdnyquist = new double* [N];
+             fnyquist[0] = new double [N*2*N];
+             fdnyquist[0] = new double [N*2*N];
+             for( int i = 0; i < N; ++i )
+             {
+                 fnyquist[i] = fnyquist[0] + i*2*N;
+                 fdnyquist[i] = fdnyquist[0] + i*2*N;
+             }
+             
+             for( int i = 0; i < num_fields; ++i ){
+                 
+             for(int j = 0; j < N; j++){
+                 px = (j <= N/2 ? j : j-N);
+                 jconj = (j==0 ? 0 : N-j);
+                 
+                 for(int k = 0; k < N; k++)
+                 {
+                     py = (k <= N/2 ? k : k-N);
+                     
+                     //0<l<N/2
+                     for(int l = 1; l < N/2; l++){
+                         pz = l;
+                         p2 = dp2*(pw2(px)+pw2(py)+pw2(pz));
+                         distance = sqrt(pw2(px)+pw2(py)+pw2(pz));
+                         fdf_calc(distance, lattice_var, &f[i][(j*N + k)*N + 2*l], &df[i][(j*N + k)*N + 2*l], i);
+                         
+                         set_mode(p2,mass_sq[i], &f[i][(j*N + k)*N + 2*l], &df[i][(j*N + k)*N + 2*l], i, 0);
+                     }
+                     
+                     if(k > N/2 || (j > N/2 && (k == 0 || k == N/2))){
+                         kconj = (k == 0 ? 0 : N-k);
+                         //l=0
+                         p2 = dp2*(pw2(px)+pw2(py));
+                         distance = sqrt(pw2(px)+pw2(py));
+                         fdf_calc(distance, lattice_var, &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], i);
+                         set_mode(p2,mass_sq[i], &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], i, 0);
+                         f[i][(jconj*N + kconj)*N] = f[i][(j*N + k)*N];
+                         f[i][(jconj*N + kconj)*N+1] = -f[i][(j*N + k)*N+1];
+                         df[i][(jconj*N + kconj)*N] = df[i][(j*N + k)*N];
+                         df[i][(jconj*N + kconj)*N+1] = -df[i][(j*N + k)*N+1];
+                         //l=N/2
+                         p2 = dp2*(pw2(px)+pw2(py)+pw2(N/2));
+                         distance = sqrt(pw2(px)+pw2(py)+pw2(N/2));
+                         fdf_calc(distance, lattice_var, &fnyquist[j][2*k], &fdnyquist[j][2*k], i);
+                         set_mode(p2, mass_sq[i], &fnyquist[j][2*k], &fdnyquist[j][2*k], i, 0);
+                         fnyquist[jconj][2*kconj] = fnyquist[j][2*k];
+                         fnyquist[jconj][2*kconj+1] = -fnyquist[j][2*k+1];
+                         fdnyquist[jconj][2*kconj] = fdnyquist[j][2*k];
+                         fdnyquist[jconj][2*kconj+1] = -fdnyquist[j][2*k+1];
+                     }
+                     else if((j == 0 || j == N/2) && (k == 0 || k == N/2))
+                     {
+                         p2 = dp2*(pw2(px)+pw2(py)); //l=0
+                         if(p2 > 0.){
+                             distance = sqrt(pw2(px)+pw2(py));
+                             fdf_calc(distance, lattice_var, &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], i);
+                             set_mode(p2, mass_sq[i], &f[i][(j*N + k)*N], &df[i][(j*N + k)*N], i, 1);
+                         }
+                         
+                         p2=dp2*(pw2(px)+pw2(py)+pw2(N/2)); //l=N/2
+                         distance = sqrt(pw2(px)+pw2(py)+pw2(N/2));
+                         fdf_calc(distance, lattice_var, &fnyquist[j][2*k], &fdnyquist[j][2*k], i);
+                         set_mode(p2, mass_sq[i], &fnyquist[j][2*k], &fdnyquist[j][2*k], i, 1);
+                     }
+                 }
+             }
+             f[i][0] = 0.;
+             f[i][1] = 0.;
+             df[i][0] = 0.;
+             df[i][1] = 0.;
+             
+             std::cout << "before fourier transform" << std::endl;
+             std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+             std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+             std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+             std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
+             
+             //transform from phase space to real space
+             DFT_c2rD3( f[i] , fnyquist );
+             DFT_c2rD3( df[i], fdnyquist);
+             
+             std::cout << "after fourier transform" << std::endl;
+             std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+             std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+             std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+             std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
+             
+             }//for( int i = 0; i < num_fields; ++i ){
+             
+             delete [] fnyquist[0];
+             delete [] fdnyquist[0];
+             delete [] fnyquist;
+             delete [] fdnyquist;
+             
+        break;
+         }
+        default:
+           std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                    exit(1);
+        }//switch
+           
 }
 
 void initialize( double**& f, double**& df, Field* field, double &radiation_pr, double**& lattice_var)
@@ -860,84 +905,94 @@ void initialize( double**& f, double**& df, Field* field, double &radiation_pr, 
     //------------------------------------------------
     for( int i = 0; i < num_fields-1; ++i ){
         
-#if  dim==1
+        switch (dim)
+        {
+        case 1: //#if  dim==1
+         {
+             //#pragma omp parallel for simd schedule(static) num_threads(num_threads)
+             
+             for( int j = 0; j < N; ++j ){
+                 int idx = j;
+                 //std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+                 f[i][idx] += initial_field_values[i];
+                // std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+                 
+                 //  std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+                 
+                // std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+                 df[i][idx] += initial_field_derivs[i];
+                // std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+             }
+             
+             std::cout << "after adding zeromode" << std::endl;
+             std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+             std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+             std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+             std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
+        break;
+         }
+        case 2://#elif dim==2
+         {
+     #pragma omp parallel for schedule( static ) num_threads( num_threads )
+             for( int j = 0; j < N; ++j ){
+                 // #pragma omp simd
+                 for( int k = 0; k < N; ++k ){
+                     int idx = j*N + k;
+                   // std::cout << "f[" << i << "]["<< idx <<"]" << f[i][idx] << std::endl;
+     //                std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
+                     f[i][idx] += initial_field_values[i];
+                     df[i][idx] += initial_field_derivs[i];
+     //                std::cout << "f[0]["<< idx <<"]" << f[i][idx] << std::endl;
+     //                std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
+                     
+                 }
+             }
+             
+     //                 for( int j = 0; j < N; ++j ){
+     //                     for( int k = 0; k < N; ++k ){
+     //                         int idx = j*N + k;
+     //                         std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
+     //                         std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
+     //                     }
+     //                 }
+             
+             std::cout << "after adding zeromode" << std::endl;
+             std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+             std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+             std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+             std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
         
-        //#pragma omp parallel for simd schedule(static) num_threads(num_threads)
+        break;
+         }
+        case 3://#elif dim==3
+         {
+             //Add zeromode
+     #pragma omp parallel for schedule( static ) num_threads( num_threads )
+             for( int j = 0; j < N; ++j ){
+                 for( int k = 0; k < N; ++k ){
+                     // #pragma omp simd
+                     for( int l = 0; l < N; ++l ){
+                         int idx = (j*N + k)*N + l;
+                         f[i][idx] += initial_field_values[i];
+                         df[i][idx] += initial_field_derivs[i];
+                     }
+                 }
+             }
+             
+             std::cout << "after adding zeromode" << std::endl;
+             std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
+             std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
+             std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
+             std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
+             
+             
+        break;
+         }
+        default:
+           std::cout << "Error: Simulation dimension must be 1, 2, or 3" << std::endl;
+                    exit(1);
+        }//switch
         
-        for( int j = 0; j < N; ++j ){
-            int idx = j;
-            //std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
-            f[i][idx] += initial_field_values[i];
-           // std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
-            
-            //  std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-            
-           // std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-            df[i][idx] += initial_field_derivs[i];
-           // std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-        }
-        
-        std::cout << "after adding zeromode" << std::endl;
-        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
-        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
-        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
-        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
-        
-#elif dim==2
-        
-#pragma omp parallel for schedule( static ) num_threads( num_threads )
-        for( int j = 0; j < N; ++j ){
-            // #pragma omp simd
-            for( int k = 0; k < N; ++k ){
-                int idx = j*N + k;
-              // std::cout << "f[" << i << "]["<< idx <<"]" << f[i][idx] << std::endl;
-//                std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
-                f[i][idx] += initial_field_values[i];
-                df[i][idx] += initial_field_derivs[i];
-//                std::cout << "f[0]["<< idx <<"]" << f[i][idx] << std::endl;
-//                std::cout << "df[0]["<< idx <<"]" << df[i][idx] << std::endl;
-                
-            }
-        }
-        
-//                 for( int j = 0; j < N; ++j ){
-//                     for( int k = 0; k < N; ++k ){
-//                         int idx = j*N + k;
-//                         std::cout << " f[" << i << "][" << idx << "] = " << f[i][idx] << std::endl;
-//                         std::cout << " df[" << i << "][" << idx << "] = " << df[i][idx] << std::endl;
-//                     }
-//                 }
-        
-        std::cout << "after adding zeromode" << std::endl;
-        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
-        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
-        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
-        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
-        
-        
-#elif dim==3
-        
-        //Add zeromode
-#pragma omp parallel for schedule( static ) num_threads( num_threads )
-        for( int j = 0; j < N; ++j ){
-            for( int k = 0; k < N; ++k ){
-                // #pragma omp simd
-                for( int l = 0; l < N; ++l ){
-                    int idx = (j*N + k)*N + l;
-                    f[i][idx] += initial_field_values[i];
-                    df[i][idx] += initial_field_derivs[i];
-                }
-            }
-        }
-        
-        std::cout << "after adding zeromode" << std::endl;
-        std::cout << "f[" << i << "][4] = " << f[i][4] << std::endl;
-        std::cout << "df[" << i << "][4] = " <<  df[i][4] << std::endl;
-        std::cout << "f[" << i << "][10] = " <<  f[i][10] << std::endl;
-        std::cout << "df[" << i << "][10] = " <<  df[i][10] << std::endl;
-        
-        
-#endif
     }
     
    
