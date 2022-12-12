@@ -53,4 +53,4 @@ Makefile
 
 #But don't ignore this
 !CMakeLists.txt
-!/TakayamaMasterThesis/
+!TakayamaMasterThesis
