@@ -605,8 +605,15 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
         << std::setw(10) << V(tr[0],tr[1],tr[2]) << " "
         << std::setw(10) << rho_rad << " "
         << std::setw(10) << dda << " "
-        << std::setw(10) << epsilon << " "
-        << "\n\n";
+        << std::setw(10) << epsilon << " ";
+        for (i=7;i<N_pert;i++)
+        {
+            if(i == N_pert -1){
+                k_output << std::setw(10) << tr[i] << "\n\n";
+                }else{
+                    k_output << std::setw(10) << tr[i] << " " ;
+                }
+        }
        
     };
 
@@ -661,7 +668,7 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
         sp_output.open(ss.str().c_str(),std::ios::app);
     }
     
-    DP H,a,la,rho,rhop,Pzeta,PPot,PSTR; //Pzeta_raw,,P_sigma,P_psi,P_phi,;
+    DP H,a,la,rho,rhop,Pzeta,PPot,PSTR,P_sigma,P_psi,P_phi; //Pzeta_raw,P_sigma,P_psi,P_phi,;
 
     Vec_DP zeta(6);
     Vec_DP tr(N_pert);
@@ -688,13 +695,35 @@ void spectrum_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     PSTR = PPot;
     PPot = PPot/(2*M_PI*M_PI);
     PPot = log10(PPot) + 3*log10(k_comoving);
+    
+    P_sigma = 0;
+    for (i=0;i<3;i++) P_sigma = P_sigma + tr[i+7]*tr[i+7];
+    for (i=0;i<3;i++) P_sigma = P_sigma + tr[i+31]*tr[i+31];
+    P_sigma = P_sigma/(2*M_PI*M_PI);
+    P_sigma = log10(P_sigma) + 3*log10(k_comoving);
+    
+    P_psi = 0;
+    for (i=0;i<3;i++) P_psi = P_psi + tr[i+10]*tr[i+10];
+    for (i=0;i<3;i++) P_psi = P_psi + tr[i+34]*tr[i+34];
+    P_psi = P_psi/(2*M_PI*M_PI);
+    P_psi = log10(P_psi) + 3*log10(k_comoving);
+    
+    P_phi = 0;
+    for (i=0;i<3;i++) P_phi = P_phi + tr[i+13]*tr[i+13];
+    for (i=0;i<3;i++) P_phi = P_phi + tr[i+37]*tr[i+37];
+    P_phi = P_phi/(2*M_PI*M_PI);
+    P_phi = log10(P_phi) + 3*log10(k_comoving);
+    
     //output log(Gravitational Potential) and log(Zeta), along with k and knum.
     sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " "
     << std::setw(5) << knum << " "
     << std::setw(10) << UC::kMPl_to_kMpc(k_comoving) << " "
     << std::setw(10) << PPot << " "
     << std::setw(10) << Pzeta <<  " "
-    << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << " ";
+    << std::setw(10) << PSTR*sqrt(k_comoving*k_comoving*k_comoving) << " "
+    << std::setw(10) << P_sigma << " "
+    << std::setw(10) << P_psi << " "
+    << std::setw(10) << P_phi << " ";
     for (i=7;i<N_pert;i++)
     {
         if(i == N_pert -1){
@@ -1503,8 +1532,15 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
                          << std::setw(10) << 0 << " "//V(tr[0],tr[1],tr[2]) << " "
                          << std::setw(10) << 0 << " "//rho_rad << " "
                          << std::setw(10) << 0 << " "//dda << " "
-                         << std::setw(10) << 0 << " "//epsilon << " "
-                        << "\n\n";
+                        << std::setw(10) << 0 << " ";//epsilon << " "
+                    for (int i=7;i<N_pert;i++)
+                    {
+                        if(i == N_pert -1){
+                            k_output << std::setw(10) << 0 << "\n\n";
+                            }else{
+                                k_output << std::setw(10) << 0 << " " ;
+                            }
+                    }
             
             
         }
