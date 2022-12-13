@@ -172,7 +172,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         //This corresponds to the case when there is no lattice range and lattice_kmodes_switch is on.
         if(lattice_kmodes_switch){
             
-            //In this case, we start calculating from the mode that is just one mode aboce kfrom_MPl_lattice
+            //In this case, we start calculating from the mode that is just one mode above kfrom_MPl_lattice
             if(k_lattice_grid_min_MPl < kfrom_MPl_lattice)
             {
                 
@@ -220,7 +220,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     }
     else{
         
-        if(lattice_kmodes_switch){
+        if(!latticerange_switch && lattice_kmodes_switch){
             
             
             if(k_lattice_grid_min_MPl < kfrom_MPl_lattice)
@@ -261,7 +261,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         }
     }
     
-   std::chrono::system_clock::time_point  time_BEGIN_pert, time_OSCSTART_pert, time_UNPERT_pert,time_NEWINF_END_pert, time_END_pert;
+   std::chrono::system_clock::time_point  time_BEGIN_pert, time_OSCSTART_pert, time_OSCEND_pert, time_UNPERT_pert,time_NEWINF_END_pert, time_END_pert;
     
     
     for (int m = 0; m < m_end; m++)
@@ -271,7 +271,8 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         time_BEGIN_pert = std::chrono::system_clock::now();
         }
             
-        if(lattice_kmodes_switch){
+       
+        if(!latticerange_switch && lattice_kmodes_switch){
             
             k_comoving = k_begin_lattice + m*k_lattice_grid_min_MPl;
             
@@ -287,8 +288,6 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         percentage =   ( (knum - k_begin)/kinterval_knum + 1) / ( floor((k_loopend - k_begin)/kinterval_knum)  )*100;
         
         k_comoving = UC::knum_to_kMPl(knum);
-        
-
 
         }
         
@@ -387,8 +386,32 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         if(spectrum_bfosc_switch){
             spectrum_output(new_filename_sp_bfosc, xp2, delp, timecount, knum, k_comoving);
         };
-
-
+        
+        if(spectrum_afosc_switch)
+        {
+            if(m==0 && nonlatticerange_count == 0){
+            Logout("OSCEND_EFOLD = %2.5e \n\n", OSCEND_EFOLD);
+            }
+            
+        if(xmid < OSCEND_EFOLD){
+            NR::odeintpert(delstart,xmid,OSCEND_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
+    //         std::cout << "timecount = " << timecount << std::endl;
+            
+            if(kanalyze_switch){
+            kanalyze_output(new_dirname_k, xp2, delp, timecount, knum,k_comoving);
+            }
+            xmid=xp2[timecount-1];
+            a=exp(xmid);
+            for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
+        };
+        
+        if(m==0 && nonlatticerange_count == 0){
+        time_OSCEND_pert = std::chrono::system_clock::now();
+        time_calc(time_OSCSTART_pert, time_OSCEND_pert,"Perturbation OSCSTART~OSCEND (Non-lattice Range)");
+        }
+            
+            spectrum_output(new_filename_sp_afosc, xp2, delp, timecount, knum, k_comoving);
+            
             if(xmid < UNPERT_EFOLD){
                 NR::odeintpert(delstart,xmid,UNPERT_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
         //         std::cout << "timecount = " << timecount << std::endl;
@@ -400,7 +423,32 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 a=exp(xmid);
                 for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
             };
+            
+            if(m==0 && nonlatticerange_count == 0){
+            time_UNPERT_pert = std::chrono::system_clock::now();
+            time_calc(time_OSCEND_pert, time_UNPERT_pert,"Perturbation OSCEND~UNPERT (Non-lattice Range)");
+            }
+            
+        }else
+        {
+            if(xmid < UNPERT_EFOLD){
+                NR::odeintpert(delstart,xmid,UNPERT_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
+        //         std::cout << "timecount = " << timecount << std::endl;
+                
+                if(kanalyze_switch){
+                kanalyze_output(new_dirname_k, xp2, delp, timecount, knum,k_comoving);
+                }
+                xmid=xp2[timecount-1];
+                a=exp(xmid);
+                for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
+            };
+            
+            if(m==0 && nonlatticerange_count == 0){
+            time_UNPERT_pert = std::chrono::system_clock::now();
+            time_calc(time_OSCSTART_pert, time_UNPERT_pert,"Perturbation OSCSTART~UNPERT (Non-lattice Range)");
+            }
         
+        }
         //std::cout << "3: xmid = " << xmid << "\n";
             //Fixing sigma = psi = 0, in order to avoid solving oscillation of these two firlds which are negligible.
             delstart[0]=0;
@@ -412,10 +460,6 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             for (i=0;i<6;i++) delstart[31+i]=0;
             for (i=0;i<6;i++) delstart[40+i]=0;
         
-        if(m==0 && nonlatticerange_count == 0){
-        time_UNPERT_pert = std::chrono::system_clock::now();
-        time_calc(time_OSCSTART_pert, time_UNPERT_pert,"Perturbation OSCSTART~UNPERT (Non-lattice Range)");
-        }
         
             //Evolution equations for phi and its perturbations are solved, with zero-modes of sigma and psi are gixed to minimum
             //until phi begins oscillation at ln(a)=THRLAST.
@@ -756,7 +800,7 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
              
              if(latticerange_loop==0)
              {
-             Logout("AFOSC_EFOLD = %2.5e \n", xmid);
+             Logout("OSCEND_EFOLD = %2.5e \n", xmid);
              Logout("UNPERT_EFOLD = %2.5e \n", UNPERT_EFOLD);
              }
                  

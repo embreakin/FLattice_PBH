@@ -48,8 +48,6 @@ extern bool exist_par_set_rmall_switch;
 
 extern std::string new_filename_zero, new_dirname_k,  new_filename_sp_final, new_filename_sp_bfosc;
 
-extern bool k_switch_rm;
-
 extern bool zeromode_switch;
 extern bool perturbation_switch;
 
@@ -106,6 +104,7 @@ extern bool lattice_kmodes_switch;
     #define n_par 10.0                        //Potential paramater n
     #define g_par 1.0                //Potential parameter g
     #define BEGIN_EFOLD -135.6            //initial ln(a)
+    #define OSCEND_EFOLD -113.043                //ln(a) right after lattice simulation (lattice simulation must be conducted to set this parameter)
     #define UNPERT_EFOLD -110.815                //ln(a) at which sigma and psi are fixed to the minimum
     #define NEWINF_END_EFOLD -90.0                //ln(a) at the beginning of oscillation of phi.-61.5
     #define END_EFOLD -71.0                //ln(a) at the end of calculation
@@ -233,7 +232,6 @@ inline double pw2(double x) { return (x*x);}
 extern int dim;
 extern int N;
 
-extern bool k_lattice_switch_rm;
 extern bool k_lattice_startfromlattice_switch;
 
 extern bool latticerange_switch;

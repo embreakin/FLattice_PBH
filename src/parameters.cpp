@@ -80,9 +80,9 @@ void condition_name_set()
 
 
 
-//====================================
-//The following only holds for m=2
-//====================================
+//=========================================
+//The following parameter only holds for m=2
+//=========================================
 double msigma = sqrt(8*pow(mu_par,3.0)/M_par);//effective mass of sigma
 
 
@@ -137,7 +137,6 @@ bool perturbation_switch = par_set[par_set_num]["perturbation_switch"];//This ne
 
 bool lattice_kmodes_switch =  par_set[par_set_num]["lattice_kmodes_switch"]; //If this is true, it will use the modes calculated in lattice simulation for non lattice zeromode w/ perturb calculation
 
-bool k_switch_rm = false; // If this is true, the existing dir and files for kAnalyze from non-lattice simulation are deleted and new dir and files are created. If false, the dir and files remain as it is. Note however that this assumes exist_par_set_rmall_switch to be false).
 //Outputs
 bool kanalyze_switch = true;// true:Calculate k-analyze, false:Don't calculate k-analyze
 bool spectrum_switch = true;// true:Calculate final spectrum, false:Don't calculate final spectrum
@@ -200,9 +199,6 @@ bool latticerange_switch = par_set[par_set_num]["latticerange_switch"]; // true:
 bool initialize_perturb_switch = true; // true:Initialize fluctuation, false:Don't initialize fluctuation (only calculate zeromode for lattice simulation)
 
 int fluc_calc_switch  = 1;//Choose type of fluctuation initialization for scalar fields (for gravitational fluctuation, it is set to 2 regardless) 0:LatticeEasy case (when amplitudes of fluctuations are not predetermined) 1:when we use the amplitudes of predetermined fluctuations 2:gravitational perturbation
-
-
-bool k_lattice_switch_rm = false; //If this is true, the existing dir and files for kAnalyze using lattice simulation are deleted and new dir and files are created. If false, the dir and files remain as it is  (note that it is assumed that exist_par_set_rmall_switch is false).
 
 bool k_lattice_startfromlattice_switch = false; //If this is true, data output of kAnalyze_lattice starts from the time when lattice simulation starts. If false, then data output starts from the beginning (the beginning of hybrid inflation)
 
