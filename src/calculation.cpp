@@ -146,25 +146,27 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     
     static int nonlatticerange_count = 0;
     int k_loopend = 0;
-    int m_end;
+    double m_end;
     double k_begin_lattice = 0;
     double k_loopend_lattice = 0;
     
     if(latticerange_switch)
     {
-        if(nonlatticerange_count == 0)
+        if(nonlatticerange_count == 0 && kfrom_Mpc < kfrom_Mpc_lattice )
         {
-            //When there is a lattice range, we don't want kend of the lower range to be included in the non-lattice range, but rather included in the lattice range
+            //When there is a lattice range and we have a non-lattice lower range, we don't want kend of the lower range to be included in the non-lattice range, but rather included in the lattice range
             k_loopend = k_end;
             
-            m_end = (k_loopend - k_begin)/kinterval_knum;
+            m_end = (double)(k_loopend - k_begin)/kinterval_knum;
+          //  Logout("m_end = %e \n\n", m_end);
+            
         }
         else
         {
             //When there is a lattice range, we want kend of the upper range to be included in the non-lattice range.
             k_loopend = k_end + kinterval_knum;
                 
-            m_end = (k_loopend - k_begin)/kinterval_knum;
+            m_end = (double)(k_loopend - k_begin)/kinterval_knum;
         }
     }
     else//no lattice range
@@ -205,72 +207,20 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 //In this case, kend is included in the range.
             k_loopend = k_end + kinterval_knum;
                 
-            m_end = (k_loopend - k_begin)/kinterval_knum;
+            m_end = (double)(k_loopend - k_begin)/kinterval_knum;
         }
     }
     
-    
-    
-    if(latticerange_switch && nonlatticerange_count == 0)
-    {
-        //When there is a lattice range, we don't want kend of the lower range to be included in the non-lattice range, but rather included in the lattice range
-        k_loopend = k_end;
-        
-        m_end = (k_loopend - k_begin)/kinterval_knum;
-    }
-    else{
-        
-        if(!latticerange_switch && lattice_kmodes_switch){
-            
-            
-            if(k_lattice_grid_min_MPl < kfrom_MPl_lattice)
-            {
-                
-                outrange_num = floor(kfrom_MPl_lattice/k_lattice_grid_min_MPl);
-                
-                latticerange_num = (N/2) - outrange_num;
-                
-                k_begin_lattice = (outrange_num+1)*k_lattice_grid_min_MPl;
-                k_loopend_lattice = k_lattice_grid_max_MPl;
-                
-                m_end = latticerange_num;
-
-                Logout("k_lattice_grid_min_MPl < kfrom_MPl_lattice\n\n");
-                Logout("outrange_num = %d, latticerange_num = %d \n\n",outrange_num, latticerange_num);
-                
-            }else{
-                
-                k_begin_lattice = k_lattice_grid_min_MPl;
-                k_loopend_lattice = k_lattice_grid_max_MPl;
-                m_end = N/2;
-                latticerange_num = N/2;
-                Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n\n");
-                Logout("latticerange_num = %d \n\n", latticerange_num);
-                
-            }
-            
-        }else{
-        //This corresponds to the case of the upper range when there is a lattice range, or the case when there isn't a lattice range and lattice_kmodes_switch is off.
-            
-        k_loopend = k_end + kinterval_knum;
-            
-        m_end = (k_loopend - k_begin)/kinterval_knum;
-            
-           // Logout("k_end = %d, k_loopend = %d, m_end = %d \n\n",  k_end, k_loopend, m_end);
-            
-        }
-    }
     
    std::chrono::system_clock::time_point  time_BEGIN_pert, time_OSCSTART_pert, time_OSCEND_pert, time_UNPERT_pert,time_NEWINF_END_pert, time_END_pert;
     
-    
+
     for (int m = 0; m < m_end; m++)
     //for (knum = k_begin; knum < k_loopend; knum = knum + kinterval_knum)
     {
         if(m==0){
         time_BEGIN_pert = std::chrono::system_clock::now();
         }
-            
        
         if(!latticerange_switch && lattice_kmodes_switch){
             
@@ -278,20 +228,20 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             
             knum = UC::kMPl_to_knum(k_comoving);
             
-            percentage =   ( (k_comoving - k_begin_lattice)/k_lattice_grid_min_MPl + 1) / ( floor((k_loopend_lattice - k_begin_lattice)/k_lattice_grid_min_MPl) )*100;
+            percentage =   ( (k_comoving - k_begin_lattice)/k_lattice_grid_min_MPl + 1) / ( ceil(m_end) )*100;
 
            
         }
         else{
         knum = k_begin + m*kinterval_knum;
         
-        percentage =   ( (knum - k_begin)/kinterval_knum + 1) / ( floor((k_loopend - k_begin)/kinterval_knum)  )*100;
+        percentage =   ( (knum - k_begin)/kinterval_knum + 1) / ( ceil(m_end)  )*100;
         
         k_comoving = UC::knum_to_kMPl(knum);
 
         }
         
-         Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n", m+1, (int)floor(m_end) ,knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
+         Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n", m+1, (int)ceil(m_end) ,knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
         
          p=itvl;
         
