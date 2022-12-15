@@ -10,8 +10,8 @@
             "dim": 1,
             "zeromode_switch": true,
             "perturbation_switch": true,
-            "latticerange_switch": true,
-            "lattice_kmodes_switch": false
+            "latticerange_switch": false,
+            "lattice_kmodes_switch": true
         },
         {
         "Name": "TakayamaJournalPaperFIG1a",

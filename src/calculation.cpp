@@ -148,7 +148,6 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
     int k_loopend = 0;
     double m_end;
     double k_begin_lattice = 0;
-    double k_loopend_lattice = 0;
     
     if(latticerange_switch)
     {
@@ -183,7 +182,6 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 latticerange_num = (N/2) - outrange_num;
                 
                 k_begin_lattice = (outrange_num+1)*k_lattice_grid_min_MPl;
-                k_loopend_lattice = k_lattice_grid_max_MPl;
                 
                 m_end = latticerange_num;
 
@@ -193,7 +191,6 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             }else{
                 //In this case, we simply start calculating from k_lattice_grid_min_MPl
                 k_begin_lattice = k_lattice_grid_min_MPl;
-                k_loopend_lattice = k_lattice_grid_max_MPl;
                 m_end = N/2;
                 latticerange_num = N/2;
                 Logout("kfrom_MPl_lattice < k_lattice_grid_min_MPl\n\n");
