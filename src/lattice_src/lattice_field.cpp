@@ -451,28 +451,38 @@ double Field::power_spectrum( double** f, int i, int m)
     {
         case 1:
         {
-        if(m == m_start){
+        if(m == m_start)
+        {
             
             //subtract zero mode
             for( int j = 0; j < N; ++j ){
                 int idx_fluc = j;
-               f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
-              
-
-//                std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
-//                std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
-//                std::cout << "_average[" << i << "]" << _average[i] << std::endl;
                 
-            }
-            
-            //transform from real space to phase space (Needs to be done only once)
-            DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
-           
+                if(i==4)//Curvature perturbation
+                {
+                    f_fluc[i-1][idx_fluc] = f[i-1][idx_fluc] - average(f[i-1], i-1);
+                    df_fluc[i-1][idx_fluc] = df[i-1][idx_fluc] - average(df[i-1], i-1);
 
+                }
+                else{
+               f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                }
+            }
+            //transform from real space to phase space (Needs to be done only once)
+            if(i==4)//Curvature perturbation
+            {
+                //Fourier Transform
+                DFT_r2cD1( f_fluc[i-1], f_fluc_k[i-1] );
+                DFT_r2cD1( df_fluc[i-1], df_fluc_k[i-1] );
+            }else{
+            DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
+            }
+        }
+        
 //            for( int m = 0; m < N; ++m ){
 //                std::cout << "1: f_fluc_k[" << i << "][" << m << "]" << f_fluc_k[i][m] << std::endl;
 //            }
-        }
+     
     
          //f[][0] corresponds to Re(f_{i=0})
          //f[][2],f[][3] corresponds to the Re and Im of f_{i=1}
@@ -483,6 +493,23 @@ double Field::power_spectrum( double** f, int i, int m)
 //        std::cout << "2: f_fluc_k[" << i << "][" << m << "]" << f_fluc_k[i][m] << std::endl;
 //    }
         int j = m;
+            
+            if(i==4)
+            {
+                if(m==0)
+                {// zero-frequency (DC)
+                PS[i][m] = m*pow(f_fluc_k[i][0]/N,2.0);
+                    
+                }else if(m == N/2){//Nyquist frequency
+                    PS[i][m] = m*pow(f_fluc_k[i][1]/N,2.0);
+                }else{
+                    
+                   PS[i][m] = m*( pow(f_fluc_k[i][2*j]/N,2.0) + pow(f_fluc_k[i][2*j+1]/N,2.0));
+                   
+                }
+            }
+            else
+            {
              if(m==0)
              {// zero-frequency (DC)
                  PS[i][m] = m*pow(f_fluc_k[i][0]/N,2.0);
@@ -494,6 +521,7 @@ double Field::power_spectrum( double** f, int i, int m)
                 PS[i][m] = m*( pow(f_fluc_k[i][2*j]/N,2.0) + pow(f_fluc_k[i][2*j+1]/N,2.0));
                 
              }
+            }
     
         PS[i][m] *= 2; //  the conjugate part needs to be taken into account as well, so double the value
     

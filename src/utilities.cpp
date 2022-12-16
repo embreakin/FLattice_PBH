@@ -1345,6 +1345,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
          ofs << "gradient_ave ";
         ofs << "potential_ave ";
         ofs << "radiation ";
+        ofs << "pressure_ave ";
         ofs << "hubble ";
         ofs << "adotdot ";
         ofs << "energy_max ";
@@ -1431,6 +1432,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
      ofs << std::showpos << std::scientific << std::setprecision(4) << energy->grad_average ()  << " ";
     ofs << std::showpos << std::scientific << std::setprecision(4) << energy->potential_average () << " ";
     ofs << std::showpos << std::scientific << std::setprecision(4) << energy->radiation () << " ";
+    ofs << std::showpos << std::scientific << std::setprecision(4) << energy->pressure () << " ";
     ofs << std::showpos << std::scientific << std::setprecision(4) << leapfrog->hubble() << " ";
     ofs << std::showpos << std::scientific << std::setprecision(4) << leapfrog->adotdot() << " ";
     ofs << std::showpos << std::scientific << std::setprecision(4) << energy->energy_max() << " ";
@@ -1526,7 +1528,7 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
                          << std::setw(10) << 0 << " "//tr[2] << " " //buffer for yp_p[i][1] phi
                          << std::setw(10) << 0 << " "//tr[3] << " "  //buffer for yp_p[i][0] sigma_dot
                          << std::setw(20) << 0 << " "//std::setprecision(20) << tr[4] << " " //buffer for yp_p[i][1] psi_dot
-                         << std::setw(10) << 0 << " "//tr[5] << " " //buffer for yp_p[i][1] phi_dot 24
+                         << std::setw(10) << 0 << " "//tr[5] << " " //buffer for yp_p[i][1] phi_dot
                          << std::setw(10) << 0 << " "//rho << " "
                          << std::setw(10) << 0 << " "//Kinetic << " "
                          << std::setw(10) << 0 << " "//V(tr[0],tr[1],tr[2]) << " "

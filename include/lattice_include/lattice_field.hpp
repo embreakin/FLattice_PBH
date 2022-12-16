@@ -51,7 +51,7 @@ class Field
             case 1:
                 {
             //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
-             PS = std::vector<std::vector<double>>(num_fields, std::vector<double>(N/2+1, 0));
+             PS = std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N/2+1, 0));
             
             //This 2D vector receives only the fluctuation of the input field
             f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
@@ -67,7 +67,7 @@ class Field
         case 2:
                 {
             //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
-             PS = std::vector<std::vector<double>>(num_fields, std::vector<double>(N/2+1, 0));
+             PS = std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N/2+1, 0));
             
             //This 2D vector receives only the fluctuation of the input field
              f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
@@ -87,7 +87,7 @@ class Field
         case 3:
                 {
             //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
-             PS = std::vector<std::vector<double>>(num_fields, std::vector<double>(N/2+1, 0));
+             PS = std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N/2+1, 0));
             
             //This 2D vector receives only the fluctuation of the input field
              f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N*N, 0));

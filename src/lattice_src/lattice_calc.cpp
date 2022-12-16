@@ -28,6 +28,7 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
         double _grad_average_reduc = 0;
         double _variance_reduc = 0;
         double _value_max_reduc = 0;
+        double _pressure_average_reduc = 0;
         
         
 
@@ -68,6 +69,17 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
                         +gradient_energy_eachpoint(f, 2, idx)/(pw2(exp(OSCSTART)));
             
                         _potential_average_reduc += field->V_lattice(f, idx ,a);
+                
+                        _pressure_average_reduc += kinetic_energy_eachpoint(f, df, 0, idx, a, da)
+                +kinetic_energy_eachpoint(f, df, 1, idx, a, da)
+                +kinetic_energy_eachpoint(f, df, 2, idx, a, da)
+                -(
+                gradient_energy_eachpoint(f, 0, idx)/(pw2(exp(OSCSTART)))
+                +gradient_energy_eachpoint(f, 1, idx)/(pw2(exp(OSCSTART)))
+                +gradient_energy_eachpoint(f, 2, idx)/(pw2(exp(OSCSTART)))
+                )/3
+                - field->V_lattice(f, idx ,a)
+                + rad/3;
                 break;
             }
         case 2:
@@ -101,6 +113,17 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
                             +gradient_energy_eachpoint(f, 2, idx)/(pw2(exp(OSCSTART)));
                             
                             _potential_average_reduc += field->V_lattice(f, idx ,a);
+                            
+                            _pressure_average_reduc += kinetic_energy_eachpoint(f, df, 0, idx, a, da)
+                    +kinetic_energy_eachpoint(f, df, 1, idx, a, da)
+                    +kinetic_energy_eachpoint(f, df, 2, idx, a, da)
+                    -(
+                    gradient_energy_eachpoint(f, 0, idx)/(pw2(exp(OSCSTART)))
+                    +gradient_energy_eachpoint(f, 1, idx)/(pw2(exp(OSCSTART)))
+                    +gradient_energy_eachpoint(f, 2, idx)/(pw2(exp(OSCSTART)))
+                    )/3
+                    - field->V_lattice(f, idx ,a)
+                    + rad/3;
                             
                         }
                 break;
@@ -137,6 +160,18 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
                                 +gradient_energy_eachpoint(f, 2, idx)/(pw2(exp(OSCSTART)));
                                 
                                 _potential_average_reduc += field->V_lattice(f, idx ,a);
+                                
+                                _pressure_average_reduc += kinetic_energy_eachpoint(f, df, 0, idx, a, da)
+                        +kinetic_energy_eachpoint(f, df, 1, idx, a, da)
+                        +kinetic_energy_eachpoint(f, df, 2, idx, a, da)
+                        -(
+                        gradient_energy_eachpoint(f, 0, idx)/(pw2(exp(OSCSTART)))
+                        +gradient_energy_eachpoint(f, 1, idx)/(pw2(exp(OSCSTART)))
+                        +gradient_energy_eachpoint(f, 2, idx)/(pw2(exp(OSCSTART)))
+                        )/3
+                        - field->V_lattice(f, idx ,a)
+                        + rad/3;
+                                
                             }
                             }
                 break;
@@ -154,6 +189,7 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
         for( int j = 0; j < dim; ++j ) _timederiv_average_reduc /= N;
         for( int j = 0; j < dim; ++j ) _grad_average_reduc /= N;
         for( int j = 0; j < dim; ++j ) _average_reduc /= N;
+        for( int j = 0; j < dim; ++j ) _pressure_average_reduc /= N;
     
         
         for( int j = 0; j < N; ++j ){
@@ -219,6 +255,7 @@ void Energy::energy_calc( Field* field, LeapFrog* leapfrog, double** f, double**
         _rad = rad*pow(a,-4.0);
         _variance = _variance_reduc;
         _value_max = _value_max_reduc;
+        _pressure_average = _pressure_average_reduc*pow(a,-4.0);
     
 //    std::cout << "_timederiv_average = " << _timederiv_average << std::endl;
 //    std::cout << "pw2(rescale_B/rescale_A) = " << pw2(rescale_B/rescale_A) << std::endl;
