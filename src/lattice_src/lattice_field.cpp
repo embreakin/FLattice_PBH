@@ -435,8 +435,12 @@ void Field::effective_mass(double mass_sq[], double *field_values){
 
 }
 
-double Field::power_spectrum( double** f, int i, int m)
+double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energy* energy, int i, int m)
 {
+    double a = leapfrog->a();
+    double da = leapfrog->da();
+    double rho = energy->total_average();
+    double pres = energy->pressure();
      
     if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
     {
@@ -494,40 +498,80 @@ double Field::power_spectrum( double** f, int i, int m)
 //    }
         int j = m;
             
-            if(i==4)
+            if(i==4)//Only Curvature Perturbation
             {
+                
+                double term_1 = 0;
+                double term_2 = 2*rho/(rho+pres);
+                
+                
                 if(m==0)
                 {// zero-frequency (DC)
-                PS[i][m] = m*pow(f_fluc_k[i][0]/N,2.0);
+                    
+                    term_1 = pow(2*M_PI*m/(exp(OSCSTART)*da*L),2.0)/3;
+                    
+                    f_fluc_k[i][0]
+                    = (3 + (term_1-1)*term_2)*f_fluc_k[i-1][0]
+                    + (a/da)*term_2*df_fluc_k[i-1][0];
                     
                 }else if(m == N/2){//Nyquist frequency
-                    PS[i][m] = m*pow(f_fluc_k[i][1]/N,2.0);
+                    
+                    term_1 = pow(2*M_PI*m/(exp(OSCSTART)*da*L),2.0)/3;
+                    
+                    f_fluc_k[i][1]
+                    = (3 + (term_1-1)*term_2)*f_fluc_k[i-1][1]
+                    + (a/da)*term_2*df_fluc_k[i-1][1];
                 }else{
                     
-                   PS[i][m] = m*( pow(f_fluc_k[i][2*j]/N,2.0) + pow(f_fluc_k[i][2*j+1]/N,2.0));
-                   
+                    term_1 = pow(2*M_PI*m/(exp(OSCSTART)*da*L),2.0)/3;
+                    
+                    f_fluc_k[i][2*j]
+                    = (3 +(term_1-1)*term_2)*f_fluc_k[i-1][2*j]
+                    + (a/da)*term_2*df_fluc_k[i-1][2*j];
+                    
+                    f_fluc_k[i][2*j+1]
+                    = (3 +(term_1-1)*term_2)*f_fluc_k[i-1][2*j+1]
+                    + (a/da)*term_2*df_fluc_k[i-1][2*j+1];
+                    
+                    if(m==28 && a > 26){
+                    std::cout << "(3 +(term_1-1)*term_2) = " << (3 +(term_1-1)*term_2) << std::endl;
+                    std::cout << "term_1 = " << term_1 << std::endl;
+                    std::cout << "term_2 = " << term_2 << std::endl;
+                    std::cout << "rho = " << rho << std::endl;
+                    std::cout << "pres = " << pres << std::endl;
+                    std::cout << "rho+pres = " << rho+pres << std::endl;
+                    std::cout << "a/da = " << a/da << std::endl;
+                    std::cout << "f_fluc_k[" << i-1 << "][" << 2*j << "] = " << f_fluc_k[i-1][2*j] << std::endl;
+                    std::cout << "df_fluc_k[" << i-1 << "][" << 2*j << "] = " << df_fluc_k[i-1][2*j] << std::endl;
+                    std::cout << "f_fluc_k[" << i << "][" << 2*j << "] = " << f_fluc_k[i][2*j] << std::endl;
+                    
+                    
+                    std::cout << "f_fluc_k[" << i-1 << "][" << 2*j+1 << "] = " << f_fluc_k[i-1][2*j+1] << std::endl;
+                    std::cout << "df_fluc_k[" << i-1 << "][" << 2*j+1 << "] = " << df_fluc_k[i-1][2*j+1] << std::endl;
+                    std::cout << "f_fluc_k[" << i << "][" << 2*j+1 << "] = " <<f_fluc_k[i][2*j+1] << std::endl << std::endl;
+                    }
                 }
             }
-            else
-            {
-             if(m==0)
-             {// zero-frequency (DC)
-                 PS[i][m] = m*pow(f_fluc_k[i][0]/N,2.0);
-                 
-             }else if(m == N/2){//Nyquist frequency
-                 PS[i][m] = m*pow(f_fluc_k[i][1]/N,2.0);
-             }else{
-                 
-                PS[i][m] = m*( pow(f_fluc_k[i][2*j]/N,2.0) + pow(f_fluc_k[i][2*j+1]/N,2.0));
+            
+            if(m==0)
+            {// zero-frequency (DC)
+                PS[i][m] = m*pow(f_fluc_k[i][0]/N,2.0);
                 
-             }
+            }else if(m == N/2){//Nyquist frequency
+                PS[i][m] = m*pow(f_fluc_k[i][1]/N,2.0);
+            }else{
+                
+               PS[i][m] = m*( pow(f_fluc_k[i][2*j]/N,2.0) + pow(f_fluc_k[i][2*j+1]/N,2.0));
+               
             }
-    
+            
         PS[i][m] *= 2; //  the conjugate part needs to be taken into account as well, so double the value
     
-
-        
-//     std::cout << " PS[" << i << "][" << idx << "] = " << PS[i][idx] << std::endl;
+            if(i==4 && m==28  && a > 26){
+     std::cout << " PS[" << i << "][" << j << "] = " << PS[i][j] << std::endl;
+                std::cout << " a (pr) = " << a << std::endl;
+            }
+            
         return PS[i][m];
         }
         case 2:

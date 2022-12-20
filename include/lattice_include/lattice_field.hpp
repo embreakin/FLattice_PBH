@@ -14,6 +14,7 @@
 #include "parameters.hpp"
 
 class LeapFrog;
+class Energy;
 
 class Field
 {
@@ -56,7 +57,7 @@ class Field
             //This 2D vector receives only the fluctuation of the input field
             f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
             //This 2D vector receives the output of r2c Fourier transform
-             f_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
+             f_fluc_k =  std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N, 0));
             
             //This 2D vector receives only the fluctuation of the input field derivative
              df_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
@@ -72,7 +73,7 @@ class Field
             //This 2D vector receives only the fluctuation of the input field
              f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
             //This 2D vector receives the output of r2c Fourier transform
-             f_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
+             f_fluc_k =  std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N*N, 0));
             //This 2D vector receives the output of r2c Fourier transform (Nyquist frequency corresponding to k (z-axis) = N/2)
              f_fluc_k_nyquist_2d =  std::vector<std::vector<double>>(num_fields, std::vector<double>(2*N, 0));
             
@@ -92,7 +93,7 @@ class Field
             //This 2D vector receives only the fluctuation of the input field
              f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N*N, 0));
             //This 2D vector receives the output of r2c Fourier transform
-             f_fluc_k =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N*N, 0));
+             f_fluc_k =  std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N*N*N, 0));
             //This 3D vector receives the output of r2c Fourier transform (Nyquist frequency corresponding to l (z-axis) = N/2)
              f_fluc_k_nyquist_3d =  std::vector<std::vector<std::vector<double>>>(num_fields, std::vector<std::vector<double>>(N, std::vector<double>(2*N, 0)));
             
@@ -125,7 +126,7 @@ class Field
         double dV_lattice ( double** f, int i, int idx, double a = 1);
         double ddV_lattice ( double** f, int i, int idx, double a = 1 );
         void effective_mass(double mass_sq[], double *field_values);
-        double power_spectrum( double** f, int i, int j);
+        double power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energy* energy, int i, int j);
     void finalize(double** f, double** df, LeapFrog* leapfrog, double radiation_pr, double** lattice_var );
 
 };

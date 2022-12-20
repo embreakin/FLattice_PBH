@@ -440,6 +440,7 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
         ss << "../" << par_set_name  << "/" << condition_name << "/" << dir << "/" << "knum_" << std::setw(4) << std::setfill('0') << knum <<".txt";
     }
     
+   
     
     if( output_timecount == 1 )
     {
@@ -464,25 +465,58 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
     for (j=0;j<timecount;j++) {
         for (i=0;i<N_pert;i++) tr[i]=yp[i][j];
         la=xx[j];
-//        if(j==0){std::cout <<  "la = " << la << "\n";
-//            std::cout  <<  "tr[0] = " << tr[0] << "\n";
-//            std::cout  << "tr[1] = " << tr[1] << "\n";
-//            std::cout  << "tr[2] = " << tr[2] << "\n";
-//        };
+
         rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
+        pressure = p_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
         rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
         H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
         w=log10(H);
         a=exp(la);
         for (i=0;i<3;i++) zeta[i]=2*rho*(tr[i+25] + tr[i+28]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+25];
         for (i=0;i<3;i++) zeta[i+3]=2*rho*(tr[i+49] + tr[i+52]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+49];
-        
+                if(j==0 &&  (int)round(100*UC::kMPl_to_kMpc(k_comoving)) == 35000 ){std::cout <<  "la = " << la << "\n";
+                    std::cout <<  "rho = " << rho << "\n";
+                    std::cout <<  "pressure = " << pressure << "\n";
+                    std::cout <<  "rhop = " << rhop << "\n";
+                    std::cout <<  "H = " << H << "\n";
+                    std::cout <<  "k_comoving*k_comoving/(a*a*H*H) = " << k_comoving*k_comoving/(a*a*H*H)  << "\n";
+                    std::cout  <<  "tr[25] = " << tr[25] << "\n";
+                    std::cout  <<  "tr[26] = " << tr[26] << "\n";
+                    std::cout  <<  "tr[27] = " << tr[27] << "\n";
+                    std::cout  <<  "tr[28] = " << tr[28] << "\n";
+                    std::cout  <<  "tr[29] = " << tr[29] << "\n";
+                    std::cout  <<  "tr[30] = " << tr[30] << "\n";
+                    std::cout  <<  "zeta[0] = " << zeta[0] << "\n";
+                    std::cout  <<  "zeta[1] = " << zeta[1] << "\n";
+                    std::cout  <<  "zeta[2] = " << zeta[2] << "\n";
+                    std::cout  <<  "tr[49] = " << tr[49] << "\n";
+                    std::cout  <<  "tr[50] = " << tr[59] << "\n";
+                    std::cout  <<  "tr[51] = " << tr[51] << "\n";
+                    std::cout  <<  "tr[52] = " << tr[52] << "\n";
+                    std::cout  <<  "tr[53] = " << tr[53] << "\n";
+                    std::cout  <<  "tr[54] = " << tr[54] << "\n";
+                    std::cout  <<  "zeta[3] = " << zeta[3] << "\n";
+                    std::cout  <<  "zeta[4] = " << zeta[4] << "\n";
+                    std::cout  <<  "zeta[5] = " << zeta[5] << "\n";
+                };
         Pzeta=0;
         for (i=0;i<6;i++) Pzeta = Pzeta + zeta[i]*zeta[i];
         Pzeta_raw = Pzeta;
+        if(j==0 &&  (int)round(100*UC::kMPl_to_kMpc(k_comoving)) == 35000){std::cout <<  "Pzeta = " << Pzeta << "\n";
+            std::cout  <<  "zeta[0]*zeta[0] = " << zeta[0]*zeta[0] << "\n";
+            std::cout  <<  "zeta[1]*zeta[1] = " << zeta[1]*zeta[1] << "\n";
+            std::cout  <<  "zeta[2]*zeta[2] = " << zeta[2]*zeta[2] << "\n";
+            std::cout  <<  "zeta[3]*zeta[3] = " << zeta[3]*zeta[3] << "\n";
+            std::cout  <<  "zeta[4]*zeta[4] = " << zeta[4]*zeta[4] << "\n";
+            std::cout  <<  "zeta[5]*zeta[5] = " << zeta[5]*zeta[5]<< "\n";
+        };
         Pzeta = Pzeta/(2*M_PI*M_PI*9);
+        if(j==0 &&  (int)round(100*UC::kMPl_to_kMpc(k_comoving))== 35000){std::cout <<  "Pzeta = " << Pzeta << "\n";
+            std::cout << "log10(Pzeta) = " << log10(Pzeta) << "\n";
+            std::cout << "3*log10(k_comoving) = " << 3*log10(k_comoving) << "\n\n";
+        };
         Pzeta = log10(Pzeta) + 3*log10(k_comoving);
-        
+       
         PPot = 0;
         for (i=0;i<3;i++) PPot = PPot + tr[i+25]*tr[i+25];
         for (i=0;i<3;i++) PPot = PPot + tr[i+49]*tr[i+49];
@@ -512,7 +546,6 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
         
         rho_rad = tr[6];
         Kinetic = rho - V(tr[0],tr[1],tr[2]) - rho_rad;
-        pressure = p_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
         dda = -a*(rho+3*pressure)/6;
         epsilon = 1 - dda/(pw2(H)*a);
         
@@ -1448,8 +1481,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
    
 }
 
-//const vector<vector<vector<double>>>&PS,
-void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leapfrog, double** f){
+void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double** df){
     //output results
     int  kMpc_int;//knum,
     double k_comoving, kMpc;
@@ -1459,7 +1491,9 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
     
      a_bar = leapfrog->a();
      a = a_bar*exp(OSCSTART);
-    
+//    std::cout << " a_bar = " <<a_bar << std::endl;
+//    std::cout << " a = " << a << std::endl;
+//    
      H = leapfrog->hubble();
      la = log(a);
      w = log10(H);
@@ -1502,17 +1536,18 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
 
             k_output<<std::setw(20) << std::setprecision(20) << la << " "             //log(a)
                  << std::setw(10) << w << " "                        //log(H)
-                 << std::setw(10) << 0 << " "//Pzeta << " "                    //log(Zeta)
-            << std::setw(10) << log10(field->power_spectrum(f, 3, j)
+                 << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 4, j)
+                                           /(9*pow(a_bar,4)) ) << " "//Pzeta << " "                    //log(Zeta)
+            << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 3, j)
                                       /pow(a_bar,4) ) << " "//PPot << " "                    //log(Gravitational Potential)
                  << std::setw(10) << 0 << " "//log10(rhop/rho) << " "        //log(p/rho)
                  << std::setw(10) << log10(H/a) << " "            //log(H/a)
                  << std::setw(10) << log10(k_comoving/(a*H)) << " "        //log(k/(a*H))
-                                << std::setw(10) << log10(field->power_spectrum(f, 0, j)
+                                << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 0, j)
                     /pow(rescale_A*a_bar,2) )<< " "               //log(P_sigma)
-                                << std::setw(10) << log10(field->power_spectrum(f, 1, j)
+                                << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 1, j)
                     /pow(rescale_A*a_bar,2)) << " "                 //log(P_psi)
-                                << std::setw(10) << log10(field->power_spectrum(f, 2, j)
+                                << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 2, j)
                     /pow(rescale_A*a_bar,2)) << " "
                          << std::setw(10) << 0 << " "//log10(sqrt(P_sigma_raw)) << " "               //log10(dsigma)
                          << std::setw(10) << 0 << " "//log10(sqrt(P_psi_raw)) << " "                 //log10(dpsi)

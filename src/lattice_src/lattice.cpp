@@ -149,7 +149,7 @@ void lattice(double** lattice_var)
     // Write data to status.txt
     write_status( new_filename_lattice, &field, &leapfrog, &energy, f, df, t0 );
     // add data to kanalyze files (power spectrum)
-    kanalyze_output_lattice(new_dirname_k_lattice, &field, &leapfrog, f);
+    kanalyze_output_lattice(new_dirname_k_lattice, &field, &leapfrog, &energy, f, df);
     
     //Calculate Initialization Time
     current = std::chrono::high_resolution_clock::now();
@@ -214,7 +214,7 @@ void lattice(double** lattice_var)
         write_VTK_ed( new_dirname_ed, energy.value, "energy", loop );
         
         // add data to kanalyze files (power spectrum)
-        kanalyze_output_lattice(new_dirname_k_lattice, &field, &leapfrog, f);
+        kanalyze_output_lattice(new_dirname_k_lattice, &field, &leapfrog, &energy, f, df);
         
         current = std::chrono::high_resolution_clock::now();
         elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - loop_start );
@@ -254,7 +254,7 @@ void lattice(double** lattice_var)
 //    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
 //
 //
-//        for (int i=0;i<N_zero;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , lattice_var[lattice_loop][i] );
+//        for (int i=0;i<N_pert;i++) Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop, i , lattice_var[lattice_loop][i] );
 //
 //    }
 

@@ -25,8 +25,9 @@ class Energy
     double _timederiv_average;
     double _grad_average;
     double _rad;
-    double _value_max;
     double _pressure_average;
+    double _value_max;
+    
     
     public:
     

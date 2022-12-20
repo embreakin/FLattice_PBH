@@ -62,6 +62,6 @@ void write_VTK_ed  (const std::string dir_ed,  double* f, std::string str, int l
 
 void write_status ( const std::string status_file, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double** df, double t );
 
-void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leapfrog, double** f);
+void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double** df);
 
 #endif

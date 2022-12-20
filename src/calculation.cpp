@@ -727,9 +727,9 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
     
              k_comoving = k_comoving_start + k_lattice_grid_min_MPl*latticerange_loop;
              
-//             if(latticerange_loop==0){
-//            for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",latticerange_loop,i,latticep[latticerange_loop][i] );
-//             }
+         if(latticerange_loop==27){
+            for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",latticerange_loop,i,latticep[latticerange_loop][i] );
+         }
              
              knum = UC::kMPl_to_knum(k_comoving);
              Logout("%d/%d: knum = %d, kMpc = %2.5e, kMPl = %2.5e: \n", latticerange_loop+1, latticerange_num, knum, UC::kMPl_to_kMpc(k_comoving), k_comoving);
@@ -740,29 +740,40 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
                  for (i=0;i<N_pert;i++) delstart[i]  =  latticep[outrange_num+latticerange_loop][i];
              }else{
             for (i=0;i<N_pert;i++) delstart[i]  = latticep[latticerange_loop][i];
+                
              }
              
              //set efold
              xmid = log(a_lattice_end);
              
+                 
              if(latticerange_loop==0)
              {
              Logout("OSCEND_EFOLD = %2.5e \n", xmid);
              Logout("UNPERT_EFOLD = %2.5e \n", UNPERT_EFOLD);
              }
-                 
-         if(spectrum_afosc_switch){
-             spectrum_output(new_filename_sp_afosc, xp2, delp, timecount, knum, k_comoving);
-         };
+                 if(latticerange_loop==27){
+                 for (i=0;i<N_pert;i++)     Logout("delstart[%d] = %2.5e \n", i, delstart[i]);
+                 }
+//         if(spectrum_afosc_switch){
+//             spectrum_output(new_filename_sp_afosc, xp2, delp, timecount, knum, k_comoving);
+//         };
          
          
          if(latticerange_loop==0){
             time_OSCEND_pert = std::chrono::system_clock::now();
          }
          
+                 if(latticerange_loop==27){
+                 for (i=0;i<N_pert;i++)     Logout("2: delstart[%d] = %2.5e \n", i, delstart[i]);
+                 }
              if(xmid < UNPERT_EFOLD){
                  NR::odeintpert(delstart,xmid,UNPERT_EFOLD,epsosc,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
          //         std::cout << "timecount = " << timecount << std::endl;
+                 
+                 if(latticerange_loop==27){
+                 for (i=0;i<N_pert;i++)     Logout("3: delstart[%d] = %2.5e \n", i, delstart[i]);
+                 }
                  
                  if(kanalyze_switch){
                  kanalyze_output(new_dirname_k_lattice, xp2, delp, timecount, knum,k_comoving);
