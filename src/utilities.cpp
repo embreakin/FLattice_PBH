@@ -315,7 +315,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
         zeromode_output.open(ss.str().c_str(),std::ios::app);
     }
     
-    DP H,la,rho,w,a,rho_rad,Kinetic, dda, pressure, epsilon;
+    DP H,la,rho,w,a,rho_rad, dda, pressure, epsilon;
     Vec_DP tr(N_zero);
     int i,j;
     double k_comoving = UC::knum_to_kMPl(k_target); //knum 200
@@ -329,7 +329,6 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     w=log10(H);
     a=exp(la);
     rho_rad = tr[6];
-    Kinetic = rho - V(tr[0],tr[1],tr[2]) - rho_rad;
     pressure = p_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
     dda = -a*(rho+3*pressure)/6;
     epsilon = 1 - dda/(pw2(H)*a);
@@ -367,7 +366,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     << std::setw(10) << tr[5] << " " //buffer for yp_p[i][1] phi_dot
     << std::setw(10) << w << " "     //log10(H)
     << std::setw(10) << rho << " "
-    << std::setw(10) << Kinetic << " "
+    << std::setw(10) << K_tot(tr[3],tr[4],tr[5]) << " "
     << std::setw(10) << V(tr[0],tr[1],tr[2]) << " "
     << std::setw(10) << rho_rad << " "
     << std::setw(10) << dda << " "
@@ -449,7 +448,7 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
         k_output.open(ss.str().c_str(),std::ios::app);
     }
     
-    DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, Kinetic, dda, pressure, epsilon;
+    DP H,la,rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, dda, pressure, epsilon;
     
     double k_horizoncrossing;
     double k_horizoncrossing2;
@@ -469,16 +468,32 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
         rho=rho_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
         pressure = p_tot(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
         rhop=rhoandp(tr[3],tr[4],tr[5],tr[6]);
+        rho_rad = tr[6];
         H=Fri(tr[0],tr[1],tr[2],tr[3],tr[4],tr[5],tr[6]);
         w=log10(H);
         a=exp(la);
         for (i=0;i<3;i++) zeta[i]=2*rho*(tr[i+25] + tr[i+28]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+25];
         for (i=0;i<3;i++) zeta[i+3]=2*rho*(tr[i+49] + tr[i+52]/H)/(rhop) + (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[i+49];
                 if(j==0 &&  (int)round(100*UC::kMPl_to_kMpc(k_comoving)) == 35000 ){std::cout <<  "la = " << la << "\n";
+                    std::cout <<  "sigma = " << tr[0] << "\n";
+                    std::cout <<  "psi = " << tr[1] << "\n";
+                    std::cout <<  "phi = " << tr[2] << "\n";
+                    std::cout <<  "sigma_dot = " << tr[3] << "\n";
+                    std::cout <<  "psi_dot = " << tr[4] << "\n";
+                    std::cout <<  "phi_dot = " << tr[5] << "\n";
                     std::cout <<  "rho = " << rho << "\n";
+                    std::cout <<  "K_tot = " << K_tot(tr[3],tr[4],tr[5]) << "\n";
+                    std::cout <<  "rho_rad = " << rho_rad << "\n";
+                    std::cout <<  "Potential = " << V(tr[0],tr[1],tr[2]) << "\n";
                     std::cout <<  "pressure = " << pressure << "\n";
                     std::cout <<  "rhop = " << rhop << "\n";
                     std::cout <<  "H = " << H << "\n";
+                    std::cout <<  "L = " << N*M_PI/(kto_MPl_lattice) << "\n";
+                    std::cout << "2pi28/L" <<
+                    2*M_PI*28/( N*M_PI/(kto_MPl_lattice))
+                    << "\n";
+                    std::cout <<  "k_comoving = " << k_comoving << "\n";
+                    std::cout <<  "k_comoving/(a*H) = " << k_comoving/(a*H)  << "\n";
                     std::cout <<  "k_comoving*k_comoving/(a*a*H*H) = " << k_comoving*k_comoving/(a*a*H*H)  << "\n";
                     std::cout  <<  "tr[25] = " << tr[25] << "\n";
                     std::cout  <<  "tr[26] = " << tr[26] << "\n";
@@ -486,15 +501,27 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
                     std::cout  <<  "tr[28] = " << tr[28] << "\n";
                     std::cout  <<  "tr[29] = " << tr[29] << "\n";
                     std::cout  <<  "tr[30] = " << tr[30] << "\n";
+                    std::cout << "2*rho*(tr[25] + tr[28]/H)/(rhop) = " << 2*rho*(tr[25] + tr[28]/H)/(rhop) << "\n";
+                    std::cout << "(1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[25] = " << (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[25] << "\n";
+                    std::cout << "2*rho*(tr[26] + tr[29]/H)/(rhop) = " << 2*rho*(tr[26] + tr[29]/H)/(rhop) << "\n";
+                    std::cout << "(1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[26] = " << (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[26] << "\n";
+                    std::cout << "2*rho*(tr[27] + tr[30]/H)/(rhop) = " << 2*rho*(tr[27] + tr[30]/H)/(rhop) << "\n";
+                    std::cout << "(1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[27] = " << (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[27] << "\n";
                     std::cout  <<  "zeta[0] = " << zeta[0] << "\n";
                     std::cout  <<  "zeta[1] = " << zeta[1] << "\n";
                     std::cout  <<  "zeta[2] = " << zeta[2] << "\n";
                     std::cout  <<  "tr[49] = " << tr[49] << "\n";
-                    std::cout  <<  "tr[50] = " << tr[59] << "\n";
+                    std::cout  <<  "tr[50] = " << tr[50] << "\n";
                     std::cout  <<  "tr[51] = " << tr[51] << "\n";
                     std::cout  <<  "tr[52] = " << tr[52] << "\n";
                     std::cout  <<  "tr[53] = " << tr[53] << "\n";
                     std::cout  <<  "tr[54] = " << tr[54] << "\n";
+                    std::cout << "2*rho*(tr[49] + tr[52]/H)/(rhop) = " << 2*rho*(tr[49] + tr[52]/H)/(rhop) << "\n";
+                    std::cout << "(1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[49] = " << (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[49] << "\n";
+                    std::cout << "2*rho*(tr[50] + tr[53]/H)/(rhop) = " << 2*rho*(tr[50] + tr[53]/H)/(rhop) << "\n";
+                    std::cout << "(1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[50] = " << (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[50] << "\n";
+                    std::cout << "2*rho*(tr[51] + tr[54]/H)/(rhop) = " << 2*rho*(tr[51] + tr[54]/H)/(rhop) << "\n";
+                    std::cout << "(1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[51] = " << (1 + 2*k_comoving*k_comoving*rho/(9*a*a*H*H*rhop))*3*tr[51] << "\n";
                     std::cout  <<  "zeta[3] = " << zeta[3] << "\n";
                     std::cout  <<  "zeta[4] = " << zeta[4] << "\n";
                     std::cout  <<  "zeta[5] = " << zeta[5] << "\n";
@@ -544,8 +571,7 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
         P_phi = P_phi/(2*M_PI*M_PI);
         P_phi = log10(P_phi) + 3*log10(k_comoving);
         
-        rho_rad = tr[6];
-        Kinetic = rho - V(tr[0],tr[1],tr[2]) - rho_rad;
+       
         dda = -a*(rho+3*pressure)/6;
         epsilon = 1 - dda/(pw2(H)*a);
         
@@ -634,7 +660,7 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
         << std::setw(20) << std::setprecision(20) << tr[4] << " " //buffer for yp_p[i][1] psi_dot
         << std::setw(10) << tr[5] << " " //buffer for yp_p[i][1] phi_dot
         << std::setw(10) << rho << " "
-        << std::setw(10) << Kinetic << " "
+        << std::setw(10) << K_tot(tr[3],tr[4],tr[5]) << " "
         << std::setw(10) << V(tr[0],tr[1],tr[2]) << " "
         << std::setw(10) << rho_rad << " "
         << std::setw(10) << dda << " "
@@ -1487,13 +1513,13 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
     double k_comoving, kMpc;
 
     DP H, la, w, a, a_bar;
-    //rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, Kinetic, dda, pressure, epsilon, a_bar;
+    //rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, dda, pressure, epsilon, a_bar;
     
      a_bar = leapfrog->a();
      a = a_bar*exp(OSCSTART);
 //    std::cout << " a_bar = " <<a_bar << std::endl;
 //    std::cout << " a = " << a << std::endl;
-//    
+//
      H = leapfrog->hubble();
      la = log(a);
      w = log10(H);

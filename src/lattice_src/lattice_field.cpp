@@ -508,7 +508,7 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
                 if(m==0)
                 {// zero-frequency (DC)
                     
-                    term_1 = pow(2*M_PI*m/(exp(OSCSTART)*da*L),2.0)/3;
+                    term_1 = pow(2*M_PI*m*a/(exp(OSCSTART)*da*L),2.0)/3;
                     
                     f_fluc_k[i][0]
                     = (3 + (term_1-1)*term_2)*f_fluc_k[i-1][0]
@@ -516,14 +516,14 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
                     
                 }else if(m == N/2){//Nyquist frequency
                     
-                    term_1 = pow(2*M_PI*m/(exp(OSCSTART)*da*L),2.0)/3;
+                    term_1 = pow(2*M_PI*m*a/(exp(OSCSTART)*da*L),2.0)/3;
                     
                     f_fluc_k[i][1]
                     = (3 + (term_1-1)*term_2)*f_fluc_k[i-1][1]
                     + (a/da)*term_2*df_fluc_k[i-1][1];
                 }else{
                     
-                    term_1 = pow(2*M_PI*m/(exp(OSCSTART)*da*L),2.0)/3;
+                    term_1 = pow(2*M_PI*m*a/(exp(OSCSTART)*da*L),2.0)/3;
                     
                     f_fluc_k[i][2*j]
                     = (3 +(term_1-1)*term_2)*f_fluc_k[i-1][2*j]
@@ -534,6 +534,10 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
                     + (a/da)*term_2*df_fluc_k[i-1][2*j+1];
                     
                     if(m==28 && a > 26){
+                        std::cout << "L = " << L << std::endl;
+                        std::cout << "da = " << da << std::endl;
+                        std::cout << "exp(OSCSTART) = " << exp(OSCSTART) << std::endl;
+                        std::cout << "2*M_PI*m*a/(exp(OSCSTART)*da*L) = " << 2*M_PI*m*a/(exp(OSCSTART)*da*L) << std::endl;
                     std::cout << "(3 +(term_1-1)*term_2) = " << (3 +(term_1-1)*term_2) << std::endl;
                     std::cout << "term_1 = " << term_1 << std::endl;
                     std::cout << "term_2 = " << term_2 << std::endl;
@@ -835,11 +839,11 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
 
 
 
-void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiation_pr, double** lattice_var )
+void Field::finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy, double radiation_pr, double** lattice_var )
 {
     double a = leapfrog->a();
     double da = leapfrog->da();
-    
+    double Kinetic_lattice = energy->timederiv_average();
     a_lattice_end = exp(OSCSTART)*a;
     
     
@@ -857,8 +861,8 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
             
             lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( average(df[i], i)  - (da/a)*average(f[i], i) )/pow(a,2.0);//3,4,5
             
-//            Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
-//            Logout(" lattice_var[%d][%d] = %2.5e \n",lattice_loop,j,lattice_var[lattice_loop][j] );
+            Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
+            Logout(" lattice_var[%d][%d] = %2.5e \n\n ",lattice_loop,j,lattice_var[lattice_loop][j] );
             
         }
         
@@ -866,13 +870,27 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, double radiati
         
     }
     
+    double sigma_dot = (rescale_B/rescale_A)*( average(df[0], 0)  - (da/a)*average(f[0], 0) )/pow(a,2.0);
+    double psi_dot = (rescale_B/rescale_A)*( average(df[1], 1)  - (da/a)*average(f[1], 1) )/pow(a,2.0);
+    double phi_dot = (rescale_B/rescale_A)*( average(df[2], 2)  - (da/a)*average(f[2], 2) )/pow(a,2.0);
+    
+    double K_rad_convert = Kinetic_lattice - K_tot(sigma_dot,psi_dot,phi_dot);
+    double K_convert_rate = (K_rad_convert/Kinetic_lattice)*100;
+    
+    Logout("Kinetic_lattice = %2.5e, K_tot = %2.5e, K_rad_convert = %2.5e\n", Kinetic_lattice, K_tot(sigma_dot,psi_dot,phi_dot), K_rad_convert);
+    Logout("Percentage of kinetic energy converted to radiation: %2.2f %% \n\n", K_convert_rate);
+    
     //Radiation
-    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
+    for ( int lattice_loop = 0; lattice_loop < N/2; lattice_loop++)
     {
         
-        lattice_var[lattice_loop][6] =  pow((rescale_B/(rescale_A*pow(a,2.0))),2.0)*radiation_pr;//6
+        lattice_var[lattice_loop][6] = K_rad_convert +  pow((rescale_B/(rescale_A*pow(a,2.0))),2.0)*radiation_pr;//6
         
     }
+    
+    double rho_tot = energy->total_average();
+    double p_tot = energy->pressure ();
+    Logout("Rho: %2.5e, Pressure: %2.5e, Rho+Pressure: %2.5e \n", rho_tot, p_tot, rho_tot + p_tot );
     
     
     //Perturbations

@@ -248,7 +248,7 @@ void lattice(double** lattice_var)
 
 
     //Release all memory of fields and their derivatives
-    field.finalize( f, df, &leapfrog, radiation, lattice_var );
+    field.finalize( f, df, &leapfrog, &energy, radiation, lattice_var );
 
     
 //    for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){

@@ -192,6 +192,11 @@ DP dif_vphi3 (DP x,DP y,DP z,DP vz,DP HH){
 	return val;
 }
 
+DP K_tot (DP vx,DP vy,DP vz){
+    DP val_rho;
+    val_rho = vx*vx/2 + vy*vy/2 + vz*vz/2;
+    return val_rho;
+}
 
 //unperturbed total rho: rho_tot(phi1,phi2,phi3,vphi1,vphi2,vphi3,rho_rad)
 DP rho_tot (DP x,DP y,DP z,DP vx,DP vy,DP vz,DP rho_rad){

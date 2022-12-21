@@ -127,7 +127,7 @@ class Field
         double ddV_lattice ( double** f, int i, int idx, double a = 1 );
         void effective_mass(double mass_sq[], double *field_values);
         double power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energy* energy, int i, int j);
-    void finalize(double** f, double** df, LeapFrog* leapfrog, double radiation_pr, double** lattice_var );
+        void finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy, double radiation_pr, double** lattice_var );
 
 };
 

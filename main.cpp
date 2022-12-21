@@ -56,7 +56,8 @@ int main(int argc, char *argv[])//comand line arguments: #1: knum
     
     Logout("=====================================================\n\n");
     
-    Logout("Parameter Set: %s \n\n", par_set_name.c_str() );
+    Logout("Parameter Set Name: %s \n\n", par_set_name.c_str() );
+    Logout("Condition Set Name: %s \n\n", condition_name.c_str() );
     
     Logout("=====================================================\n\n");
     //------------------------

@@ -83,6 +83,8 @@ DP dif_vphi2 (DP x,DP y,DP z,DP vy,DP HH);
 //unperturbed scalar evolution3: dif_vphi3(phi1,phi2,phi3,vphi3,H)
 DP dif_vphi3 (DP x,DP y,DP z,DP vz,DP HH);
 
+//unperturbed total Kinetic energy:
+DP K_tot (DP vx,DP vy,DP vz);
 
 //unperturbed total rho: rho_tot(phi1,phi2,phi3,vphi1,vphi2,vphi3,rho_rad)
 DP rho_tot (DP x,DP y,DP z,DP vx,DP vy,DP vz,DP rho_rad);
