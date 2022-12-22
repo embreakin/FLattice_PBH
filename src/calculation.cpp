@@ -755,9 +755,14 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
                  if(latticerange_loop==27){
                  for (i=0;i<N_pert;i++)     Logout("delstart[%d] = %2.5e \n", i, delstart[i]);
                  }
-//         if(spectrum_afosc_switch){
-//             spectrum_output(new_filename_sp_afosc, xp2, delp, timecount, knum, k_comoving);
-//         };
+         
+         timecount = 1;
+         xp2[timecount-1] = xmid;
+         for (i=0;i<N_pert;i++) delp[i][timecount-1] = delstart[i];
+         
+         if(spectrum_afosc_switch){
+             spectrum_output(new_filename_sp_afosc, xp2, delp, timecount, knum, k_comoving);
+         };
          
          
          if(latticerange_loop==0){

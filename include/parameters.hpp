@@ -105,7 +105,7 @@ extern bool lattice_kmodes_switch;
     #define g_par 1.0                //Potential parameter g
     #define BEGIN_EFOLD -135.6            //initial ln(a)
     #define OSCEND_EFOLD -113.043                //ln(a) right after lattice simulation (lattice simulation must be conducted to set this parameter)
-    #define UNPERT_EFOLD -110.815                //ln(a) at which sigma and psi are fixed to the minimum
+    #define UNPERT_EFOLD -110.815  //              //ln(a) at which sigma and psi are fixed to the minimum
     #define NEWINF_END_EFOLD -90.0                //ln(a) at the beginning of oscillation of phi.-61.5
     #define END_EFOLD -71.0                //ln(a) at the end of calculation
     #define dla 1.0E-1                //stepsize for fixed step RQ-method
