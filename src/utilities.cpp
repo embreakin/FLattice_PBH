@@ -1519,7 +1519,6 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
      a = a_bar*exp(OSCSTART);
 //    std::cout << " a_bar = " <<a_bar << std::endl;
 //    std::cout << " a = " << a << std::endl;
-//
      H = leapfrog->hubble();
      la = log(a);
      w = log10(H);
@@ -1551,7 +1550,6 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
             
                  ss << "../" << par_set_name << "/" << condition_name << "/" << dir << "/" << "kMpc_" << std::setw(6) << std::setfill('0') << kMpc_int <<".txt";
                  
-            
             if(k_lattice_startfromlattice_switch && time_count == 0){
                  k_output.open(ss.str().c_str(),std::ios::out);
                
@@ -1611,5 +1609,68 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
 
     time_count++;
 //    exit(1);
+}
+
+//subroutine for spectrum output
+void spectrum_output_lattice(const std::string dir, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double** df){
+    
+    
+    double k_comoving, knum;
+
+    DP la, a, a_bar, la_int;
+    //rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, dda, pressure, epsilon, a_bar;
+    
+     a_bar = leapfrog->a();
+     a = a_bar*exp(OSCSTART);
+//    std::cout << " a_bar = " <<a_bar << std::endl;
+//    std::cout << " a = " << a << std::endl;
+    
+     la = log(a);
+    
+    int j_start, j_end;
+    
+    la_int = (int)abs(round(1000*la));
+    std::stringstream ss;
+    std::ofstream sp_output;
+    
+    ss << "../" << par_set_name << "/" << condition_name << "/" << dir << "/" << "spectrum_" << std::setw(6) << std::setfill('0') << la_int << ".txt";
+
+    sp_output.open(ss.str().c_str(),std::ios::out);
+      
+    
+    //output results
+  
+    
+    
+    if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
+    {
+        j_start = outrange_num + 1;
+    }else
+    {
+        j_start = 1;
+    }
+    
+    j_end = N/2;
+     
+    
+     for(int j=j_start; j < j_end + 1 ; j++) // j = 1,2...,N/2-1,N/2
+     {
+         
+         k_comoving = (2*M_PI/(L/rescale_B))*j;// [MPl]
+         knum =  UC::kMPl_to_knum(k_comoving);
+
+         //output log(Gravitational Potential) and log(Zeta), along with k and knum.
+         sp_output << std::setprecision (10) << std::setw(10) << k_comoving << " "
+         << std::setw(5) << knum << " "
+         << std::setw(10) << UC::kMPl_to_kMpc(k_comoving) << " "
+         << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 3, j)
+                                   /pow(a_bar,4) ) << " "
+         << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 4, j)
+                                   /(9*pow(a_bar,4)) ) <<  " "
+         << std::setw(10) << 0 << " " //PSTR...
+         << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 0, j)/pow(rescale_A*a_bar,2) ) << " "
+         << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 1, j)/pow(rescale_A*a_bar,2)) << " "
+         << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 2, j)/pow(rescale_A*a_bar,2)) << "\n";
+     }
 }
 

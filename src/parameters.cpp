@@ -98,11 +98,9 @@ double msigma = sqrt(8*pow(mu_par,3.0)/M_par);//effective mass of sigma
 std::string new_filename_zero = "zeromode.txt";
 
 std::string new_dirname_k = "k-analyze_nonlattice"; //create a new directory for k-analyze txt files
-
-std::string new_filename_sp_final  = "spectrum_final.txt"; // create this new spectrum file
-
 std::string new_filename_sp_bfosc  = "spectrum_bfosc.txt"; // create this new spectrum file
-
+std::string new_filename_sp_afosc = "spectrum_afosc.txt"; // create this new spectrum file
+std::string new_filename_sp_final  = "spectrum_final.txt"; // create this new spectrum file
 
 //----------------------------------
 //Variables for zeromode calculation
@@ -189,7 +187,10 @@ std::string new_filename_lattice = "lattice.txt";// create this new status file
 //lattice simulation version of kAnalyze
 std::string new_dirname_k_lattice = "k-analyze_lattice"; //create a new directory for k-analyze txt files
 
-std::string new_filename_sp_afosc = "spectrum_afosc.txt"; // create this new spectrum file
+std::string new_dirname_sp_lattice = "spectrum_lattice"; //create a new directory for field vti files
+
+
+
 
 //-------------------------------------------------
 //Variables for calculating lattice range
@@ -244,6 +245,7 @@ int total_step  = 8.2e+4;//1.75e+4;//8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
+int spectrum_lattice_number = 20;// This many times spectrum will be created during lattice simulation
 
 double t0 = 0;
 double dt = 1.e-4;//5.0e-4;//1.e-3; //dt_pr

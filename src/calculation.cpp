@@ -720,9 +720,6 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
     //LOOP
      for (int latticerange_loop = 0; latticerange_loop < latticerange_num; latticerange_loop++){
          
-         
-         
-    
              percentage =  round( ( latticerange_loop + 1 )*100 / ( latticerange_num ) );
     
              k_comoving = k_comoving_start + k_lattice_grid_min_MPl*latticerange_loop;

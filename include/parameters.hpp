@@ -46,7 +46,7 @@ extern bool exist_par_set_rmall_switch;
 //Parameters in Non-lattice Range
 //==================================
 
-extern std::string new_filename_zero, new_dirname_k,  new_filename_sp_final, new_filename_sp_bfosc;
+extern std::string new_filename_zero, new_dirname_k,  new_filename_sp_final, new_filename_sp_bfosc,new_filename_sp_afosc;
 
 extern bool zeromode_switch;
 extern bool perturbation_switch;
@@ -222,10 +222,8 @@ extern bool lattice_kmodes_switch;
 //Parameters in Lattice Range
 //==================================
 
-//#define dim  1
 
-extern std::string new_dirname_ed, new_dirname_f, new_filename_lattice, new_dirname_k_lattice, new_filename_sp_afosc;
-
+extern std::string new_dirname_ed, new_dirname_f, new_filename_lattice, new_dirname_k_lattice, new_dirname_sp_lattice;
 
 inline double pw2(double x) { return (x*x);}
 
@@ -278,6 +276,7 @@ extern int total_step;
 extern int max_loop;
 extern int st_output_step;
 extern int st_max_loop;
+extern int spectrum_lattice_number;
 
 extern double t0;
 extern double dt;

@@ -34,6 +34,7 @@ void lattice(double** lattice_var)
     //Output Data File/Directory Management
     dir_manage(new_dirname_ed);
     dir_manage(new_dirname_f);
+    dir_manage(new_dirname_sp_lattice);
     
     Logout( "\n----------------------------------------------\n" );
      
@@ -132,7 +133,7 @@ void lattice(double** lattice_var)
 ////    //Instantiate energy and initialize
     Energy energy;
 ////
-////    // 1: self-consistent, 2: radiation dominant, 3: matter dominant -> No Output of vti files for the field
+//    // 1: self-consistent, 2: radiation dominant, 3: matter dominant -> No Output of vti files for the field
         //  0: no expansion -> Output vti files for the field
 //    if(expansion){
 //    }else{
@@ -151,6 +152,9 @@ void lattice(double** lattice_var)
     // add data to kanalyze files (power spectrum)
     kanalyze_output_lattice(new_dirname_k_lattice, &field, &leapfrog, &energy, f, df);
     
+    // Ouput Power Spectrums for this time
+    spectrum_output_lattice(new_dirname_sp_lattice, &field, &leapfrog, &energy, f, df);
+    
     //Calculate Initialization Time
     current = std::chrono::high_resolution_clock::now();
     init_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - start );
@@ -165,7 +169,10 @@ void lattice(double** lattice_var)
 
     int latticeloop_count = 1;
     int latticeloop_interval = max_loop/screen_latticeloop_number;
-
+    
+    int sp_ouput_count = 1;
+    int sp_ouput_interval = max_loop/(spectrum_lattice_number-1);
+    
     for( int loop = 0; loop < max_loop; ++loop ) // This many times vti files will be created
     {
         double t = t0 + loop*output_step*dt;
@@ -215,6 +222,19 @@ void lattice(double** lattice_var)
         
         // add data to kanalyze files (power spectrum)
         kanalyze_output_lattice(new_dirname_k_lattice, &field, &leapfrog, &energy, f, df);
+        
+       
+                
+        if(loop+1 == sp_ouput_interval*sp_ouput_count)
+        {
+            // Ouput Power Spectrums for this time
+            spectrum_output_lattice(new_dirname_sp_lattice, &field, &leapfrog, &energy, f, df);
+            
+            sp_ouput_count++;
+        }
+
+       
+        
         
         current = std::chrono::high_resolution_clock::now();
         elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( current - loop_start );
