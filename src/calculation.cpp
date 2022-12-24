@@ -396,6 +396,10 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             }
         
         }
+        
+        if(spectrum_unpert_switch){
+            spectrum_output(new_filename_sp_unpert, xp2, delp, timecount, knum, k_comoving);
+        }
         //std::cout << "3: xmid = " << xmid << "\n";
             //Fixing sigma = psi = 0, in order to avoid solving oscillation of these two firlds which are negligible.
             delstart[0]=0;
@@ -411,6 +415,7 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             //Evolution equations for phi and its perturbations are solved, with zero-modes of sigma and psi are gixed to minimum
             //until phi begins oscillation at ln(a)=THRLAST.
             //THRLAST is set by hand according to the result for zero-mode.
+        if(xmid < NEWINF_END_EFOLD){
             NR::odeintpert(delstart,xmid,NEWINF_END_EFOLD,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
         //         std::cout << "timecount = " << timecount << std::endl;
         
@@ -419,6 +424,12 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
                 }
             xmid=xp2[timecount-1];
             a=exp(xmid);
+        }
+        
+        if(spectrum_newinfend_switch){
+            spectrum_output(new_filename_sp_newinfend, xp2, delp, timecount, knum, k_comoving);
+        }
+        
          //std::cout << "4: xmid = " << xmid << "\n";
             for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
             delstart[0]=0;
@@ -785,6 +796,9 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
                  for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
              };
              
+         if(spectrum_unpert_switch){
+             spectrum_output(new_filename_sp_unpert, xp2, delp, timecount, knum, k_comoving);
+         }
              
             //Fixing sigma = psi = 0, in order to avoid solving oscillation of these two fields which are negligible.
             delstart[0]=0;
@@ -805,7 +819,8 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
          time_calc(time_OSCEND_pert, time_UNPERT_pert, "Perturbation OSCEND~UNPERT (Lattice Range)");
          }
          
-            NR::odeintpert(delstart,UNPERT_EFOLD,NEWINF_END_EFOLD,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
+         if(xmid < NEWINF_END_EFOLD){
+            NR::odeintpert(delstart,xmid,NEWINF_END_EFOLD,epsnew,h2,hmin,nok,nbad,timecount,dxsav,newinf,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
             //         std::cout << "timecount = " << timecount << std::endl;
              
             if(kanalyze_switch){
@@ -814,6 +829,12 @@ void Perturbation::latticerange_secondhalf_calc( double** latticep ){
             xmid=xp2[timecount-1];
             a=exp(xmid);
             for (i=0;i<N_pert;i++) delstart[i]=delp[i][timecount-1];
+         }
+         
+         if(spectrum_newinfend_switch){
+             spectrum_output(new_filename_sp_newinfend, xp2, delp, timecount, knum, k_comoving);
+         }
+         
             delstart[0]=0;
             delstart[3]=0;
             delstart[1]=FIXPSI;

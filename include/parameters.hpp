@@ -46,7 +46,7 @@ extern bool exist_par_set_rmall_switch;
 //Parameters in Non-lattice Range
 //==================================
 
-extern std::string new_filename_zero, new_dirname_k,  new_filename_sp_final, new_filename_sp_bfosc,new_filename_sp_afosc;
+extern std::string new_filename_zero, new_dirname_k, new_filename_sp_bfosc, new_filename_sp_afosc, new_filename_sp_unpert, new_filename_sp_newinfend, new_filename_sp_final;
 
 extern bool zeromode_switch;
 extern bool perturbation_switch;
@@ -69,6 +69,9 @@ extern bool kanalyze_switch;
 extern bool spectrum_switch;
 extern bool spectrum_bfosc_switch;
 extern bool spectrum_afosc_switch;
+extern bool spectrum_unpert_switch;
+extern bool spectrum_newinfend_switch;
+
 extern std::vector<std::string> sp_file_vec;
 
 extern DP kfrom_Mpc;

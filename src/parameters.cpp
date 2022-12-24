@@ -102,6 +102,9 @@ std::string new_filename_sp_bfosc  = "spectrum_bfosc.txt"; // create this new sp
 std::string new_filename_sp_afosc = "spectrum_afosc.txt"; // create this new spectrum file
 std::string new_filename_sp_final  = "spectrum_final.txt"; // create this new spectrum file
 
+std::string new_filename_sp_unpert = "spectrum_unpert.txt"; // create this new spectrum file
+std::string new_filename_sp_newinfend = "spectrum_newinfend.txt"; // create this new spectrum file
+
 //----------------------------------
 //Variables for zeromode calculation
 //----------------------------------
@@ -141,6 +144,9 @@ bool spectrum_switch = true;// true:Calculate final spectrum, false:Don't calcul
 bool spectrum_bfosc_switch = true; // true:Calculate spectrum right before oscillation period starts, false:Don't calculate
 bool spectrum_afosc_switch = true;
 // true:Calculate spectrum right after oscillation period ends, false:Don't calculate
+bool spectrum_unpert_switch = true;
+bool spectrum_newinfend_switch = true;
+
 std::vector<std::string> sp_file_vec;
 
 //Array elements
