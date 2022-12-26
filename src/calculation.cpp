@@ -292,7 +292,8 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
         for (i=0;i<N_pert;i++) delstart[i]=tr2[i];
             //Full evolution equations including first order perturbation of three inflaton fields are solved until oscillatory phase begins.
             //If horizon entering is later, this step is skipped.
-        //        for (i=0;i<N_pert;i++) std::cout << "delstart[" << i << "] = " << delstart[i] << std::endl;
+//                 std::cout << "OSCSTART = " << OSCSTART << std::endl;
+        
             if(xmid < OSCSTART){
                NR::odeintpert(delstart,xmid,OSCSTART,epsSHI,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs,k_comoving, &xp2, &delp, timecount_max_pert);
                
@@ -663,7 +664,7 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
         }
            
             
-//  for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",lattice_loop,i,latticep[lattice_loop][i] );
+//  for (i=0;i<N_pert;i++) Logout("latticep[%d][%d] = %2.5e \n",latticerange_loop,i,latticep[latticerange_loop][i] );
 //        Logout("latticep[%d][0] = %2.5e \n",lattice_loop,latticep[lattice_loop][0] );
         Logout( "Calculation %d%% Complete\n\n",percentage);
 

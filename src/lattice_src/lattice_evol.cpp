@@ -377,7 +377,7 @@ void LeapFrog::evol_scale_dderivs( Field* field, double** f, double ** f_tilde, 
             +field->gradient_energy(f[1])
             +field->gradient_energy(f[2])
             )/(3.*pw2(exp(OSCSTART)))
-        + field->potential_energy(f, _a)
+       + field->potential_energy(f, _a)
         + rho_r/3
         );
        
@@ -388,7 +388,7 @@ void LeapFrog::evol_scale_dderivs( Field* field, double** f, double ** f_tilde, 
             +field->gradient_energy(f[1])
             +field->gradient_energy(f[2])
             )/(3.*pw2(exp(OSCSTART)))
-        + field->potential_energy( f, _a )
+     + field->potential_energy( f, _a )
         +rho_r/3;
     
 //       std::cout << "field->gradient_energy(f[0]) = " << field->gradient_energy(f[0]) << ",field->gradient_energy(f[1]) = " << field->gradient_energy(f[1]) << ", field->gradient_energy(f[2]) = " << field->gradient_energy(f[2]) << std::endl;

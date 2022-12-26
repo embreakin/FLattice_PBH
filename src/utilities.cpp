@@ -335,7 +335,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     double k_horizoncrossing = a*H;
     double k_horizoncrossing2 = 0.7*a*H;
         
-        if (epsilon > 1){
+        if (epsilon > 1 && output_timecount == 1){
             static int epsilon_count=0; ++epsilon_count;
             
             if(epsilon_count == 1)
@@ -344,6 +344,27 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
                 Logout("-----------------------------------------------------\n\n");
                 std::cout << "OSCSTART (Zeromode) = " << OSCSTART << std::endl ;
                 std::cout << "Variable values at OSCSTART (Zeromode class)" << std::endl ;
+                std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
+                std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
+                std::cout << "rho_rad = " << tr[6] << std::endl ;
+                std::cout << "dda = " << dda << std::endl ;
+                std::cout << "Horizon crosing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
+                 std::cout << "k = 0.7aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
+                Logout("-----------------------------------------------------\n\n");
+                
+            }
+            
+        }
+        
+        if (epsilon > 1 && output_timecount == 2){
+            static int epsilon_count2=0; ++epsilon_count2;
+            
+            if(epsilon_count2 == 1)
+            {
+                NEWINF_END_EFOLD = la; //Set oscillation start to the ln(a) when epsilon=1
+                Logout("-----------------------------------------------------\n\n");
+                std::cout << "NEWINF_END_EFOLD (Zeromode) = " << NEWINF_END_EFOLD << std::endl ;
+                std::cout << "Variable values at NEWINF_END_EFOLD (Zeromode class)" << std::endl ;
                 std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
                 std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
                 std::cout << "rho_rad = " << tr[6] << std::endl ;

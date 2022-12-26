@@ -43,7 +43,7 @@ void lattice(double** lattice_var)
     for (int lattice_loop = 0; lattice_loop < N/2; lattice_loop++){
         
         sigma_initial += lattice_var[lattice_loop][0];
-        //          Logout("latticep[%d][0] = %2.5e",lattice_loop, latticep[lattice_loop][0]);
+               
         
     }
     sigma_initial /= (N/2);

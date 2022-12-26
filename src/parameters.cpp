@@ -124,7 +124,7 @@ DP CNT = (-1)*Vbare(0.0,FIXPSI,FIXPHI);
 //calculate log(Gravitational Potential) and log(Zeta) for each knum specified.
 
 DP Gamma1,Gamma2,Gamma3;
-DP OSCSTART;
+DP OSCSTART,NEWINF_END_EFOLD;
 
 std::vector<int> knum_zero = {200, 400, 634, 700};//knum for calculating k/aH
 
@@ -251,7 +251,7 @@ int total_step  = 8.2e+4;//1.75e+4;//8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
-int spectrum_lattice_number = 50;// This many times spectrum will be created during lattice simulation
+int spectrum_lattice_number = 30;// This many times spectrum will be created during lattice simulation
 
 double t0 = 0;
 double dt = 1.e-4;//5.0e-4;//1.e-3; //dt_pr

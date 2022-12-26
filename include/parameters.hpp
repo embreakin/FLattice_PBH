@@ -60,7 +60,7 @@ extern DP FIXPHI;
 extern DP FIXPSI;
 extern DP CNT;
 extern DP Gamma1,Gamma2,Gamma3;
-extern DP OSCSTART;
+extern DP OSCSTART,NEWINF_END_EFOLD;
 extern double msigma;
 
 extern std::vector<int> knum_zero;
@@ -109,7 +109,7 @@ extern bool lattice_kmodes_switch;
     #define BEGIN_EFOLD -135.6            //initial ln(a)
     #define OSCEND_EFOLD -113.043                //ln(a) right after lattice simulation (lattice simulation must be conducted to set this parameter)
     #define UNPERT_EFOLD -110.815  //              //ln(a) at which sigma and psi are fixed to the minimum
-    #define NEWINF_END_EFOLD -90.0                //ln(a) at the beginning of oscillation of phi.-61.5
+//    #define NEWINF_END_EFOLD -90.0                //ln(a) at the beginning of oscillation of phi.-61.5
     #define END_EFOLD -71.0                //ln(a) at the end of calculation
     #define dla 1.0E-1                //stepsize for fixed step RQ-method
     #define itvl 1000.                //interval for output in fixed RQ-method
