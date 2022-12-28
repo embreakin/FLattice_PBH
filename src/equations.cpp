@@ -247,7 +247,7 @@ DP dif_DELv11 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 	DP val_DELv11;
 	DP vala;
 	vala=k_comoving/exp(la);
-	val_DELv11 = (-1)*(3 + Gamma1/H)*vdx - vala*vala*dx/H - V_11(x,y,z)*dx/H - V_12(x,y,z)*dy/H -V_13(x,y,z)*dz/H + (2*V_1(x,y,z) + vx*Gamma1)*Pot/H - 4*vx*vPot/H;
+	val_DELv11 = (-1)*(3 + Gamma1/H)*vdx - vala*vala*dx/H - V_11(x,y,z)*dx/H - V_12(x,y,z)*dy/H -V_13(x,y,z)*dz/H + 2*(V_1(x,y,z) + vx*Gamma1)*Pot/H - 4*vx*vPot/H;
 	return val_DELv11;
 }
 
@@ -256,7 +256,7 @@ DP dif_DELv12 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 	DP val_DELv12;
 	DP vala;
 	vala=k_comoving/exp(la);
-	val_DELv12 = (-1)*(3 + Gamma1/H)*vdx - vala*vala*dx/H - V_11(x,y,z)*dx/H - V_12(x,y,z)*dy/H -V_13(x,y,z)*dz/H + (2*V_1(x,y,z) + vx*Gamma1)*Pot/H - 4*vx*vPot/H;
+	val_DELv12 = (-1)*(3 + Gamma1/H)*vdx - vala*vala*dx/H - V_11(x,y,z)*dx/H - V_12(x,y,z)*dy/H -V_13(x,y,z)*dz/H + 2*(V_1(x,y,z) + vx*Gamma1)*Pot/H - 4*vx*vPot/H;
 	return val_DELv12;
 }
 
@@ -265,7 +265,7 @@ DP dif_DELv13 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 	DP val_DELv13;
 	DP vala;
 	vala=k_comoving/exp(la);
-	val_DELv13 = (-1)*(3 + Gamma1/H)*vdx - vala*vala*dx/H - V_11(x,y,z)*dx/H - V_12(x,y,z)*dy/H -V_13(x,y,z)*dz/H + (2*V_1(x,y,z) + vx*Gamma1)*Pot/H - 4*vx*vPot/H;
+	val_DELv13 = (-1)*(3 + Gamma1/H)*vdx - vala*vala*dx/H - V_11(x,y,z)*dx/H - V_12(x,y,z)*dy/H -V_13(x,y,z)*dz/H + 2*(V_1(x,y,z) + vx*Gamma1)*Pot/H - 4*vx*vPot/H;
 	return val_DELv13;
 }
 
@@ -274,7 +274,7 @@ DP dif_DELv21 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 	DP val_DELv21;
 	DP vala;
 	vala=k_comoving/exp(la);
-	val_DELv21 = (-1)*(3 + Gamma2/H)*vdx - vala*vala*dy/H - V_12(x,y,z)*dx/H - V_22(x,y,z)*dy/H - V_23(x,y,z)*dz/H + (2*V_2(x,y,z) + vx*Gamma2)*Pot/H - 4*vx*vPot/H;
+	val_DELv21 = (-1)*(3 + Gamma2/H)*vdx - vala*vala*dy/H - V_12(x,y,z)*dx/H - V_22(x,y,z)*dy/H - V_23(x,y,z)*dz/H + 2*(V_2(x,y,z) + vx*Gamma2)*Pot/H - 4*vx*vPot/H;
 	return val_DELv21;
 }
 
@@ -283,7 +283,7 @@ DP dif_DELv22 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 	DP val_DELv22;
 	DP vala;
 	vala=k_comoving/exp(la);
-	val_DELv22 = (-1)*(3 + Gamma2/H)*vdx - vala*vala*dy/H - V_12(x,y,z)*dx/H - V_22(x,y,z)*dy/H - V_23(x,y,z)*dz/H + (2*V_2(x,y,z) + vx*Gamma2)*Pot/H - 4*vx*vPot/H;
+	val_DELv22 = (-1)*(3 + Gamma2/H)*vdx - vala*vala*dy/H - V_12(x,y,z)*dx/H - V_22(x,y,z)*dy/H - V_23(x,y,z)*dz/H + 2*(V_2(x,y,z) + vx*Gamma2)*Pot/H - 4*vx*vPot/H;
 	return val_DELv22;
 }
 
@@ -292,7 +292,7 @@ DP dif_DELv23 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 	DP val_DELv23;
 	DP vala;
 	vala=k_comoving/exp(la);
-	val_DELv23 = (-1)*(3 + Gamma2/H)*vdx - vala*vala*dy/H - V_12(x,y,z)*dx/H - V_22(x,y,z)*dy/H - V_23(x,y,z)*dz/H + (2*V_2(x,y,z) + vx*Gamma2)*Pot/H - 4*vx*vPot/H;
+	val_DELv23 = (-1)*(3 + Gamma2/H)*vdx - vala*vala*dy/H - V_12(x,y,z)*dx/H - V_22(x,y,z)*dy/H - V_23(x,y,z)*dz/H + 2*(V_2(x,y,z) + vx*Gamma2)*Pot/H - 4*vx*vPot/H;
 	return val_DELv23;
 }
 
@@ -301,7 +301,7 @@ DP dif_DELv31 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 	DP val_DELv31;
 	DP vala;
 	vala=k_comoving/exp(la);
-	val_DELv31 = (-1)*(3 + Gamma3/H)*vdx - vala*vala*dz/H - V_13(x,y,z)*dx/H - V_23(x,y,z)*dy/H - V_33(x,y,z)*dz/H + (2*V_3(x,y,z) + vx*Gamma3)*Pot/H - 4*vx*vPot/H;
+	val_DELv31 = (-1)*(3 + Gamma3/H)*vdx - vala*vala*dz/H - V_13(x,y,z)*dx/H - V_23(x,y,z)*dy/H - V_33(x,y,z)*dz/H + 2*(V_3(x,y,z) + vx*Gamma3)*Pot/H - 4*vx*vPot/H;
 	return val_DELv31;
 }
 
@@ -310,7 +310,7 @@ DP dif_DELv32 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 	DP val_DELv32;
 	DP vala;
 	vala=k_comoving/exp(la);
-	val_DELv32 = (-1)*(3 + Gamma3/H)*vdx - vala*vala*dz/H - V_13(x,y,z)*dx/H - V_23(x,y,z)*dy/H - V_33(x,y,z)*dz/H + (2*V_3(x,y,z) + vx*Gamma3)*Pot/H - 4*vx*vPot/H;
+	val_DELv32 = (-1)*(3 + Gamma3/H)*vdx - vala*vala*dz/H - V_13(x,y,z)*dx/H - V_23(x,y,z)*dy/H - V_33(x,y,z)*dz/H + 2*(V_3(x,y,z) + vx*Gamma3)*Pot/H - 4*vx*vPot/H;
 	return val_DELv32;
 }
 
@@ -319,7 +319,7 @@ DP dif_DELv33 (DP x,DP y,DP z,DP vx,DP dx,DP dy,DP dz,DP vdx,DP la,DP H,DP Pot,D
 	DP val_DELv33;
 	DP vala;
 	vala=k_comoving/exp(la);
-	val_DELv33 = (-1)*(3 + Gamma3/H)*vdx - vala*vala*dz/H - V_13(x,y,z)*dx/H - V_23(x,y,z)*dy/H - V_33(x,y,z)*dz/H + (2*V_3(x,y,z) + vx*Gamma3)*Pot/H - 4*vx*vPot/H;
+	val_DELv33 = (-1)*(3 + Gamma3/H)*vdx - vala*vala*dz/H - V_13(x,y,z)*dx/H - V_23(x,y,z)*dy/H - V_33(x,y,z)*dz/H + 2*(V_3(x,y,z) + vx*Gamma3)*Pot/H - 4*vx*vPot/H;
 	return val_DELv33;
 }
 

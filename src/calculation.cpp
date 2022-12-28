@@ -335,6 +335,8 @@ void Perturbation::nonlatticerange_calc(int &k_begin, int &k_end, Zeromode &zero
             spectrum_output(new_filename_sp_bfosc, xp2, delp, timecount, knum, k_comoving);
         };
         
+        
+        
         if(spectrum_afosc_switch)
         {
             if(m==0 && nonlatticerange_count == 0){
