@@ -82,12 +82,12 @@ extern int kinterval_knum;
 extern bool lattice_kmodes_switch;
 
 //Select existing parameter set to remove its directories and files
-#define par_set_num_rm 1
+#define par_set_num_rm 2
 // If exist_par_set_rmall_switch in parameters.cpp is false,
 // this will not have any effect
 
 //Choose Parameter Set
-#define par_set_num 1
+#define par_set_num 2
 //Takayama's Master Thesis: 0
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a): 1
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (b): 2
@@ -140,6 +140,29 @@ extern bool lattice_kmodes_switch;
     #define sigma_init 0.4                //initial value of sigma
 
 #elif par_set_num == 2
+
+    //Modified version of the parameter set of the
+//Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a)
+    #define GNORMAL 0.0                //decay rate 1
+    #define GLARGE 1.0E-10          //decay rate 2 (if decay rate changes during the calculation)
+    #define GLARGE2 1.0E-10            //decay rate 3 (if decay rate changes during the calculation)
+    #define CN_par 0.04                    //Potential paramater CN
+    #define mu_par 2.04E-3                //Potential paramater mu
+    #define Cv_par 4.7E-4                //Potential parameter Cv mu/4.
+    #define M_par 1.17                    //Potential paramater M
+    #define m_par 2.0                        //Potential paramater m
+    #define n_par 4.0                        //Potential paramater n
+    #define g_par 2.0E-5                //Potential parameter g
+    #define BEGIN_EFOLD -131.75            //initial ln(a)
+    #define OSCEND_EFOLD -106.244                //ln(a) right after lattice simulation (lattice simulation must be conducted to set this parameter)
+    #define UNPERT_EFOLD -103.                //ln(a) at which sigma and psi are fixed to the minimum
+//    #define NEWINF_END_EFOLD -61.5                //ln(a) at the beginning of oscillation of phi.-61.5
+    #define END_EFOLD -52.                //ln(a) at the end of calculation
+    #define dla 1.0E-5                //stepsize for fixed step RQ-method
+    #define itvl 1000.                //interval for output in fixed RQ-method
+    #define sigma_init 0.4                //initial value of sigma
+
+#elif par_set_num == 3
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (b)
     #define GNORMAL 0.0                //decay rate 1
     #define GLARGE 6.0E-8          //decay rate 2 (if decay rate changes during the calculation)
@@ -159,7 +182,7 @@ extern bool lattice_kmodes_switch;
     #define itvl 1000.                //interval for output in fixed RQ-method
     #define sigma_init 0.3                //initial value of sigma
 
-#elif par_set_num == 3
+#elif par_set_num == 4
 
 //Primordial seeds of SMBHs (peak at 2kMpc-1)
     #define GNORMAL 0.0                //decay rate 1
@@ -180,7 +203,7 @@ extern bool lattice_kmodes_switch;
     #define itvl 1000.                //interval for output in fixed RQ-method
     #define sigma_init 0.3                //initial value of sigma
 
-#elif par_set_num == 4
+#elif par_set_num == 5
 
     #define GNORMAL 0.0                //decay rate 1
     #define GLARGE 2.5E-7            //decay rate 2 (if decay rate changes during the calculation)
@@ -200,7 +223,7 @@ extern bool lattice_kmodes_switch;
     #define itvl 1000.                //interval for output in fixed RQ-method
     #define sigma_init 0.28                //initial value of sigma
 
-#elif par_set_num == 5
+#elif par_set_num == 6
 //Primordial seeds of SMBHs trying to shift the peak
 
     #define GNOMAL 0.0                //decay rate 1
