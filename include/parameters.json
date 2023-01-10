@@ -31,14 +31,14 @@
         "Name": "Modver_TakayamaJournalPaperFIG1a",
         "kfrom_Mpc": 1.0e-4,
         "kto_Mpc": 1.0e+6,
-        "kinterval_knum": 1,
-        "kfrom_Mpc_lattice": 1,
-        "kto_Mpc_lattice": 3000,
-        "N": 512,
+        "kinterval_knum": 10,
+        "kfrom_Mpc_lattice": 90,
+        "kto_Mpc_lattice": 819200,
+        "N": 16384,
         "dim": 1,
         "zeromode_switch": true,
         "perturbation_switch": true,
-        "latticerange_switch": false,
+        "latticerange_switch": true,
         "lattice_kmodes_switch": false
         }
     ]
