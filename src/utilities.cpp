@@ -1636,13 +1636,16 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
 void spectrum_output_lattice(const std::string dir, Field* field, LeapFrog* leapfrog, Energy* energy, double** f, double** df){
     
     
-    double k_comoving, knum;
+    double k_comoving, knum, Hubble, aH_Mpc, aH_MPl;
 
     DP la, a, a_bar, la_int;
     //rho,rhop,w,a,Pzeta,Pzeta_raw,PPot,P_sigma,P_psi,P_phi, P_sigma_raw, P_psi_raw, P_phi_raw, rho_rad, dda, pressure, epsilon, a_bar;
     
      a_bar = leapfrog->a();
      a = a_bar*exp(OSCSTART);
+     Hubble = leapfrog->hubble();
+     aH_MPl = a*Hubble;
+     aH_Mpc = UC::kMPl_to_kMpc(aH_MPl);
 //    std::cout << " a_bar = " <<a_bar << std::endl;
 //    std::cout << " a = " << a << std::endl;
     
@@ -1691,7 +1694,8 @@ void spectrum_output_lattice(const std::string dir, Field* field, LeapFrog* leap
          << std::setw(10) << 0 << " " //PSTR...
          << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 0, j)/pow(rescale_A*a_bar,2) ) << " "
          << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 1, j)/pow(rescale_A*a_bar,2)) << " "
-         << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 2, j)/pow(rescale_A*a_bar,2)) << "\n";
+         << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 2, j)/pow(rescale_A*a_bar,2)) << " "
+         <<  std::setw(10) << aH_Mpc << "\n";
      }
 }
 

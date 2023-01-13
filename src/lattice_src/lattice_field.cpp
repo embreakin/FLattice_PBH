@@ -533,7 +533,7 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
                     = (3 +(term_1-1)*term_2)*f_fluc_k[i-1][2*j+1]
                     + (a/da)*term_2*df_fluc_k[i-1][2*j+1];
                     
-                    if(m==28 && a > 26){
+                    if(m==28 ){
                         std::cout << "L = " << L << std::endl;
                         std::cout << "da = " << da << std::endl;
                         std::cout << "exp(OSCSTART) = " << exp(OSCSTART) << std::endl;
@@ -571,7 +571,7 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
             
         PS[i][m] *= 2; //  the conjugate part needs to be taken into account as well, so double the value
     
-            if(i==4 && m==28  && a > 26){
+            if(i==4 && m==28 ){
      std::cout << " PS[" << i << "][" << j << "] = " << PS[i][j] << std::endl;
                 std::cout << " a (pr) = " << a << std::endl;
             }
@@ -861,8 +861,8 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy
             
             lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( average(df[i], i)  - (da/a)*average(f[i], i) )/pow(a,2.0);//3,4,5
             
-            Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
-            Logout(" lattice_var[%d][%d] = %2.5e \n\n ",lattice_loop,j,lattice_var[lattice_loop][j] );
+//            Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
+//            Logout(" lattice_var[%d][%d] = %2.5e \n\n ",lattice_loop,j,lattice_var[lattice_loop][j] );
             
         }
         

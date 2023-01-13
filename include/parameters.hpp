@@ -82,18 +82,19 @@ extern int kinterval_knum;
 extern bool lattice_kmodes_switch;
 
 //Select existing parameter set to remove its directories and files
-#define par_set_num_rm 2
+#define par_set_num_rm 1
 // If exist_par_set_rmall_switch in parameters.cpp is false,
 // this will not have any effect
 
 //Choose Parameter Set
-#define par_set_num 2
+#define par_set_num 1
 //Takayama's Master Thesis: 0
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a): 1
-//Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (b): 2
-//Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG2: 3
-//Primordial seeds of SMBHs (peak at 2kMpc-1): 4
-//Primordial seeds of SMBHs trying to shift the peak: 5
+//Modified version of Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (a): 2
+//Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (b): 3
+//Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG2: 4
+//Primordial seeds of SMBHs (peak at 2kMpc-1): 5
+//Primordial seeds of SMBHs trying to shift the peak: 6
 
 #if  par_set_num == 0
 

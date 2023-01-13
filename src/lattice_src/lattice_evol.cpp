@@ -154,7 +154,6 @@ void LeapFrog::evol_fields( double** f_tilde_from, double** f_tilde_to, double**
     #pragma omp parallel for simd schedule(static) num_threads(num_threads)
     #elif dim >= 2
     #pragma omp parallel for schedule( static ) num_threads( num_threads )
-        }
     #endif
         for( int j = 0; j < N; ++j ){
             switch (dim)
@@ -432,9 +431,47 @@ void LeapFrog::evol_radiation(Field* field, double** f_tilde, double** df_tilde,
 {
     double drho = 0;
    
-        for( int i = 0; i < num_fields - 1; ++i ){
+        for( int i = 0; i < num_fields - 1; ++i )
+        {
+        #if   dim == 1
+        #pragma omp parallel for simd reduction(+:drho) schedule(static) num_threads(num_threads)
+        #elif dim >= 2
+        #pragma omp parallel for reduction(+:drho) schedule(static) num_threads(num_threads)
+        #endif
+            for( int j = 0; j < N; ++j )
+            {
+                switch( dim )
+                {
+                    case 1:
+                    {
+                        int idx = j;
+                        drho += _a*Gamma_pr[i]*exp(-Gamma_pr[i]*_sfint)*pow(df_tilde[i][idx]-(_a*Gamma_pr[i]/2 + _da/_a)*f_tilde[i][idx],2.0);
+                        break;
+                    }
+                    case 2:
+                    #pragma omp simd reduction(+:drho)
+                        for( int k = 0; k < N; ++k ){
+                            int idx = j*N + k;
+                            drho += _a*Gamma_pr[i]*exp(-Gamma_pr[i]*_sfint)*pow(df_tilde[i][idx]-(_a*Gamma_pr[i]/2 + _da/_a)*f_tilde[i][idx],2.0);
+                        }
+                        break;
+                    case 3:
+                        for( int k = 0; k < N; ++k ){
+                    #pragma omp simd reduction(+:drho)
+                            for( int l = 0; l < N; ++l ){
+                                int idx = (j*N + k)*N + l;
+                                drho += _a*Gamma_pr[i]*exp(-Gamma_pr[i]*_sfint)*pow(df_tilde[i][idx]-(_a*Gamma_pr[i]/2 + _da/_a)*f_tilde[i][idx],2.0);
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+    
+    
+    for( int j = 0; j < dim; ++j ) drho /= N;
             
-         drho += _a*Gamma_pr[i]*exp(-Gamma_pr[i]*_sfint)*pow(field->average(df_tilde[i], i)-(_a*Gamma_pr[i]/2 + _da/_a)*field->average(f_tilde[i], i),2.0);
+         
             
 //        std::cout << "f_tilde[" << i << "][0] = " << f_tilde[i][0] << std::endl;
 //         std::cout << "df_tilde[" << i << "][0] = " << df_tilde[i][0] << std::endl;
@@ -442,7 +479,7 @@ void LeapFrog::evol_radiation(Field* field, double** f_tilde, double** df_tilde,
 //             std::cout << "_a*(Gamma_pr[i]/2 + _da/_a)*field->average(f_tilde[i], i) = " << (_a*Gamma_pr[i]/2 + _da/_a)*field->average(f_tilde[i], i) << std::endl;
 //            std::cout << "pow(field->average(df_tilde[i], i)-(_a*Gamma_pr[i]/2 + _da/_a)*field->average(f_tilde[i], i),2) = " << pow(field->average(df_tilde[i], i)-(_a*Gamma_pr[i]/2 + _da/_a)*field->average(f_tilde[i], i),2) << std::endl;
 //            std::cout <<  std::endl;
-        }
+      
     
 //   std::cout << "drho*h*dt = " << drho*h*dt << std::endl;
 //    std::cout << "rho = " << rho << std::endl;
