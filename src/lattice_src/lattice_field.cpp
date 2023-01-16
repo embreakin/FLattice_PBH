@@ -457,16 +457,32 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
         {
         if(m == m_start)
         {
+            if(i==5)
+            {//Curvature perturbation (calculated in real space)
+
+                for( int j = 0; j < N; ++j )
+                {
+                    int idx = j;
+                    zeta[idx] = (3 - 2*rho/(rho+pres))*f[i-2][idx]
+                    +
+                    (da/a)*(2*rho/(rho+pres))*df[i-2][idx]
+                    -(pow(a/(exp(OSCSTART)*da),2.0)/3)*(2*rho/(rho+pres))*field->laplacian(f[i-2], j);
+                }
+                
+            }
             
             //subtract zero mode
             for( int j = 0; j < N; ++j ){
                 int idx_fluc = j;
                 
-                if(i==4)//Curvature perturbation
+                if(i==4)//Curvature perturbation (calculated in phase space)
                 {
                     f_fluc[i-1][idx_fluc] = f[i-1][idx_fluc] - average(f[i-1], i-1);
                     df_fluc[i-1][idx_fluc] = df[i-1][idx_fluc] - average(df[i-1], i-1);
 
+                }else if(i==5)//Curvature perturbation (calculated in real space)
+                {
+                    f_fluc[i-1][idx_fluc]  = zeta[idx_fluc] - average(zeta, i-1);
                 }
                 else{
                f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
@@ -478,7 +494,13 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
                 //Fourier Transform
                 DFT_r2cD1( f_fluc[i-1], f_fluc_k[i-1] );
                 DFT_r2cD1( df_fluc[i-1], df_fluc_k[i-1] );
-            }else{
+            }else if(i==5)//Curvature perturbation (calculated in real space)
+            {
+                
+                DFT_r2cD1(f_fluc[i-1], f_fluc_k[i] );
+            }
+            else
+            {
             DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
             }
         }
@@ -498,7 +520,7 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
 //    }
         int j = m;
             
-            if(i==4)//Only Curvature Perturbation
+            if(i==4)//Only Curvature Perturbation (calculated in phase space)
             {
                 
                 double term_1 = 0;

@@ -612,7 +612,7 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                      
                      
                      df[3][idx] += (
-                                   2*(pow(_da,2.0)/pow(_a,2.0)+_dda/_a)*f[3][idx]
+                                   2*(pow(_da,2.0)/pow(_a,2.0))*f[3][idx]
                                     -_a*_dda
                                     + field->laplacian(f[3], j)/(3*pw2(exp(OSCSTART)))
                                     +
@@ -625,7 +625,7 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                                                  pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2.0),2.0)
                                                  )
                                                  /(6*rescale_A*rescale_A)
-                                    - ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+                                    + ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
                                                           +
                                                           field->gradient_energy_eachpoint(f , 1, idx)
                                                           +
@@ -642,7 +642,7 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                                  for( int k = 0; k < N; ++k ){
                                      int idx = j*N + k;
                                      df[3][idx] += (
-                                                    2*(pow(_da,2.0)/pow(_a,2.0)+_dda/_a)*f[3][idx]
+                                                    2*(pow(_da,2.0)/pow(_a,2.0))*f[3][idx]
                                                     -_a*_dda
                                                     + field->laplacian(f[3], j, k)/(3*pw2(exp(OSCSTART)))
                                                     +
@@ -655,7 +655,7 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                                                                                    pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2.0),2.0)
                                                                                    )
                                                     /(6*rescale_A*rescale_A)
-                                                    - ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+                                                    + ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
                                                                                      +
                                                                                      field->gradient_energy_eachpoint(f , 1, idx)
                                                                                      +
@@ -674,7 +674,7 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                          for( int l = 0; l < N; ++l ){
                              int idx = (j*N + k)*N + l;
                              df[3][idx] += (
-                                            2*(pow(_da,2.0)/pow(_a,2.0)+_dda/_a)*f[3][idx]
+                                            2*(pow(_da,2.0)/pow(_a,2.0))*f[3][idx]
                                             -_a*_dda
                                             + field->laplacian(f[3], j, k, l)/(3*pw2(exp(OSCSTART)))
                                             +
@@ -687,7 +687,7 @@ void LeapFrog::evol_gravpot_derivs_expansion( double** f, double** df, double** 
                                                                            pow(df[2][idx]/_a - _da*f[2][idx]/pow(_a,2.0),2.0)
                                                                            )
                                             /(6*rescale_A*rescale_A)
-                                            - ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
+                                            + ( pow(_a,2.0) - 2*f[3][idx] )*2*(field->gradient_energy_eachpoint(f , 0, idx)
                                                                              +
                                                                              field->gradient_energy_eachpoint(f , 1, idx)
                                                                              +

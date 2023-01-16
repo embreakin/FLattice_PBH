@@ -28,6 +28,7 @@ class Field
         int J,K;
         int m_start;
     
+    std::vector<double> zeta;
     std::vector<std::vector<double>> PS;
     std::vector<std::vector<double>> f_fluc;
     std::vector<std::vector<double>> f_fluc_k;
@@ -45,19 +46,22 @@ class Field
     
    
     
-        Field (): _average(new double [num_fields]()), _variance(new double [num_fields]()), f_MPl(new double [num_fields]())  {
+        Field (): _average(new double [num_fields+1]()), _variance(new double [num_fields]()), f_MPl(new double [num_fields]())  {
             
             switch (dim){
             
             case 1:
                 {
+            //Use 1D vector for curvature perturbation in real space
+            zeta = std::vector<double>(N, 0);
+                    
             //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
              PS = std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N/2+1, 0));
             
             //This 2D vector receives only the fluctuation of the input field
-            f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
+            f_fluc =  std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N, 0));
             //This 2D vector receives the output of r2c Fourier transform
-             f_fluc_k =  std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N, 0));
+             f_fluc_k =  std::vector<std::vector<double>>(num_fields+2, std::vector<double>(N, 0));
             
             //This 2D vector receives only the fluctuation of the input field derivative
              df_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N, 0));
@@ -67,13 +71,16 @@ class Field
                     break;
         case 2:
                 {
+             //Use 1D vector for curvature perturbation in real space
+            zeta = std::vector<double>(N*N, 0);
+                    
             //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
              PS = std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N/2+1, 0));
             
             //This 2D vector receives only the fluctuation of the input field
-             f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N, 0));
+             f_fluc =  std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N*N, 0));
             //This 2D vector receives the output of r2c Fourier transform
-             f_fluc_k =  std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N*N, 0));
+             f_fluc_k =  std::vector<std::vector<double>>(num_fields+2, std::vector<double>(N*N, 0));
             //This 2D vector receives the output of r2c Fourier transform (Nyquist frequency corresponding to k (z-axis) = N/2)
              f_fluc_k_nyquist_2d =  std::vector<std::vector<double>>(num_fields, std::vector<double>(2*N, 0));
             
@@ -87,13 +94,17 @@ class Field
                     break;
         case 3:
                 {
+                    
+            //Use 1D vector for curvature perturbation in real space
+            zeta = std::vector<double>(N*N*N, 0);
+                    
             //Use 2D vector for power spectrum (fields, wave modes). Initialize by 0
              PS = std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N/2+1, 0));
             
             //This 2D vector receives only the fluctuation of the input field
-             f_fluc =  std::vector<std::vector<double>>(num_fields, std::vector<double>(N*N*N, 0));
+             f_fluc =  std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N*N*N, 0));
             //This 2D vector receives the output of r2c Fourier transform
-             f_fluc_k =  std::vector<std::vector<double>>(num_fields+1, std::vector<double>(N*N*N, 0));
+             f_fluc_k =  std::vector<std::vector<double>>(num_fields+2, std::vector<double>(N*N*N, 0));
             //This 3D vector receives the output of r2c Fourier transform (Nyquist frequency corresponding to l (z-axis) = N/2)
              f_fluc_k_nyquist_3d =  std::vector<std::vector<std::vector<double>>>(num_fields, std::vector<std::vector<double>>(N, std::vector<double>(2*N, 0)));
             
