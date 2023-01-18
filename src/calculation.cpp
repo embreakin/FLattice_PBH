@@ -43,8 +43,16 @@ void Zeromode::zeromode_initial(Vec_DP &unp, DP &a, DP &H, DP &xbegin){
     
     if(function_count == 1){
     //Analytically estimated value of sigma at the end of hybrid inflation
-     
-       Logout("m_par: %2.5e \n\n", m_par );
+
+        Logout("m_par: %2.5e \n", m_par );
+        Logout("n_par: %2.5e \n", n_par );
+        Logout("mu_par: %2.5e \n", mu_par );
+        Logout("M_par: %2.5e \n", M_par );
+        Logout("CN_par: %2.5e \n", CN_par );
+        Logout("Cv_par: %2.5e \n", Cv_par );
+        Logout("g_par: %2.5e \n\n", g_par );
+        Logout("Cv_par/mu_par: %2.5e \n\n", Cv_par/mu_par );
+        Logout("pow(Cv_par/mu_par,2.0): %2.5e \n\n", pow(Cv_par/mu_par,2.0) );
         
         Logout("Potential_bare for initial value of fields: %2.5e \n\n", Vbare(unp[0], unp[1], unp[2]) );
         Logout("Potential for initial value of fields: %2.5e \n\n", V(unp[0], unp[1], unp[2]) );

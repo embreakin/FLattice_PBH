@@ -437,10 +437,18 @@ void Field::effective_mass(double mass_sq[], double *field_values){
 
 double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energy* energy, int i, int m)
 {
+    //i=0 PS of sigma
+    //i=1 PS of psi
+    //i=2 PS of phi
+    //i=3 PS of metric peturbation
+    //i=4 PS of curvature perturbation calculated in real space
+    //i=5 PS of curvature perturbation calculated in phase space
+    
     double a = leapfrog->a();
     double da = leapfrog->da();
     double rho = energy->total_average();
     double pres = energy->pressure();
+    double zeta_average = 0;
      
     if (k_lattice_grid_min_MPl < kfrom_MPl_lattice)
     {
@@ -457,17 +465,23 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
         {
         if(m == m_start)
         {
-            if(i==5)
+            if(i==4)
             {//Curvature perturbation (calculated in real space)
 
+                
                 for( int j = 0; j < N; ++j )
                 {
                     int idx = j;
-                    zeta[idx] = (3 - 2*rho/(rho+pres))*f[i-2][idx]
+                    zeta[idx] = (3 - 2*rho/(rho+pres))*f[3][idx]
                     +
-                    (da/a)*(2*rho/(rho+pres))*df[i-2][idx]
-                    -(pow(a/(exp(OSCSTART)*da),2.0)/3)*(2*rho/(rho+pres))*field->laplacian(f[i-2], j);
+                    (da/a)*(2*rho/(rho+pres))*df[3][idx]
+                    -(pow(a/(exp(OSCSTART)*da),2.0)/3)*(2*rho/(rho+pres))*laplacian(f[3], j);
+                    
+                    zeta_average += zeta[idx];
+                    
                 }
+                
+                for( int j = 0; j < dim; ++j ) zeta_average /= N;
                 
             }
             
@@ -475,33 +489,29 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
             for( int j = 0; j < N; ++j ){
                 int idx_fluc = j;
                 
-                if(i==4)//Curvature perturbation (calculated in phase space)
+                if(i==5)//Curvature perturbation (calculated in phase space)
                 {
-                    f_fluc[i-1][idx_fluc] = f[i-1][idx_fluc] - average(f[i-1], i-1);
-                    df_fluc[i-1][idx_fluc] = df[i-1][idx_fluc] - average(df[i-1], i-1);
+                    f_fluc[3][idx_fluc] = f[3][idx_fluc] - average(f[3], 3);
+                    df_fluc[3][idx_fluc] = df[3][idx_fluc] - average(df[3], 3);
 
-                }else if(i==5)//Curvature perturbation (calculated in real space)
+                }else if(i==4)//Curvature perturbation (calculated in real space)
                 {
-                    f_fluc[i-1][idx_fluc]  = zeta[idx_fluc] - average(zeta, i-1);
+                    f_fluc[i][idx_fluc]  = zeta[idx_fluc] - zeta_average;
                 }
                 else{
-               f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                    f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
                 }
             }
             //transform from real space to phase space (Needs to be done only once)
-            if(i==4)//Curvature perturbation
+            if(i==5)//Curvature perturbation (calculated in phase space)
             {
                 //Fourier Transform
-                DFT_r2cD1( f_fluc[i-1], f_fluc_k[i-1] );
-                DFT_r2cD1( df_fluc[i-1], df_fluc_k[i-1] );
-            }else if(i==5)//Curvature perturbation (calculated in real space)
-            {
-                
-                DFT_r2cD1(f_fluc[i-1], f_fluc_k[i] );
+                DFT_r2cD1( f_fluc[3], f_fluc_k[3] );
+                DFT_r2cD1( df_fluc[3], df_fluc_k[3] );
             }
             else
             {
-            DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
+                DFT_r2cD1( f_fluc[i], f_fluc_k[i] );
             }
         }
         
@@ -520,7 +530,7 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
 //    }
         int j = m;
             
-            if(i==4)//Only Curvature Perturbation (calculated in phase space)
+            if(i==5)//Curvature Perturbation (calculated in phase space)
             {
                 
                 double term_1 = 0;
@@ -533,29 +543,29 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
                     term_1 = pow(2*M_PI*m*a/(exp(OSCSTART)*da*L),2.0)/3;
                     
                     f_fluc_k[i][0]
-                    = (3 + (term_1-1)*term_2)*f_fluc_k[i-1][0]
-                    + (a/da)*term_2*df_fluc_k[i-1][0];
+                    = (3 + (term_1-1)*term_2)*f_fluc_k[3][0]
+                    + (a/da)*term_2*df_fluc_k[3][0];
                     
                 }else if(m == N/2){//Nyquist frequency
                     
                     term_1 = pow(2*M_PI*m*a/(exp(OSCSTART)*da*L),2.0)/3;
                     
                     f_fluc_k[i][1]
-                    = (3 + (term_1-1)*term_2)*f_fluc_k[i-1][1]
-                    + (a/da)*term_2*df_fluc_k[i-1][1];
+                    = (3 + (term_1-1)*term_2)*f_fluc_k[3][1]
+                    + (a/da)*term_2*df_fluc_k[3][1];
                 }else{
                     
                     term_1 = pow(2*M_PI*m*a/(exp(OSCSTART)*da*L),2.0)/3;
                     
                     f_fluc_k[i][2*j]
-                    = (3 +(term_1-1)*term_2)*f_fluc_k[i-1][2*j]
-                    + (a/da)*term_2*df_fluc_k[i-1][2*j];
+                    = (3 +(term_1-1)*term_2)*f_fluc_k[3][2*j]
+                    + (a/da)*term_2*df_fluc_k[3][2*j];
                     
                     f_fluc_k[i][2*j+1]
-                    = (3 +(term_1-1)*term_2)*f_fluc_k[i-1][2*j+1]
-                    + (a/da)*term_2*df_fluc_k[i-1][2*j+1];
+                    = (3 +(term_1-1)*term_2)*f_fluc_k[3][2*j+1]
+                    + (a/da)*term_2*df_fluc_k[3][2*j+1];
                     
-                    if(m==28 ){
+                    if( m==28 ){
                         std::cout << "L = " << L << std::endl;
                         std::cout << "da = " << da << std::endl;
                         std::cout << "exp(OSCSTART) = " << exp(OSCSTART) << std::endl;
@@ -567,13 +577,13 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
                     std::cout << "pres = " << pres << std::endl;
                     std::cout << "rho+pres = " << rho+pres << std::endl;
                     std::cout << "a/da = " << a/da << std::endl;
-                    std::cout << "f_fluc_k[" << i-1 << "][" << 2*j << "] = " << f_fluc_k[i-1][2*j] << std::endl;
-                    std::cout << "df_fluc_k[" << i-1 << "][" << 2*j << "] = " << df_fluc_k[i-1][2*j] << std::endl;
+                    std::cout << "f_fluc_k[3][" << 2*j << "] = " << f_fluc_k[3][2*j] << std::endl;
+                    std::cout << "df_fluc_k[3][" << 2*j << "] = " << df_fluc_k[3][2*j] << std::endl;
                     std::cout << "f_fluc_k[" << i << "][" << 2*j << "] = " << f_fluc_k[i][2*j] << std::endl;
                     
                     
-                    std::cout << "f_fluc_k[" << i-1 << "][" << 2*j+1 << "] = " << f_fluc_k[i-1][2*j+1] << std::endl;
-                    std::cout << "df_fluc_k[" << i-1 << "][" << 2*j+1 << "] = " << df_fluc_k[i-1][2*j+1] << std::endl;
+                    std::cout << "f_fluc_k[3][" << 2*j+1 << "] = " << f_fluc_k[3][2*j+1] << std::endl;
+                    std::cout << "df_fluc_k[3][" << 2*j+1 << "] = " << df_fluc_k[3][2*j+1] << std::endl;
                     std::cout << "f_fluc_k[" << i << "][" << 2*j+1 << "] = " <<f_fluc_k[i][2*j+1] << std::endl << std::endl;
                     }
                 }
@@ -593,10 +603,10 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
             
         PS[i][m] *= 2; //  the conjugate part needs to be taken into account as well, so double the value
     
-            if(i==4 && m==28 ){
-     std::cout << " PS[" << i << "][" << j << "] = " << PS[i][j] << std::endl;
-                std::cout << " a (pr) = " << a << std::endl;
-            }
+//            if(i==4 && m==28 ){
+//     std::cout << " PS[" << i << "][" << j << "] = " << PS[i][j] << std::endl;
+//                std::cout << " a (pr) = " << a << std::endl;
+//            }
             
         return PS[i][m];
         }

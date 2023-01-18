@@ -247,7 +247,7 @@ double Hinitial_pr;
 double a_lattice_end;
 
 int output_step = 2.0e+1;
-int total_step  = 8.2e+4;//1.75e+4;//8.75e+3;
+int total_step  = 7.2e+4;//1.75e+4;//8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files

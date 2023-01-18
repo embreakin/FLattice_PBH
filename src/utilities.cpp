@@ -333,7 +333,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     dda = -a*(rho+3*pressure)/6;
     epsilon = 1 - dda/(pw2(H)*a);
     double k_horizoncrossing = a*H;
-    double k_horizoncrossing2 = 0.7*a*H;
+    double k_horizoncrossing2 = 1.4*a*H;
         
         if (epsilon > 1 && output_timecount == 1){
             static int epsilon_count=0; ++epsilon_count;
@@ -348,8 +348,8 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
                 std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
                 std::cout << "rho_rad = " << tr[6] << std::endl ;
                 std::cout << "dda = " << dda << std::endl ;
-                std::cout << "Horizon crosing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
-                 std::cout << "k = 0.7aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
+                std::cout << "Horizon crossing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
+                 std::cout << "k = 1.4aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
                 Logout("-----------------------------------------------------\n\n");
                 
             }
@@ -369,8 +369,8 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
                 std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
                 std::cout << "rho_rad = " << tr[6] << std::endl ;
                 std::cout << "dda = " << dda << std::endl ;
-                std::cout << "Horizon crosing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
-                 std::cout << "k = 0.7aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
+                std::cout << "Horizon crossing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
+                 std::cout << "k = 1.4aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
                 Logout("-----------------------------------------------------\n\n");
                 
             }
@@ -632,7 +632,7 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
                 
                 OSCSTART = OSCSTART_MAX;
                 k_horizoncrossing = a*H;
-                k_horizoncrossing2 = 0.7*a*H;
+                k_horizoncrossing2 = 1.4*a*H;
                 
                 Logout("\n\n-----------------------------------------------------\n\n");
                 std::cout << "OSCSTART (Perturbation) = " << OSCSTART  << std::endl ;
@@ -641,8 +641,8 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
                 std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
                 std::cout << "rho_rad = " << tr[6] << std::endl ;
                 std::cout << "dda = " << dda << std::endl ;
-                std::cout << "Horizon crosing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
-                std::cout << "k = 0.7aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
+                std::cout << "Horizon crossing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
+                std::cout << "k = 1.4aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
                 Logout("-----------------------------------------------------\n\n");
                 
                 OSCSTART_count++;
@@ -657,7 +657,8 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
 //        if(j==0){std::cout << la << "\n"; };
         k_output << std::setw(6) << la << " "               //log(a)
         << std::setw(10) << w << " "                        //log(H)
-        << std::setw(10) << Pzeta << " "                    //log(Zeta)
+        << std::setw(10) << Pzeta << " "                    //log(Zeta) (lattice real space)
+        << std::setw(10) << Pzeta << " "                    //log(Zeta) (lattice phase space)
         << std::setw(10) << PPot << " "                    //log(Gravitational Potential)
         << std::setw(10) << log10(rhop/rho) << " "        //log(p/rho)
         << std::setw(10) << log10(H/a) << " "            //log(H/a)
@@ -1579,10 +1580,12 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
                 
             }
 
-            k_output<<std::setw(20) << std::setprecision(20) << la << " "             //log(a)
+            k_output << std::setw(20) << std::setprecision(20) << la << " "             //log(a)
                  << std::setw(10) << w << " "                        //log(H)
                  << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 4, j)
-                                           /(9*pow(a_bar,4)) ) << " "//Pzeta << " "                    //log(Zeta)
+                                           /(9*pow(a_bar,4)) ) << " "//Pzeta (real space) << " "                    //log(Zeta)
+            << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 5, j)
+                              /(9*pow(a_bar,4)) ) << " "//Pzeta (phase space)
             << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 3, j)
                                       /pow(a_bar,4) ) << " "//PPot << " "                    //log(Gravitational Potential)
                  << std::setw(10) << 0 << " "//log10(rhop/rho) << " "        //log(p/rho)
@@ -1617,13 +1620,17 @@ void kanalyze_output_lattice(const std::string dir, Field* field, LeapFrog* leap
                         << std::setw(10) << 0 << " ";//epsilon << " "
                     for (int i=7;i<N_pert;i++)
                     {
-                        if(i == N_pert -1){
+                        if(i == N_pert -1)
+                        {
                             k_output << std::setw(10) << 0 << "\n\n";
-                            }else{
-                                k_output << std::setw(10) << 0 << " " ;
-                            }
+                        }
+                        else
+                        {
+                            k_output << std::setw(10) << 0 << " ";
+                        }
                     }
-            
+                    
+    
             
         }
     
@@ -1690,12 +1697,15 @@ void spectrum_output_lattice(const std::string dir, Field* field, LeapFrog* leap
          << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 3, j)
                                    /pow(a_bar,4) ) << " "
          << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 4, j)
-                                   /(9*pow(a_bar,4)) ) <<  " "
+                                   /(9*pow(a_bar,4)) ) << " "//zeta (real space)
+         << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 5, j)
+                                   /(9*pow(a_bar,4)) ) << " "//zeta (phase space)
          << std::setw(10) << 0 << " " //PSTR...
          << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 0, j)/pow(rescale_A*a_bar,2) ) << " "
          << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 1, j)/pow(rescale_A*a_bar,2)) << " "
          << std::setw(10) << log10(field->power_spectrum(f, df, leapfrog, energy, 2, j)/pow(rescale_A*a_bar,2)) << " "
          <<  std::setw(10) << aH_Mpc << "\n";
+         
      }
 }
 
