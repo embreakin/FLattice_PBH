@@ -130,6 +130,10 @@ std::vector<int> knum_zero = {200, 400, 634, 700};//knum for calculating k/aH
 
 int k_target = knum_zero[3]; //target wave mode actually used for zeromode calculation
 
+int OSCSTART_switch = 0;
+//0: OSCSTART is set as the efold when sigma = sigma_c
+//1: OSCSTART is set as the efold when epsilon = 1
+
 
 //-------------------------------------------------
 //Variables for zeromode w/ perturbation calculation
@@ -247,14 +251,14 @@ double Hinitial_pr;
 double a_lattice_end;
 
 int output_step = 2.0e+1;
-int total_step  = 7.2e+4;//1.75e+4;//8.75e+3;
+int total_step  = 4.1e+4;//1.75e+4;//8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
 int spectrum_lattice_number = 30;// This many times spectrum will be created during lattice simulation
 
 double t0 = 0;
-double dt = 1.e-4;//5.0e-4;//1.e-3; //dt_pr
+double dt = 1.e-3;//5.0e-4;//1.e-3; //dt_pr
 
 
 const int expansion = 1; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant

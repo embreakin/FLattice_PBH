@@ -335,6 +335,31 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
     double k_horizoncrossing = a*H;
     double k_horizoncrossing2 = 1.4*a*H;
         
+        if (OSCSTART_switch == 0)
+        {
+            if ( sigma_c >= tr[0] && output_timecount == 1){
+                static int sigmac_count=0; ++sigmac_count;
+                
+                if(sigmac_count == 1)
+                {
+                    OSCSTART = la; //Set oscillation start to the ln(a) when epsilon=1
+                    Logout("-----------------------------------------------------\n\n");
+                    std::cout << "OSCSTART (Zeromode) = " << OSCSTART << std::endl ;
+                    std::cout << "Variable values at OSCSTART (Zeromode class)" << std::endl ;
+                    std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
+                    std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
+                    std::cout << "rho_rad = " << tr[6] << std::endl ;
+                    std::cout << "dda = " << dda << std::endl ;
+                    std::cout << "Horizon crossing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
+                     std::cout << "k = 1.4aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
+                    Logout("-----------------------------------------------------\n\n");
+                    
+                }
+                
+                }
+        }else if(OSCSTART_switch == 1)
+        {
+        
         if (epsilon > 1 && output_timecount == 1){
             static int epsilon_count=0; ++epsilon_count;
             
@@ -354,6 +379,7 @@ void zeromode_output(const std::string file, Vec_I_DP &xx, Mat_I_DP &yp, int tim
                 
             }
             
+            }
         }
         
         if (epsilon > 1 && output_timecount == 2){
@@ -474,6 +500,7 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
     double k_horizoncrossing;
     double k_horizoncrossing2;
     static int epsilon_count=0;
+    static int sigmac_count=0;
     static int OSCSTART_count=0;
     double kMpc_max;
     static double OSCSTART_MAX = OSCSTART;
@@ -603,8 +630,57 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
             kMpc_max = kto_Mpc;
         }
         
-
-            //Set oscillation start to the ln(a) when epsilon=1
+        if (OSCSTART_switch == 0)//Set oscillation start to the ln(a) when sigma=sigma_c
+        {
+            if ( sigma_c >= tr[0] && OSCSTART_count==0){
+               
+                if(kMpc_static == (int)UC::kMPl_to_kMpc(k_comoving)){
+                    ++sigmac_count;
+                }else{
+                    kMpc_static = (int)UC::kMPl_to_kMpc(k_comoving);
+                    sigmac_count = 1;
+                };
+                
+                if(sigmac_count == 1 )
+                {
+                    
+                OSCSTART = la;
+                
+                if (OSCSTART_MAX < OSCSTART)
+                {
+                    OSCSTART_MAX = OSCSTART;
+                }
+                    
+    //                std::cout << "OSCSTART_MAX = "  << OSCSTART_MAX  << std::endl;
+    //                std::cout << "OSCSTART = "  << OSCSTART  << std::endl;
+                
+                if( (int)UC::kMPl_to_kMpc(k_comoving) == (int)kMpc_max  ){
+                    
+                    
+                    OSCSTART = OSCSTART_MAX;
+                    k_horizoncrossing = a*H;
+                    k_horizoncrossing2 = 1.4*a*H;
+                    
+                    Logout("\n\n-----------------------------------------------------\n\n");
+                    std::cout << "OSCSTART (Perturbation) = " << OSCSTART  << std::endl ;
+                    std::cout << "Variable values at OSCSTART (Perturbation class)" << std::endl ;
+                    std::cout << "sigma = " << tr[0]<< ", psi = " << tr[1] << ", phi = " << tr[2]  << std::endl ;
+                    std::cout << "sigma_dot = " << tr[3]<< ", psi_dot = " << tr[4] << ", phi_dot = " << tr[5]  << std::endl ;
+                    std::cout << "rho_rad = " << tr[6] << std::endl ;
+                    std::cout << "dda = " << dda << std::endl ;
+                    std::cout << "Horizon crossing mode: k = aH = " << k_horizoncrossing << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing) << std::endl;
+                    std::cout << "k = 1.4aH = " << k_horizoncrossing2 << " [MPl], " << UC::kMPl_to_kMpc(k_horizoncrossing2)  << " [Mpc^-1], knum = " << UC::kMPl_to_knum(k_horizoncrossing2) << std::endl << std::endl;
+                    Logout("-----------------------------------------------------\n\n");
+                    
+                    OSCSTART_count++;
+                    
+                }
+                
+                }
+            }
+        }else if(OSCSTART_switch == 1)//Set oscillation start to the ln(a) when epsilon=1
+        {
+            
         if (epsilon > 1 && OSCSTART_count==0){
 
             if(kMpc_static == (int)UC::kMPl_to_kMpc(k_comoving)){
@@ -648,10 +724,11 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
                 OSCSTART_count++;
                 
             }
-            
+            }
         }
+        }//OSCSTART_switch == 1
             
-        }
+        
         
         
 //        if(j==0){std::cout << la << "\n"; };

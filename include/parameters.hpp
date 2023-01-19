@@ -55,6 +55,8 @@ extern bool perturbation_switch;
 extern const int N_zero, N_pert;
 extern int k_target;
 
+extern int OSCSTART_switch;
+
 extern DP sigma_c;
 extern DP FIXPHI;
 extern DP FIXPSI;
@@ -155,7 +157,7 @@ extern bool lattice_kmodes_switch;
     #define n_par 4.0                        //Potential paramater n
     #define g_par 1.2E-4               //Potential parameter g
     #define BEGIN_EFOLD -151.75            //initial ln(a)
-    #define OSCEND_EFOLD -1.09559e+02                //ln(a) right after lattice simulation (lattice simulation must be conducted to set this parameter)
+    #define OSCEND_EFOLD -110.474                //ln(a) right after lattice simulation (lattice simulation must be conducted to set this parameter)
     #define UNPERT_EFOLD -109.                //ln(a) at which sigma and psi are fixed to the minimum
 //    #define NEWINF_END_EFOLD -61.5                //ln(a) at the beginning of oscillation of phi.-61.5
     #define END_EFOLD -70.                //ln(a) at the end of calculation
