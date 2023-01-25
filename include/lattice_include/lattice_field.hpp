@@ -19,8 +19,11 @@ class Energy;
 class Field
 {
 	private:
-		double* _average;
-		double* _variance;
+		double* _faverage;
+        double* _dfaverage;
+		double* _fvariance;
+        double* _dfvariance;
+        double* _dotfvariance;
     
         double* f_MPl;
         int fld;
@@ -44,9 +47,8 @@ class Field
     
 	public:
     
-   
     
-        Field (): _average(new double [num_fields]()), _variance(new double [num_fields]()), f_MPl(new double [num_fields]())  {
+        Field (): _faverage(new double [num_fields]()), _dfaverage(new double [num_fields]()), _fvariance(new double [num_fields]()), _dfvariance(new double [num_fields]()), _dotfvariance(new double [num_fields]()), f_MPl(new double [num_fields]())  {
             
             switch (dim){
             
@@ -121,8 +123,11 @@ class Field
         }
     
         ~Field () {
-            delete [] _average;
-            delete [] _variance;
+            delete [] _faverage;
+            delete [] _dfaverage;
+            delete [] _fvariance;
+            delete [] _dfvariance;
+            delete [] _dotfvariance;
             delete [] f_MPl;
         }
     
@@ -131,8 +136,11 @@ class Field
         double gradient_energy_eachpoint( double** f ,int i, int idx );
 		double gradient_energy  ( double* f ) ;
 		double potential_energy ( double** f, double a );
-        double average  ( double* f, int i );
-        double variance ( double* f, int i );
+        double faverage  ( double* f, int i );
+        double dfaverage( double* df, int i );
+        double fvariance ( double* f, int i );
+        double dfvariance ( double* df, int i );
+        double dotfvariance( double* f, double* df, int i, double a, double da);
         double V_lattice  ( double** f, int idx, double a = 1 );
         double dV_lattice ( double** f, int i, int idx, double a = 1);
         double ddV_lattice ( double** f, int i, int idx, double a = 1 );

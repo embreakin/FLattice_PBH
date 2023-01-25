@@ -456,6 +456,7 @@ void kanalyze_output(const std::string dir, Vec_I_DP &xx, Mat_I_DP &yp, int time
         else
         {//This corresponds to the kanalyze output for latticerange_secondhalf_calc
             knum_static = knum;
+            output_timecount = 2;
             latticerange_secondhalf_calc_count++;
             if(latticerange_secondhalf_calc_count == N/2)
             {
@@ -1526,7 +1527,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
         //f
         for( int i = 0; i < num_fields; ++i ){
             if(i == num_fields-1){
-                ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/(a*a) << " "; //Gravitational Potential in Reduced Plank units
+                ofs << std::showpos << std::scientific << std::setprecision(4) << field->faverage(f[i], i)/(a*a) << " "; //Gravitational Potential in Reduced Plank units
             }else{
                 
 //                if( i == 1){
@@ -1535,15 +1536,15 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 //                    ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/(rescale_A*a) << " "; //Scalar Fields other than psi in Reduced Plank units
 //                      }
                 
-                 ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i)/(rescale_A*a) << " "; //Scalar Fields other than psi in Reduced Plank units
+                 ofs << std::showpos << std::scientific << std::setprecision(4) << field->faverage(f[i], i)/(rescale_A*a) << " "; //Scalar Fields other than psi in Reduced Plank units
             }
         }
    
         for( int i = 0; i < num_fields; ++i ){
              if(i == num_fields-1){
-            ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(f[i], i)/(a*a) << " ";//Variance of Gravitational Potential in Reduced Plank units
+            ofs << std::showpos << std::scientific << std::setprecision(4) << field->fvariance(f[i], i)/(a*a) << " ";//Variance of Gravitational Potential in Reduced Plank units
              }else{
-                ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(f[i], i)/(rescale_A*a) << " ";//Variance of scalar fields in Reduced Plank units
+                ofs << std::showpos << std::scientific << std::setprecision(4) << field->fvariance(f[i], i)/(rescale_A*a) << " ";//Variance of scalar fields in Reduced Plank units
              }
         }
         
@@ -1552,7 +1553,7 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
         for( int i = 0; i < num_fields; ++i ){
             if(i == num_fields-1){
                 ofs << std::showpos << std::scientific << std::setprecision(4) <<
-                rescale_B*( field->average(df[i], i)  - 2*(da/a)*field->average(f[i], i) )/pow(a,3) << " ";//Derivative of Gravitational Potential in Reduced Plank units
+                rescale_B*( field->dfaverage(df[i], i)  - 2*(da/a)*field->faverage(f[i], i) )/pow(a,3) << " ";//Derivative of Gravitational Potential in Reduced Plank units
             }else{
                 
 //                if( i == 1){
@@ -1566,21 +1567,21 @@ void write_status( const std::string status_file, Field* field, LeapFrog* leapfr
 //                    (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Fields other than psi in Reduced Plank units
                 
                 ofs << std::showpos << std::scientific << std::setprecision(4) <<
-                                    (rescale_B/rescale_A)*( field->average(df[i], i)  - (da/a)*field->average(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Fields in Reduced Plank units
+                                    (rescale_B/rescale_A)*( field->dfaverage(df[i], i)  - (da/a)*field->faverage(f[i], i) )/pow(a,2) << " "; //Derivative of Scalar Fields in Reduced Plank units
                 //}
             }
         }
         
         
-        for( int i = 0; i < num_fields; ++i ){ ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(df[i], i) << " ";//Variance of Derivative of fields all in Programming variables
+        for( int i = 0; i < num_fields; ++i ){ ofs << std::showpos << std::scientific << std::setprecision(4) << field->dotfvariance( f[i], df[i], i, a, da) << " ";//Variance of Derivative of fields all in Reduced Plank units
         }
 	}
 	else
 	{
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(f[i], i) << " ";//Reduced Plank units
-		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(f[i], i) << " ";//Reduced Plank units
-        for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->average(df[i], i) << " ";//Programming variable
-        for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->variance(df[i], i) << " ";//Programming variable
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->faverage(f[i], i) << " ";//Reduced Plank units
+		for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->fvariance(f[i], i) << " ";//Reduced Plank units
+        for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->dfaverage(df[i], i) << " ";//Programming variable
+        for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << field->dfvariance(df[i], i) << " ";//Programming variable
 	}
 //    for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << energy->average(i) << " ";
 //    for( int i = 0; i < num_fields; ++i ) ofs << std::showpos << std::scientific << std::setprecision(4) << energy->variance(i) << " ";

@@ -252,15 +252,15 @@ double Field::potential_energy( double** f, double a )
 }
 
 
-double Field::average( double* f, int i )
+double Field::faverage( double* f, int i )
 {
 	//Variable needs to be declared for OpenMP reduction directive
-    double average = 0;
+    double faverage = 0;
 
 #if   dim == 1
-#pragma omp parallel for simd reduction(+:average) schedule(static) num_threads(num_threads)
+#pragma omp parallel for simd reduction(+:faverage) schedule(static) num_threads(num_threads)
 #elif dim >= 2
-#pragma omp parallel for reduction(+:average) schedule(static) num_threads(num_threads)
+#pragma omp parallel for reduction(+:faverage) schedule(static) num_threads(num_threads)
 #endif
 	for( int j = 0; j < N; ++j ){
 		switch( dim )
@@ -268,45 +268,91 @@ double Field::average( double* f, int i )
 			case 1:
             {
 				int idx = j;
-				average += f[idx];
+				faverage += f[idx];
 				break;
             }
 			case 2:
-            #pragma omp simd reduction(+:average)
+            #pragma omp simd reduction(+:faverage)
 				for( int k = 0; k < N; ++k ){
 					int idx = j*N + k;
-					average += f[idx];
+					faverage += f[idx];
 				}
 				break;
 			case 3:
 				for( int k = 0; k < N; ++k ){
-            #pragma omp simd reduction(+:average)
+            #pragma omp simd reduction(+:faverage)
 					for( int l = 0; l < N; ++l ){
 						int idx = (j*N + k)*N + l;
-						average += f[idx];
+						faverage += f[idx];
 					}
 				}
 				break;
 		}
 	}
-    for( int j = 0; j < dim; ++j ) average /= N;
+    for( int j = 0; j < dim; ++j ) faverage /= N;
     
     //substitute the obtained variable to member variable
-    _average[i] = average;
+    _faverage[i] = faverage;
 	
-    return _average[i];
+    return _faverage[i];
+}
+
+double Field::dfaverage( double* df, int i )
+{
+    //Variable needs to be declared for OpenMP reduction directive
+    double dfaverage = 0;
+
+#if   dim == 1
+#pragma omp parallel for simd reduction(+:dfaverage) schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for reduction(+:dfaverage) schedule(static) num_threads(num_threads)
+#endif
+    for( int j = 0; j < N; ++j ){
+        switch( dim )
+        {
+            case 1:
+            {
+                int idx = j;
+                dfaverage += df[idx];
+                break;
+            }
+            case 2:
+            #pragma omp simd reduction(+:dfaverage)
+                for( int k = 0; k < N; ++k ){
+                    int idx = j*N + k;
+                    dfaverage += df[idx];
+                }
+                break;
+            case 3:
+                for( int k = 0; k < N; ++k ){
+            #pragma omp simd reduction(+:dfaverage)
+                    for( int l = 0; l < N; ++l ){
+                        int idx = (j*N + k)*N + l;
+                        dfaverage += df[idx];
+                    }
+                }
+                break;
+        }
+    }
+    for( int j = 0; j < dim; ++j ) dfaverage /= N;
+    
+    //substitute the obtained variable to member variable
+    _dfaverage[i] = dfaverage;
+    
+    return _dfaverage[i];
 }
 
 
-double Field::variance( double* f, int i )
+
+double Field::fvariance( double* f, int i )
 {
     //Variable needs to be declared for OpenMP reduction directive
-    double variance = 0;
+    double fvariance = 0;
     
 #if   dim == 1
-#pragma omp parallel for simd reduction(+:variance) schedule(static) num_threads(num_threads)
+#pragma omp parallel for simd reduction(+:fvariance) schedule(static) num_threads(num_threads)
 #elif dim >= 2
-#pragma omp parallel for reduction(+:variance) schedule(static) num_threads(num_threads)
+#pragma omp parallel for reduction(+:fvariance) schedule(static) num_threads(num_threads)
 #endif
 
 	for( int j = 0; j < N; ++j ){
@@ -314,34 +360,187 @@ double Field::variance( double* f, int i )
 			case 1:
             {
 				int idx = j;
-				variance += pow( f[idx] - _average[i], 2.0 );
+				fvariance += pow( f[idx] - _faverage[i], 2.0 );
 				break;
             }
 			case 2:
-                #pragma omp simd reduction(+:variance)
+                #pragma omp simd reduction(+:fvariance)
 				for( int k = 0; k < N; ++k ){
 					int idx = j*N + k;
-                    variance += pow( f[idx] - _average[i], 2.0 );
+                    fvariance += pow( f[idx] - _faverage[i], 2.0 );
                 
 				}
 				break;
 			case 3:
 				for( int k = 0; k < N; ++k ){
-                    #pragma omp simd reduction(+:variance)
+                    #pragma omp simd reduction(+:fvariance)
 					for( int l = 0; l < N; ++l ){
 						int idx = (j*N + k)*N + l;
-						variance += pow( f[idx] - _average[i], 2.0 );
+						fvariance += pow( f[idx] - _faverage[i], 2.0 );
 					}
 				}
 				break;
 		}
 	}
-    for( int j = 0; j < dim; ++j ) variance /= N;
+    for( int j = 0; j < dim; ++j ) fvariance /= N;
     
     //substitute the obtained variable to member variable
-    _variance[i] = variance;
+    _fvariance[i] = fvariance;
    
-    return sqrt(_variance[i]);
+    return sqrt(_fvariance[i]);
+}
+
+double Field::dfvariance( double* df, int i )
+{
+    //Variable needs to be declared for OpenMP reduction directive
+    double dfvariance = 0;
+    
+#if   dim == 1
+#pragma omp parallel for simd reduction(+:dfvariance) schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for reduction(+:dfvariance) schedule(static) num_threads(num_threads)
+#endif
+
+    for( int j = 0; j < N; ++j ){
+        switch( dim ){
+            case 1:
+            {
+                int idx = j;
+                dfvariance += pow( df[idx] - _dfaverage[i], 2.0 );
+                break;
+            }
+            case 2:
+                #pragma omp simd reduction(+:dfvariance)
+                for( int k = 0; k < N; ++k ){
+                    int idx = j*N + k;
+                    dfvariance += pow( df[idx] - _dfaverage[i], 2.0 );
+                
+                }
+                break;
+            case 3:
+                for( int k = 0; k < N; ++k ){
+                    #pragma omp simd reduction(+:dfvariance)
+                    for( int l = 0; l < N; ++l ){
+                        int idx = (j*N + k)*N + l;
+                        dfvariance += pow( df[idx] - _dfaverage[i], 2.0 );
+                    }
+                }
+                break;
+        }
+    }
+    for( int j = 0; j < dim; ++j ) dfvariance /= N;
+    
+    //substitute the obtained variable to member variable
+    _dfvariance[i] = dfvariance;
+   
+    return sqrt(_dfvariance[i]);
+}
+
+double Field::dotfvariance( double* f, double* df, int i, double a, double da)
+{
+    //Variable needs to be declared for OpenMP reduction directive
+    double dotfvariance = 0;
+    
+    if(i == 3){//metric perturbation
+    
+#if   dim == 1
+#pragma omp parallel for simd reduction(+:dotfvariance) schedule(static) num_threads(num_threads)
+#elif dim >= 2
+#pragma omp parallel for reduction(+:dotfvariance) schedule(static) num_threads(num_threads)
+#endif
+
+    for( int j = 0; j < N; ++j ){
+        switch( dim ){
+            case 1:
+            {
+                int idx = j;
+                dotfvariance += pow( rescale_B*( df[idx] - 2*(da/a)*f[idx] )/pow(a,3.0)
+                                    -
+                                    rescale_B*( _dfaverage[i]  - 2*(da/a)*_faverage[i] )/pow(a,3.0), 2.0 );
+                break;
+            }
+            case 2:
+                #pragma omp simd reduction(+:dotfvariance)
+                for( int k = 0; k < N; ++k ){
+                    int idx = j*N + k;
+                    dotfvariance += pow( rescale_B*( df[idx] - 2*(da/a)*f[idx] )/pow(a,3.0)
+                                        -
+                                        rescale_B*( _dfaverage[i]  - 2*(da/a)*_faverage[i] )/pow(a,3.0), 2.0 );
+                
+                }
+                break;
+            case 3:
+                for( int k = 0; k < N; ++k ){
+                    #pragma omp simd reduction(+:dotfvariance)
+                    for( int l = 0; l < N; ++l ){
+                        int idx = (j*N + k)*N + l;
+                        dotfvariance += pow( rescale_B*( df[idx] - 2*(da/a)*f[idx] )/pow(a,3.0)
+                                            -
+                                            rescale_B*( _dfaverage[i]  - 2*(da/a)*_faverage[i] )/pow(a,3.0), 2.0 );
+                    }
+                }
+                break;
+        }
+    }
+    for( int j = 0; j < dim; ++j ) dotfvariance /= N;
+    
+    //substitute the obtained variable to member variable
+    _dotfvariance[i] = dotfvariance;
+    
+    }
+    else//scalar perturbation
+    {
+        
+    #if   dim == 1
+    #pragma omp parallel for simd reduction(+:dotfvariance) schedule(static) num_threads(num_threads)
+    #elif dim >= 2
+    #pragma omp parallel for reduction(+:dotfvariance) schedule(static) num_threads(num_threads)
+    #endif
+
+        for( int j = 0; j < N; ++j ){
+            switch( dim ){
+                case 1:
+                {
+                    int idx = j;
+                    dotfvariance += pow( (rescale_B/rescale_A)*( df[idx]  - (da/a)*f[idx] )/pow(a,2.0)
+                                        -
+                                        (rescale_B/rescale_A)*( _dfaverage[i]  - (da/a)*_faverage[i] )/pow(a,2.0)
+                                        , 2.0 );
+                    break;
+                }
+                case 2:
+                    #pragma omp simd reduction(+:dotfvariance)
+                    for( int k = 0; k < N; ++k ){
+                        int idx = j*N + k;
+                        dotfvariance += pow( (rescale_B/rescale_A)*( df[idx]  - (da/a)*f[idx] )/pow(a,2.0)
+                                            -
+                                            (rescale_B/rescale_A)*( _dfaverage[i]  - (da/a)*_faverage[i] )/pow(a,2.0)
+                                            , 2.0 );
+                    
+                    }
+                    break;
+                case 3:
+                    for( int k = 0; k < N; ++k ){
+                        #pragma omp simd reduction(+:dotfvariance)
+                        for( int l = 0; l < N; ++l ){
+                            int idx = (j*N + k)*N + l;
+                            dotfvariance += pow( (rescale_B/rescale_A)*( df[idx]  - (da/a)*f[idx] )/pow(a,2.0)
+                                                -
+                                                (rescale_B/rescale_A)*( _dfaverage[i]  - (da/a)*_faverage[i] )/pow(a,2.0)
+                                                , 2.0 );
+                        }
+                    }
+                    break;
+            }
+        }
+        for( int j = 0; j < dim; ++j ) dotfvariance /= N;
+        
+        //substitute the obtained variable to member variable
+        _dotfvariance[i] = dotfvariance;
+        
+    }
+   
+    return sqrt(_dotfvariance[i]);
 }
 
 //#pragma omp declare simd
@@ -491,15 +690,15 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
                 
                 if(i==5)//Curvature perturbation (calculated in phase space)
                 {
-                    f_fluc[3][idx_fluc] = f[3][idx_fluc] - average(f[3], 3);
-                    df_fluc[3][idx_fluc] = df[3][idx_fluc] - average(df[3], 3);
+                    f_fluc[3][idx_fluc] = f[3][idx_fluc] - faverage(f[3], 3);
+                    df_fluc[3][idx_fluc] = df[3][idx_fluc] - dfaverage(df[3], 3);
 
                 }else if(i==4)//Curvature perturbation (calculated in real space)
                 {
                     f_fluc[i][idx_fluc]  = zeta[idx_fluc] - zeta_average;
                 }
                 else{
-                    f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                    f_fluc[i][idx_fluc] = f[i][idx_fluc] - faverage(f[i], i);
                 }
             }
             //transform from real space to phase space (Needs to be done only once)
@@ -622,7 +821,7 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
             for( int k = 0; k < N; ++k )
             {
                 int idx_fluc = j*N + k;
-                f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                f_fluc[i][idx_fluc] = f[i][idx_fluc] - faverage(f[i], i);
                 
                        //         std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
                 //                std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
@@ -748,7 +947,7 @@ double Field::power_spectrum( double** f, double** df, LeapFrog* leapfrog, Energ
             for( int k = 0; k < N; ++k ){
                 for( int l = 0; l < N; ++l ){
                     int idx_fluc = (j*N + k)*N + l;
-                    f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                    f_fluc[i][idx_fluc] = f[i][idx_fluc] - faverage(f[i], i);
 
 //                             std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
 //                                    std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
@@ -889,9 +1088,9 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy
             //
             //    Logout(" lattice_var[%d][%d] = %2.5e \n", lattice_loop, i, lattice_var[lattice_loop][i]);
             //
-            lattice_var[lattice_loop][i] = average(f[i], i)/(rescale_A*a) ;//0,1,2
+            lattice_var[lattice_loop][i] = faverage(f[i], i)/(rescale_A*a) ;//0,1,2
             
-            lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( average(df[i], i)  - (da/a)*average(f[i], i) )/pow(a,2.0);//3,4,5
+            lattice_var[lattice_loop][j] = (rescale_B/rescale_A)*( dfaverage(df[i], i)  - (da/a)*faverage(f[i], i) )/pow(a,2.0);//3,4,5
             
 //            Logout("lattice_var[%d][%d] = %2.5e \n",lattice_loop,i, lattice_var[lattice_loop][i] );
 //            Logout(" lattice_var[%d][%d] = %2.5e \n\n ",lattice_loop,j,lattice_var[lattice_loop][j] );
@@ -902,9 +1101,9 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy
         
     }
     
-    double sigma_dot = (rescale_B/rescale_A)*( average(df[0], 0)  - (da/a)*average(f[0], 0) )/pow(a,2.0);
-    double psi_dot = (rescale_B/rescale_A)*( average(df[1], 1)  - (da/a)*average(f[1], 1) )/pow(a,2.0);
-    double phi_dot = (rescale_B/rescale_A)*( average(df[2], 2)  - (da/a)*average(f[2], 2) )/pow(a,2.0);
+    double sigma_dot = (rescale_B/rescale_A)*( dfaverage(df[0], 0)  - (da/a)*faverage(f[0], 0) )/pow(a,2.0);
+    double psi_dot = (rescale_B/rescale_A)*( dfaverage(df[1], 1)  - (da/a)*faverage(f[1], 1) )/pow(a,2.0);
+    double phi_dot = (rescale_B/rescale_A)*( dfaverage(df[2], 2)  - (da/a)*faverage(f[2], 2) )/pow(a,2.0);
     
     double K_rad_convert = Kinetic_lattice - K_tot(sigma_dot,psi_dot,phi_dot);
     double K_convert_rate = (K_rad_convert/Kinetic_lattice)*100;
@@ -957,8 +1156,8 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy
              //subtract zero mode
              for( int j = 0; j < N; ++j ){
                  int idx_fluc = j;
-                 f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
-                 df_fluc[i][idx_fluc] = df[i][idx_fluc] - average(df[i], i);
+                 f_fluc[i][idx_fluc] = f[i][idx_fluc] - faverage(f[i], i);
+                 df_fluc[i][idx_fluc] = df[i][idx_fluc] - dfaverage(df[i], i);
                  
              }
              
@@ -1000,9 +1199,9 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy
                          if(num == 2)
                          {
                              
-                             Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1));
+                             Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][1],2.0)/(N_m - 1))/metric_amp_rescale;
                                                
-                             Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1));
+                             Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][1],2.0)/(N_m - 1))/metric_amp_rescale;
                              
                              //27
                              lattice_var[m-1][25+num] = Re_metric_pert_pr/(pow(a,2.0));
@@ -1073,11 +1272,11 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy
                          if(num == 2)
                          {
                              
-                             Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1));
-                             Im_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                             Re_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j],2.0)/(N_m - 1))/metric_amp_rescale;
+                             Im_metric_pert_pr = sqrt(N_m*pow(f_fluc_k[i][2*j+1],2.0)/(N_m - 1))/metric_amp_rescale;
                                                
-                             Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1));
-                             Im_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1));
+                             Re_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j],2.0)/(N_m - 1))/metric_amp_rescale;
+                             Im_metric_pert_deriv_pr = sqrt(N_m*pow(df_fluc_k[i][2*j+1],2.0)/(N_m - 1))/metric_amp_rescale;
                              
                              //27
                              lattice_var[m-1][25+num] = Re_metric_pert_pr/(pow(a,2.0));
@@ -1184,7 +1383,7 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy
              for( int k = 0; k < N; ++k )
              {
                  int idx_fluc = j*N + k;
-                 f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                 f_fluc[i][idx_fluc] = f[i][idx_fluc] - faverage(f[i], i);
                  
                  //         std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
                  //                std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;
@@ -1212,7 +1411,7 @@ void Field::finalize(double** f, double** df, LeapFrog* leapfrog, Energy* energy
              for( int k = 0; k < N; ++k ){
                  for( int l = 0; l < N; ++l ){
                      int idx_fluc = (j*N + k)*N + l;
-                     f_fluc[i][idx_fluc] = f[i][idx_fluc] - average(f[i], i);
+                     f_fluc[i][idx_fluc] = f[i][idx_fluc] - faverage(f[i], i);
                      
                      //                             std::cout << "f_fluc[" << i << "][" << idx_fluc << "]" << f_fluc[i][idx_fluc] << std::endl;
                      //                                    std::cout << "f[" << i << "][" << idx_fluc << "]" << f[i][idx_fluc] << std::endl;

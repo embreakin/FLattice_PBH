@@ -619,8 +619,8 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
             //If horizon entering is later, this step is skipped.
             //        for (i=0;i<N1;i++) std::cout << "delstart[" << i << "] = " << delstart[i] << std::endl;
             
-//            std::cout << "xmid = " << xmid << "\n";
-//            std::cout << "OSCSTART = " << OSCSTART << "\n";
+            std::cout << "xmid = " << xmid << "\n";
+            std::cout << "OSCSTART = " << OSCSTART << "\n";
             
             if(xmid < OSCSTART){
                 NR::odeintpert(delstart,xmid,OSCSTART,epsSHI,h2,hmin,nok,nbad,timecount,dxsav,full,NR::rkqs, k_comoving, &xp2, &delp, timecount_max_pert);
@@ -666,11 +666,10 @@ void Perturbation::latticerange_firsthalf_calc( double** latticep, Zeromode &zer
         {
             for (i=0;i<N_pert;i++){ latticep[outrange_num+latticerange_loop][i] = delstart[i];
             }
-    
         }
-        else{
-            for (i=0;i<N_pert;i++) latticep[latticerange_loop][i] = delstart[i];
-             
+        else
+        {
+        for (i=0;i<N_pert;i++) latticep[latticerange_loop][i] = delstart[i];
         }
            
             

@@ -130,7 +130,7 @@ std::vector<int> knum_zero = {200, 400, 634, 700};//knum for calculating k/aH
 
 int k_target = knum_zero[3]; //target wave mode actually used for zeromode calculation
 
-int OSCSTART_switch = 0;
+int OSCSTART_switch = 1;
 //0: OSCSTART is set as the efold when sigma = sigma_c
 //1: OSCSTART is set as the efold when epsilon = 1
 
@@ -146,7 +146,7 @@ bool lattice_kmodes_switch =  par_set[par_set_num]["lattice_kmodes_switch"]; //I
 bool kanalyze_switch = true;// true:Calculate k-analyze, false:Don't calculate k-analyze
 bool spectrum_switch = true;// true:Calculate final spectrum, false:Don't calculate final spectrum
 bool spectrum_bfosc_switch = true; // true:Calculate spectrum right before oscillation period starts, false:Don't calculate
-bool spectrum_afosc_switch = true;
+bool spectrum_afosc_switch = par_set[par_set_num]["spectrum_afosc_switch"];
 // true:Calculate spectrum right after oscillation period ends, false:Don't calculate
 bool spectrum_unpert_switch = true;
 bool spectrum_newinfend_switch = true;
@@ -251,20 +251,22 @@ double Hinitial_pr;
 double a_lattice_end;
 
 int output_step = 2.0e+1;
-int total_step  = 4.1e+4;//1.75e+4;//8.75e+3;
+int total_step  = 7.2e+4;//1.75e+4;//8.75e+3;
 int max_loop    = total_step/output_step; // This many times vti files will be created
 int st_output_step = 10;
 int st_max_loop = output_step/st_output_step; // This many times data will be added to status.txt between the output of vti files
 int spectrum_lattice_number = 30;// This many times spectrum will be created during lattice simulation
 
 double t0 = 0;
-double dt = 1.e-3;//5.0e-4;//1.e-3; //dt_pr
+double dt = 1.e-4;//5.0e-4;//1.e-3; //dt_pr
 
 
 const int expansion = 1; // 0: no expansion, 1: self-consistent, 2: radiation dominant, 3: matter dominant
 const int precision = 2;
 
 const int screen_latticeloop_number = 100; //This many times loop will be displayed on the terminal for lattice simulation. If you want to show all loops, then set this number to max_loop.
+
+const double metric_amp_rescale = 1000; // Right before lattice simulation ends, metric perturbation can be scaled down to a value metric_amp_rescale times lower if necessary. If this value is 1 then it means that the amplitude of the metric perturbation won't change.
 
 /*f/M_p=f_pr/a
  dx_pr=mdx
