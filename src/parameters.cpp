@@ -126,7 +126,7 @@ DP CNT = (-1)*Vbare(0.0,FIXPSI,FIXPHI);
 DP Gamma1,Gamma2,Gamma3;
 DP OSCSTART,NEWINF_END_EFOLD;
 
-std::vector<int> knum_zero = {200, 400, 634, 700};//knum for calculating k/aH
+std::vector<int> knum_zero = {0, 200, 270, 400, 634, 700, 800, 1000};//knum for calculating k/aH
 
 int k_target = knum_zero[3]; //target wave mode actually used for zeromode calculation
 
@@ -266,7 +266,7 @@ const int precision = 2;
 
 const int screen_latticeloop_number = 100; //This many times loop will be displayed on the terminal for lattice simulation. If you want to show all loops, then set this number to max_loop.
 
-const double metric_amp_rescale = 1000; // Right before lattice simulation ends, metric perturbation can be scaled down to a value metric_amp_rescale times lower if necessary. If this value is 1 then it means that the amplitude of the metric perturbation won't change.
+const double metric_amp_rescale = 1; // Right before lattice simulation ends, metric perturbation can be scaled down to a value metric_amp_rescale times lower if necessary. If this value is 1 then it means that the amplitude of the metric perturbation won't change.
 
 /*f/M_p=f_pr/a
  dx_pr=mdx

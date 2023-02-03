@@ -150,20 +150,20 @@ extern bool lattice_kmodes_switch;
     #define GLARGE 1.0E-10          //decay rate 2 (if decay rate changes during the calculation)
     #define GLARGE2 1.0E-10            //decay rate 3 (if decay rate changes during the calculation)
     #define CN_par 0.04                    //Potential paramater CN
-    #define mu_par 2.04E-3                //Potential paramater mu
-    #define Cv_par 4.7E-4                //Potential parameter Cv mu/4.
-    #define M_par 3.0                    //Potential paramater M
+    #define mu_par 7.06E-4                //Potential paramater mu
+    #define Cv_par 1.57E-4                //Potential parameter Cv mu/4.
+    #define M_par 0.17                    //Potential paramater M
     #define m_par 2.0                        //Potential paramater m
     #define n_par 4.0                        //Potential paramater n
-    #define g_par 2.0E-5                //Potential parameter g
-    #define BEGIN_EFOLD -127.            //initial ln(a)
-    #define OSCEND_EFOLD -112.585                //ln(a) right after lattice simulation (lattice simulation must be conducted to set this parameter)
-    #define UNPERT_EFOLD -110.                //ln(a) at which sigma and psi are fixed to the minimum
+    #define g_par 6.0E-4                //Potential parameter g
+    #define BEGIN_EFOLD -118.75            //initial ln(a)
+    #define OSCEND_EFOLD -80.                //ln(a) right after lattice simulation (lattice simulation must be conducted to set this parameter)
+    #define UNPERT_EFOLD -79.                //ln(a) at which sigma and psi are fixed to the minimum
     //    #define NEWINF_END_EFOLD -61.5                //ln(a) at the beginning of oscillation of phi.-61.5
-    #define END_EFOLD -68.                //ln(a) at the end of calculation
+    #define END_EFOLD -57.                //ln(a) at the end of calculation
     #define dla 1.0E-5                //stepsize for fixed step RQ-method
     #define itvl 1000.                //interval for output in fixed RQ-method
-    #define sigma_init 0.4                //initial value of sigma
+    #define sigma_init 0.1                //initial value of sigma
 
 #elif par_set_num == 3
 //Paper "Power spectrum of the density perturbations from smooth hybrid new inflation model" FIG1 (b)
