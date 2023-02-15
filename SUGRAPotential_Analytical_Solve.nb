@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[   2550353,      44890]
+NotebookDataLength[   2550350,      44890]
 NotebookOptionsPosition[   2542146,      44769]
-NotebookOutlinePosition[   2542735,      44789]
-CellTagsIndexPosition[   2542692,      44786]
+NotebookOutlinePosition[   2542732,      44789]
+CellTagsIndexPosition[   2542689,      44786]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -44769,7 +44769,7 @@ Cell[BoxData[
 },
 WindowToolbars->"EditBar",
 WindowSize->{1286, 1018},
-WindowMargins->{{Automatic, -223}, {-439, Automatic}},
+WindowMargins->{{Automatic, 93}, {-91, Automatic}},
 TaggingRules->{"NewCellStyle" -> "Text"},
 Magnification:>1.25 Inherited,
 FrontEndVersion->"12.3 for Mac OS X x86 (64-bit) (2021\:5e747\:67089\:65e5)",
